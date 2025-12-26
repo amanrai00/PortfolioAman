@@ -10,7 +10,7 @@
     <div class="container mx-auto flex items-center justify-between">
       <!-- Logo -->
       <img
-        :src="logo"   
+        :src="logo"
         alt="Logo"
         class="h-9 cursor-pointer transition-transform duration-150 hover:scale-110 active:scale-95"
         @click="scrollToSection('home')"
@@ -96,81 +96,92 @@
       </button>
     </div>
 
-    <!-- Mobile menu -->
-    <Transition name="slide-down">
-      <div
-        v-if="isOpen"
-        class="fixed top-0 right-0 h-full w-full bg-white shadow lg:hidden"
+    <!-- ========= MOBILE NAV LIKE SK-ILLUSTRATION ========= -->
+
+    <!-- 1) Fullscreen white overlay (fades in) -->
+    <div
+      class="fixed inset-0 z-40 bg-white lg:hidden transition-opacity duration-300"
+      :class="isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'"
+    ></div>
+
+    <!-- 2) Top bar that drops from the top -->
+    <!-- 2) Top bar that drops from the top – WITHOUT LOGO -->
+<div
+  class="fixed top-0 left-0 z-50 flex w-full justify-end bg-white p-5 lg:hidden transition-transform duration-300"
+  :class="isOpen ? 'translate-y-0' : '-translate-y-full'"
+>
+  <!-- Close icon -->
+  <button
+    class="text-2xl"
+    @click="isOpen = false"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-7 w-7"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+    >
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  </button>
+</div>
+
+
+    <!-- 3) Menu items (fade + small slide) -->
+    <ul
+      class="fixed left-0 top-24 z-50 ml-10 flex flex-col gap-y-6 font-semibold lg:hidden transition-all duration-300"
+      :class="isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-3'"
+    >
+      <li
+        v-for="item in sections"
+        :key="item.id"
+        class="border-b pb-2"
       >
-        <button
-          class="absolute right-5 top-5 text-2xl"
-          @click="isOpen = false"
+        <button @click="scrollToSection(item.id)">
+          {{ item.label }}
+        </button>
+      </li>
+
+      <a
+        href=""
+        class="group relative inline-block px-4 py-2 font-semibold mt-4"
+      >
+        <span
+          class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-black transition duration-200 ease-out group-hover:translate-x-0 group-hover:translate-y-0"
+        ></span>
+        <span
+          class="absolute inset-0 h-full w-full border-2 border-black bg-white transition-colors duration-200 group-hover:bg-black"
+        ></span>
+        <span
+          class="relative flex items-center gap-x-3 text-black transition-colors duration-200 group-hover:text-white"
         >
+          Resume
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-7 w-7"
+            class="h-4 w-4"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             stroke-width="1.8"
             stroke-linecap="round"
+            stroke-linejoin="round"
           >
-            <path d="M6 6l12 12M18 6L6 18" />
+            <path d="M12 3v12" />
+            <path d="M8 11l4 4 4-4" />
+            <path d="M4 19h16" />
           </svg>
-        </button>
-
-        <ul
-          class="ml-16 mt-28 flex h-full flex-col items-start gap-y-6 font-semibold"
-        >
-          <li
-            v-for="item in sections"
-            :key="item.id"
-            class="border-b transition-transform duration-150 hover:scale-110"
-          >
-            <button @click="scrollToSection(item.id)">
-              {{ item.label }}
-            </button>
-          </li>
-
-          <a
-            href=""
-            class="group relative inline-block px-4 py-2 font-semibold"
-          >
-            <span
-              class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-black transition duration-200 ease-out group-hover:translate-x-0 group-hover:translate-y-0"
-            ></span>
-            <span
-              class="absolute inset-0 h-full w-full border-2 border-black bg-white transition-colors duration-200 group-hover:bg-black"
-            ></span>
-            <span
-              class="relative flex items-center gap-x-3 text-black transition-colors duration-200 group-hover:text-white"
-            >
-              Resume
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M12 3v12" />
-                <path d="M8 11l4 4 4-4" />
-                <path d="M4 19h16" />
-              </svg>
-            </span>
-          </a>
-        </ul>
-      </div>
-    </Transition>
+        </span>
+      </a>
+    </ul>
   </nav>
 </template>
 
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import logo from '../assets/logo.png'; // ✅ correct import relative to src/components/Navbar.vue
+import logo from '../assets/logo.png';
 
 const hasShadow = ref(false);
 const isOpen = ref(false);
@@ -213,12 +224,5 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.slide-down-enter-active,
-.slide-down-leave-active {
-  transition: transform 0.3s ease;
-}
-.slide-down-enter-from,
-.slide-down-leave-to {
-  transform: translateY(-100%);
-}
+/* no custom animation CSS needed – handled by Tailwind classes */
 </style>
