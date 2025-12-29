@@ -11,3 +11,10 @@
 <script setup>
 import Navbar from './components/Navbar.vue';
 </script>
+
+<style>
+body {
+  background: #404040;
+  color: white;
+}
+</style>
