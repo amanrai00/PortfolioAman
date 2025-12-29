@@ -16,6 +16,7 @@
         <div
           :class="[
             'flex items-center gap-1 cursor-pointer transition-transform duration-200 hover:scale-110 active:scale-95',
+            'lg:opacity-100 lg:pointer-events-auto',
             isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
           ]"
           @click="scrollToSection('home')"
@@ -205,6 +206,7 @@ const scrollToSection = (id) => {
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener('resize', handleResize);
   handleScroll();
   requestAnimationFrame(() => {
     isReady.value = true;
@@ -213,7 +215,15 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll);
+  window.removeEventListener('resize', handleResize);
 });
+
+const handleResize = () => {
+  // lg breakpoint ≈ 1024px
+  if (window.innerWidth >= 1024 && isOpen.value) {
+    isOpen.value = false;
+  }
+};
 </script>
 
 <style scoped>
@@ -234,4 +244,5 @@ onBeforeUnmount(() => {
   transform: translateY(0);
   opacity: 1;
 }
+
 </style>
