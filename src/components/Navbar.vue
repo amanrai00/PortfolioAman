@@ -127,7 +127,6 @@
               <li
                 v-for="item in sections"
                 :key="item.id"
-                class="border-b border-white pb-2"
               >
                 <button @click="scrollToSection(item.id)">
                   {{ item.label }}
