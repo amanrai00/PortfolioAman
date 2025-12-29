@@ -4,6 +4,7 @@
       'fixed top-0 left-0 z-50 w-full bg-[#404040] p-5 transition-all duration-300',
       'lg:px-28 px-5',
       'text-white',
+      'relative',
       hasShadow ? 'shadow-md' : 'shadow-none',
       isReady ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'
     ]"
@@ -12,22 +13,26 @@
       <!-- TOP ROW: logo + desktop nav + buttons + mobile toggle -->
       <div class="flex items-center justify-between">
         <!-- Logo -->
-         <div class="flex items-center gap-1 cursor-pointer transition-transform duration-200 hover:scale-110 active:scale-95"
-         @click="scrollToSection('home')"
-         >
-            <img
-              :src="logo"
-              alt="Logo"
-              class="h-10 invert brightness-100"
-              @click="scrollToSection('home')"
-            />
-
-            <!-- Second Logo -->
+        <div
+          :class="[
+            'flex items-center gap-1 cursor-pointer transition-transform duration-200 hover:scale-110 active:scale-95',
+            isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          ]"
+          @click="scrollToSection('home')"
+        >
           <img
-              :src="SecondLogo"   
-              alt="Second Logo"
-              class="h-7 invert brightness-50"
-            />
+            :src="logo"
+            alt="Logo"
+            class="h-10 invert brightness-100"
+            @click="scrollToSection('home')"
+          />
+
+          <!-- Second Logo -->
+          <img
+            :src="SecondLogo"
+            alt="Second Logo"
+            class="h-7 invert brightness-50"
+          />
         </div>
 
         <!-- Desktop nav -->
@@ -110,54 +115,56 @@
         </button>
       </div>
 
-      <!-- ========== MOBILE NAV (Bootstrap-style collapse) ========== -->
-      <Transition name="mobile-collapse">
+      <!-- ========== MOBILE NAV (slides from top, under navbar) ========== -->
+      <Transition name="mobile-slide">
         <div
           v-if="isOpen"
-          class="mt-4 flex flex-col gap-4 font-semibold lg:hidden bg-[#404040] text-white"
+          class="absolute left-0 top-full w-full bg-[#404040] text-white lg:hidden font-semibold overflow-hidden origin-top"
         >
-          <ul class="flex flex-col gap-4">
-            <li
-              v-for="item in sections"
-              :key="item.id"
-              class="border-b border-white pb-2"
-            >
-              <button @click="scrollToSection(item.id)">
-                {{ item.label }}
-              </button>
-            </li>
-          </ul>
-asdasdasd
-          <a
-            href=""
-            class="group relative inline-block w-max px-4 py-2 font-semibold"
-          >
-            <span
-              class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-black transition duration-200 ease-out group-hover:translate-x-0 group-hover:translate-y-0"
-            ></span>
-            <span
-              class="absolute inset-0 h-full w-full border-2 border-black bg-white transition-colors duration-200 group-hover:bg-black"
-            ></span>
-            <span
-              class="relative flex items-center gap-x-3 text-black transition-colors duration-200 group-hover:text-white"
-            >
-              Resume
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+          <div class="flex flex-col gap-4 px-5 pb-5 pt-4">
+            <ul class="flex flex-col gap-4">
+              <li
+                v-for="item in sections"
+                :key="item.id"
+                class="border-b border-white pb-2"
               >
-                <path d="M12 3v12" />
-                <path d="M8 11l4 4 4-4" />
-                <path d="M4 19h16" />
-              </svg>
-            </span>
-          </a>
+                <button @click="scrollToSection(item.id)">
+                  {{ item.label }}
+                </button>
+              </li>
+            </ul>
+
+            <a
+              href=""
+              class="group relative inline-block w-max px-4 py-2 font-semibold"
+            >
+              <span
+                class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-black transition duration-200 ease-out group-hover:translate-x-0 group-hover:translate-y-0"
+              ></span>
+              <span
+                class="absolute inset-0 h-full w-full border-2 border-black bg-white transition-colors duration-200 group-hover:bg-black"
+              ></span>
+              <span
+                class="relative flex items-center gap-x-3 text-black transition-colors duration-200 group-hover:text-white"
+              >
+                Resume
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M12 3v12" />
+                  <path d="M8 11l4 4 4-4" />
+                  <path d="M4 19h16" />
+                </svg>
+              </span>
+            </a>
+          </div>
         </div>
       </Transition>
     </div>
@@ -210,21 +217,21 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-/* Bootstrap-like collapse animation for mobile nav */
-.mobile-collapse-enter-active,
-.mobile-collapse-leave-active {
-  transition: max-height 0.3s ease, opacity 0.3s ease;
+/* Slide from top like Framer Motion y: "-100%" -> 0 */
+.mobile-slide-enter-active,
+.mobile-slide-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-.mobile-collapse-enter-from,
-.mobile-collapse-leave-to {
-  max-height: 0;
+.mobile-slide-enter-from,
+.mobile-slide-leave-to {
+  transform: translateY(-100%);
   opacity: 0;
 }
 
-.mobile-collapse-enter-to,
-.mobile-collapse-leave-from {
-  max-height: 400px; /* big enough to show all items */
+.mobile-slide-enter-to,
+.mobile-slide-leave-from {
+  transform: translateY(0);
   opacity: 1;
 }
 </style>
