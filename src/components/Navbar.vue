@@ -11,11 +11,11 @@
   >
     <div class="container mx-auto">
       <!-- TOP ROW: logo + desktop nav + buttons + mobile toggle -->
-      <div class="flex items-center justify-between">
+      <div class="flex items-center">
         <!-- Logo -->
         <div
           :class="[
-            'flex items-center gap-1 cursor-pointer transition-transform duration-200 hover:scale-110 active:scale-95',
+            'flex items-center gap-1 cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95',
             'lg:opacity-100 lg:pointer-events-auto',
             isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
           ]"
@@ -37,83 +37,89 @@
         </div>
 
         <!-- Desktop nav -->
-        <ul class="hidden items-center gap-x-7 font-semibold lg:flex">
-          <li
-            v-for="item in sections"
-            :key="item.id"
-            class="group transition-transform duration-150 hover:scale-110"
-          >
-            <button class="hover:text-gray-300" @click="scrollToSection(item.id)">
-              {{ item.label }}
-            </button>
-            <span
-              class="flex h-[2px] w-0 bg-white transition-all duration-300 group-hover:w-full"
-            ></span>
-          </li>
-        </ul>
-
-        <!-- Desktop resume button -->
-        <a
-          href=""
-          class="group relative hidden px-4 py-2 font-medium lg:inline-block"
-        >
-          <span
-            class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[#284B63] transition duration-200 ease-out group-hover:translate-x-0 group-hover:translate-y-0"
-          ></span>
-          <span
-            class="absolute inset-0 h-full w-full border-2 border-white bg-transparent transition-colors duration-200 group-hover:bg-white"
-          ></span>
-          <span
-            class="relative flex items-center gap-x-3 text-white transition-colors duration-200 group-hover:text-gray-900"
-          >
-            Resume
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+        <div class="hidden flex-1 justify-center lg:flex">
+          <ul class="flex items-center gap-x-7 font-semibold">
+            <li
+              v-for="item in sections"
+              :key="item.id"
+              class="group transition-transform duration-150 hover:scale-110"
             >
-              <path d="M12 3v12" />
-              <path d="M8 11l4 4 4-4" />
-              <path d="M4 19h16" />
-            </svg>
-          </span>
-        </a>
+              <button class="hover:text-gray-300" @click="scrollToSection(item.id)">
+                {{ item.label }}
+              </button>
+              <span
+                class="flex h-[2px] w-0 bg-white transition-all duration-300 group-hover:w-full"
+              ></span>
+            </li>
+          </ul>
+        </div>
 
-        <!-- Mobile menu toggle -->
-        <button
-          class="text-2xl lg:hidden transition-transform duration-150 hover:scale-110"
-          @click="isOpen = !isOpen"
-        >
-          <svg
-            v-if="!isOpen"
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-7 w-7"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="white"
-            stroke-width="1.8"
-            stroke-linecap="round"
+        <!-- Desktop resume button + mobile menu toggle -->
+        <div class="ml-auto flex items-center gap-3">
+          <a
+            href=""
+            class="group relative hidden px-4 py-2 font-medium lg:inline-block"
           >
-            <path d="M4 7h16M4 12h16M4 17h16" />
-          </svg>
-          <svg
-            v-else
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-7 w-7"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="white"
-            stroke-width="1.8"
-            stroke-linecap="round"
+            <span
+              class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-black transition duration-200 ease-out group-hover:translate-x-0 group-hover:translate-y-0"
+            ></span>
+            <span
+              class="absolute inset-0 h-full w-full border-2 border-black bg-white transition-colors duration-200 group-hover:bg-black"
+            ></span>
+            <span
+              class="relative flex items-center gap-x-3 text-black transition-colors duration-200 group-hover:text-white"
+            >
+              Resume
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 3v12" />
+                <path d="M8 11l4 4 4-4" />
+                <path d="M4 19h16" />
+              </svg>
+            </span>
+          </a>
+
+          <!-- Mobile menu toggle -->
+          <button
+            class="lg:hidden relative z-10"
+            @click="isOpen = !isOpen"
           >
-            <path d="M6 6l12 12M18 6L6 18" />
-          </svg>
-        </button>
+            <div class="relative w-7 h-7">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="absolute inset-0 h-7 w-7 transition-opacity duration-200"
+                :class="isOpen ? 'opacity-0' : 'opacity-100'"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              >
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="absolute inset-0 h-7 w-7 transition-opacity duration-200"
+                :class="isOpen ? 'opacity-100' : 'opacity-0'"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              >
+                <path d="M6 6l12 12M18 6L6 18" />
+              </svg>
+            </div>
+          </button>
+        </div>
       </div>
 
       <!-- ========== MOBILE NAV (slides from top, under navbar) ========== -->
@@ -128,14 +134,16 @@
                 v-for="item in sections"
                 :key="item.id"
               >
-                <button @click="scrollToSection(item.id)"
-                class="group relative inline-flex flex-col items-start font-semibold transition-transform duration-150 hover:scale-[1.08]"
+                <button
+                  @click="scrollToSection(item.id)"
+                  class="group relative inline-flex flex-col items-start font-semibold transition-transform duration-150 hover:scale-[1.08]"
                 >
-                <span>{{ item.label }}</span>
+                  <span>{{ item.label }}</span>
 
-                <span class="mt-1 block w-full bg-white/30 transition-transform duration-300 group-hover:scale-x-110 group-hover:scale-y-[1.3]"
-                style="height: 0.5px"
-                ></span>
+                  <span
+                    class="mt-1 block w-full bg-white/30 transition-transform duration-300 group-hover:scale-x-110 group-hover:scale-y-[1.3]"
+                    style="height: 0.5px"
+                  ></span>
                 </button>
               </li>
             </ul>
@@ -249,5 +257,4 @@ const handleResize = () => {
   transform: translateY(0);
   opacity: 1;
 }
-aa
 </style>
