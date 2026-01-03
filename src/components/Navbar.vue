@@ -72,34 +72,14 @@
           </a>
 
           <!-- Mobile menu toggle -->
-          <button class="lg:hidden relative z-10 scale-110 active:scale-100 transition-transform" @click="toggleMenu">
-            <div class="relative w-8 h-8">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="absolute inset-0 h-7 w-7 transition-opacity duration-200"
-                :class="isOpen ? 'opacity-0' : 'opacity-100'"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                stroke-width="1.8"
-                stroke-linecap="round"
-              >
-                <path d="M4 7h16M4 12h16M4 17h16" />
-              </svg>
-
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="absolute inset-0 h-7 w-7 transition-opacity duration-200"
-                :class="isOpen ? 'opacity-100' : 'opacity-0'"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                stroke-width="1.8"
-                stroke-linecap="round"
-              >
-                <path d="M6 6l12 12M18 6L6 18" />
-              </svg>
-            </div>
+          <button
+            class="lg:hidden relative z-10 scale-110 active:scale-100 transition-transform"
+            @click="toggleMenu"
+            aria-label="Toggle menu"
+            :aria-expanded="isOpen"
+          >
+            <!-- Lottie will render here -->
+            <div ref="menuIconEl" class="w-8 h-8"></div>
           </button>
         </div>
       </div>
@@ -168,6 +148,8 @@
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import logo from "../assets/logo1.png";
 import SecondLogo from "../assets/second-logo.png";
+import lottie from "lottie-web";
+import hamburgerAnim from "@/assets/lottie/hamburger.json";
 
 const hasShadow = ref(false);
 const isOpen = ref(false);
@@ -180,17 +162,47 @@ const sections = [
   { id: "contact", label: "Contact" },
 ];
 
+const menuIconEl = ref(null);
+let menuAnim = null;
+let endFrame = 0;
+
+// Snap icon state WITHOUT animation
+const setIconState = (open) => {
+  if (!menuAnim) return;
+  menuAnim.goToAndStop(open ? endFrame : 0, true);
+};
+
+// Play icon animation ONLY on button click
+const playIcon = (open) => {
+  if (!menuAnim) return;
+
+  menuAnim.stop();
+
+  if (open) {
+    menuAnim.playSegments([0, endFrame], true);
+  } else {
+    menuAnim.playSegments([endFrame, 0], true);
+  }
+};
+
 const handleScroll = () => {
   hasShadow.value = window.scrollY > 0;
 };
 
 const handleResize = () => {
   // close mobile menu if switching to desktop
-  if (window.innerWidth >= 1024) isOpen.value = false;
+  if (window.innerWidth >= 1024) {
+    isOpen.value = false;
+    setIconState(false);
+  }
 };
 
 const toggleMenu = () => {
-  isOpen.value = !isOpen.value;
+  const next = !isOpen.value;
+  isOpen.value = next;
+
+  // animate ONLY on click
+  playIcon(next);
 };
 
 const scrollToSection = (id) => {
@@ -200,7 +212,9 @@ const scrollToSection = (id) => {
   const top = section.offsetTop - 110;
   window.scrollTo({ top, behavior: "smooth" });
 
+  // close without animation
   isOpen.value = false;
+  setIconState(false);
 };
 
 onMounted(() => {
@@ -213,11 +227,29 @@ onMounted(() => {
   requestAnimationFrame(() => {
     isReady.value = true;
   });
+
+  menuAnim = lottie.loadAnimation({
+    container: menuIconEl.value,
+    renderer: "svg",
+    loop: false,
+    autoplay: false,
+    animationData: hamburgerAnim,
+  });
+
+  menuAnim.setSpeed(1.8);
+
+  menuAnim.addEventListener("DOMLoaded", () => {
+    endFrame = Math.floor(menuAnim.getDuration(true));
+    setIconState(false); // start closed
+  });
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", handleScroll);
   window.removeEventListener("resize", handleResize);
+
+  menuAnim?.destroy();
+  menuAnim = null;
 });
 </script>
 
@@ -237,5 +269,9 @@ onBeforeUnmount(() => {
 .mobile-slide-leave-from {
   transform: translateY(0);
   opacity: 1;
+}
+
+.w-8.h-8 {
+  filter: invert(1);
 }
 </style>
