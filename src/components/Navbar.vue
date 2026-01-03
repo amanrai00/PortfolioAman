@@ -9,31 +9,31 @@
     ]"
   >
     <div class="container mx-auto">
-      <div class="flex items-center ">
+      <div class="relative flex items-center ">
         <!-- Logo -->
         <div
           :class="[
             'flex items-center gap-1 cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95',
-            isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
           ]"
           @click="scrollToSection('home')"
         >
-          <img :src="logo" alt="Logo" class="h-10 invert brightness-100" />
-          <img :src="SecondLogo" alt="Second Logo" class="h-7 invert brightness-50" />
+          <img :src="logo" alt="Logo" class="h-10 lg:h-11 invert brightness-100" />
+          <img :src="SecondLogo" alt="Second Logo" class="h-7 lg:h-8 invert brightness-50" />
         </div>
 
         <!-- Desktop nav -->
-        <div class="hidden flex-1 justify-center lg:flex">
-          <ul class="flex items-center gap-x-7 font-semibold">
+        <div class="hidden lg:block absolute left-1/2 -translate-x-1/2">
+          <ul class="flex items-center gap-x-8 font-semibold text-[15px] lg:text-[16px]">
             <li
               v-for="item in sections"
               :key="item.id"
               class="group transition-transform duration-150 hover:scale-110"
             >
-              <button class="hover:text-gray-300" @click="scrollToSection(item.id)">
+              <button class="text-[16.5px] lg:text-[17.5px] tracking-wide font-semibold hover:text-gray-300 transition-colors" @click="scrollToSection(item.id)">
                 {{ item.label }}
               </button>
-              <span class="flex h-[2px] w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
+              <span class="mt-1 block h-[2.5px] w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
             </li>
           </ul>
         </div>
@@ -72,8 +72,8 @@
           </a>
 
           <!-- Mobile menu toggle -->
-          <button class="lg:hidden relative z-10" @click="toggleMenu">
-            <div class="relative w-7 h-7">
+          <button class="lg:hidden relative z-10 scale-110 active:scale-100 transition-transform" @click="toggleMenu">
+            <div class="relative w-8 h-8">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="absolute inset-0 h-7 w-7 transition-opacity duration-200"
@@ -108,16 +108,14 @@
       <Transition name="mobile-slide">
         <div
           v-if="isOpen"
-          class="absolute left-0 top-full w-full bg-[#404040]/80 backdrop-blur-md text-white lg:hidden font-semibold
-                 overflow-hidden origin-top px-10"
+          class="absolute left-0 top-full w-full bg-[#404040]/80 backdrop-blur-md text-white lg:hidden font-semibold overflow-hidden origin-top px-10"
         >
           <div class="flex flex-col gap-4 px-5 pb-5 pt-4">
             <ul class="flex flex-col gap-4">
               <li v-for="item in sections" :key="item.id">
                 <button
                   @click="scrollToSection(item.id)"
-                  class="group relative inline-flex flex-col items-start font-semibold transition-transform duration-150
-                         hover:scale-[1.08]"
+                  class="group relative inline-flex flex-col items-start font-semibold transition-transform duration-150 hover:scale-[1.08]"
                 >
                   <span>{{ item.label }}</span>
                   <span
