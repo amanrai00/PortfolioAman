@@ -43,15 +43,15 @@
           <!-- Desktop Resume -->
           <a href="" class="group relative hidden px-4 py-2 font-medium lg:inline-block">
             <span
-              class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-black transition duration-200 ease-out
+              class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[#274156] transition duration-200 ease-out
                      group-hover:translate-x-0 group-hover:translate-y-0"
             ></span>
             <span
-              class="absolute inset-0 h-full w-full border-2 border-black bg-white transition-colors duration-200
+              class="absolute inset-0 h-full w-full border-2 border-[#274156] bg-white transition-colors duration-200
                      group-hover:bg-black"
             ></span>
             <span
-              class="relative flex items-center gap-x-3 text-black transition-colors duration-200 group-hover:text-white"
+              class="relative flex items-center gap-x-3 text-[#274156] transition-colors duration-200 group-hover:text-white"
             >
               Resume
               <svg
@@ -110,15 +110,15 @@
             <!-- Mobile Resume -->
             <a href="" class="group relative inline-block w-max px-4 py-2 font-semibold">
               <span
-                class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-black transition duration-200 ease-out
+                class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[#162521] transition duration-200 ease-out
                        group-hover:translate-x-0 group-hover:translate-y-0"
               ></span>
               <span
-                class="absolute inset-0 h-full w-full border-2 border-black bg-white transition-colors duration-200
+                class="absolute inset-0 h-full w-full border-2 border-[#162521] bg-white transition-colors duration-200
                        group-hover:bg-black"
               ></span>
               <span
-                class="relative flex items-center gap-x-3 text-black transition-colors duration-200 group-hover:text-white"
+                class="relative flex items-center gap-x-3 text-[#162521] transition-colors duration-200 group-hover:text-white"
               >
                 Resume
                 <svg
