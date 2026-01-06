@@ -1,124 +1,58 @@
 <template>
-  <nav
-    :class="[
-      'fixed top-0 left-0 z-50 w-full p-5 text-white transition-all duration-300',
-      'lg:px-28 px-5',
-      'bg-transparent backdrop-blur-md',
-      hasShadow ? 'shadow-md' : 'shadow-none',
-      isReady ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'
-    ]"
-  >
-    <div class="container mx-auto">
-      <div class="relative flex items-center ">
-        <!-- Logo -->
-        <div
-          :class="[
-            'flex items-center gap-1 cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95',
-      isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
-          ]"
-          @click="scrollToSection('home')"
-        >
-          <img :src="logo" alt="Logo" class="h-10 lg:h-11 invert brightness-100" />
-          <img :src="SecondLogo" alt="Second Logo" class="h-7 lg:h-8 invert brightness-50" />
-        </div>
-
-        <!-- Desktop nav -->
-        <div class="hidden lg:block absolute left-1/2 -translate-x-1/2">
-          <ul class="flex items-center gap-x-8 font-semibold text-[15px] lg:text-[16px]">
-            <li
-              v-for="item in sections"
-              :key="item.id"
-              class="group transition-transform duration-150 hover:scale-110"
-            >
-              <button class="text-[16.5px] lg:text-[17.5px] tracking-wide font-semibold hover:text-gray-300 transition-colors" @click="scrollToSection(item.id)">
-                {{ item.label }}
-              </button>
-              <span class="mt-1 block h-[2.5px] w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Desktop resume + mobile toggle -->
-        <div class="ml-auto flex items-center gap-3">
-          <!-- Desktop Resume -->
-          <a href="" class="group relative hidden px-4 py-2 font-medium lg:inline-block">
-            <span
-              class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[#274156] transition duration-200 ease-out
-                     group-hover:translate-x-0 group-hover:translate-y-0"
-            ></span>
-            <span
-              class="absolute inset-0 h-full w-full border-2 border-[#274156] bg-white transition-colors duration-200
-                     group-hover:bg-black"
-            ></span>
-            <span
-              class="relative flex items-center gap-x-3 text-[#274156] transition-colors duration-200 group-hover:text-white"
-            >
-              Resume
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M12 3v12" />
-                <path d="M8 11l4 4 4-4" />
-                <path d="M4 19h16" />
-              </svg>
-            </span>
-          </a>
-
-          <!-- Mobile menu toggle -->
-          <button
-            class="lg:hidden relative z-10 scale-110 active:scale-100 transition-transform"
-            @click="toggleMenu"
-            aria-label="Toggle menu"
-            :aria-expanded="isOpen"
+  <div>
+    <nav
+      :class="[
+        'fixed top-0 left-0 z-[90] w-full p-5 text-white transition-all duration-300',
+        'lg:px-28 px-5',
+        'bg-transparent backdrop-blur-md',
+        hasShadow ? 'shadow-md' : 'shadow-none',
+        isReady ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'
+      ]"
+    >
+      <div class="container mx-auto">
+        <div class="relative flex items-center">
+          <!-- Logo -->
+          <div
+            :class="[
+              'flex items-center gap-1 cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95',
+              isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
+            ]"
+            @click="scrollToSection('home')"
           >
-            <!-- Lottie will render here -->
-            <div ref="menuIconEl" class="w-8 h-8"></div>
-          </button>
-        </div>
-      </div>
+            <img :src="logo" alt="Logo" class="h-10 lg:h-11 invert brightness-100" />
+            <img :src="SecondLogo" alt="Second Logo" class="h-7 lg:h-8 invert brightness-50" />
+          </div>
 
-      <!-- Mobile nav -->
-      <Transition name="mobile-slide">
-        <div
-          v-if="isOpen"
-          class="absolute left-0 top-full w-full bg-[#404040]/80 backdrop-blur-md text-white lg:hidden font-semibold overflow-hidden origin-top px-10"
-        >
-          <div class="flex flex-col gap-4 px-5 pb-5 pt-4">
-            <ul class="flex flex-col gap-4">
-              <li v-for="item in sections" :key="item.id">
-                <button
-                  @click="scrollToSection(item.id)"
-                  class="group relative inline-flex flex-col items-start font-semibold transition-transform duration-150 hover:scale-[1.08]"
-                >
-                  <span>{{ item.label }}</span>
-                  <span
-                    class="mt-1 block w-full bg-white/30 transition-transform duration-300 group-hover:scale-x-110
-                           group-hover:scale-y-[1.3]"
-                    style="height: 0.5px"
-                  ></span>
+          <!-- Desktop nav -->
+          <div class="hidden lg:block absolute left-1/2 -translate-x-1/2">
+            <ul class="flex items-center gap-x-8 font-semibold text-[15px] lg:text-[16px]">
+              <li
+                v-for="item in sections"
+                :key="item.id"
+                class="group transition-transform duration-150 hover:scale-110"
+              >
+                <button class="text-[16.5px] lg:text-[17.5px] tracking-wide font-semibold hover:text-gray-300 transition-colors" @click="scrollToSection(item.id)">
+                  {{ item.label }}
                 </button>
+                <span class="mt-1 block h-[2.5px] w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
               </li>
             </ul>
+          </div>
 
-            <!-- Mobile Resume -->
-            <a href="" class="group relative inline-block w-max px-4 py-2 font-semibold">
+          <!-- Desktop resume + mobile toggle -->
+          <div class="ml-auto flex items-center gap-3">
+            <!-- Desktop Resume -->
+            <a href="" class="group relative hidden px-4 py-2 font-medium lg:inline-block">
               <span
-                class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[#162521] transition duration-200 ease-out
+                class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[#274156] transition duration-200 ease-out
                        group-hover:translate-x-0 group-hover:translate-y-0"
               ></span>
               <span
-                class="absolute inset-0 h-full w-full border-2 border-[#162521] bg-white transition-colors duration-200
+                class="absolute inset-0 h-full w-full border-2 border-[#274156] bg-white transition-colors duration-200
                        group-hover:bg-black"
               ></span>
               <span
-                class="relative flex items-center gap-x-3 text-[#162521] transition-colors duration-200 group-hover:text-white"
+                class="relative flex items-center gap-x-3 text-[#274156] transition-colors duration-200 group-hover:text-white"
               >
                 Resume
                 <svg
@@ -137,11 +71,111 @@
                 </svg>
               </span>
             </a>
+
+            <!-- Mobile menu toggle - Lottie Hamburger -->
+            <button
+              class="lg:hidden relative z-[100] scale-110 active:scale-100 transition-transform"
+              @click="toggleMenu"
+              aria-label="Toggle menu"
+              :aria-expanded="isOpen"
+            >
+              <div ref="menuIconEl" class="w-8 h-8 hamburger-icon"></div>
+            </button>
           </div>
         </div>
-      </Transition>
+      </div>
+    </nav>
+
+    <!-- Expanding Circle Overlay - Dark Theme -->
+    <div
+      :class="[
+        'fixed z-[55] rounded-full lg:hidden pointer-events-none',
+        'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900'
+      ]"
+      :style="{
+        top: 'calc(1.25rem + 20px)',
+        right: 'calc(1.25rem + 20px)',
+        width: isOpen ? '300vmax' : '0',
+        height: isOpen ? '300vmax' : '0',
+        transform: 'translate(50%, -50%)',
+        transition: isOpen 
+          ? 'width 0.8s cubic-bezier(0.19, 1, 0.22, 1), height 0.8s cubic-bezier(0.19, 1, 0.22, 1)' 
+          : 'width 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53), height 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53)'
+      }"
+    ></div>
+
+    <!-- Mobile Menu -->
+    <div
+      :class="[
+        'fixed top-0 right-0 w-full h-screen z-[56] lg:hidden flex items-center justify-center',
+        isOpen ? 'pointer-events-auto' : 'pointer-events-none'
+      ]"
+    >
+      <ul class="flex flex-col gap-9 text-center">
+        <li
+          v-for="(item, index) in sections"
+          :key="item.id"
+          :class="[
+            'transition-all ease-out',
+            isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+          ]"
+          :style="{ 
+            transitionDelay: isOpen ? `${400 + (index * 100)}ms` : '0ms',
+            transitionDuration: '500ms'
+          }"
+        >
+          <button
+            @click="scrollToSection(item.id)"
+            class="text-white text-3xl font-bold uppercase tracking-[0.25em] hover:text-gray-300 transition-colors duration-200"
+          >
+            {{ item.label }}
+          </button>
+        </li>
+
+        <!-- Mobile Resume in Menu -->
+        <li
+          :class="[
+            'transition-all ease-out mt-6',
+            isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+          ]"
+          :style="{ 
+            transitionDelay: isOpen ? `${400 + (sections.length * 100)}ms` : '0ms',
+            transitionDuration: '500ms'
+          }"
+        >
+          <a href="" class="group relative inline-block px-7 py-3.5 font-bold">
+            <span
+              class="absolute inset-0 h-full w-full translate-x-1.5 translate-y-1.5 bg-white/20 transition duration-200 ease-out
+                     group-hover:translate-x-0 group-hover:translate-y-0"
+            ></span>
+            <span
+              class="absolute inset-0 h-full w-full border-2 border-white bg-transparent transition-colors duration-200
+                     group-hover:bg-white"
+            ></span>
+            <span
+              class="relative flex items-center gap-x-3 text-white transition-colors duration-200 group-hover:text-gray-900 uppercase tracking-[0.2em] font-semibold"
+            >
+              Resume
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 3v12" />
+                <path d="M8 11l4 4 4-4" />
+                <path d="M4 19h16" />
+              </svg>
+            </span>
+          </a>
+        </li>
+      </ul>
     </div>
-  </nav>
+  </div>
 </template>
 
 <script setup>
@@ -166,13 +200,7 @@ const menuIconEl = ref(null);
 let menuAnim = null;
 let endFrame = 0;
 
-// Snap icon state WITHOUT animation
-const setIconState = (open) => {
-  if (!menuAnim) return;
-  menuAnim.goToAndStop(open ? endFrame : 0, true);
-};
-
-// Play icon animation ONLY on button click
+// Play icon animation on button click
 const playIcon = (open) => {
   if (!menuAnim) return;
 
@@ -193,7 +221,9 @@ const handleResize = () => {
   // close mobile menu if switching to desktop
   if (window.innerWidth >= 1024) {
     isOpen.value = false;
-    setIconState(false);
+    if (menuAnim) {
+      menuAnim.goToAndStop(0, true);
+    }
   }
 };
 
@@ -201,7 +231,7 @@ const toggleMenu = () => {
   const next = !isOpen.value;
   isOpen.value = next;
 
-  // animate ONLY on click
+  // animate on click
   playIcon(next);
 };
 
@@ -212,9 +242,9 @@ const scrollToSection = (id) => {
   const top = section.offsetTop - 110;
   window.scrollTo({ top, behavior: "smooth" });
 
-  // close without animation
+  // close with animation
   isOpen.value = false;
-  setIconState(false);
+  playIcon(false);
 };
 
 onMounted(() => {
@@ -240,7 +270,7 @@ onMounted(() => {
 
   menuAnim.addEventListener("DOMLoaded", () => {
     endFrame = Math.floor(menuAnim.getDuration(true));
-    setIconState(false); // start closed
+    menuAnim.goToAndStop(0, true); // start closed
   });
 });
 
@@ -254,24 +284,15 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.mobile-slide-enter-active,
-.mobile-slide-leave-active {
-  transition: transform 0.3s ease, opacity 0.3s ease;
+.hamburger-icon {
+  filter: invert(1) brightness(2);
+  position: relative;
+  z-index: 100;
 }
 
-.mobile-slide-enter-from,
-.mobile-slide-leave-to {
-  transform: translateY(-100%);
-  opacity: 0;
-}
-
-.mobile-slide-enter-to,
-.mobile-slide-leave-from {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.w-8.h-8 {
-  filter: invert(1);
+.hamburger-icon :deep(svg) {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
 }
 </style>
