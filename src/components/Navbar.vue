@@ -19,8 +19,8 @@
             ]"
             @click="scrollToSection('home')"
           >
-            <img :src="logo" alt="Logo" class="h-10 lg:h-11 invert brightness-100" />
-            <img :src="SecondLogo" alt="Second Logo" class="h-7 lg:h-8 invert brightness-50" />
+            <img :src="logo" alt="Logo" class="h-11 lg:h-11 invert brightness-100" />
+            <img :src="SecondLogo" alt="Second Logo" class="h-8 lg:h-8 invert brightness-50" />
           </div>
 
           <!-- Desktop nav -->
@@ -99,8 +99,8 @@
         height: isOpen ? '300vmax' : '0',
         transform: 'translate(50%, -50%)',
         transition: isOpen 
-          ? 'width 0.52s cubic-bezier(0.19, 1, 0.22, 1), height 0.52s cubic-bezier(0.19, 1, 0.22, 1)' 
-          : 'width 0.34s cubic-bezier(0.55, 0.085, 0.68, 0.53), height 0.34s cubic-bezier(0.55, 0.085, 0.68, 0.53)'
+          ? 'width 0.45s cubic-bezier(0.19, 1, 0.22, 1), height 0.45s cubic-bezier(0.19, 1, 0.22, 1)' 
+          : 'width 0.20s cubic-bezier(0.55, 0.085, 0.68, 0.53), height 0.20s cubic-bezier(0.55, 0.085, 0.68, 0.53)'
       }"
     ></div>
 
@@ -121,12 +121,12 @@
           ]"
           :style="{ 
             transitionDelay: isOpen ? `${240 + (index * 75)}ms` : '0ms',
-            transitionDuration: '310ms'
+            transitionDuration: '220ms'
           }"
         >
           <button
             @click="scrollToSection(item.id)"
-            class="text-white text-3xl font-bold uppercase tracking-[0.25em] hover:text-gray-300 transition-colors duration-200"
+            class="text-white text-3xl font-bold uppercase tracking-[0.25em] hover:text-gray-300 transition-colors duration-200 transition-transform hover:scale-110"
           >
             {{ item.label }}
           </button>
@@ -139,11 +139,11 @@
             isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           ]"
           :style="{ 
-            transitionDelay: isOpen ? `${240 + (sections.length * 75)}ms` : '0ms',
+            transitionDelay: isOpen ? `${160 + (sections.length * 45)}ms` : '0ms',
             transitionDuration: '310ms'
           }"
         >
-          <a href="" class="group relative inline-block px-6 py-3 font-medium">
+          <a href="" class="group relative inline-block px-6 py-3 font-medium transition-transform duration-200 hover:scale-110">
             <span
               class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[#274156] transition duration-200 ease-out
                      group-hover:translate-x-0 group-hover:translate-y-0"
@@ -243,8 +243,10 @@ const scrollToSection = (id) => {
   window.scrollTo({ top, behavior: "smooth" });
 
   // close with animation
-  isOpen.value = false;
-  playIcon(false);
+  if (isOpen.value) {
+    isOpen.value = false;
+    playIcon(false);
+  }
 };
 
 onMounted(() => {
@@ -266,7 +268,7 @@ onMounted(() => {
     animationData: hamburgerAnim,
   });
 
-  menuAnim.setSpeed(2);
+  menuAnim.setSpeed(2.4);
 
   menuAnim.addEventListener("DOMLoaded", () => {
     endFrame = Math.floor(menuAnim.getDuration(true));
