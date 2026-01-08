@@ -143,26 +143,26 @@
             transitionDuration: '310ms'
           }"
         >
-          <a href="" class="group relative inline-block px-7 py-3.5 font-bold">
+          <a href="" class="group relative inline-block px-6 py-3 font-medium">
             <span
-              class="absolute inset-0 h-full w-full translate-x-1.5 translate-y-1.5 bg-white/20 transition duration-200 ease-out
+              class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[#274156] transition duration-200 ease-out
                      group-hover:translate-x-0 group-hover:translate-y-0"
             ></span>
             <span
-              class="absolute inset-0 h-full w-full border-2 border-white bg-transparent transition-colors duration-200
-                     group-hover:bg-white"
+              class="absolute inset-0 h-full w-full border-2 border-[#274156] bg-white transition-colors duration-200
+                     group-hover:bg-black"
             ></span>
             <span
-              class="relative flex items-center gap-x-3 text-white transition-colors duration-200 group-hover:text-gray-900 uppercase tracking-[0.2em] font-semibold"
+              class="relative flex items-center gap-x-3 text-[#274156] transition-colors duration-200 group-hover:text-white"
             >
               Resume
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
+                class="h-4 w-4"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
+                stroke-width="1.8"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               >
