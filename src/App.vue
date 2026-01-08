@@ -2,10 +2,9 @@
 
   <Background />
   <Navbar />
+  <Home />
 
- 
   <section id="home"></section>
-  <section id="about"></section>
   <section id="skills"></section>
   <section id="projects"></section>
   <section id="contact"></section>
@@ -15,6 +14,7 @@
 <script setup>
 import Navbar from "./components/Navbar.vue";
 import Background from "./components/Background.vue";
+import Home from "./components/Home.vue";
 </script>
 
 <style>
