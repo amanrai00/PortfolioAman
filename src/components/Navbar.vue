@@ -99,8 +99,8 @@
         height: isOpen ? '300vmax' : '0',
         transform: 'translate(50%, -50%)',
         transition: isOpen 
-          ? 'width 0.8s cubic-bezier(0.19, 1, 0.22, 1), height 0.8s cubic-bezier(0.19, 1, 0.22, 1)' 
-          : 'width 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53), height 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53)'
+          ? 'width 0.52s cubic-bezier(0.19, 1, 0.22, 1), height 0.52s cubic-bezier(0.19, 1, 0.22, 1)' 
+          : 'width 0.34s cubic-bezier(0.55, 0.085, 0.68, 0.53), height 0.34s cubic-bezier(0.55, 0.085, 0.68, 0.53)'
       }"
     ></div>
 
@@ -120,8 +120,8 @@
             isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           ]"
           :style="{ 
-            transitionDelay: isOpen ? `${400 + (index * 100)}ms` : '0ms',
-            transitionDuration: '500ms'
+            transitionDelay: isOpen ? `${240 + (index * 75)}ms` : '0ms',
+            transitionDuration: '310ms'
           }"
         >
           <button
@@ -139,8 +139,8 @@
             isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           ]"
           :style="{ 
-            transitionDelay: isOpen ? `${400 + (sections.length * 100)}ms` : '0ms',
-            transitionDuration: '500ms'
+            transitionDelay: isOpen ? `${240 + (sections.length * 75)}ms` : '0ms',
+            transitionDuration: '310ms'
           }"
         >
           <a href="" class="group relative inline-block px-7 py-3.5 font-bold">
@@ -266,7 +266,7 @@ onMounted(() => {
     animationData: hamburgerAnim,
   });
 
-  menuAnim.setSpeed(1.8);
+  menuAnim.setSpeed(2);
 
   menuAnim.addEventListener("DOMLoaded", () => {
     endFrame = Math.floor(menuAnim.getDuration(true));
