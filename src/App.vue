@@ -4,7 +4,6 @@
   <Navbar />
   <Home />
 
-  <section id="home"></section>
   <section id="skills"></section>
   <section id="projects"></section>
   <section id="contact"></section>
