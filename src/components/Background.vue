@@ -65,4 +65,5 @@ onBeforeUnmount(() => {
   inset: 0;
   background: rgba(0, 0, 0, 0.18);
 }
+
 </style>

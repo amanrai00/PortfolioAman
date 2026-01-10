@@ -15,7 +15,7 @@
           <div
             :class="[
               'flex items-center gap-1 cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95',
-              isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
+              'opacity-100'
             ]"
             @click="scrollToSection('home')"
           >
@@ -29,7 +29,7 @@
               <li
                 v-for="item in sections"
                 :key="item.id"
-                class="group transition-transform duration-150 hover:scale-110"
+                class="group"
               >
                 <button class="text-[16.5px] lg:text-[17.5px] tracking-wide font-semibold hover:text-gray-300 transition-colors" @click="scrollToSection(item.id)">
                   {{ item.label }}
@@ -90,7 +90,7 @@
     <div
       :class="[
         'fixed z-[55] rounded-full lg:hidden pointer-events-none',
-        'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900'
+        'bg-gradient-to-b from-[#0f1112] via-[#141718] to-[#0f1112]'
       ]"
       :style="{
         top: 'calc(1.25rem + 20px)',
@@ -107,11 +107,11 @@
     <!-- Mobile Menu -->
     <div
       :class="[
-        'fixed top-0 right-0 w-full h-screen z-[56] lg:hidden flex items-center justify-center',
+        'fixed top-0 right-0 w-full h-screen z-[56] lg:hidden flex items-center justify-center text-slate-200/80',
         isOpen ? 'pointer-events-auto' : 'pointer-events-none'
       ]"
     >
-      <ul class="flex flex-col gap-9 text-center">
+      <ul class="flex flex-col gap-8 text-center">
         <li
           v-for="(item, index) in sections"
           :key="item.id"
@@ -126,7 +126,7 @@
         >
           <button
             @click="scrollToSection(item.id)"
-            class="text-white text-3xl font-bold uppercase tracking-[0.25em] hover:text-gray-300 transition-colors duration-200 transition-transform hover:scale-110"
+            class="text-[28px] font-light tracking-[0.18em] text-slate-200/80 hover:text-white transition-colors duration-200 transition-transform hover:scale-105"
           >
             {{ item.label }}
           </button>
@@ -143,7 +143,7 @@
             transitionDuration: '310ms'
           }"
         >
-          <a href="" class="group relative inline-block px-6 py-3 font-medium transition-transform duration-200 hover:scale-110">
+          <a href="" class="group relative inline-block px-6 py-3 font-medium transition-transform duration-200 hover:scale-105">
             <span
               class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[#274156] transition duration-200 ease-out
                      group-hover:translate-x-0 group-hover:translate-y-0"
