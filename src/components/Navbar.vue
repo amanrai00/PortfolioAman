@@ -31,7 +31,7 @@
                 :key="item.id"
                 class="group"
               >
-                <button class="text-[16.5px] lg:text-[17.5px] tracking-wide font-semibold hover:text-gray-300 transition-colors" @click="scrollToSection(item.id)">
+                <button class="text-[16.5px] lg:text-[17.5px] tracking-wide font-semibold hover:text-gray-300 transition-colors cursor-pointer" @click="scrollToSection(item.id)">
                   {{ item.label }}
                 </button>
                 <span class="mt-1 block h-[2.5px] w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
@@ -126,7 +126,7 @@
         >
           <button
             @click="scrollToSection(item.id)"
-            class="text-[28px] font-light tracking-[0.18em] text-slate-200/80 hover:text-white transition-colors duration-200 transition-transform hover:scale-105"
+            class="text-[28px] font-light tracking-[0.18em] text-slate-200/80 hover:text-white transition-colors duration-200 transition-transform hover:scale-105 cursor-pointer"
           >
             {{ item.label }}
           </button>

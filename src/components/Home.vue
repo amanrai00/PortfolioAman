@@ -1,39 +1,39 @@
 8<template>
-  <section id="home" class="min-h-screen px-5 lg:px-28 py-16 flex items-center relative">
+  <section id="home" class="min-h-screen px-5 lg:px-28 py-16 lg:pt-[56px] flex items-center relative">
+    <div class="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-30 flex-col items-start gap-3">
+      <button
+        v-for="(sectionId, index) in sectionIds"
+        :key="sectionId"
+        type="button"
+        class="group flex h-4 w-12 items-center cursor-pointer"
+        @click="scrollToSection(sectionId)"
+        :aria-label="`Go to ${sectionId} section`"
+      >
+        <span
+          class="nav-line"
+          :class="{ 'is-active': activeIndex === index }"
+        ></span>
+      </button>
+    </div>
+
+    <div
+      class="hidden lg:flex fixed left-8 bottom-12 z-30 flex-col items-center gap-3 text-white/60 transition-transform duration-300 ease-out cursor-default"
+      :style="{ transform: `translateY(${scrollSlide}px)` }"
+    >
+      <span class="scroll-text">SCROLL DOWN</span>
+      <span class="scroll-line"></span>
+    </div>
     <div class="mx-auto flex w-full max-w-6xl flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
       <div class="flex-[1.2] min-w-0 flex flex-col lg:justify-center">
-    <h1 class="mx-auto w-full text-center text-6xl font-extrabold uppercase leading-[0.9] text-white sm:text-6xl lg:text-7xl lg:mt-55">
+    <h1 class="mx-auto w-full text-center text-6xl font-extrabold uppercase leading-[0.9] text-white sm:text-6xl lg:text-7xl lg:mt-0">
           <span class="block min-h-[2.85rem] overflow-hidden sm:min-h-[3.8rem] lg:min-h-[4.275rem]">
             <span :key="currentWord" class="inline-block w-full text-center whitespace-nowrap word-rotator text-7xl bg-gradient-to-b from-white/90 via-white/80 to-white/70 text-transparent bg-clip-text sm:text-7xl lg:text-[6.5rem] tracking-[0.18em]">{{ currentWord }}</span>
           </span>
         </h1>
 
-        <div class="mt-30 lg:mt-48 hidden w-fit items-center gap-4 text-white lg:flex">
-          <button
-            type="button"
-            class="inline-flex h-11 w-11 items-center justify-center rounded-md border border-white/25 bg-white/10 backdrop-blur-sm shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition hover:border-white/60 hover:bg-white/15"
-            aria-label="LinkedIn"
-          >
-            <i class="bi bi-linkedin text-xl"></i>
-          </button>
-          <button
-            type="button"
-            class="inline-flex h-11 w-11 items-center justify-center rounded-md border border-white/25 bg-white/10 backdrop-blur-sm shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition hover:border-white/60 hover:bg-white/15"
-            aria-label="Email"
-          >
-            <i class="bi bi-envelope-at text-xl"></i>
-          </button>
-          <button
-            type="button"
-            class="inline-flex h-11 w-11 items-center justify-center rounded-md border border-white/25 bg-white/10 backdrop-blur-sm shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition hover:border-white/60 hover:bg-white/15"
-            aria-label="GitHub"
-          >
-            <i class="bi bi-github text-xl"></i>
-          </button>
-        </div>
       </div>
 
-      <div class="flex flex-[0.8] flex-col gap-6 text-slate-200 lg:flex-row lg:items-start ">
+      <div class="flex flex-[0.8] flex-col gap-6 text-slate-200 lg:flex-row lg:items-start lg:mt-5">
         <div class="relative hidden h-[1.5px] w-20 opacity-75 bg-gradient-to-r from-transparent via-white/60 to-transparent shadow-[0_0_4px_rgba(255,255,255,0.18)] lg:block lg:h-48 lg:w-0.5 lg:bg-gradient-to-b lg:from-[#9BB7C7]/0 lg:via-[#9BB7C7]/95 lg:to-[#9BB7C7]/0 lg:rounded-full"></div>
         <div class="w-full text-base text-[#9BB7C7]/60 lg:text-lg lg:pl-20 lg:mt-[26px]">
           <div class="flex flex-col items-center justify-center gap-4 text-center lg:hidden">
@@ -85,23 +85,52 @@
           </div>
           <div class="hidden space-y-2 lg:block lg:text-left">
             <p class="font-semibold text-white">Front-End Engineer</p>
-            <p>Building modern web interfaces</p>
-            <p>Based in Japan</p>
+            <p class="text-white/60">Crafting fast, accessible web interfaces</p>
+            <p>Based in Japan · Vue · Tailwind</p>
           </div>
         </div>
       </div>
     </div>
-    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 hidden lg:block">
-      <div ref="mouseEl" class="h-12 w-6 opacity-40"></div>
+
+    <div class="hidden lg:flex fixed right-6 bottom-12 z-30 flex-col items-end gap-4 text-white">
+      <a
+        class="social-item group"
+        href="mailto:hey@jolienhoop.com"
+        aria-label="Email"
+      >
+        <span class="social-circle">
+          <i class="bi bi-envelope-at text-lg"></i>
+        </span>
+        <span class="social-label">amanrai1630@gmail.com</span>
+      </a>
+      <a
+        class="social-item group"
+        href="#"
+        aria-label="LinkedIn"
+      >
+        <span class="social-circle">
+          <i class="bi bi-linkedin text-lg"></i>
+        </span>
+        <span class="social-label">aman</span>
+      </a>
+      <a
+        class="social-item group"
+        href="#"
+        aria-label="GitHub"
+      >
+        <span class="social-circle">
+          <i class="bi bi-github text-lg"></i>
+        </span>
+        <span class="social-label">amanrai</span>
+      </a>
     </div>
   </section>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import lottie from "lottie-web";
-import mouseAnim from "@/assets/lottie/Mouse Scroll.json";
 
+const sectionIds = ["home", "skills", "projects", "contact"];
 const words = [
   "Engineer",
   "Designer",
@@ -113,10 +142,34 @@ const words = [
   "Focused",
 ];
 const currentWord = ref(words[0]);
-const mouseEl = ref(null);
+const activeIndex = ref(0);
+const scrollSlide = ref(0);
 let wordIndex = 0;
 let timerId = null;
-let mouseAnimInstance = null;
+let scrollHandler = null;
+
+const updateActiveIndex = () => {
+  const scrollY = window.scrollY || window.pageYOffset || 0;
+  const midPoint = scrollY + window.innerHeight * 0.5;
+  let newIndex = 0;
+
+  for (let i = 0; i < sectionIds.length; i += 1) {
+    const sectionEl = document.getElementById(sectionIds[i]);
+    if (sectionEl && midPoint >= sectionEl.offsetTop) {
+      newIndex = i;
+    }
+  }
+
+  activeIndex.value = newIndex;
+  scrollSlide.value = Math.min(scrollY * 0.15, 70);
+};
+
+const scrollToSection = (sectionId) => {
+  const sectionEl = document.getElementById(sectionId);
+  if (sectionEl) {
+    sectionEl.scrollIntoView({ behavior: "smooth" });
+  }
+};
 
 onMounted(() => {
   timerId = setInterval(() => {
@@ -124,23 +177,14 @@ onMounted(() => {
     currentWord.value = words[wordIndex];
   }, 900);
 
-  if (mouseEl.value) {
-    mouseAnimInstance = lottie.loadAnimation({
-      container: mouseEl.value,
-      renderer: "svg",
-      loop: true,
-      autoplay: true,
-      animationData: mouseAnim,
-    });
-  }
-
+  scrollHandler = () => updateActiveIndex();
+  updateActiveIndex();
+  window.addEventListener("scroll", scrollHandler, { passive: true });
 });
 
 onBeforeUnmount(() => {
   if (timerId) clearInterval(timerId);
-  mouseAnimInstance?.destroy();
-  mouseAnimInstance = null;
-y();
+  if (scrollHandler) window.removeEventListener("scroll", scrollHandler);
 });
 </script>
 
@@ -149,5 +193,99 @@ y();
 
 .word-rotator {
   font-family: "Oxanium", sans-serif;
+}
+
+.nav-line {
+  height: 2px;
+  width: 28px;
+  background: rgba(255, 255, 255, 0.45);
+  transform-origin: left center;
+  transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease, width 0.3s ease;
+}
+
+.nav-line.is-active {
+  background: rgba(255, 255, 255, 0.95);
+  transform: scaleX(1.15);
+  width: 36px;
+}
+
+.nav-line:hover,
+.group:hover .nav-line {
+  background: rgba(255, 255, 255, 0.85);
+  transform: scaleX(1.1);
+}
+
+.scroll-text {
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  writing-mode: vertical-rl;
+  text-transform: uppercase;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 64px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+}
+
+.about-scroll-text {
+  font-size: 16px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+}
+
+.about-scroll-line {
+  width: 2px;
+  height: 32px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+}
+
+.social-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.social-label {
+  position: absolute;
+  right: 100%;
+  margin-right: 0.6rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.6rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: lowercase;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(24, 150, 158, 0.95), rgba(26, 163, 173, 0.85));
+  color: #f8fbff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.26);
+  opacity: 0;
+  transform: translateX(8px) scale(0.98);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.social-circle:hover + .social-label {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+.social-circle {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: none;
+  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.social-circle:hover {
+  transform: translateX(-2px);
+  background: linear-gradient(135deg, rgba(24, 150, 158, 0.95), rgba(26, 163, 173, 0.85));
+  box-shadow: none;
 }
 </style>
