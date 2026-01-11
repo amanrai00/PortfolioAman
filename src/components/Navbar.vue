@@ -74,7 +74,7 @@
 
             <!-- Mobile menu toggle - Lottie Hamburger -->
             <button
-              class="lg:hidden relative z-[100] scale-110 active:scale-100 transition-transform"
+              class="lg:hidden relative z-[100] scale-110 cursor-pointer active:scale-100 transition-transform"
               @click="toggleMenu"
               aria-label="Toggle menu"
               :aria-expanded="isOpen"

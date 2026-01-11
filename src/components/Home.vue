@@ -34,13 +34,13 @@
       </div>
 
       <div class="flex flex-[0.8] flex-col gap-6 text-slate-200 lg:flex-row lg:items-start lg:mt-5">
-        <div class="relative hidden h-[1.5px] w-20 opacity-75 bg-gradient-to-r from-transparent via-white/60 to-transparent shadow-[0_0_4px_rgba(255,255,255,0.18)] lg:block lg:h-48 lg:w-0.5 lg:bg-gradient-to-b lg:from-[#9BB7C7]/0 lg:via-[#9BB7C7]/95 lg:to-[#9BB7C7]/0 lg:rounded-full"></div>
+        <div class="steel-line relative hidden h-[1.5px] w-20 opacity-75 bg-gradient-to-r from-transparent via-white/60 to-transparent shadow-[0_0_4px_rgba(255,255,255,0.18)] lg:block lg:h-48 lg:w-0.5 lg:bg-gradient-to-b lg:from-[#9BB7C7]/0 lg:via-[#9BB7C7]/95 lg:to-[#9BB7C7]/0 lg:rounded-full"></div>
         <div class="w-full text-base text-[#9BB7C7]/60 lg:text-lg lg:pl-20 lg:mt-[26px]">
           <div class="flex flex-col items-center justify-center gap-4 text-center lg:hidden">
             <p class="text-sm font-medium text-white/60 leading-relaxed tracking-wide">Turning ideas into thoughtful web experiences</p>
             <div class="mt-6 flex justify-center">
               <button
-                class="group relative inline-flex items-center justify-center overflow-hidden rounded-md bg-gray-800 px-8 py-2.5 text-white tracking-tighter transition-transform duration-300 ease-out hover:-translate-y-0.5"
+                class="group relative inline-flex cursor-pointer items-center justify-center overflow-hidden rounded-md bg-gray-800 px-8 py-2.5 text-white tracking-tighter transition-transform duration-300 ease-out hover:-translate-y-0.5"
                 type="button"
               >
                 <span
@@ -213,6 +213,22 @@ onBeforeUnmount(() => {
 .group:hover .nav-line {
   background: rgba(255, 255, 255, 0.85);
   transform: scaleX(1.1);
+}
+
+.steel-line {
+  transform-origin: top center;
+  animation: steel-line-reveal 1.2s ease-out 0.2s both;
+}
+
+@keyframes steel-line-reveal {
+  0% {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  100% {
+    opacity: 0.85;
+    transform: scaleY(1);
+  }
 }
 
 .scroll-text {
