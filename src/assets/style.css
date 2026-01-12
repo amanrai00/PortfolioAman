@@ -8,8 +8,9 @@ html {
   color-scheme: light;
   --theme-bg: #f4f6fb;
   --theme-nav-bg: rgba(248, 250, 252, 0.78);
-  --theme-bg-overlay: rgba(255, 255, 255, 0.82);
-  --theme-bg-filter: brightness(1.08) saturate(0.9);
+  --theme-bg-overlay: rgba(255, 255, 255, 0.68);
+  --theme-bg-filter: invert(1) brightness(1.05) saturate(0.75) contrast(1.08);
+  --theme-bg-blend: multiply;
   --theme-text-strong: #0f172a;
   --theme-text-muted: rgba(30, 41, 59, 0.68);
   --theme-text-soft: rgba(30, 41, 59, 0.52);
@@ -42,8 +43,9 @@ html {
   color-scheme: dark;
   --theme-bg: #0f1112;
   --theme-nav-bg: rgba(15, 17, 18, 0.35);
-  --theme-bg-overlay: rgba(0, 0, 0, 0.18);
+  --theme-bg-overlay: rgba(0, 0, 0, 0.2);
   --theme-bg-filter: none;
+  --theme-bg-blend: normal;
   --theme-text-strong: #f8fafc;
   --theme-text-muted: rgba(226, 232, 240, 0.72);
   --theme-text-soft: rgba(226, 232, 240, 0.6);

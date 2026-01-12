@@ -52,6 +52,7 @@ onBeforeUnmount(() => {
   width: 100vw;
   height: 100vh;
   filter: var(--theme-bg-filter);
+  mix-blend-mode: var(--theme-bg-blend);
 }
 
 /* Force SVG to cover */
