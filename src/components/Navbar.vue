@@ -111,7 +111,18 @@
         isOpen ? 'pointer-events-auto' : 'pointer-events-none'
       ]"
     >
-      <ul class="flex flex-col gap-8 text-center">
+      <div
+        :class="[
+          'mobile-menu-bg transition-opacity duration-300',
+          isOpen ? 'opacity-100' : 'opacity-0'
+        ]"
+        aria-hidden="true"
+      >
+        <div ref="menuBgEl" class="mobile-menu-lottie"></div>
+        <div class="mobile-menu-overlay"></div>
+      </div>
+
+      <ul class="relative z-10 flex flex-col gap-8 text-center">
         <li
           v-for="(item, index) in sections"
           :key="item.id"
@@ -184,6 +195,7 @@ import logo from "../assets/logo1.png";
 import SecondLogo from "../assets/second-logo.png";
 import lottie from "lottie-web";
 import hamburgerAnim from "@/assets/lottie/hamburger.json";
+import nightSky from "@/assets/lottie/night-sky.json";
 
 const hasShadow = ref(false);
 const isOpen = ref(false);
@@ -197,7 +209,9 @@ const sections = [
 ];
 
 const menuIconEl = ref(null);
+const menuBgEl = ref(null);
 let menuAnim = null;
+let menuBgAnim = null;
 let endFrame = 0;
 
 // Play icon animation on button click
@@ -268,6 +282,20 @@ onMounted(() => {
     animationData: hamburgerAnim,
   });
 
+  menuBgAnim = lottie.loadAnimation({
+    container: menuBgEl.value,
+    renderer: "svg",
+    loop: true,
+    autoplay: true,
+    animationData: nightSky,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+      progressiveLoad: true,
+    },
+  });
+
+  menuBgAnim.setSpeed(0.8);
+
   menuAnim.setSpeed(2.4);
 
   menuAnim.addEventListener("DOMLoaded", () => {
@@ -282,6 +310,9 @@ onBeforeUnmount(() => {
 
   menuAnim?.destroy();
   menuAnim = null;
+
+  menuBgAnim?.destroy();
+  menuBgAnim = null;
 });
 </script>
 
@@ -296,5 +327,30 @@ onBeforeUnmount(() => {
   width: 100% !important;
   height: 100% !important;
   display: block !important;
+}
+
+.mobile-menu-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.mobile-menu-lottie {
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+}
+
+.mobile-menu-lottie :deep(svg) {
+  width: 100%;
+  height: 100%;
+}
+
+.mobile-menu-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.44);
 }
 </style>
