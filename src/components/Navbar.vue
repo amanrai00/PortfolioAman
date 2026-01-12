@@ -42,8 +42,8 @@
           <!-- Desktop resume + mobile toggle -->
           <div class="ml-auto flex items-center gap-3">
             <!-- Desktop Resume -->
-            <label class="ui-switch hidden lg:inline-flex">
-              <input type="checkbox" aria-label="Toggle theme" />
+            <label class="ui-switch hidden lg:inline-flex mr-5">
+              <input type="checkbox" aria-label="Toggle theme" checked />
               <div class="slider">
                 <div class="circle"></div>
               </div>
@@ -363,9 +363,9 @@ onBeforeUnmount(() => {
 
 .ui-switch {
   --switch-bg: rgb(135, 150, 165);
-  --switch-width: 48px;
-  --switch-height: 20px;
-  --circle-diameter: 32px;
+  --switch-width: 42px;
+  --switch-height: 18px;
+  --circle-diameter: 28px;
   --circle-bg: rgb(0, 56, 146);
   --circle-inset: calc((var(--circle-diameter) - var(--switch-height)) / 2);
 }
