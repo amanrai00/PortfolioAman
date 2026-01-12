@@ -51,8 +51,10 @@ onBeforeUnmount(() => {
 .bg-lottie {
   width: 100vw;
   height: 100vh;
-  filter: var(--theme-bg-filter);
+  filter: var(--theme-bg-filter) var(--theme-bg-shadow);
   mix-blend-mode: var(--theme-bg-blend);
+  transform: scale(var(--theme-bg-scale));
+  transform-origin: center;
 }
 
 /* Force SVG to cover */

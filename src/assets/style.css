@@ -6,11 +6,23 @@ html {
 
 :root {
   color-scheme: light;
-  --theme-bg: #f4f6fb;
+  --theme-bg: #efe6d8;
+  --theme-bg-gradient:
+    radial-gradient(140% 140% at 50% -14%, rgba(255, 238, 210, 1) 0%, rgba(255, 238, 210, 0.75) 40%, rgba(255, 238, 210, 0) 72%),
+    radial-gradient(105% 100% at 14% 28%, rgba(255, 213, 176, 0.95) 0%, rgba(255, 213, 176, 0.48) 46%, rgba(255, 213, 176, 0) 78%),
+    radial-gradient(105% 100% at 86% 24%, rgba(255, 208, 168, 0.9) 0%, rgba(255, 208, 168, 0.45) 46%, rgba(255, 208, 168, 0) 78%),
+    radial-gradient(140% 65% at 50% 90%, rgba(172, 132, 232, 0.85) 0%, rgba(172, 132, 232, 0.4) 46%, rgba(172, 132, 232, 0) 72%),
+    linear-gradient(180deg, #fff1df 0%, #ecd8c0 55%, #dcc3ae 100%);
   --theme-nav-bg: rgba(248, 250, 252, 0.78);
-  --theme-bg-overlay: rgba(255, 255, 255, 0.68);
+  --theme-bg-overlay:
+    radial-gradient(140% 140% at 50% -14%, rgba(255, 248, 238, 0.24) 0%, rgba(255, 248, 238, 0.12) 42%, rgba(255, 248, 238, 0) 74%),
+    radial-gradient(105% 100% at 14% 28%, rgba(255, 236, 216, 0.16) 0%, rgba(255, 236, 216, 0.07) 46%, rgba(255, 236, 216, 0) 78%),
+    radial-gradient(105% 100% at 86% 24%, rgba(255, 232, 210, 0.14) 0%, rgba(255, 232, 210, 0.06) 46%, rgba(255, 232, 210, 0) 78%),
+    radial-gradient(140% 65% at 50% 90%, rgba(208, 188, 238, 0.1) 0%, rgba(208, 188, 238, 0.04) 46%, rgba(208, 188, 238, 0) 72%);
   --theme-bg-filter: invert(1) brightness(1.05) saturate(0.75) contrast(1.08);
   --theme-bg-blend: multiply;
+  --theme-bg-scale: 1.08;
+  --theme-bg-shadow: drop-shadow(0 0 6px rgba(0, 0, 0, 0.35));
   --theme-text-strong: #0f172a;
   --theme-text-muted: rgba(30, 41, 59, 0.68);
   --theme-text-soft: rgba(30, 41, 59, 0.52);
@@ -42,10 +54,13 @@ html {
 :root[data-theme="dark"] {
   color-scheme: dark;
   --theme-bg: #0f1112;
+  --theme-bg-gradient: none;
   --theme-nav-bg: rgba(15, 17, 18, 0.35);
   --theme-bg-overlay: rgba(0, 0, 0, 0.2);
   --theme-bg-filter: none;
   --theme-bg-blend: normal;
+  --theme-bg-scale: 1;
+  --theme-bg-shadow: none;
   --theme-text-strong: #f8fafc;
   --theme-text-muted: rgba(226, 232, 240, 0.72);
   --theme-text-soft: rgba(226, 232, 240, 0.6);
@@ -77,5 +92,6 @@ html {
 body {
   margin: 0;
   color: var(--theme-text-strong);
+  background: var(--theme-bg-gradient, none);
   background-color: var(--theme-bg);
 }
