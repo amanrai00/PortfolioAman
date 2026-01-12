@@ -10,7 +10,7 @@
       ]"
     >
       <div class="container mx-auto">
-        <div class="relative flex items-center">
+        <div class="relative flex items-center lg:grid lg:grid-cols-3 lg:items-center">
           <!-- Logo -->
           <div
             :class="[
@@ -24,7 +24,7 @@
           </div>
 
           <!-- Desktop nav -->
-          <div class="hidden lg:block absolute left-1/2 -translate-x-1/2">
+          <div class="hidden lg:block lg:justify-self-center">
             <ul class="flex items-center gap-x-8 font-semibold text-[15px] lg:text-[16px]">
               <li
                 v-for="item in sections"
@@ -40,7 +40,7 @@
           </div>
 
           <!-- Desktop resume + mobile toggle -->
-          <div class="ml-auto flex items-center gap-3">
+          <div class="ml-auto flex items-center gap-3 lg:ml-0 lg:justify-self-end">
             <!-- Desktop Resume -->
             <label class="ui-switch hidden lg:inline-flex mr-5">
               <input type="checkbox" aria-label="Toggle theme" checked />
@@ -190,6 +190,27 @@
               </svg>
             </span>
           </a>
+        </li>
+
+        <!-- Mobile Theme Switch -->
+        <li
+          :class="[
+            'transition-all ease-out mt-5',
+            isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+          ]"
+          :style="{ 
+            transitionDelay: isOpen ? `${210 + (sections.length * 45)}ms` : '0ms',
+            transitionDuration: '310ms'
+          }"
+        >
+          <div class="flex items-center justify-center">
+            <label class="ui-switch inline-flex">
+              <input type="checkbox" aria-label="Toggle theme" checked />
+              <div class="slider">
+                <div class="circle"></div>
+              </div>
+            </label>
+          </div>
         </li>
       </ul>
     </div>
