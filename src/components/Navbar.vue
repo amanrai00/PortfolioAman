@@ -351,6 +351,6 @@ onBeforeUnmount(() => {
 .mobile-menu-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.44);
+  background: rgba(0, 0, 0, 0.41);
 }
 </style>
