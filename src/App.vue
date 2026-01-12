@@ -17,12 +17,6 @@ import Home from "./components/Home.vue";
 </script>
 
 <style>
-
-body {
-  color: white;
-  margin: 0;
-}
-
 html {
   scroll-behavior: smooth;
 }

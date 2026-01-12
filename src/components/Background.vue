@@ -51,6 +51,7 @@ onBeforeUnmount(() => {
 .bg-lottie {
   width: 100vw;
   height: 100vh;
+  filter: var(--theme-bg-filter);
 }
 
 /* Force SVG to cover */
@@ -63,7 +64,7 @@ onBeforeUnmount(() => {
 .bg-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.18);
+  background: var(--theme-bg-overlay);
 }
 
 </style>

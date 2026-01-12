@@ -2,10 +2,10 @@
   <div>
     <nav
       :class="[
-        'fixed top-0 left-0 z-[90] w-full p-5 text-white transition-all duration-300',
+        'fixed top-0 left-0 z-[90] w-full p-5 text-[color:var(--theme-text-strong)] transition-all duration-300',
         'lg:px-28 px-5',
-        'bg-transparent backdrop-blur-md',
-        hasShadow ? 'shadow-md' : 'shadow-none',
+        'bg-transparent',
+        hasShadow ? 'bg-[color:var(--theme-nav-bg)] shadow-md backdrop-blur-md' : 'shadow-none',
         isReady ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'
       ]"
     >
@@ -19,8 +19,8 @@
             ]"
             @click="scrollToSection('home')"
           >
-            <img :src="logo" alt="Logo" class="h-11 lg:h-11 invert brightness-100" />
-            <img :src="SecondLogo" alt="Second Logo" class="h-8 lg:h-8 invert brightness-50" />
+            <img :src="logo" alt="Logo" class="h-11 lg:h-11 logo-primary" />
+            <img :src="SecondLogo" alt="Second Logo" class="h-8 lg:h-8 logo-secondary" />
           </div>
 
           <!-- Desktop nav -->
@@ -31,10 +31,10 @@
                 :key="item.id"
                 class="group"
               >
-                <button class="text-[16.5px] lg:text-[17.5px] tracking-wide font-semibold hover:text-gray-300 transition-colors cursor-pointer" @click="scrollToSection(item.id)">
+                <button class="text-[16.5px] lg:text-[17.5px] tracking-wide font-semibold hover:text-[color:var(--theme-text-hover)] transition-colors cursor-pointer" @click="scrollToSection(item.id)">
                   {{ item.label }}
                 </button>
-                <span class="mt-1 block h-[2.5px] w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
+                <span class="mt-1 block h-[2.5px] w-0 bg-[color:var(--theme-text-strong)] transition-all duration-300 group-hover:w-full"></span>
               </li>
             </ul>
           </div>
@@ -43,7 +43,7 @@
           <div class="ml-auto flex items-center gap-3 lg:ml-0 lg:justify-self-end">
             <!-- Desktop Resume -->
             <label class="ui-switch hidden lg:inline-flex mr-5">
-              <input type="checkbox" aria-label="Toggle theme" checked />
+              <input v-model="isDark" type="checkbox" aria-label="Toggle theme" />
               <div class="slider">
                 <div class="circle"></div>
               </div>
@@ -51,15 +51,15 @@
 
             <a href="" class="group relative hidden px-4 py-2 font-medium lg:inline-block">
               <span
-                class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[#274156] transition duration-200 ease-out
+                class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[color:var(--theme-resume-border)] transition duration-200 ease-out
                        group-hover:translate-x-0 group-hover:translate-y-0"
               ></span>
               <span
-                class="absolute inset-0 h-full w-full border-2 border-[#274156] bg-white transition-colors duration-200
-                       group-hover:bg-black"
+                class="absolute inset-0 h-full w-full border-2 border-[color:var(--theme-resume-border)] bg-[color:var(--theme-resume-bg)] transition-colors duration-200
+                       group-hover:bg-[color:var(--theme-resume-hover-bg)]"
               ></span>
               <span
-                class="relative flex items-center gap-x-3 text-[#274156] transition-colors duration-200 group-hover:text-white"
+                class="relative flex items-center gap-x-3 text-[color:var(--theme-resume-text)] transition-colors duration-200 group-hover:text-[color:var(--theme-resume-hover-text)]"
               >
                 Resume
                 <svg
@@ -96,8 +96,7 @@
     <!-- Expanding Circle Overlay - Dark Theme -->
     <div
       :class="[
-        'fixed z-[55] rounded-full lg:hidden pointer-events-none',
-        'bg-gradient-to-b from-[#0f1112] via-[#141718] to-[#0f1112]'
+        'fixed z-[55] rounded-full lg:hidden pointer-events-none menu-circle-bg'
       ]"
       :style="{
         top: 'calc(1.25rem + 20px)',
@@ -114,7 +113,7 @@
     <!-- Mobile Menu -->
     <div
       :class="[
-        'fixed top-0 right-0 w-full h-screen z-[56] lg:hidden flex items-center justify-center text-slate-200/80',
+        'fixed top-0 right-0 w-full h-screen z-[56] lg:hidden flex items-center justify-center text-[color:var(--theme-text-muted)]',
         isOpen ? 'pointer-events-auto' : 'pointer-events-none'
       ]"
     >
@@ -144,7 +143,7 @@
         >
           <button
             @click="scrollToSection(item.id)"
-            class="text-[28px] font-light tracking-[0.18em] text-slate-200/80 hover:text-white transition-colors duration-200 transition-transform hover:scale-105 cursor-pointer"
+            class="text-[28px] font-light tracking-[0.18em] text-[color:var(--theme-text-muted)] hover:text-[color:var(--theme-text-strong)] transition-colors duration-200 transition-transform hover:scale-105 cursor-pointer"
           >
             {{ item.label }}
           </button>
@@ -163,15 +162,15 @@
         >
           <a href="" class="group relative inline-block px-6 py-3 font-medium transition-transform duration-200 hover:scale-105">
             <span
-              class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[#274156] transition duration-200 ease-out
+              class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[color:var(--theme-resume-border)] transition duration-200 ease-out
                      group-hover:translate-x-0 group-hover:translate-y-0"
             ></span>
             <span
-              class="absolute inset-0 h-full w-full border-2 border-[#274156] bg-white transition-colors duration-200
-                     group-hover:bg-black"
+              class="absolute inset-0 h-full w-full border-2 border-[color:var(--theme-resume-border)] bg-[color:var(--theme-resume-bg)] transition-colors duration-200
+                     group-hover:bg-[color:var(--theme-resume-hover-bg)]"
             ></span>
             <span
-              class="relative flex items-center gap-x-3 text-[#274156] transition-colors duration-200 group-hover:text-white"
+              class="relative flex items-center gap-x-3 text-[color:var(--theme-resume-text)] transition-colors duration-200 group-hover:text-[color:var(--theme-resume-hover-text)]"
             >
               Resume
               <svg
@@ -205,7 +204,7 @@
         >
           <div class="flex items-center justify-center">
             <label class="ui-switch inline-flex">
-              <input type="checkbox" aria-label="Toggle theme" checked />
+              <input v-model="isDark" type="checkbox" aria-label="Toggle theme" />
               <div class="slider">
                 <div class="circle"></div>
               </div>
@@ -218,7 +217,7 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import logo from "../assets/logo1.png";
 import SecondLogo from "../assets/second-logo.png";
 import lottie from "lottie-web";
@@ -228,6 +227,7 @@ import nightSky from "@/assets/lottie/night-sky.json";
 const hasShadow = ref(false);
 const isOpen = ref(false);
 const isReady = ref(false);
+const isDark = ref(true);
 
 const sections = [
   { id: "about", label: "About" },
@@ -241,6 +241,13 @@ const menuBgEl = ref(null);
 let menuAnim = null;
 let menuBgAnim = null;
 let endFrame = 0;
+const themeKey = "theme";
+
+const applyTheme = () => {
+  const theme = isDark.value ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem(themeKey, theme);
+};
 
 // Play icon animation on button click
 const playIcon = (open) => {
@@ -292,6 +299,14 @@ const scrollToSection = (id) => {
 };
 
 onMounted(() => {
+  const storedTheme = localStorage.getItem(themeKey);
+  if (storedTheme === "dark" || storedTheme === "light") {
+    isDark.value = storedTheme === "dark";
+  } else {
+    isDark.value = true;
+  }
+  applyTheme();
+
   window.addEventListener("scroll", handleScroll, { passive: true });
   window.addEventListener("resize", handleResize, { passive: true });
 
@@ -332,6 +347,10 @@ onMounted(() => {
   });
 });
 
+watch(isDark, () => {
+  applyTheme();
+});
+
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", handleScroll);
   window.removeEventListener("resize", handleResize);
@@ -346,7 +365,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .hamburger-icon {
-  filter: invert(1) brightness(2);
+  filter: var(--theme-icon-filter);
   position: relative;
   z-index: 100;
 }
@@ -379,15 +398,15 @@ onBeforeUnmount(() => {
 .mobile-menu-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.41);
+  background: var(--theme-menu-overlay);
 }
 
 .ui-switch {
-  --switch-bg: rgb(135, 150, 165);
+  --switch-bg: var(--theme-switch-bg);
   --switch-width: 42px;
   --switch-height: 18px;
   --circle-diameter: 28px;
-  --circle-bg: rgb(0, 56, 146);
+  --circle-bg: var(--theme-switch-circle);
   --circle-inset: calc((var(--circle-diameter) - var(--switch-height)) / 2);
 }
 
@@ -446,5 +465,17 @@ onBeforeUnmount(() => {
   opacity: 1;
   width: 0;
   height: 0;
+}
+
+.logo-primary {
+  filter: var(--theme-logo-filter);
+}
+
+.logo-secondary {
+  filter: var(--theme-logo-secondary-filter);
+}
+
+.menu-circle-bg {
+  background: var(--theme-menu-circle);
 }
 </style>

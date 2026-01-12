@@ -17,7 +17,7 @@
     </div>
 
     <div
-      class="hidden lg:flex fixed left-8 bottom-12 z-30 flex-col items-center gap-3 text-white/60 transition-transform duration-300 ease-out cursor-default"
+      class="hidden lg:flex fixed left-8 bottom-12 z-30 flex-col items-center gap-3 text-[color:var(--theme-text-muted)] transition-transform duration-300 ease-out cursor-default"
       :style="{ transform: `translateY(${scrollSlide}px)` }"
     >
       <span class="scroll-text">SCROLL DOWN</span>
@@ -25,22 +25,22 @@
     </div>
     <div class="mx-auto flex w-full max-w-6xl flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
       <div class="flex-[1.2] min-w-0 flex flex-col lg:justify-center">
-    <h1 class="mx-auto w-full text-center text-6xl font-extrabold uppercase leading-[0.9] text-white sm:text-6xl lg:text-7xl lg:mt-0">
+    <h1 class="mx-auto w-full text-center text-6xl font-extrabold uppercase leading-[0.9] text-[color:var(--theme-text-strong)] sm:text-6xl lg:text-7xl lg:mt-0">
           <span class="block min-h-[2.85rem] overflow-hidden sm:min-h-[3.8rem] lg:min-h-[4.275rem]">
-            <span :key="currentWord" class="inline-block w-full text-center whitespace-nowrap word-rotator text-7xl bg-gradient-to-b from-white/90 via-white/80 to-white/70 text-transparent bg-clip-text sm:text-7xl lg:text-[6.5rem] tracking-[0.18em]">{{ currentWord }}</span>
+            <span :key="currentWord" class="inline-block w-full text-center whitespace-nowrap word-rotator text-7xl bg-gradient-to-b from-[color:var(--theme-headline-from)] via-[color:var(--theme-headline-via)] to-[color:var(--theme-headline-to)] text-transparent bg-clip-text sm:text-7xl lg:text-[6.5rem] tracking-[0.18em]">{{ currentWord }}</span>
           </span>
         </h1>
 
       </div>
 
-      <div class="flex flex-[0.8] flex-col gap-6 text-slate-200 lg:flex-row lg:items-start lg:mt-5">
-        <div class="steel-line relative hidden h-[1.5px] w-20 opacity-75 bg-gradient-to-r from-transparent via-white/60 to-transparent shadow-[0_0_4px_rgba(255,255,255,0.18)] lg:block lg:h-48 lg:w-0.5 lg:bg-gradient-to-b lg:from-[#9BB7C7]/0 lg:via-[#9BB7C7]/95 lg:to-[#9BB7C7]/0 lg:rounded-full"></div>
-        <div class="w-full text-base text-[#9BB7C7]/60 lg:text-lg lg:pl-20 lg:mt-[26px]">
+      <div class="flex flex-[0.8] flex-col gap-6 text-[color:var(--theme-text-muted)] lg:flex-row lg:items-start lg:mt-5">
+        <div class="steel-line relative hidden h-[1.5px] w-20 opacity-75 bg-gradient-to-r from-transparent via-[color:var(--theme-line-strong)] to-transparent shadow-[0_0_4px_var(--theme-line-shadow)] lg:block lg:h-48 lg:w-0.5 lg:bg-gradient-to-b lg:from-[color:var(--theme-line-soft)] lg:via-[color:var(--theme-line-strong)] lg:to-[color:var(--theme-line-soft)] lg:rounded-full"></div>
+        <div class="w-full text-base text-[color:var(--theme-text-soft)] lg:text-lg lg:pl-20 lg:mt-[26px]">
           <div class="flex flex-col items-center justify-center gap-4 text-center lg:hidden">
-            <p class="text-sm font-medium text-white/60 leading-relaxed tracking-wide">Turning ideas into thoughtful web experiences</p>
+            <p class="text-sm font-medium text-[color:var(--theme-text-muted)] leading-relaxed tracking-wide">Turning ideas into thoughtful web experiences</p>
             <div class="mt-6 flex justify-center">
               <button
-                class="group relative inline-flex cursor-pointer items-center justify-center overflow-hidden rounded-md bg-gray-800 px-8 py-2.5 text-white tracking-tighter transition-transform duration-300 ease-out hover:-translate-y-0.5"
+                class="group relative inline-flex cursor-pointer items-center justify-center overflow-hidden rounded-md bg-[color:var(--theme-cta-bg)] px-8 py-2.5 text-[color:var(--theme-cta-text)] tracking-tighter transition-transform duration-300 ease-out hover:-translate-y-0.5"
                 type="button"
               >
                 <span
@@ -84,15 +84,15 @@
             </div>
           </div>
           <div class="hidden space-y-2 lg:block lg:text-left">
-            <p class="font-semibold text-white">Front-End Engineer</p>
-            <p class="text-white/60">Crafting fast, accessible web interfaces</p>
+            <p class="font-semibold text-[color:var(--theme-text-strong)]">Front-End Engineer</p>
+            <p class="text-[color:var(--theme-text-muted)]">Crafting fast, accessible web interfaces</p>
             <p>Based in Japan · Vue · Tailwind</p>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="hidden lg:flex fixed right-6 bottom-12 z-30 flex-col items-end gap-4 text-white">
+    <div class="hidden lg:flex fixed right-6 bottom-12 z-30 flex-col items-end gap-4 text-[color:var(--theme-text-strong)]">
       <a
         class="social-item group"
         href="mailto:hey@jolienhoop.com"
@@ -198,20 +198,20 @@ onBeforeUnmount(() => {
 .nav-line {
   height: 2px;
   width: 28px;
-  background: rgba(255, 255, 255, 0.45);
+  background: var(--theme-line-soft);
   transform-origin: left center;
   transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease, width 0.3s ease;
 }
 
 .nav-line.is-active {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--theme-line-strong);
   transform: scaleX(1.15);
   width: 36px;
 }
 
 .nav-line:hover,
 .group:hover .nav-line {
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--theme-line-strong);
   transform: scaleX(1.1);
 }
 
@@ -241,7 +241,7 @@ onBeforeUnmount(() => {
 .scroll-line {
   width: 1px;
   height: 64px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+  background: linear-gradient(to bottom, var(--theme-line-strong), transparent);
 }
 
 .about-scroll-text {
@@ -253,7 +253,7 @@ onBeforeUnmount(() => {
 .about-scroll-line {
   width: 2px;
   height: 32px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+  background: linear-gradient(to bottom, var(--theme-line-strong), transparent);
 }
 
 .social-item {
@@ -293,8 +293,8 @@ onBeforeUnmount(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--theme-pill-bg);
+  border: 1px solid var(--theme-pill-border);
   box-shadow: none;
   transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
 }
