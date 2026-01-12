@@ -160,7 +160,7 @@
             transitionDuration: '310ms'
           }"
         >
-          <a href="" class="group relative inline-block px-6 py-3 font-medium transition-transform duration-200 hover:scale-105">
+          <a href="" class="group relative inline-block px-6 py-3 font-medium transition-transform duration-200 will-change-transform hover:scale-[1.02]">
             <span
               class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[color:var(--theme-resume-border)] transition duration-200 ease-out
                      group-hover:translate-x-0 group-hover:translate-y-0"
