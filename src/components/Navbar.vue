@@ -31,10 +31,10 @@
                 :key="item.id"
                 class="group"
               >
-                <button class="text-[16.5px] lg:text-[17.5px] tracking-wide font-semibold hover:text-[color:var(--theme-text-hover)] transition-colors cursor-pointer" @click="scrollToSection(item.id)">
+                <button class="nav-link text-[16.5px] lg:text-[17.5px] tracking-wide font-semibold hover:text-[color:var(--theme-text-hover)] transition-colors cursor-pointer" @click="scrollToSection(item.id)">
                   {{ item.label }}
                 </button>
-                <span class="mt-1 block h-[2.5px] w-0 bg-[color:var(--theme-text-strong)] transition-all duration-300 group-hover:w-full"></span>
+                <span class="nav-underline mt-1 block h-[2.5px] w-0 bg-[color:var(--theme-text-strong)] transition-all duration-300 group-hover:w-full"></span>
               </li>
             </ul>
           </div>
@@ -245,8 +245,15 @@ const themeKey = "theme";
 
 const applyTheme = () => {
   const theme = isDark.value ? "dark" : "light";
-  document.documentElement.setAttribute("data-theme", theme);
+  const root = document.documentElement;
+
+  root.classList.add("theme-switching");
+  root.setAttribute("data-theme", theme);
   localStorage.setItem(themeKey, theme);
+
+  window.setTimeout(() => {
+    root.classList.remove("theme-switching");
+  }, 60);
 };
 
 // Play icon animation on button click

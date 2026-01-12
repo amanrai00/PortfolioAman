@@ -89,6 +89,16 @@ html {
   --theme-headline-to: rgba(255, 255, 255, 0.7);
 }
 
+:root.theme-switching .nav-link,
+:root.theme-switching .nav-underline {
+  transition: none !important;
+}
+
+:root.theme-switching nav,
+:root.theme-switching nav * {
+  transition: none !important;
+}
+
 body {
   margin: 0;
   color: var(--theme-text-strong);
