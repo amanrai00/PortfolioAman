@@ -80,7 +80,7 @@ html {
   --theme-menu-overlay: rgba(0, 0, 0, 0.4);
   --theme-menu-circle: linear-gradient(180deg, #0f1112 0%, #141718 54%, #0f1112 100%);
   --theme-logo-filter: invert(1) brightness(1);
-  --theme-logo-secondary-filter: invert(1) brightness(0.6);
+  --theme-logo-secondary-filter: invert(1) brightness(1);
   --theme-icon-filter: invert(1) brightness(1.6);
   --theme-switch-bg: rgb(135, 150, 165);
   --theme-switch-circle: rgb(0, 56, 146);
