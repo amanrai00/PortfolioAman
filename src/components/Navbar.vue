@@ -295,8 +295,17 @@ const scrollToSection = (id) => {
   const section = document.getElementById(id);
   if (!section) return;
 
-  const top = section.offsetTop - 110;
-  window.scrollTo({ top, behavior: "smooth" });
+  if (id === "about") {
+    const styles = window.getComputedStyle(section);
+    const paddingTop = parseFloat(styles.paddingTop) || 0;
+    window.scrollTo({
+      top: section.offsetTop + paddingTop,
+      behavior: "smooth",
+    });
+    return;
+  }
+
+  section.scrollIntoView({ behavior: "smooth" });
 
   // close with animation
   if (isOpen.value) {
