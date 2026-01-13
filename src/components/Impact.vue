@@ -1,5 +1,5 @@
 <template>
-  <section id="impact" class="relative px-5 lg:px-28 py-16 lg:py-24">
+  <section id="impact" class="relative px-5 lg:px-28 py-8 lg:py-1">
     <div class="mx-auto w-full max-w-6xl">
       <div class="flex flex-col gap-10">
         <div class="w-full">
