@@ -311,6 +311,10 @@ const scrollToSection = (id) => {
       top: section.offsetTop + paddingTop,
       behavior: "smooth",
     });
+    if (isOpen.value) {
+      isOpen.value = false;
+      playIcon(false);
+    }
     return;
   }
 
