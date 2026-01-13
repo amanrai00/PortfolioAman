@@ -6,7 +6,7 @@
         'lg:px-28 px-5',
         'bg-transparent',
         hasShadow ? '' : 'shadow-none',
-        isReady ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'
+        isReady ? 'lg:translate-y-0 lg:opacity-100' : 'lg:-translate-y-8 lg:opacity-0'
       ]"
     >
       <div class="container mx-auto">
@@ -81,7 +81,7 @@
 
             <!-- Mobile menu toggle - Lottie Hamburger -->
             <button
-              class="lg:hidden relative z-[100] scale-110 cursor-pointer active:scale-100 transition-transform"
+              class="lg:hidden fixed top-5 right-5 z-[100] scale-110 cursor-pointer active:scale-100 transition-transform"
               @click="toggleMenu"
               aria-label="Toggle menu"
               :aria-expanded="isOpen"
