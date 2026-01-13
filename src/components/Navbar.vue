@@ -160,13 +160,13 @@
             transitionDuration: '310ms'
           }"
         >
-          <a href="" class="group relative inline-block px-6 py-3 font-medium transition-transform duration-200 will-change-transform hover:scale-[1.02]">
+          <a href="" class="group resume-link relative inline-block px-6 py-3 font-medium transition-transform duration-200">
             <span
-              class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[color:var(--theme-resume-border)] transition duration-200 ease-out
+              class="absolute inset-0 h-full w-full resume-layer resume-layer-shadow translate-x-1 translate-y-1 bg-[color:var(--theme-resume-border)] transition duration-200 ease-out
                      group-hover:translate-x-0 group-hover:translate-y-0"
             ></span>
             <span
-              class="absolute inset-0 h-full w-full border-2 border-[color:var(--theme-resume-border)] bg-[color:var(--theme-resume-bg)] transition-colors duration-200
+              class="absolute inset-0 h-full w-full resume-layer resume-layer-base border-2 border-[color:var(--theme-resume-border)] bg-[color:var(--theme-resume-bg)] transition-colors duration-200
                      group-hover:bg-[color:var(--theme-resume-hover-bg)]"
             ></span>
             <span
@@ -484,5 +484,23 @@ onBeforeUnmount(() => {
 
 .menu-circle-bg {
   background: var(--theme-menu-circle);
+}
+
+.resume-link {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.resume-layer {
+  will-change: transform, opacity, background-color;
+  transform: translateZ(0);
+}
+
+.resume-layer-shadow {
+  transition: transform 180ms ease-out;
+}
+
+.resume-layer-base {
+  transition: background-color 180ms ease-out;
 }
 </style>
