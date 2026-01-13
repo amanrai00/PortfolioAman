@@ -2,20 +2,15 @@
   <section id="about" class="relative px-5 lg:px-28 pt-24 pb-16 lg:pt-32 lg:pb-24">
     <div class="mx-auto w-full max-w-6xl">
       <div class="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-center">
-        <div
-          ref="imageSection"
-          class="transition-all duration-700"
-          :class="imageVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'"
-        >
-          <div class="about-card">
+        <div class="about-left">
+          <div class="card" aria-hidden="true">
             <img
-              :src="aboutMeSvg"
-              alt="About me portrait"
-              class="about-image"
+              :src="profileImage"
+              alt="Profile portrait"
+              class="card-image"
             />
           </div>
         </div>
-
         <div
           ref="textSection"
           class="transition-all duration-700 delay-200"
@@ -50,11 +45,9 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import aboutMeSvg from '@/assets/about-me.svg'
+import profileImage from '@/assets/profile.jpg';
 
-const imageSection = ref(null);
 const textSection = ref(null);
-const imageVisible = ref(false);
 const textVisible = ref(false);
 
 let observer = null;
@@ -64,9 +57,7 @@ onMounted(() => {
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          if (entry.target === imageSection.value) {
-            imageVisible.value = true;
-          } else if (entry.target === textSection.value) {
+          if (entry.target === textSection.value) {
             textVisible.value = true;
           }
         }
@@ -75,7 +66,6 @@ onMounted(() => {
     { threshold: 0.1 }
   );
 
-  if (imageSection.value) observer.observe(imageSection.value);
   if (textSection.value) observer.observe(textSection.value);
 });
 
@@ -91,20 +81,40 @@ onUnmounted(() => {
   transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.about-card {
-  border-radius: 2rem;
-  padding: 1.1rem;
-  background: var(--theme-pill-bg);
-  border: 1px solid var(--theme-pill-border);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+.about-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
 }
 
-.about-image {
+.card {
+  width: clamp(220px, 28vw, 320px);
+  height: clamp(300px, 38vw, 420px);
+  border-radius: 1rem;
+  background-color: #4158d0;
+  background-image: linear-gradient(
+    43deg,
+    #4158d0 0%,
+    #1888b4 46%,
+    #0f31ca 100%
+  );
+  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+    rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+    rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
+    rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
+    rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-image {
   width: 100%;
+  height: 100%;
   display: block;
-  border-radius: 1.5rem;
-  background: var(--theme-bg);
-  box-shadow: inset 0 0 0 1px var(--theme-line-soft);
+  object-fit: cover;
 }
 
 .about-line {
