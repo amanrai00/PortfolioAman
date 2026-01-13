@@ -2,7 +2,7 @@
   <div>
     <nav
       :class="[
-        'relative z-[90] w-full p-5 text-[color:var(--theme-text-strong)] transition-all duration-300',
+        'absolute top-0 left-0 z-[90] w-full p-5 text-[color:var(--theme-text-strong)] transition-all duration-300',
         'lg:px-28 px-5',
         'bg-transparent',
         hasShadow ? 'shadow-md' : 'shadow-none',
