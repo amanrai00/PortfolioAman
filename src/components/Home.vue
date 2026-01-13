@@ -17,8 +17,11 @@
     </div>
 
     <div
-      class="hidden lg:flex fixed left-8 bottom-12 z-30 flex-col items-center gap-3 text-[color:var(--theme-text-muted)] transition-transform duration-300 ease-out cursor-default"
-      :style="{ transform: `translateY(${scrollSlide}px)` }"
+      class="hidden lg:flex fixed left-8 bottom-12 z-30 flex-col items-center gap-3 text-[color:var(--theme-text-muted)] transition-transform duration-200 ease-out transition-opacity duration-200 ease-out cursor-default"
+      :style="{
+        transform: `translateY(${scrollSlide}px)`,
+        opacity: Math.max(0, 1 - scrollSlide / 80)
+      }"
     >
       <span class="scroll-text">SCROLL DOWN</span>
       <span class="scroll-line"></span>
@@ -161,7 +164,7 @@ const updateActiveIndex = () => {
   }
 
   activeIndex.value = newIndex;
-  scrollSlide.value = Math.min(scrollY * 0.15, 70);
+  scrollSlide.value = Math.min(scrollY * 0.55, 220);
 };
 
 const scrollToSection = (sectionId) => {

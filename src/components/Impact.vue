@@ -26,8 +26,8 @@
 }
 
 .impact-text {
-  font-size: clamp(1.15rem, 2vw, 2rem);
-  line-height: 1.55;
+  font-size: clamp(1.35rem, 2.4vw, 2.4rem);
+  line-height: 1.7;
   color: var(--theme-text-muted);
   font-family: "Oxanium", sans-serif;
   max-width: 100%;
