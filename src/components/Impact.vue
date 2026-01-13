@@ -6,10 +6,13 @@
           <p class="text-[11px] uppercase tracking-[0.4em] text-[color:var(--theme-text-soft)]">
             Impact
           </p>
-          <div class="impact-quote mt-6 flex items-start gap-6">
+          <div
+            ref="quoteSection"
+            class="impact-quote mt-6 flex items-start gap-6 transition-all duration-700"
+            :class="quoteVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
+          >
             <p class="impact-text">
-              I believe in a user centered design approach, ensuring that every project I
-              work on is tailored to meet the specific needs of its users.
+              This portfolio is a snapshot of my problem-solving mindset, design decisions, and the way I turn ideas into reliable interfaces.
             </p>
           </div>
         </div>
@@ -17,6 +20,31 @@
     </div>
   </section>
 </template>
+
+<script setup>
+import { onMounted, onUnmounted, ref } from "vue";
+
+const quoteSection = ref(null);
+const quoteVisible = ref(false);
+let observer = null;
+
+onMounted(() => {
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        quoteVisible.value = entry.isIntersecting;
+      });
+    },
+    { threshold: 0.05, rootMargin: "0px 0px -10% 0px" }
+  );
+
+  if (quoteSection.value) observer.observe(quoteSection.value);
+});
+
+onUnmounted(() => {
+  if (observer) observer.disconnect();
+});
+</script>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700;800&display=swap");

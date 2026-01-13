@@ -1,5 +1,5 @@
 8<template>
-  <section id="home" class="min-h-screen px-5 lg:px-28 pt-1 pb-16 lg:pt-1 flex items-center relative">
+  <section id="home" class="min-h-screen px-5 lg:px-28 pt-6 pb-16 lg:pt-6 flex items-center relative">
     <div class="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-30 flex-col items-start gap-3">
       <button
         v-for="(sectionId, index) in sectionIds"
