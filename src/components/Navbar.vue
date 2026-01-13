@@ -15,9 +15,10 @@
           <div
             :class="[
               'flex w-fit items-center gap-1 cursor-pointer origin-center transition-all duration-300 hover:scale-103 active:scale-95 lg:justify-self-start',
-              'opacity-100'
+              'opacity-100',
+              isOpen ? 'lg:static fixed left-5 top-5 z-[101]' : 'lg:static'
             ]"
-            @click="scrollToSection('home')"
+            @click="handleLogoClick"
           >
             <img :src="logo" alt="Logo" class="h-11 lg:h-11 logo-primary" />
             <img :src="SecondLogo" alt="Second Logo" class="h-8 lg:h-8 logo-secondary" />
@@ -289,6 +290,14 @@ const toggleMenu = () => {
 
   // animate on click
   playIcon(next);
+};
+
+const handleLogoClick = () => {
+  if (isOpen.value) {
+    isOpen.value = false;
+    playIcon(false);
+  }
+  scrollToSection("home");
 };
 
 const scrollToSection = (id) => {
