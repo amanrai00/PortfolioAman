@@ -39,7 +39,7 @@ html {
   --theme-resume-text: #274156;
   --theme-resume-hover-bg: #111827;
   --theme-resume-hover-text: #f8fafc;
-  --theme-menu-overlay: rgba(248, 250, 252, 0.78);
+  --theme-menu-overlay: #E9E6E1;
   --theme-menu-circle: radial-gradient(circle at top right, #fefefe 0%, #eef2f7 52%, #e7edf5 100%);
   --theme-logo-filter: none;
   --theme-logo-secondary-filter: none;

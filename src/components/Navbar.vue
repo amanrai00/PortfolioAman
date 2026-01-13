@@ -14,7 +14,7 @@
           <!-- Logo -->
           <div
             :class="[
-              'flex items-center gap-1 cursor-pointer origin-center transition-all duration-300 hover:scale-103 active:scale-95',
+              'flex w-fit items-center gap-1 cursor-pointer origin-center transition-all duration-300 hover:scale-103 active:scale-95 lg:justify-self-start',
               'opacity-100'
             ]"
             @click="scrollToSection('home')"
