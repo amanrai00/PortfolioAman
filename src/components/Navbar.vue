@@ -143,7 +143,7 @@
         >
           <button
             @click="scrollToSection(item.id)"
-            class="text-[28px] font-light tracking-[0.18em] text-[color:var(--theme-text-muted)] hover:text-[color:var(--theme-text-strong)] transition-colors duration-200 transition-transform hover:scale-105 cursor-pointer"
+            class="mobile-nav-link text-[28px] font-light tracking-[0.18em] text-[color:var(--theme-text-muted)] hover:text-[color:var(--theme-text-strong)] transition-colors duration-200 transition-transform hover:scale-105 cursor-pointer"
           >
             {{ item.label }}
           </button>
@@ -502,5 +502,13 @@ onBeforeUnmount(() => {
 
 .resume-layer-base {
   transition: background-color 180ms ease-out;
+}
+
+:global([data-theme="light"]) .mobile-nav-link {
+  color: #3a4451;
+}
+
+:global([data-theme="light"]) .mobile-nav-link:hover {
+  color: #1f2a37;
 }
 </style>
