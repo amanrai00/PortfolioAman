@@ -2,10 +2,10 @@
   <div>
     <nav
       :class="[
-        'fixed top-0 left-0 z-[90] w-full p-5 text-[color:var(--theme-text-strong)] transition-all duration-300',
+        'relative z-[90] w-full p-5 text-[color:var(--theme-text-strong)] transition-all duration-300',
         'lg:px-28 px-5',
         'bg-transparent',
-        hasShadow ? 'bg-[color:var(--theme-nav-bg)] shadow-md backdrop-blur-md' : 'shadow-none',
+        hasShadow ? 'shadow-md' : 'shadow-none',
         isReady ? 'translate-y-0 opacity-100' : '-translate-y-8 opacity-0'
       ]"
     >
