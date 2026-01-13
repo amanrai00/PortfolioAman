@@ -1,47 +1,48 @@
 <template>
-  <section id="about" class="px-5 lg:px-28 py-16 lg:py-24">
-    <div class="flex justify-between items-center flex-col lg:flex-row gap-8 lg:gap-16">
-      <!-- Image Section -->
-      <div
-        ref="imageSection"
-        class="lg:w-1/2 w-full transition-all duration-700"
-        :class="imageVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'"
-      >
-        <img 
-          :src="aboutMeSvg" 
-          alt="About Me Illustration"
-          class="w-full h-auto"
-        />
-      </div>
-      
-      <!-- Text Section -->
-      <div
-        ref="textSection"
-        class="lg:w-1/2 w-full transition-all duration-700 delay-200"
-        :class="textVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'"
-      >
-        <h2 class="text-2xl lg:text-4xl font-bold mt-4 lg:mt-0">
-          About <span class="font-extrabold text-primary">Me</span>
-        </h2>
-        
-        <p class="text-gray-600 text-sm lg:text-base leading-relaxed mt-5 lg:mt-10">
-          I'm a passionate full-stack developer specializing in <strong>React.js & Node.js</strong>. 
-          I thrive on blending technical expertise with sleek UI/UX design to build high-performing, 
-          user-friendly applications.
-        </p>
-        
-        <p class="text-gray-600 text-sm lg:text-base leading-relaxed mt-3 lg:mt-5">
-          My web development journey started in <strong>2015</strong>, and since then, I've 
-          continuously evolved, taking on new challenges and keeping up with the latest technologies. 
-          Today, I build <strong>cutting-edge web applications</strong> using 
-          <strong>Next.js, TypeScript, NestJS, TailwindCSS, Supabase, and more</strong>.
-        </p>
-        
-        <p class="text-gray-600 text-sm lg:text-base leading-relaxed mt-3 lg:mt-5">
-          Beyond coding, I enjoy sharing insights on <strong>Twitter</strong>, engaging with 
-          <strong>Indie Hackers</strong>, and following the journey of <strong>early-stage startups</strong>. 
-          Feel free to follow me on <strong>Twitter</strong> or check out my projects on <strong>GitHub</strong>.
-        </p>
+  <section id="about" class="relative px-5 lg:px-28 py-16 lg:py-24">
+    <div class="mx-auto w-full max-w-6xl">
+      <div class="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-center">
+        <div
+          ref="imageSection"
+          class="transition-all duration-700"
+          :class="imageVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'"
+        >
+          <div class="about-card">
+            <img
+              :src="aboutMeSvg"
+              alt="About me portrait"
+              class="about-image"
+            />
+          </div>
+        </div>
+
+        <div
+          ref="textSection"
+          class="transition-all duration-700 delay-200"
+          :class="textVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'"
+        >
+          <span class="about-line"></span>
+          <h2 class="about-title">About me</h2>
+          <p class="about-text">
+            I'm a passionate full-stack developer specializing in <strong>React.js & Node.js</strong>.
+            I thrive on blending technical expertise with sleek UI/UX design to build high-performing,
+            user-friendly applications.
+          </p>
+          <p class="about-text">
+            My web development journey started in <strong>2015</strong>, and since then, I've
+            continuously evolved, taking on new challenges and keeping up with the latest technologies.
+            Today, I build <strong>cutting-edge web applications</strong> using
+            <strong>Next.js, TypeScript, NestJS, TailwindCSS, Supabase, and more</strong>.
+          </p>
+          <p class="about-text">
+            Beyond coding, I enjoy sharing insights on <strong>Twitter</strong>, engaging with
+            <strong>Indie Hackers</strong>, and following the journey of <strong>early-stage startups</strong>.
+            Feel free to follow me on <strong>Twitter</strong> or check out my projects on <strong>GitHub</strong>.
+          </p>
+          <div class="about-actions">
+            <a class="about-button" href="#contact">Contact me</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -86,26 +87,73 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* Spring-like easing for smooth animations */
 .transition-all {
   transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Optional: Custom scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
+.about-card {
+  border-radius: 2rem;
+  padding: 1.1rem;
+  background: var(--theme-pill-bg);
+  border: 1px solid var(--theme-pill-border);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
+.about-image {
+  width: 100%;
+  display: block;
+  border-radius: 1.5rem;
+  background: var(--theme-bg);
+  box-shadow: inset 0 0 0 1px var(--theme-line-soft);
 }
 
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
+.about-line {
+  display: inline-block;
+  width: 64px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--theme-line-strong);
+  box-shadow: 0 0 12px var(--theme-line-shadow);
+  margin-bottom: 1.2rem;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+.about-title {
+  font-size: clamp(2rem, 3vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--theme-text-strong);
+}
+
+.about-text {
+  margin-top: 1.4rem;
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--theme-text-muted);
+}
+
+.about-actions {
+  margin-top: 2rem;
+}
+
+.about-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.85rem 2.2rem;
+  border: 1px solid var(--theme-line-strong);
+  color: var(--theme-text-strong);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.about-button:hover {
+  transform: translateY(-2px);
+  background: var(--theme-cta-bg);
+  border-color: var(--theme-cta-bg);
+  color: var(--theme-cta-text);
 }
 </style>
