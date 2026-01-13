@@ -133,7 +133,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
-const sectionIds = ["home", "skills", "projects", "contact"];
+const sectionIds = ["home", "about", "projects", "contact"];
 const words = [
   "Engineer",
   "Designer",
@@ -169,9 +169,19 @@ const updateActiveIndex = () => {
 
 const scrollToSection = (sectionId) => {
   const sectionEl = document.getElementById(sectionId);
-  if (sectionEl) {
-    sectionEl.scrollIntoView({ behavior: "smooth" });
+  if (!sectionEl) return;
+
+  if (sectionId === "about") {
+    const styles = window.getComputedStyle(sectionEl);
+    const paddingTop = parseFloat(styles.paddingTop) || 0;
+    window.scrollTo({
+      top: sectionEl.offsetTop + paddingTop,
+      behavior: "smooth",
+    });
+    return;
   }
+
+  sectionEl.scrollIntoView({ behavior: "smooth" });
 };
 
 onMounted(() => {
