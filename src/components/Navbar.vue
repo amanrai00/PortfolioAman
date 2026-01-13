@@ -42,7 +42,7 @@
           <!-- Desktop resume + mobile toggle -->
           <div class="ml-auto flex items-center gap-3 lg:ml-0 lg:justify-self-end">
             <!-- Desktop Resume -->
-            <label class="ui-switch hidden lg:inline-flex mr-5">
+            <label class="ui-switch hidden lg:inline-flex mr-5 desktop-switch">
               <input v-model="isDark" type="checkbox" aria-label="Toggle theme" />
               <div class="slider">
                 <div class="circle"></div>
@@ -510,5 +510,21 @@ onBeforeUnmount(() => {
 
 :global([data-theme="light"]) .mobile-nav-link:hover {
   color: #1f2a37;
+}
+
+.desktop-switch .slider {
+  transition: background-color 220ms ease;
+}
+
+.desktop-switch .slider .circle {
+  transition: left 220ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 220ms cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 220ms ease;
+}
+
+:global(:root.theme-switching) .desktop-switch .slider,
+:global(:root.theme-switching) .desktop-switch .slider .circle {
+  transition: background-color 220ms ease, left 220ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 220ms cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 </style>
