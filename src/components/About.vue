@@ -32,26 +32,37 @@
           class="transition-all duration-700 delay-200"
           :class="textVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'"
         >
-          <span class="about-line"></span>
-          <h2 class="about-title">About me</h2>
-          <p class="about-text">
+          <span
+            class="inline-block w-16 h-1 rounded-full bg-[var(--theme-line-strong)] shadow-[0_0_12px_var(--theme-line-shadow)] mb-5"
+          ></span>
+          <h2
+            class="text-[clamp(2rem,3vw,3.2rem)] font-extrabold tracking-[0.08em] uppercase text-[var(--theme-text-strong)]"
+          >
+            About me
+          </h2>
+          <p class="mt-6 text-base leading-[1.85] text-[var(--theme-text-muted)]">
             I'm a passionate full-stack developer specializing in <strong>React.js & Node.js</strong>.
             I thrive on blending technical expertise with sleek UI/UX design to build high-performing,
             user-friendly applications.
           </p>
-          <p class="about-text">
+          <p class="mt-6 text-base leading-[1.85] text-[var(--theme-text-muted)]">
             My web development journey started in <strong>2015</strong>, and since then, I've
             continuously evolved, taking on new challenges and keeping up with the latest technologies.
             Today, I build <strong>cutting-edge web applications</strong> using
             <strong>Next.js, TypeScript, NestJS, TailwindCSS, Supabase, and more</strong>.
           </p>
-          <p class="about-text">
+          <p class="mt-6 text-base leading-[1.85] text-[var(--theme-text-muted)]">
             Beyond coding, I enjoy sharing insights on <strong>Twitter</strong>, engaging with
             <strong>Indie Hackers</strong>, and following the journey of <strong>early-stage startups</strong>.
             Feel free to follow me on <strong>Twitter</strong> or check out my projects on <strong>GitHub</strong>.
           </p>
-          <div class="about-actions">
-            <a class="about-button" href="#contact">Contact me</a>
+          <div class="mt-8">
+            <a
+              class="inline-flex items-center justify-center rounded-full px-[2.2rem] py-[0.85rem] border border-[var(--theme-line-strong)] text-[var(--theme-text-strong)] font-semibold tracking-[0.04em] transition-[transform,background-color,color,border-color] duration-200 hover:-translate-y-0.5 hover:bg-[var(--theme-cta-bg)] hover:border-[var(--theme-cta-bg)] hover:text-[var(--theme-cta-text)]"
+              href="#contact"
+            >
+              Contact me
+            </a>
           </div>
         </div>
       </div>
@@ -202,53 +213,4 @@ onUnmounted(() => {
 }
 
 
-.about-line {
-  display: inline-block;
-  width: 64px;
-  height: 4px;
-  border-radius: 999px;
-  background: var(--theme-line-strong);
-  box-shadow: 0 0 12px var(--theme-line-shadow);
-  margin-bottom: 1.2rem;
-}
-
-.about-title {
-  font-size: clamp(2rem, 3vw, 3.2rem);
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--theme-text-strong);
-}
-
-.about-text {
-  margin-top: 1.4rem;
-  font-size: 1rem;
-  line-height: 1.85;
-  color: var(--theme-text-muted);
-}
-
-.about-actions {
-  margin-top: 2rem;
-}
-
-.about-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  padding: 0.85rem 2.2rem;
-  border: 1px solid var(--theme-line-strong);
-  color: var(--theme-text-strong);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.about-button:hover {
-  transform: translateY(-2px);
-  background: var(--theme-cta-bg);
-  border-color: var(--theme-cta-bg);
-  color: var(--theme-cta-text);
-}
 </style>
