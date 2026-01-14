@@ -180,6 +180,14 @@ onUnmounted(() => {
     0 0 24px color-mix(in srgb, var(--theme-cta-bg) 35%, transparent) !important;
 }
 
+:global([data-theme="light"] .about-image-frame.is-visible) {
+  box-shadow: none !important;
+}
+
+:global([data-theme="light"] .about-image-glow) {
+  display: none;
+}
+
 .about-image-frame.is-visible .about-image,
 .about-image-frame.is-visible .about-image-glow {
   animation: about-image-fadein 0.1s 1.1s forwards;
