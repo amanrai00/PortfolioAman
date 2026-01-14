@@ -37,7 +37,10 @@
       </div>
 
       <div class="flex flex-[0.8] flex-col gap-6 text-[color:var(--theme-text-muted)] lg:flex-row lg:items-start lg:mt-5">
-        <div class="steel-line relative hidden h-[1.5px] w-20 opacity-75 bg-gradient-to-r from-transparent via-[color:var(--theme-line-strong)] to-transparent shadow-[0_0_4px_var(--theme-line-shadow)] lg:block lg:h-48 lg:w-0.5 lg:bg-gradient-to-b lg:from-[color:var(--theme-line-soft)] lg:via-[color:var(--theme-line-strong)] lg:to-[color:var(--theme-line-soft)] lg:rounded-full"></div>
+        <div
+          class="steel-line relative hidden h-[1.5px] w-20 opacity-75 bg-gradient-to-r from-transparent via-[color:var(--theme-line-strong)] to-transparent shadow-[0_0_4px_var(--theme-line-shadow)] lg:block lg:h-48 lg:w-0.5 lg:bg-gradient-to-b lg:from-[color:var(--theme-line-soft)] lg:via-[color:var(--theme-line-strong)] lg:to-[color:var(--theme-line-soft)] lg:rounded-full"
+          :class="{ 'steel-line-animate': heroVisible }"
+        ></div>
         <div class="w-full text-base text-[color:var(--theme-text-soft)] lg:text-lg lg:pl-20 lg:mt-[26px]">
           <div class="flex flex-col items-center justify-center gap-4 text-center lg:hidden">
             <p class="text-sm font-medium text-[color:var(--theme-text-muted)] leading-relaxed tracking-wide">Turning ideas into thoughtful web experiences</p>
@@ -146,10 +149,14 @@ const words = [
 ];
 const currentWord = ref(words[0]);
 const activeIndex = ref(0);
+const heroVisible = ref(false);
 const scrollSlide = ref(0);
 let wordIndex = 0;
 let timerId = null;
 let scrollHandler = null;
+let heroObserver = null;
+let heroAnimating = false;
+let heroTimerId = null;
 
 const updateActiveIndex = () => {
   const scrollY = window.scrollY || window.pageYOffset || 0;
@@ -193,11 +200,38 @@ onMounted(() => {
   scrollHandler = () => updateActiveIndex();
   updateActiveIndex();
   window.addEventListener("scroll", scrollHandler, { passive: true });
+
+  const heroSection = document.getElementById("home");
+  heroObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (heroAnimating) return;
+          heroAnimating = true;
+          heroVisible.value = false;
+          requestAnimationFrame(() => {
+            heroVisible.value = true;
+          });
+          if (heroTimerId) clearTimeout(heroTimerId);
+          heroTimerId = setTimeout(() => {
+            heroAnimating = false;
+          }, 1500);
+        } else {
+          heroVisible.value = false;
+        }
+      });
+    },
+    { threshold: 1 }
+  );
+
+  if (heroSection) heroObserver.observe(heroSection);
 });
 
 onBeforeUnmount(() => {
   if (timerId) clearInterval(timerId);
   if (scrollHandler) window.removeEventListener("scroll", scrollHandler);
+  if (heroObserver) heroObserver.disconnect();
+  if (heroTimerId) clearTimeout(heroTimerId);
 });
 </script>
 
@@ -230,6 +264,9 @@ onBeforeUnmount(() => {
 
 .steel-line {
   transform-origin: top center;
+}
+
+.steel-line-animate {
   animation: steel-line-reveal 1.2s ease-out 0.2s both;
 }
 

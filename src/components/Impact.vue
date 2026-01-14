@@ -3,9 +3,6 @@
     <div class="mx-auto w-full max-w-6xl">
       <div class="flex flex-col gap-10">
         <div class="w-full">
-          <p class="text-[11px] uppercase tracking-[0.4em] text-[color:var(--theme-text-soft)]">
-            Impact
-          </p>
           <div
             ref="quoteSection"
             class="impact-quote mt-6 flex items-start gap-6 transition-all duration-700"
