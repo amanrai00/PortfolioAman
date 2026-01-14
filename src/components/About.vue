@@ -4,7 +4,7 @@
       <div class="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-center">
         <div class="about-left">
           <div
-            class="relative w-[clamp(220px,28vw,320px)] h-[clamp(340px,42vw,480px)]"
+            class="relative w-[clamp(260px,32vw,360px)] h-[clamp(340px,42vw,480px)]"
             aria-hidden="true"
           >
             <div
@@ -19,16 +19,7 @@
                 class="w-full h-full object-cover block"
               />
               <div
-                class="absolute inset-0 z-[1] bg-[linear-gradient(to_bottom,color-mix(in_srgb,var(--theme-cta-bg)_35%,transparent)_0%,transparent_45%,transparent_65%,color-mix(in_srgb,var(--theme-cta-bg)_60%,transparent)_100%)]"
-              ></div>
-              <div
-                class="absolute inset-0 z-[2] opacity-[0.12] mix-blend-soft-light bg-[repeating-linear-gradient(45deg,rgba(255,255,255,0.08)_0_1px,transparent_1px_3px)]"
-              ></div>
-              <div
-                class="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[120%] h-[70%] z-[2] pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.12)_0%,transparent_70%)]"
-              ></div>
-              <div
-                class="absolute top-0 right-0 w-[40%] h-full z-[3] pointer-events-none bg-[linear-gradient(to_left,rgba(255,255,255,0.08)_0%,transparent_100%)]"
+                class="absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(0,0,0,0.28)_100%)]"
               ></div>
             </div>
           </div>
