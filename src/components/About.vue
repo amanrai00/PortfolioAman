@@ -3,12 +3,31 @@
     <div class="mx-auto w-full max-w-6xl">
       <div class="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-center">
         <div class="about-left">
-          <div class="card" aria-hidden="true">
-            <img
-              :src="profileImage"
-              alt="Profile portrait"
-              class="card-image"
-            />
+          <div
+            class="relative w-[clamp(220px,28vw,320px)] h-[clamp(300px,38vw,420px)]"
+            aria-hidden="true"
+          >
+            <div
+              class="absolute inset-0 rounded-[24px] z-[1] bg-[linear-gradient(135deg,rgba(60,60,60,0.8),rgba(30,30,30,0.9))] shadow-[-20px_20px_60px_rgba(0,0,0,0.8),inset_0_0_0_1px_rgba(255,255,255,0.05)]"
+            ></div>
+            <div
+              class="absolute top-[30px] left-[40px] w-full h-full rounded-[24px] overflow-hidden z-[2] shadow-[20px_30px_80px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.2)]"
+            >
+              <img
+                :src="profileImage"
+                alt="Profile portrait"
+                class="w-full h-full object-cover block"
+              />
+              <div
+                class="absolute inset-0 z-[1] bg-[linear-gradient(to_bottom,rgba(0,0,0,0.3)_0%,rgba(0,0,0,0)_40%,rgba(0,0,0,0)_60%,rgba(0,0,0,0.7)_100%)]"
+              ></div>
+              <div
+                class="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[120%] h-[70%] z-[2] pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.12)_0%,transparent_70%)]"
+              ></div>
+              <div
+                class="absolute top-0 right-0 w-[40%] h-full z-[3] pointer-events-none bg-[linear-gradient(to_left,rgba(255,255,255,0.08)_0%,transparent_100%)]"
+              ></div>
+            </div>
           </div>
         </div>
         <div
@@ -88,34 +107,6 @@ onUnmounted(() => {
   align-self: center;
 }
 
-.card {
-  width: clamp(220px, 28vw, 320px);
-  height: clamp(300px, 38vw, 420px);
-  border-radius: 1rem;
-  background-color: #4158d0;
-  background-image: linear-gradient(
-    43deg,
-    #4158d0 0%,
-    #1888b4 46%,
-    #0f31ca 100%
-  );
-  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
-    rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
-    rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
-    rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
-    rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.card-image {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-}
 
 .about-line {
   display: inline-block;
