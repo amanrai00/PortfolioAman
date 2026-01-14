@@ -181,7 +181,17 @@ onUnmounted(() => {
 }
 
 :global([data-theme="light"] .about-image-frame.is-visible) {
+  box-shadow: 0 3px 10px rgba(20, 18, 12, 0.06) !important;
+}
+
+:global([data-theme="light"] .about-bg) {
   box-shadow: none !important;
+  background: var(--theme-bg) !important;
+}
+
+:global([data-theme="light"] .about-bg.is-visible) {
+  box-shadow: none !important;
+  background: var(--theme-bg) !important;
 }
 
 :global([data-theme="light"] .about-image-glow) {
