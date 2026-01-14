@@ -4,14 +4,14 @@
       <div class="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-center">
         <div class="about-left">
           <div
-            class="relative w-[clamp(220px,28vw,320px)] h-[clamp(300px,38vw,420px)]"
+            class="relative w-[clamp(220px,28vw,320px)] h-[clamp(340px,42vw,480px)]"
             aria-hidden="true"
           >
             <div
               class="absolute inset-0 rounded-[24px] z-[1] bg-[linear-gradient(135deg,rgba(60,60,60,0.8),rgba(30,30,30,0.9))] shadow-[-20px_20px_60px_rgba(0,0,0,0.8),inset_0_0_0_1px_rgba(255,255,255,0.05)]"
             ></div>
             <div
-              class="absolute top-[30px] left-[40px] w-full h-full rounded-[24px] overflow-hidden z-[2] shadow-[20px_30px_80px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.2)]"
+              class="absolute top-[16px] left-[18px] w-full h-full rounded-[24px] overflow-hidden z-[2] shadow-[20px_30px_80px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.2)]"
             >
               <img
                 :src="profileImage"
