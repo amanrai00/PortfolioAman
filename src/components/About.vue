@@ -8,10 +8,10 @@
             aria-hidden="true"
           >
             <div
-              class="absolute inset-0 rounded-[24px] z-[1] bg-[linear-gradient(135deg,rgba(60,60,60,0.8),rgba(30,30,30,0.9))] shadow-[-20px_20px_60px_rgba(0,0,0,0.8),inset_0_0_0_1px_rgba(255,255,255,0.05)]"
+              class="absolute inset-0 rounded-[24px] z-[1] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--theme-bg)_78%,var(--theme-cta-bg)_22%),color-mix(in_srgb,var(--theme-bg)_48%,var(--theme-cta-bg)_52%))] shadow-[0_18px_50px_rgba(0,0,0,0.25),0_0_20px_color-mix(in_srgb,var(--theme-cta-bg)_30%,transparent)] opacity-[0.985] blur-[2px]"
             ></div>
             <div
-              class="absolute top-[16px] left-[18px] w-full h-full rounded-[24px] overflow-hidden z-[2] shadow-[20px_30px_80px_rgba(0,0,0,0.9),0_0_0_1px_rgba(255,255,255,0.2)]"
+              class="absolute top-[16px] left-[18px] w-full h-full rounded-[24px] overflow-hidden z-[2] shadow-[0_22px_60px_rgba(0,0,0,0.35),0_0_24px_color-mix(in_srgb,var(--theme-cta-bg)_35%,transparent)]"
             >
               <img
                 :src="profileImage"
@@ -19,7 +19,10 @@
                 class="w-full h-full object-cover block"
               />
               <div
-                class="absolute inset-0 z-[1] bg-[linear-gradient(to_bottom,rgba(0,0,0,0.3)_0%,rgba(0,0,0,0)_40%,rgba(0,0,0,0)_60%,rgba(0,0,0,0.7)_100%)]"
+                class="absolute inset-0 z-[1] bg-[linear-gradient(to_bottom,color-mix(in_srgb,var(--theme-cta-bg)_35%,transparent)_0%,transparent_45%,transparent_65%,color-mix(in_srgb,var(--theme-cta-bg)_60%,transparent)_100%)]"
+              ></div>
+              <div
+                class="absolute inset-0 z-[2] opacity-[0.12] mix-blend-soft-light bg-[repeating-linear-gradient(45deg,rgba(255,255,255,0.08)_0_1px,transparent_1px_3px)]"
               ></div>
               <div
                 class="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[120%] h-[70%] z-[2] pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.12)_0%,transparent_70%)]"
