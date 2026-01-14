@@ -8,7 +8,8 @@
             aria-hidden="true"
           >
             <div
-              class="absolute inset-0 rounded-[24px] z-[1] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--theme-bg)_78%,var(--theme-cta-bg)_22%),color-mix(in_srgb,var(--theme-bg)_48%,var(--theme-cta-bg)_52%))] shadow-[0_18px_50px_rgba(0,0,0,0.25),0_0_20px_color-mix(in_srgb,var(--theme-cta-bg)_30%,transparent)] opacity-[0.985] blur-[2px]"
+              class="about-bg absolute inset-0 rounded-[24px] z-[1] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--theme-bg)_78%,var(--theme-cta-bg)_22%),color-mix(in_srgb,var(--theme-bg)_48%,var(--theme-cta-bg)_52%))] shadow-[0_18px_50px_rgba(0,0,0,0.25),0_0_20px_color-mix(in_srgb,var(--theme-cta-bg)_30%,transparent)] opacity-[0.985] blur-[2px]"
+              :class="imageVisible ? 'is-visible' : ''"
             ></div>
             <div
               ref="imageFrame"
@@ -108,6 +109,16 @@ onUnmounted(() => {
 .about-image-frame {
   position: absolute;
   overflow: hidden;
+}
+
+.about-bg {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.about-bg.is-visible {
+  opacity: 0.985;
+  transition-delay: 1.35s;
 }
 
 .about-image {
