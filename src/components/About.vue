@@ -114,11 +114,14 @@ onUnmounted(() => {
 .about-bg {
   opacity: 0;
   transition: opacity 0.6s ease;
+  box-shadow: none !important;
 }
 
 .about-bg.is-visible {
   opacity: 0.985;
-  transition-delay: 1.35s;
+  transition: opacity 0.6s ease 1.35s, box-shadow 0s linear 1.35s;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25),
+    0 0 20px color-mix(in srgb, var(--theme-cta-bg) 30%, transparent) !important;
 }
 
 .about-image {
@@ -154,6 +157,16 @@ onUnmounted(() => {
 
 .about-image-frame.is-visible::after {
   animation: about-image-reveal-ltr 1s 0.6s ease forwards;
+}
+
+.about-image-frame {
+  box-shadow: none !important;
+}
+
+.about-image-frame.is-visible {
+  transition: box-shadow 0s linear 1.7s;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.35),
+    0 0 24px color-mix(in srgb, var(--theme-cta-bg) 35%, transparent) !important;
 }
 
 .about-image-frame.is-visible .about-image,
