@@ -185,11 +185,16 @@ onUnmounted(() => {
 }
 
 :global([data-theme="light"] .about-image-glow) {
-  display: none;
+  display: none !important;
+  opacity: 0 !important;
+  animation: none !important;
 }
 
-.about-image-frame.is-visible .about-image,
-.about-image-frame.is-visible .about-image-glow {
+.about-image-frame.is-visible .about-image {
+  animation: about-image-fadein 0.1s 1.1s forwards;
+}
+
+:global([data-theme="dark"] .about-image-frame.is-visible .about-image-glow) {
   animation: about-image-fadein 0.1s 1.1s forwards;
 }
 
