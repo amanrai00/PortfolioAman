@@ -27,16 +27,14 @@
             </div>
           </div>
         </div>
-        <div
-          ref="textSection"
-          class="transition-all duration-700 delay-200"
-          :class="textVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'"
-        >
+        <div>
           <span
             class="inline-block w-16 h-1 rounded-full bg-[var(--theme-line-strong)] shadow-[0_0_12px_var(--theme-line-shadow)] mb-5"
           ></span>
           <h2
-            class="text-[clamp(2rem,3vw,3.2rem)] font-extrabold tracking-[0.08em] uppercase text-[var(--theme-text-strong)]"
+            ref="aboutTitle"
+            class="about-title text-[clamp(2rem,3vw,3.2rem)] font-extrabold tracking-[0.08em] uppercase text-[var(--theme-text-strong)]"
+            :class="titleVisible ? 'is-visible' : ''"
           >
             About me
           </h2>
@@ -67,9 +65,9 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import profileImage from '@/assets/profile.jpg';
 
-const textSection = ref(null);
+const aboutTitle = ref(null);
 const imageFrame = ref(null);
-const textVisible = ref(false);
+const titleVisible = ref(false);
 const imageVisible = ref(false);
 const showEffects = ref(false);
 
@@ -83,8 +81,8 @@ onMounted(() => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
 
-        if (entry.target === textSection.value) {
-          textVisible.value = true;
+        if (entry.target === aboutTitle.value) {
+          titleVisible.value = true;
         }
 
         if (entry.target === imageFrame.value && !imageVisible.value && !imageRevealQueued) {
@@ -108,7 +106,7 @@ onMounted(() => {
     { threshold: 0.1 }
   );
 
-  if (textSection.value) observer.observe(textSection.value);
+  if (aboutTitle.value) observer.observe(aboutTitle.value);
   if (imageFrame.value) observer.observe(imageFrame.value);
 });
 
@@ -253,6 +251,60 @@ onUnmounted(() => {
 
 :global([data-theme="dark"] .about-image-frame.is-visible .about-image-glow) {
   opacity: 1;
+}
+
+.about-title {
+  opacity: 0;
+  transform: translateY(22px) scale(0.96) rotateX(12deg);
+  filter: blur(10px);
+  letter-spacing: 0.22em;
+  text-shadow: 0 0 30px color-mix(in srgb, var(--theme-cta-bg) 55%, transparent),
+    0 0 60px color-mix(in srgb, var(--theme-cta-bg) 25%, transparent);
+  transition: opacity 0.8s ease, transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    filter 1s ease, letter-spacing 1s ease, text-shadow 1.2s ease;
+  will-change: opacity, transform, filter, letter-spacing;
+  transform-origin: 50% 70%;
+}
+
+.about-title.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1) rotateX(0deg);
+  filter: blur(0);
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 12px color-mix(in srgb, var(--theme-cta-bg) 28%, transparent),
+    0 0 28px color-mix(in srgb, var(--theme-cta-bg) 16%, transparent);
+  animation: about-title-dream 1.6s ease-out 0.1s both;
+}
+
+@keyframes about-title-dream {
+  0% {
+    clip-path: inset(0 0 0 0);
+    text-shadow: 0 0 40px color-mix(in srgb, var(--theme-cta-bg) 60%, transparent);
+  }
+  45% {
+    clip-path: inset(0 0 0 0);
+    text-shadow: 0 0 18px color-mix(in srgb, var(--theme-cta-bg) 30%, transparent);
+  }
+  70% {
+    clip-path: inset(0 0 0 0);
+    text-shadow: 0 0 8px color-mix(in srgb, var(--theme-cta-bg) 20%, transparent);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    text-shadow: 0 0 12px color-mix(in srgb, var(--theme-cta-bg) 28%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-title {
+    transition: none;
+    filter: none;
+    transform: none;
+    letter-spacing: 0.08em;
+  }
+  .about-title.is-visible {
+    animation: none;
+  }
 }
 
 @keyframes about-image-reveal-ltr {
