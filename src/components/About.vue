@@ -39,10 +39,10 @@
           <h2 class="text-[clamp(2rem,3vw,3.2rem)] font-extrabold tracking-[0.08em] uppercase text-[var(--theme-text-strong)]">
             About me
           </h2>
-          <p class="mt-6 text-lg md:text-xl font-medium leading-[1.85] text-[var(--theme-text-muted)]">
+          <p class="mt-6 text-lg md:text-xl font-normal leading-[2.2] text-[var(--theme-text-muted)]">
             I’m Aman, a web developer focused on crafting clear, modern interfaces that balance design and functionality.
           </p>
-          <p class="mt-6 text-lg md:text-xl font-medium leading-[1.85] text-[var(--theme-text-muted)]">
+          <p class="mt-6 text-lg md:text-xl font-normal leading-[2.2] text-[var(--theme-text-muted)]">
             I work with Vue.js, Nuxt.js, JavaScript, and Tailwind CSS, placing strong emphasis on structure, clarity, and long-term maintainability. With a background in creative work, I approach development with both logic and visual intention, designing digital experiences that are built to grow and adapt.
           </p>
           <div class="mt-8">

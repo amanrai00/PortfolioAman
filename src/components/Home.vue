@@ -1,6 +1,9 @@
 8<template>
+  <!-- Hero Section -->
   <section id="home" class="min-h-screen px-5 lg:px-28 pt-6 pb-16 lg:pt-6 flex items-center relative">
-    <div class="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-30 flex-col items-start gap-3">
+
+    <!-- Navigation Dots (Desktop) -->
+    <nav class="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-30 flex-col items-start gap-3" aria-label="Section navigation">
       <button
         v-for="(sectionId, index) in sectionIds"
         :key="sectionId"
@@ -14,42 +17,69 @@
           :class="{ 'is-active': activeIndex === index }"
         ></span>
       </button>
-    </div>
+    </nav>
 
+    <!-- Scroll Indicator (Desktop) -->
     <div
       class="hidden lg:flex fixed left-8 bottom-12 z-30 flex-col items-center gap-3 text-[color:var(--theme-text-muted)] transition-transform duration-200 ease-out transition-opacity duration-200 ease-out cursor-default"
       :style="{
         transform: `translateY(${scrollSlide}px)`,
         opacity: Math.max(0, 1 - scrollSlide / 80)
       }"
+      aria-hidden="true"
     >
       <span class="scroll-text">SCROLL DOWN</span>
       <span class="scroll-line"></span>
     </div>
+
+    <!-- Main Content -->
     <div class="mx-auto flex w-full max-w-6xl flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
+
+      <!-- Rotating Headline -->
       <div class="flex-[1.2] min-w-0 flex flex-col lg:justify-center">
-    <h1 class="mx-auto w-full text-center text-6xl font-extrabold uppercase leading-[0.9] text-[color:var(--theme-text-strong)] sm:text-6xl lg:text-7xl lg:mt-0">
+        <h1 class="mx-auto w-full text-center text-6xl font-extrabold uppercase leading-[0.9] text-[color:var(--theme-text-strong)] sm:text-6xl lg:text-7xl lg:mt-0">
           <span class="block min-h-[2.85rem] overflow-hidden sm:min-h-[3.8rem] lg:min-h-[4.275rem]">
-            <span :key="currentWord" class="inline-block w-full text-center whitespace-nowrap word-rotator text-7xl bg-gradient-to-b from-[color:var(--theme-headline-from)] via-[color:var(--theme-headline-via)] to-[color:var(--theme-headline-to)] text-transparent bg-clip-text sm:text-7xl lg:text-[6.5rem] tracking-[0.18em]">{{ currentWord }}</span>
+            <span
+              :key="currentWord"
+              class="inline-block w-full text-center whitespace-nowrap word-rotator text-7xl bg-gradient-to-b from-[color:var(--theme-headline-from)] via-[color:var(--theme-headline-via)] to-[color:var(--theme-headline-to)] text-transparent bg-clip-text sm:text-7xl lg:text-[6.5rem] tracking-[0.18em]"
+            >
+              {{ currentWord }}
+            </span>
           </span>
         </h1>
-
       </div>
 
+      <!-- Description & CTA -->
       <div class="flex flex-[0.8] flex-col gap-6 text-[color:var(--theme-text-muted)] lg:flex-row lg:items-start lg:mt-5">
+
+        <!-- Decorative Line (Desktop) -->
         <div
           class="steel-line relative hidden h-[1.5px] w-20 opacity-75 bg-gradient-to-r from-transparent via-[color:var(--theme-line-strong)] to-transparent shadow-[0_0_4px_var(--theme-line-shadow)] lg:block lg:h-48 lg:w-0.5 lg:bg-gradient-to-b lg:from-[color:var(--theme-line-soft)] lg:via-[color:var(--theme-line-strong)] lg:to-[color:var(--theme-line-soft)] lg:rounded-full"
           :class="{ 'steel-line-animate': heroVisible }"
+          aria-hidden="true"
         ></div>
+
+        <!-- Text Content -->
         <div class="w-full text-base text-[color:var(--theme-text-soft)] lg:text-lg lg:pl-20 lg:mt-[26px]">
+
+          <!-- Mobile View -->
           <div class="flex flex-col items-center justify-center gap-4 text-center lg:hidden">
-            <p class="text-sm font-medium text-[color:var(--theme-text-muted)] leading-relaxed tracking-wide">Turning ideas into thoughtful web experiences</p>
+            <p class="text-sm font-medium text-[color:var(--theme-text-muted)] leading-relaxed tracking-wide">
+              Turning ideas into thoughtful web experiences
+            </p>
             <div class="mt-6 flex justify-center">
-              <button class="hero-explore-btn" type="button">
+              <button
+                class="hero-explore-btn"
+                type="button"
+                @click="scrollToSection('about')"
+                aria-label="Scroll to about section"
+              >
                 Let's connect
               </button>
             </div>
           </div>
+
+          <!-- Desktop View -->
           <div class="hidden space-y-2 lg:block lg:text-left">
             <p class="font-semibold text-[color:var(--theme-text-strong)]">Front-End Engineer</p>
             <p class="text-[color:var(--theme-text-muted)]">Crafting fast, accessible web interfaces</p>
@@ -59,10 +89,11 @@
       </div>
     </div>
 
-    <div class="hidden lg:flex fixed right-6 bottom-12 z-30 flex-col items-end gap-4 text-[color:var(--theme-text-strong)]">
+    <!-- Social Links (Desktop) -->
+    <aside class="hidden lg:flex fixed right-6 bottom-12 z-30 flex-col items-end gap-4 text-[color:var(--theme-text-strong)]" aria-label="Social links">
       <a
         class="social-item group"
-        href="mailto:hey@jolienhoop.com"
+        href="mailto:amanrai1630@gmail.com"
         aria-label="Email"
       >
         <span class="social-circle">
@@ -90,12 +121,16 @@
         </span>
         <span class="social-label">amanrai</span>
       </a>
-    </div>
+    </aside>
   </section>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
+
+// ============================================================
+// Configuration
+// ============================================================
 
 const sectionIds = ["home", "about", "projects", "contact"];
 const words = [
@@ -108,10 +143,16 @@ const words = [
   "Crafting",
   "Focused",
 ];
+
+// ============================================================
+// State Management
+// ============================================================
+
 const currentWord = ref(words[0]);
 const activeIndex = ref(0);
 const heroVisible = ref(false);
 const scrollSlide = ref(0);
+
 let wordIndex = 0;
 let timerId = null;
 let scrollHandler = null;
@@ -120,6 +161,13 @@ let heroAnimating = false;
 let heroTimerId = null;
 let hasAnimated = false;
 
+// ============================================================
+// Navigation & Scroll Logic
+// ============================================================
+
+/**
+ * Updates active navigation dot and scroll indicator position
+ */
 const updateActiveIndex = () => {
   const scrollY = window.scrollY || window.pageYOffset || 0;
   const midPoint = scrollY + window.innerHeight * 0.5;
@@ -136,10 +184,15 @@ const updateActiveIndex = () => {
   scrollSlide.value = Math.min(scrollY * 0.55, 220);
 };
 
+/**
+ * Smoothly scrolls to a specific section
+ * Special handling for 'about' section to account for padding
+ */
 const scrollToSection = (sectionId) => {
   const sectionEl = document.getElementById(sectionId);
   if (!sectionEl) return;
 
+  // Special handling for about section
   if (sectionId === "about") {
     const styles = window.getComputedStyle(sectionEl);
     const paddingTop = parseFloat(styles.paddingTop) || 0;
@@ -153,16 +206,23 @@ const scrollToSection = (sectionId) => {
   sectionEl.scrollIntoView({ behavior: "smooth" });
 };
 
+// ============================================================
+// Lifecycle Hooks
+// ============================================================
+
 onMounted(() => {
+  // Start word rotation animation
   timerId = setInterval(() => {
     wordIndex = (wordIndex + 1) % words.length;
     currentWord.value = words[wordIndex];
   }, 900);
 
+  // Setup scroll tracking
   scrollHandler = () => updateActiveIndex();
   updateActiveIndex();
   window.addEventListener("scroll", scrollHandler, { passive: true });
 
+  // Setup intersection observer for hero animation
   const heroSection = document.getElementById("home");
   heroObserver = new IntersectionObserver(
     (entries) => {
@@ -189,6 +249,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  // Cleanup all event listeners and timers
   if (timerId) clearInterval(timerId);
   if (scrollHandler) window.removeEventListener("scroll", scrollHandler);
   if (heroObserver) heroObserver.disconnect();
@@ -197,12 +258,18 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+/* ============================================================
+   Fonts
+   ============================================================ */
 @import url("https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700;800&display=swap");
 
 .word-rotator {
   font-family: "Oxanium", sans-serif;
 }
 
+/* ============================================================
+   Navigation Dots
+   ============================================================ */
 .nav-line {
   height: 2px;
   width: 28px;
@@ -223,6 +290,9 @@ onBeforeUnmount(() => {
   transform: scaleX(1.1);
 }
 
+/* ============================================================
+   Decorative Steel Line Animation
+   ============================================================ */
 .steel-line {
   transform-origin: top center;
 }
@@ -242,6 +312,9 @@ onBeforeUnmount(() => {
   }
 }
 
+/* ============================================================
+   Scroll Indicator
+   ============================================================ */
 .scroll-text {
   font-size: 11px;
   letter-spacing: 0.32em;
@@ -255,18 +328,9 @@ onBeforeUnmount(() => {
   background: linear-gradient(to bottom, var(--theme-line-strong), transparent);
 }
 
-.about-scroll-text {
-  font-size: 16px;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-}
-
-.about-scroll-line {
-  width: 2px;
-  height: 32px;
-  background: linear-gradient(to bottom, var(--theme-line-strong), transparent);
-}
-
+/* ============================================================
+   Social Links
+   ============================================================ */
 .social-item {
   position: relative;
   display: inline-flex;
@@ -316,6 +380,9 @@ onBeforeUnmount(() => {
   box-shadow: none;
 }
 
+/* ============================================================
+   Hero CTA Button - Base Styles
+   ============================================================ */
 .hero-explore-btn {
   display: inline-flex;
   align-items: center;
@@ -331,17 +398,14 @@ onBeforeUnmount(() => {
   border: 2px solid color-mix(in srgb, var(--theme-text-strong) 15%, transparent);
   border-radius: 999px;
   padding: 14px 24px 14px 26px;
-  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease,
-    box-shadow 0.2s ease;
-  box-shadow: -4px -2px 16px 0px rgba(255, 255, 255, 0.14),
-    4px 2px 16px 0px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: -4px -2px 16px 0px rgba(255, 255, 255, 0.14), 4px 2px 16px 0px rgba(0, 0, 0, 0.35);
 }
 
 .hero-explore-btn:hover {
   color: var(--theme-text-strong);
   background-color: color-mix(in srgb, var(--theme-bg) 78%, var(--theme-cta-bg) 22%);
-  box-shadow: -2px -1px 8px 0px rgba(255, 255, 255, 0.12),
-    2px 1px 8px 0px rgba(0, 0, 0, 0.35);
+  box-shadow: -2px -1px 8px 0px rgba(255, 255, 255, 0.12), 2px 1px 8px 0px rgba(0, 0, 0, 0.35);
   transform: translateY(-2px);
 }
 
@@ -350,35 +414,35 @@ onBeforeUnmount(() => {
   box-shadow: none;
 }
 
+/* ============================================================
+   Hero CTA Button - Dark Theme
+   ============================================================ */
 :global([data-theme="dark"] .hero-explore-btn) {
   color: #e6eef7;
   background-color: rgba(16, 24, 36, 0.9);
   border-color: rgba(255, 255, 255, 0.12);
-  box-shadow: -4px -2px 16px 0px rgba(255, 255, 255, 0.08),
-    4px 2px 16px 0px rgba(0, 0, 0, 0.6);
+  box-shadow: -4px -2px 16px 0px rgba(255, 255, 255, 0.08), 4px 2px 16px 0px rgba(0, 0, 0, 0.6);
 }
 
 :global([data-theme="dark"] .hero-explore-btn:hover) {
   color: #f3f7fb;
   background-color: rgba(24, 36, 52, 0.95);
-  box-shadow: -2px -1px 8px 0px rgba(255, 255, 255, 0.08),
-    2px 1px 8px 0px rgba(0, 0, 0, 0.6);
+  box-shadow: -2px -1px 8px 0px rgba(255, 255, 255, 0.08), 2px 1px 8px 0px rgba(0, 0, 0, 0.6);
 }
 
+/* ============================================================
+   Hero CTA Button - Light Theme
+   ============================================================ */
 :global([data-theme="light"] .hero-explore-btn) {
   color: #2c3e50;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 248, 255, 0.9));
   border-color: rgba(44, 62, 80, 0.25);
-  box-shadow: -2px -2px 12px 0px rgba(255, 255, 255, 0.8),
-    3px 3px 12px 0px rgba(26, 127, 142, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: -2px -2px 12px 0px rgba(255, 255, 255, 0.8), 3px 3px 12px 0px rgba(26, 127, 142, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 :global([data-theme="light"] .hero-explore-btn:hover) {
   color: #1a2633;
   background: linear-gradient(135deg, rgba(26, 127, 142, 0.08), rgba(240, 248, 255, 0.95));
-  box-shadow: -1px -1px 8px 0px rgba(255, 255, 255, 0.9),
-    2px 2px 10px 0px rgba(26, 127, 142, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  box-shadow: -1px -1px 8px 0px rgba(255, 255, 255, 0.9), 2px 2px 10px 0px rgba(26, 127, 142, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 </style>
