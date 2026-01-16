@@ -130,7 +130,7 @@ onUnmounted(() => {
 
 .about-bg.is-visible {
   opacity: 0.985;
-  transition: opacity 0.6s ease 1.35s, box-shadow 0s linear 1.35s;
+  transition: opacity 0.6s ease 1.8s, box-shadow 0s linear 1.8s;
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25),
     0 0 20px color-mix(in srgb, var(--theme-cta-bg) 30%, transparent) !important;
 }
@@ -141,6 +141,7 @@ onUnmounted(() => {
 
 .about-image-glow {
   opacity: 0;
+  transition: opacity 0.2s ease 1.1s;
 }
 
 .about-image-frame::before,
@@ -205,7 +206,7 @@ onUnmounted(() => {
 }
 
 :global([data-theme="dark"] .about-image-frame.is-visible .about-image-glow) {
-  animation: about-image-fadein 0.1s 1.1s forwards;
+  opacity: 1;
 }
 
 @keyframes about-image-reveal-ltr {
