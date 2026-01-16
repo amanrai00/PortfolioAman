@@ -8,13 +8,13 @@
             aria-hidden="true"
           >
             <div
-              class="about-bg absolute inset-0 rounded-[24px] z-[1] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--theme-bg)_78%,var(--theme-cta-bg)_22%),color-mix(in_srgb,var(--theme-bg)_48%,var(--theme-cta-bg)_52%))] shadow-[0_18px_50px_rgba(0,0,0,0.25),0_0_20px_color-mix(in_srgb,var(--theme-cta-bg)_30%,transparent)] opacity-[0.985] blur-[2px]"
+              class="about-bg absolute inset-0 rounded-[24px] z-[1] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--theme-bg)_78%,var(--theme-cta-bg)_22%),color-mix(in_srgb,var(--theme-bg)_48%,var(--theme-cta-bg)_52%))] shadow-[0_18px_50px_rgba(0,0,0,0.25),0_0_20px_color-mix(in_srgb,var(--theme-cta-bg)_30%,transparent)] blur-[2px]"
               :class="imageVisible ? 'is-visible' : ''"
             ></div>
             <div
               ref="imageFrame"
               class="about-image-frame absolute top-[16px] left-[18px] w-full h-full rounded-[24px] overflow-hidden z-[2] shadow-[0_22px_60px_rgba(0,0,0,0.35),0_0_24px_color-mix(in_srgb,var(--theme-cta-bg)_35%,transparent)]"
-              :class="imageVisible ? 'is-visible' : ''"
+              :class="[imageVisible ? 'is-visible' : '', showEffects ? 'show-effects' : '']"
             >
               <img
                 :src="profileImage"
@@ -78,8 +78,11 @@ const textSection = ref(null);
 const imageFrame = ref(null);
 const textVisible = ref(false);
 const imageVisible = ref(false);
+const showEffects = ref(false);
 
 let observer = null;
+let imageRevealQueued = false;
+let effectsTimerId = null;
 
 onMounted(() => {
   observer = new IntersectionObserver(
@@ -87,7 +90,24 @@ onMounted(() => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           if (entry.target === textSection.value) textVisible.value = true;
-          if (entry.target === imageFrame.value) imageVisible.value = true;
+          if (entry.target === imageFrame.value && !imageVisible.value && !imageRevealQueued) {
+            imageRevealQueued = true;
+            requestAnimationFrame(() => {
+              imageVisible.value = true;
+              if (effectsTimerId) clearTimeout(effectsTimerId);
+              effectsTimerId = setTimeout(() => {
+                showEffects.value = true;
+              }, 1800);
+              imageRevealQueued = false;
+            });
+          }
+        } else if (entry.target === imageFrame.value) {
+          imageVisible.value = false;
+          showEffects.value = false;
+          if (effectsTimerId) {
+            clearTimeout(effectsTimerId);
+            effectsTimerId = null;
+          }
         }
       });
     },
@@ -101,6 +121,10 @@ onMounted(() => {
 onUnmounted(() => {
   if (observer) {
     observer.disconnect();
+  }
+  if (effectsTimerId) {
+    clearTimeout(effectsTimerId);
+    effectsTimerId = null;
   }
 });
 </script>
@@ -175,14 +199,15 @@ onUnmounted(() => {
   box-shadow: none !important;
 }
 
-.about-image-frame.is-visible {
-  transition: box-shadow 0s linear 1.7s;
+.about-image-frame.show-effects {
+  transition: box-shadow 0s linear 0s;
   box-shadow: 0 22px 60px rgba(0, 0, 0, 0.35),
     0 0 24px color-mix(in srgb, var(--theme-cta-bg) 35%, transparent) !important;
 }
 
-:global([data-theme="light"] .about-image-frame.is-visible) {
+:global([data-theme="light"] .about-image-frame.show-effects) {
   box-shadow: 0 3px 10px rgba(20, 18, 12, 0.06) !important;
+  transition: box-shadow 0s linear 0s !important;
 }
 
 :global([data-theme="light"] .about-bg) {
@@ -190,6 +215,7 @@ onUnmounted(() => {
   background: var(--theme-bg) !important;
   background-image: none !important;
   filter: none !important;
+  opacity: 0 !important;
 }
 
 :global([data-theme="light"] .about-bg.is-visible) {
@@ -197,6 +223,7 @@ onUnmounted(() => {
   background: var(--theme-bg) !important;
   background-image: none !important;
   filter: none !important;
+  opacity: 0.985 !important;
 }
 
 :global([data-theme="light"] .about-image-glow) {
@@ -209,7 +236,7 @@ onUnmounted(() => {
   transition: opacity 0.6s ease 1.8s !important;
 }
 
-:global(:root.theme-switching[data-theme="light"] .about-image-frame.is-visible) {
+:global(:root.theme-switching[data-theme="light"] .about-image-frame.show-effects) {
   transition: none !important;
 }
 
