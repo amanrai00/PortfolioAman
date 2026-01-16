@@ -366,15 +366,19 @@ onBeforeUnmount(() => {
 }
 
 :global([data-theme="light"] .hero-explore-btn) {
-  color: #516d91;
-  background-color: #e0e8ef;
-  border-color: rgba(255, 255, 255, 0.35);
-  box-shadow: -4px -2px 16px 0px #ffffff, 4px 2px 16px 0px rgba(95, 157, 231, 0.45);
+  color: #2c3e50;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 248, 255, 0.9));
+  border-color: rgba(44, 62, 80, 0.25);
+  box-shadow: -2px -2px 12px 0px rgba(255, 255, 255, 0.8),
+    3px 3px 12px 0px rgba(26, 127, 142, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 :global([data-theme="light"] .hero-explore-btn:hover) {
-  color: #3c577a;
-  background-color: #e5edf5;
-  box-shadow: -2px -1px 8px 0px #ffffff, 2px 1px 8px 0px rgba(95, 157, 231, 0.45);
+  color: #1a2633;
+  background: linear-gradient(135deg, rgba(26, 127, 142, 0.08), rgba(240, 248, 255, 0.95));
+  box-shadow: -1px -1px 8px 0px rgba(255, 255, 255, 0.9),
+    2px 2px 10px 0px rgba(26, 127, 142, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 </style>
