@@ -45,47 +45,8 @@
           <div class="flex flex-col items-center justify-center gap-4 text-center lg:hidden">
             <p class="text-sm font-medium text-[color:var(--theme-text-muted)] leading-relaxed tracking-wide">Turning ideas into thoughtful web experiences</p>
             <div class="mt-6 flex justify-center">
-              <button
-                class="group relative inline-flex cursor-pointer items-center justify-center overflow-hidden rounded-md bg-[color:var(--theme-cta-bg)] px-8 py-2.5 text-[color:var(--theme-cta-text)] tracking-tighter transition-transform duration-300 ease-out hover:-translate-y-0.5"
-                type="button"
-              >
-                <span
-                  class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
-                >
-                  <span class="absolute -left-1/2 top-0 h-full w-1/2 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent blur-md transition-transform duration-500 ease-out group-hover:translate-x-[220%]"></span>
-                </span>
-                <span class="absolute bottom-0 left-0 -ml-2 h-full">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-full w-auto opacity-100 object-stretch"
-                    viewBox="0 0 487 487"
-                  >
-                    <path
-                      fill-opacity=".1"
-                      fill-rule="nonzero"
-                      fill="#FFF"
-                      d="M0 .3c67 2.1 134.1 4.3 186.3 37 52.2 32.7 89.6 95.8 112.8 150.6 23.2 54.8 32.3 101.4 61.2 149.9 28.9 48.4 77.7 98.8 126.4 149.2H0V.3z"
-                    ></path>
-                  </svg>
-                </span>
-                <span class="absolute right-0 top-0 -mr-3 h-full w-12">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-full w-full object-cover"
-                    viewBox="0 0 487 487"
-                  >
-                    <path
-                      fill-opacity=".1"
-                      fill-rule="nonzero"
-                      fill="#FFF"
-                      d="M487 486.7c-66.1-3.6-132.3-7.3-186.3-37s-95.9-85.3-126.2-137.2c-30.4-51.8-49.3-99.9-76.5-151.4C70.9 109.6 35.6 54.8.3 0H487v486.7z"
-                    ></path>
-                  </svg>
-                </span>
-                <span
-                  class="absolute inset-0 -mt-1 h-full w-full rounded-lg bg-gradient-to-b from-transparent via-transparent to-gray-200 opacity-20"
-                ></span>
-                <span class="relative text-base font-semibold">Let's Connect</span>
+              <button class="hero-explore-btn" type="button">
+                Let's connect
               </button>
             </div>
           </div>
@@ -353,5 +314,67 @@ onBeforeUnmount(() => {
   transform: translateX(-2px);
   background: linear-gradient(135deg, rgba(24, 150, 158, 0.95), rgba(26, 163, 173, 0.85));
   box-shadow: none;
+}
+
+.hero-explore-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.38em;
+  color: var(--theme-text-strong);
+  background-color: color-mix(in srgb, var(--theme-bg) 85%, var(--theme-cta-bg) 15%);
+  border: 2px solid color-mix(in srgb, var(--theme-text-strong) 15%, transparent);
+  border-radius: 999px;
+  padding: 14px 24px 14px 26px;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease,
+    box-shadow 0.2s ease;
+  box-shadow: -4px -2px 16px 0px rgba(255, 255, 255, 0.14),
+    4px 2px 16px 0px rgba(0, 0, 0, 0.35);
+}
+
+.hero-explore-btn:hover {
+  color: var(--theme-text-strong);
+  background-color: color-mix(in srgb, var(--theme-bg) 78%, var(--theme-cta-bg) 22%);
+  box-shadow: -2px -1px 8px 0px rgba(255, 255, 255, 0.12),
+    2px 1px 8px 0px rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px);
+}
+
+.hero-explore-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+:global([data-theme="dark"] .hero-explore-btn) {
+  color: #e6eef7;
+  background-color: rgba(16, 24, 36, 0.9);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: -4px -2px 16px 0px rgba(255, 255, 255, 0.08),
+    4px 2px 16px 0px rgba(0, 0, 0, 0.6);
+}
+
+:global([data-theme="dark"] .hero-explore-btn:hover) {
+  color: #f3f7fb;
+  background-color: rgba(24, 36, 52, 0.95);
+  box-shadow: -2px -1px 8px 0px rgba(255, 255, 255, 0.08),
+    2px 1px 8px 0px rgba(0, 0, 0, 0.6);
+}
+
+:global([data-theme="light"] .hero-explore-btn) {
+  color: #516d91;
+  background-color: #e0e8ef;
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: -4px -2px 16px 0px #ffffff, 4px 2px 16px 0px rgba(95, 157, 231, 0.45);
+}
+
+:global([data-theme="light"] .hero-explore-btn:hover) {
+  color: #3c577a;
+  background-color: #e5edf5;
+  box-shadow: -2px -1px 8px 0px #ffffff, 2px 1px 8px 0px rgba(95, 157, 231, 0.45);
 }
 </style>

@@ -39,14 +39,11 @@
           <h2 class="text-[clamp(2rem,3vw,3.2rem)] font-extrabold tracking-[0.08em] uppercase text-[var(--theme-text-strong)]">
             About me
           </h2>
-          <p class="mt-6 text-base leading-[1.85] text-[var(--theme-text-muted)]">
+          <p class="mt-6 text-lg md:text-xl font-medium leading-[1.85] text-[var(--theme-text-muted)]">
             I’m Aman, a web developer focused on crafting clear, modern interfaces that balance design and functionality.
           </p>
-          <p class="mt-6 text-base leading-[1.85] text-[var(--theme-text-muted)]">
-            I build web experiences using <strong>Vue.js, Nuxt.js, JavaScript, and Tailwind CSS</strong>, with a strong emphasis on structure, usability, and long-term maintainability. <strong>I don’t just build interfaces. I design systems that are meant to scale, adapt, and last</strong>.
-          </p>
-          <p class="mt-6 text-base leading-[1.85] text-[var(--theme-text-muted)]">
-            With a background in creative work, I approach development with both logical structure and visual intention, aiming to create digital experiences that feel thoughtful and reliable.
+          <p class="mt-6 text-lg md:text-xl font-medium leading-[1.85] text-[var(--theme-text-muted)]">
+            I work with Vue.js, Nuxt.js, JavaScript, and Tailwind CSS, placing strong emphasis on structure, clarity, and long-term maintainability. With a background in creative work, I approach development with both logic and visual intention, designing digital experiences that are built to grow and adapt.
           </p>
           <div class="mt-8">
             <a
@@ -258,6 +255,12 @@ onUnmounted(() => {
   transition: opacity 0.6s ease 1.8s, box-shadow 0s linear 1.8s;
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25),
     0 0 20px color-mix(in srgb, var(--theme-cta-bg) 30%, transparent) !important;
+}
+
+:global([data-theme="dark"] .about-bg.is-visible) {
+  filter: brightness(1.08) saturate(1.08);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
+    0 0 34px color-mix(in srgb, var(--theme-cta-bg) 45%, transparent) !important;
 }
 
 .about-image {
