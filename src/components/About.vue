@@ -188,16 +188,33 @@ onUnmounted(() => {
 :global([data-theme="light"] .about-bg) {
   box-shadow: none !important;
   background: var(--theme-bg) !important;
+  background-image: none !important;
+  filter: none !important;
 }
 
 :global([data-theme="light"] .about-bg.is-visible) {
   box-shadow: none !important;
   background: var(--theme-bg) !important;
+  background-image: none !important;
+  filter: none !important;
 }
 
 :global([data-theme="light"] .about-image-glow) {
   display: none !important;
   opacity: 0 !important;
+  animation: none !important;
+}
+
+:global(:root.theme-switching[data-theme="light"] .about-bg.is-visible) {
+  transition: opacity 0.6s ease 1.8s !important;
+}
+
+:global(:root.theme-switching[data-theme="light"] .about-image-frame.is-visible) {
+  transition: none !important;
+}
+
+:global(:root.theme-switching[data-theme="light"] .about-image-glow) {
+  transition: none !important;
   animation: none !important;
 }
 
