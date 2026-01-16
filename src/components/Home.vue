@@ -157,6 +157,7 @@ let scrollHandler = null;
 let heroObserver = null;
 let heroAnimating = false;
 let heroTimerId = null;
+let hasAnimated = false;
 
 const updateActiveIndex = () => {
   const scrollY = window.scrollY || window.pageYOffset || 0;
@@ -205,9 +206,10 @@ onMounted(() => {
   heroObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !hasAnimated) {
           if (heroAnimating) return;
           heroAnimating = true;
+          hasAnimated = true;
           heroVisible.value = false;
           requestAnimationFrame(() => {
             heroVisible.value = true;
@@ -216,8 +218,6 @@ onMounted(() => {
           heroTimerId = setTimeout(() => {
             heroAnimating = false;
           }, 1500);
-        } else {
-          heroVisible.value = false;
         }
       });
     },

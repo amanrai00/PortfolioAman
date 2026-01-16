@@ -41,20 +41,13 @@
             About me
           </h2>
           <p class="mt-6 text-base leading-[1.85] text-[var(--theme-text-muted)]">
-            I'm a passionate full-stack developer specializing in <strong>React.js & Node.js</strong>.
-            I thrive on blending technical expertise with sleek UI/UX design to build high-performing,
-            user-friendly applications.
+            I’m Aman, a web developer focused on crafting clear, modern interfaces that balance design and functionality.
           </p>
           <p class="mt-6 text-base leading-[1.85] text-[var(--theme-text-muted)]">
-            My web development journey started in <strong>2015</strong>, and since then, I've
-            continuously evolved, taking on new challenges and keeping up with the latest technologies.
-            Today, I build <strong>cutting-edge web applications</strong> using
-            <strong>Next.js, TypeScript, NestJS, TailwindCSS, Supabase, and more</strong>.
+            I build web experiences using <strong>Vue.js, Nuxt.js, JavaScript, and Tailwind CSS</strong>, with a strong emphasis on structure, usability, and long-term maintainability. <strong>I don’t just build interfaces. I design systems that are meant to scale, adapt, and last</strong>.
           </p>
           <p class="mt-6 text-base leading-[1.85] text-[var(--theme-text-muted)]">
-            Beyond coding, I enjoy sharing insights on <strong>Twitter</strong>, engaging with
-            <strong>Indie Hackers</strong>, and following the journey of <strong>early-stage startups</strong>.
-            Feel free to follow me on <strong>Twitter</strong> or check out my projects on <strong>GitHub</strong>.
+            With a background in creative work, I approach development with both logical structure and visual intention, aiming to create digital experiences that feel thoughtful and reliable.
           </p>
           <div class="mt-8">
             <a
@@ -231,6 +224,14 @@ onUnmounted(() => {
   display: none !important;
   opacity: 0 !important;
   animation: none !important;
+}
+
+:global([data-theme="light"] .about-image-frame::before) {
+  background: #dcc3ae;
+}
+
+:global([data-theme="light"] .about-image-frame::after) {
+  background: #c9ad94;
 }
 
 :global(:root.theme-switching[data-theme="light"] .about-bg.is-visible) {
