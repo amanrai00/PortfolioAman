@@ -39,20 +39,12 @@
           <h2 class="text-[clamp(2rem,3vw,3.2rem)] font-extrabold tracking-[0.08em] uppercase text-[var(--theme-text-strong)]">
             About me
           </h2>
-          <p class="mt-6 text-lg md:text-xl font-normal leading-[2.2] text-[var(--theme-text-muted)]">
-            I’m Aman, a web developer focused on crafting clear, modern interfaces that balance design and functionality.
+          <p class="mt-6 text-lg md:text-xl font-medium leading-[2.2] text-[var(--theme-text-muted)]">
+            I'm Aman, a web developer focused on crafting clear, modern interfaces that balance design and functionality.
           </p>
-          <p class="mt-6 text-lg md:text-xl font-normal leading-[2.2] text-[var(--theme-text-muted)]">
-            I work with Vue.js, Nuxt.js, JavaScript, and Tailwind CSS, placing strong emphasis on structure, clarity, and long-term maintainability. With a background in creative work, I approach development with both logic and visual intention, designing digital experiences that are built to grow and adapt.
+          <p class="mt-6 text-lg md:text-xl font-medium leading-[2.2] text-[var(--theme-text-muted)]">
+            With a background in creative work, I approach development with both logic and visual intention, designing digital experiences that are built to grow and adapt.
           </p>
-          <div class="mt-8">
-            <a
-              class="inline-flex items-center justify-center rounded-full px-[2.2rem] py-[0.85rem] border border-[var(--theme-line-strong)] text-[var(--theme-text-strong)] font-semibold tracking-[0.04em] transition-[transform,background-color,color,border-color] duration-200 hover:-translate-y-0.5 hover:bg-[var(--theme-cta-bg)] hover:border-[var(--theme-cta-bg)] hover:text-[var(--theme-cta-text)]"
-              href="#contact"
-            >
-              Contact me
-            </a>
-          </div>
         </div>
       </div>
     </div>
