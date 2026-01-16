@@ -124,9 +124,9 @@ onMounted(() => {
               {
                 opacity: 0,
                 scale: 0.2,
-                duration: 0.6,
+                duration: 0.9,
                 ease: 'power3.out',
-                stagger: { amount: 0.8, from: 'random' }
+                stagger: { amount: 1.2, from: 'random' }
               },
               0
             );
@@ -138,11 +138,11 @@ onMounted(() => {
                 opacity: 1,
                 y: 0,
                 filter: 'blur(0px)',
-                duration: 0.6,
+                duration: 0.8,
                 ease: 'power3.out',
-                stagger: 0.05
+                stagger: 0.08
               },
-              0.1
+              0.2
             );
           }
           if (textRevealObserver) {
@@ -228,9 +228,9 @@ onUnmounted(() => {
   position: absolute;
   inset: -10px;
   display: grid;
-  grid-template-columns: repeat(20, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   grid-auto-rows: 1fr;
-  gap: 6px;
+  gap: 10px;
   z-index: 2;
   pointer-events: none;
 }
