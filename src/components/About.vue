@@ -88,26 +88,27 @@ onMounted(() => {
   observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          if (entry.target === textSection.value) textVisible.value = true;
-          if (entry.target === imageFrame.value && !imageVisible.value && !imageRevealQueued) {
-            imageRevealQueued = true;
-            requestAnimationFrame(() => {
-              imageVisible.value = true;
-              if (effectsTimerId) clearTimeout(effectsTimerId);
-              effectsTimerId = setTimeout(() => {
-                showEffects.value = true;
-              }, 1800);
-              imageRevealQueued = false;
-            });
-          }
-        } else if (entry.target === imageFrame.value) {
-          imageVisible.value = false;
-          showEffects.value = false;
-          if (effectsTimerId) {
-            clearTimeout(effectsTimerId);
-            effectsTimerId = null;
-          }
+        if (!entry.isIntersecting) return;
+
+        if (entry.target === textSection.value) {
+          textVisible.value = true;
+        }
+
+        if (entry.target === imageFrame.value && !imageVisible.value && !imageRevealQueued) {
+          imageRevealQueued = true;
+          requestAnimationFrame(() => {
+            imageVisible.value = true;
+            if (effectsTimerId) clearTimeout(effectsTimerId);
+            effectsTimerId = setTimeout(() => {
+              showEffects.value = true;
+            }, 1800);
+            imageRevealQueued = false;
+
+            if (observer) {
+              observer.disconnect();
+              observer = null;
+            }
+          });
         }
       });
     },
