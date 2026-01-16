@@ -1,5 +1,9 @@
 <template>
-  <section id="about" class="relative px-5 lg:px-28 pt-24 pb-16 lg:pt-32 lg:pb-24">
+  <section
+    id="about"
+    ref="aboutSection"
+    class="relative px-5 lg:px-28 pt-24 pb-16 lg:pt-32 lg:pb-24"
+  >
     <div class="mx-auto w-full max-w-6xl">
       <div class="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-center">
         <div class="about-left">
@@ -27,15 +31,12 @@
             </div>
           </div>
         </div>
-        <div>
+        <div ref="aboutText" class="about-text-wrap">
+          <div ref="revealGrid" class="about-reveal-grid" aria-hidden="true"></div>
           <span
             class="inline-block w-16 h-1 rounded-full bg-[var(--theme-line-strong)] shadow-[0_0_12px_var(--theme-line-shadow)] mb-5"
           ></span>
-          <h2
-            ref="aboutTitle"
-            class="about-title text-[clamp(2rem,3vw,3.2rem)] font-extrabold tracking-[0.08em] uppercase text-[var(--theme-text-strong)]"
-            :class="titleVisible ? 'is-visible' : ''"
-          >
+          <h2 class="text-[clamp(2rem,3vw,3.2rem)] font-extrabold tracking-[0.08em] uppercase text-[var(--theme-text-strong)]">
             About me
           </h2>
           <p class="mt-6 text-base leading-[1.85] text-[var(--theme-text-muted)]">
@@ -63,27 +64,102 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import gsap from 'gsap';
 import profileImage from '@/assets/profile.jpg';
 
-const aboutTitle = ref(null);
+const aboutSection = ref(null);
+const aboutText = ref(null);
+const revealGrid = ref(null);
 const imageFrame = ref(null);
-const titleVisible = ref(false);
 const imageVisible = ref(false);
 const showEffects = ref(false);
 
 let observer = null;
+let textRevealObserver = null;
+let revealTimeline = null;
 let imageRevealQueued = false;
 let effectsTimerId = null;
+let textRevealStarted = false;
+
+const getRevealTargets = () => {
+  if (!aboutText.value) return [];
+  return Array.from(aboutText.value.querySelectorAll(':scope > :not(.about-reveal-grid)'));
+};
 
 onMounted(() => {
+  if (revealGrid.value) {
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < 200; i += 1) {
+      const box = document.createElement('div');
+      box.className = 'about-reveal-box';
+      fragment.appendChild(box);
+    }
+    revealGrid.value.appendChild(fragment);
+  }
+
+  const revealTargets = getRevealTargets();
+  if (revealTargets.length) {
+    gsap.set(revealTargets, { opacity: 0, y: 14, filter: 'blur(6px)' });
+  }
+
+  if (aboutSection.value) {
+    textRevealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting || textRevealStarted) return;
+          textRevealStarted = true;
+          const boxes = revealGrid.value
+            ? revealGrid.value.querySelectorAll('.about-reveal-box')
+            : [];
+          revealTimeline = gsap.timeline({
+            onComplete: () => {
+              if (revealGrid.value) {
+                gsap.set(revealGrid.value, { opacity: 0, display: 'none' });
+              }
+            }
+          });
+          if (boxes.length) {
+            revealTimeline.to(
+              boxes,
+              {
+                opacity: 0,
+                scale: 0.2,
+                duration: 0.6,
+                ease: 'power3.out',
+                stagger: { amount: 0.8, from: 'random' }
+              },
+              0
+            );
+          }
+          if (revealTargets.length) {
+            revealTimeline.to(
+              revealTargets,
+              {
+                opacity: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 0.6,
+                ease: 'power3.out',
+                stagger: 0.05
+              },
+              0.1
+            );
+          }
+          if (textRevealObserver) {
+            textRevealObserver.disconnect();
+            textRevealObserver = null;
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    textRevealObserver.observe(aboutSection.value);
+  }
+
   observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-
-        if (entry.target === aboutTitle.value) {
-          titleVisible.value = true;
-        }
 
         if (entry.target === imageFrame.value && !imageVisible.value && !imageRevealQueued) {
           imageRevealQueued = true;
@@ -106,13 +182,18 @@ onMounted(() => {
     { threshold: 0.1 }
   );
 
-  if (aboutTitle.value) observer.observe(aboutTitle.value);
   if (imageFrame.value) observer.observe(imageFrame.value);
 });
 
 onUnmounted(() => {
   if (observer) {
     observer.disconnect();
+  }
+  if (textRevealObserver) {
+    textRevealObserver.disconnect();
+  }
+  if (revealTimeline) {
+    revealTimeline.kill();
   }
   if (effectsTimerId) {
     clearTimeout(effectsTimerId);
@@ -131,6 +212,34 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   align-self: center;
+}
+
+.about-text-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.about-text-wrap > *:not(.about-reveal-grid) {
+  position: relative;
+  z-index: 1;
+}
+
+.about-reveal-grid {
+  position: absolute;
+  inset: -10px;
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 6px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.about-reveal-box {
+  background: color-mix(in srgb, var(--theme-text-strong) 72%, var(--theme-bg) 28%);
+  clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+  transform: scale(1);
+  opacity: 1;
 }
 
 .about-image-frame {
@@ -253,59 +362,6 @@ onUnmounted(() => {
   opacity: 1;
 }
 
-.about-title {
-  opacity: 0;
-  transform: translateY(22px) scale(0.96) rotateX(12deg);
-  filter: blur(10px);
-  letter-spacing: 0.22em;
-  text-shadow: 0 0 30px color-mix(in srgb, var(--theme-cta-bg) 55%, transparent),
-    0 0 60px color-mix(in srgb, var(--theme-cta-bg) 25%, transparent);
-  transition: opacity 0.8s ease, transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1),
-    filter 1s ease, letter-spacing 1s ease, text-shadow 1.2s ease;
-  will-change: opacity, transform, filter, letter-spacing;
-  transform-origin: 50% 70%;
-}
-
-.about-title.is-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1) rotateX(0deg);
-  filter: blur(0);
-  letter-spacing: 0.08em;
-  text-shadow: 0 0 12px color-mix(in srgb, var(--theme-cta-bg) 28%, transparent),
-    0 0 28px color-mix(in srgb, var(--theme-cta-bg) 16%, transparent);
-  animation: about-title-dream 1.6s ease-out 0.1s both;
-}
-
-@keyframes about-title-dream {
-  0% {
-    clip-path: inset(0 0 0 0);
-    text-shadow: 0 0 40px color-mix(in srgb, var(--theme-cta-bg) 60%, transparent);
-  }
-  45% {
-    clip-path: inset(0 0 0 0);
-    text-shadow: 0 0 18px color-mix(in srgb, var(--theme-cta-bg) 30%, transparent);
-  }
-  70% {
-    clip-path: inset(0 0 0 0);
-    text-shadow: 0 0 8px color-mix(in srgb, var(--theme-cta-bg) 20%, transparent);
-  }
-  100% {
-    clip-path: inset(0 0 0 0);
-    text-shadow: 0 0 12px color-mix(in srgb, var(--theme-cta-bg) 28%, transparent);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .about-title {
-    transition: none;
-    filter: none;
-    transform: none;
-    letter-spacing: 0.08em;
-  }
-  .about-title.is-visible {
-    animation: none;
-  }
-}
 
 @keyframes about-image-reveal-ltr {
   0% {
