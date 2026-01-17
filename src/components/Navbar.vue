@@ -305,12 +305,7 @@ const scrollToSection = (id) => {
   if (!section) return;
 
   if (id === "about") {
-    const styles = window.getComputedStyle(section);
-    const paddingTop = parseFloat(styles.paddingTop) || 0;
-    window.scrollTo({
-      top: section.offsetTop + paddingTop,
-      behavior: "smooth",
-    });
+    section.scrollIntoView({ behavior: "smooth", block: "center" });
     if (isOpen.value) {
       isOpen.value = false;
       playIcon(false);

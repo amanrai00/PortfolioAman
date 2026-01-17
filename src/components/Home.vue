@@ -132,7 +132,7 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 // Configuration
 // ============================================================
 
-const sectionIds = ["home", "about", "projects", "contact"];
+const sectionIds = ["home", "about", "skills", "projects", "contact"];
 const words = [
   "Engineer",
   "Designer",
@@ -186,7 +186,7 @@ const updateActiveIndex = () => {
 
 /**
  * Smoothly scrolls to a specific section
- * Special handling for 'about' section to account for padding
+ * Special handling for 'about' section to center in view
  */
 const scrollToSection = (sectionId) => {
   const sectionEl = document.getElementById(sectionId);
@@ -194,12 +194,7 @@ const scrollToSection = (sectionId) => {
 
   // Special handling for about section
   if (sectionId === "about") {
-    const styles = window.getComputedStyle(sectionEl);
-    const paddingTop = parseFloat(styles.paddingTop) || 0;
-    window.scrollTo({
-      top: sectionEl.offsetTop + paddingTop,
-      behavior: "smooth",
-    });
+    sectionEl.scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
 
