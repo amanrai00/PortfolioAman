@@ -12,15 +12,47 @@
         <h2 ref="skillsTitle" class="skills-title">Skills</h2>
       </div>
 
-      <!-- Decorative Dots -->
-      <div class="flex items-center justify-center gap-3 mb-6">
-        <span class="w-8 h-1 rounded-full bg-[var(--theme-line-strong)] opacity-60"></span>
-        <span class="w-2 h-2 rounded-full bg-[var(--theme-cta-bg)]"></span>
-        <span class="w-8 h-1 rounded-full bg-[var(--theme-line-strong)] opacity-60"></span>
+      <!-- Decorative Arrow Divider -->
+      <div ref="skillsDivider" class="flex items-center justify-center mb-6">
+        <svg
+          class="skills-divider-svg"
+          viewBox="0 0 400 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <!-- Left Arrow -->
+          <path d="M8 12L2 8V16L8 12Z" class="divider-fill" />
+          <path d="M8 12L20 8V16L8 12Z" class="divider-fill" />
+
+          <!-- Left Line -->
+          <line x1="20" y1="12" x2="170" y2="12" class="divider-stroke" stroke-width="1" />
+
+          <!-- Left Diagonal -->
+          <line x1="170" y1="12" x2="185" y2="4" class="divider-stroke" stroke-width="1" />
+          <line x1="170" y1="12" x2="185" y2="20" class="divider-stroke" stroke-width="1" />
+
+          <!-- Center X -->
+          <line x1="185" y1="4" x2="215" y2="20" class="divider-stroke" stroke-width="1" />
+          <line x1="185" y1="20" x2="215" y2="4" class="divider-stroke" stroke-width="1" />
+
+          <!-- Right Diagonal -->
+          <line x1="215" y1="4" x2="230" y2="12" class="divider-stroke" stroke-width="1" />
+          <line x1="215" y1="20" x2="230" y2="12" class="divider-stroke" stroke-width="1" />
+
+          <!-- Right Line -->
+          <line x1="230" y1="12" x2="380" y2="12" class="divider-stroke" stroke-width="1" />
+
+          <!-- Right Arrow -->
+          <path d="M392 12L398 8V16L392 12Z" class="divider-fill" />
+          <path d="M392 12L380 8V16L392 12Z" class="divider-fill" />
+        </svg>
       </div>
 
       <!-- Tagline -->
-      <p class="text-sm md:text-base tracking-[0.25em] uppercase text-[var(--theme-text-muted)] mb-16">
+      <p
+        ref="skillsTagline"
+        class="text-sm md:text-base tracking-[0.25em] uppercase text-[var(--theme-text-muted)] mb-16"
+      >
         I constantly try to improve
       </p>
 
@@ -79,6 +111,8 @@ const skills = [
 const skillsSection = ref(null);
 const skillsTitle = ref(null);
 const skillsBg = ref(null);
+const skillsDivider = ref(null);
+const skillsTagline = ref(null);
 
 let skillsTimeline = null;
 
@@ -93,6 +127,12 @@ onMounted(() => {
     filter: 'blur(6px)'
   });
 
+  gsap.set([skillsDivider.value, skillsTagline.value], {
+    opacity: 0,
+    y: 18,
+    filter: 'blur(4px)'
+  });
+
   skillsTimeline = gsap.timeline({
     scrollTrigger: {
       trigger: skillsSection.value,
@@ -105,7 +145,7 @@ onMounted(() => {
     .to(skillsBg.value, {
       opacity: 0.08,
       y: 0,
-      filter: 'blur(0px)',
+      filter: 'blur(10px)',
       duration: 1.1,
       ease: 'power3.out'
     })
@@ -115,7 +155,21 @@ onMounted(() => {
       filter: 'blur(0px)',
       duration: 0.9,
       ease: 'power3.out'
-    }, 0.15);
+    }, 0.15)
+    .to(skillsDivider.value, {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      duration: 0.7,
+      ease: 'power3.out'
+    }, 0.35)
+    .to(skillsTagline.value, {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      duration: 0.7,
+      ease: 'power3.out'
+    }, 0.45);
 });
 
 onUnmounted(() => {
@@ -141,10 +195,11 @@ onUnmounted(() => {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--theme-text-strong);
-  opacity: 0.03;
+  opacity: 0.02;
   pointer-events: none;
   white-space: nowrap;
   user-select: none;
+  filter: blur(10px);
 }
 
 /* ============================================================
@@ -157,6 +212,24 @@ onUnmounted(() => {
   color: var(--theme-text-strong);
   z-index: 1;
 }
+
+/* ============================================================
+   Arrow Divider
+   ============================================================ */
+.skills-divider-svg {
+  width: clamp(280px, 50vw, 400px);
+  height: 24px;
+}
+
+.divider-stroke {
+  stroke: var(--theme-line-strong);
+}
+
+.divider-fill {
+  fill: var(--theme-line-strong);
+}
+
+/* Theme-specific overrides removed to match shared line color */
 
 /* ============================================================
    Skill Tag (Pill Style)
