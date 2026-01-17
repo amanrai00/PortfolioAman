@@ -112,15 +112,14 @@ const skills = [
   gap: 0.5rem;
   padding: 0.625rem 1rem;
   border-radius: 9999px;
-  background: color-mix(in srgb, var(--theme-bg) 80%, var(--theme-text-strong) 20%);
-  border: 1px solid color-mix(in srgb, var(--theme-text-strong) 15%, transparent);
+  background: var(--theme-pill-bg);
+  border: 1px solid var(--theme-pill-border);
   transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   cursor: default;
 }
 
 .skill-tag:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .skill-tag-name {
@@ -133,42 +132,42 @@ const skills = [
 /* ============================================================
    Dark Theme Adjustments
    ============================================================ */
-:global([data-theme="dark"] .skill-tag) {
+:deep([data-theme="dark"]) .skill-tag {
   background: rgba(30, 35, 45, 0.8);
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-:global([data-theme="dark"] .skill-tag:hover) {
+:deep([data-theme="dark"]) .skill-tag:hover {
   background: rgba(40, 45, 55, 0.9);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
-:global([data-theme="dark"] .skills-bg-text) {
+:deep([data-theme="dark"]) .skills-bg-text {
   opacity: 0.04;
 }
 
 /* ============================================================
    Light Theme Adjustments
    ============================================================ */
-:global([data-theme="light"] .skill-tag) {
+:deep([data-theme="light"]) .skill-tag {
+  background: rgba(255, 255, 255, 0.65);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+:deep([data-theme="light"]) .skill-tag:hover {
   background: rgba(255, 255, 255, 0.85);
-  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
-:global([data-theme="light"] .skill-tag:hover) {
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-:global([data-theme="light"] .skills-bg-text) {
-  opacity: 0.06;
+:deep([data-theme="light"]) .skills-bg-text {
+  opacity: 0.05;
 }
 
 /* Invert icons that need it in light mode */
-:global([data-theme="light"]) .skill-tag img[alt="GitHub"],
-:global([data-theme="light"]) .skill-tag img[alt="Vercel"],
-:global([data-theme="light"]) .skill-tag img[alt="NextJS"],
-:global([data-theme="light"]) .skill-tag img[alt="ExpressJS"] {
+:deep([data-theme="light"]) .skill-tag img[alt="GitHub"],
+:deep([data-theme="light"]) .skill-tag img[alt="Vercel"],
+:deep([data-theme="light"]) .skill-tag img[alt="NextJS"],
+:deep([data-theme="light"]) .skill-tag img[alt="ExpressJS"] {
   filter: invert(1);
 }
 </style>
