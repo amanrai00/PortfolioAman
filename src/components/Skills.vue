@@ -13,7 +13,7 @@
       </div>
 
       <!-- Decorative Arrow Divider -->
-      <div ref="skillsDivider" class="flex items-center justify-center mb-6">
+      <div ref="skillsDivider" class="flex items-center justify-center mt-20 mb-6">
         <svg
           class="skills-divider-svg"
           viewBox="0 0 400 24"
