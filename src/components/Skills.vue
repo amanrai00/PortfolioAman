@@ -2,13 +2,14 @@
   <!-- Skills Section -->
   <section
     id="skills"
+    ref="skillsSection"
     class="relative px-5 lg:px-28 py-24 lg:py-32"
   >
     <div class="mx-auto w-full max-w-4xl text-center">
       <!-- Section Title with Background Text -->
       <div class="relative mb-8">
-        <span class="skills-bg-text">SKILLS</span>
-        <h2 class="skills-title">Skills</h2>
+        <span ref="skillsBg" class="skills-bg-text">SKILLS</span>
+        <h2 ref="skillsTitle" class="skills-title">Skills</h2>
       </div>
 
       <!-- Decorative Dots -->
@@ -43,6 +44,10 @@
 </template>
 
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 // Skills Data with CDN icons
 const skills = [
   { name: 'HTML', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
@@ -70,6 +75,56 @@ const skills = [
   { name: 'AWS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg' },
   { name: 'Kubernetes', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg' }
 ];
+
+const skillsSection = ref(null);
+const skillsTitle = ref(null);
+const skillsBg = ref(null);
+
+let skillsTimeline = null;
+
+onMounted(() => {
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (!skillsSection.value) return;
+
+  gsap.set([skillsTitle.value, skillsBg.value], {
+    opacity: 0,
+    y: 28,
+    filter: 'blur(6px)'
+  });
+
+  skillsTimeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: skillsSection.value,
+      start: 'top 70%',
+      toggleActions: 'play none none none'
+    }
+  });
+
+  skillsTimeline
+    .to(skillsBg.value, {
+      opacity: 0.08,
+      y: 0,
+      filter: 'blur(0px)',
+      duration: 1.1,
+      ease: 'power3.out'
+    })
+    .to(skillsTitle.value, {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      duration: 0.9,
+      ease: 'power3.out'
+    }, 0.15);
+});
+
+onUnmounted(() => {
+  if (skillsTimeline) {
+    if (skillsTimeline.scrollTrigger) skillsTimeline.scrollTrigger.kill();
+    skillsTimeline.kill();
+    skillsTimeline = null;
+  }
+});
 </script>
 
 <style scoped>
