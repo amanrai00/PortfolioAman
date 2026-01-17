@@ -48,13 +48,20 @@
         </svg>
       </div>
 
-      <!-- Tagline -->
-      <p
+      <!-- Tagline with Flip Animation -->
+      <div
         ref="skillsTagline"
-        class="text-sm md:text-base tracking-[0.25em] uppercase text-[var(--theme-text-muted)] mt-10 mb-16"
+        class="tagline-container mt-10 mb-16"
       >
-        I constantly try to improve
-      </p>
+        <span class="tagline-static">I constantly try to</span>
+        <div class="flip-container">
+          <div class="flip-content">
+            <div><span class="flip-word flip-learn">Learn</span></div>
+            <div><span class="flip-word flip-adapt">Adapt</span></div>
+            <div><span class="flip-word flip-grow">Grow</span></div>
+          </div>
+        </div>
+      </div>
 
       <!-- Skills Tags -->
       <div class="flex flex-wrap justify-center gap-3 md:gap-4">
@@ -233,6 +240,93 @@ onUnmounted(() => {
 
 .divider-edge {
   opacity: 0.08;
+}
+
+/* ============================================================
+   Tagline with Flip Animation
+   ============================================================ */
+.tagline-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--theme-text-muted);
+}
+
+@media (min-width: 768px) {
+  .tagline-container {
+    font-size: 1rem;
+  }
+}
+
+.tagline-static {
+  color: var(--theme-text-muted);
+}
+
+.flip-container {
+  height: 1.6em;
+  overflow: hidden;
+}
+
+.flip-content {
+  animation: flip-words 6s linear infinite;
+}
+
+.flip-content > div {
+  height: 1.6em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flip-word {
+  padding: 0.15em 0.5em;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.flip-learn {
+  background: #4ec7f3;
+}
+
+.flip-adapt {
+  background: #42c58a;
+}
+
+.flip-grow {
+  background: #f59e0b;
+}
+
+@keyframes flip-words {
+  0% {
+    transform: translateY(0);
+  }
+  5% {
+    transform: translateY(-1.6em);
+  }
+  33% {
+    transform: translateY(-1.6em);
+  }
+  38% {
+    transform: translateY(-3.2em);
+  }
+  66% {
+    transform: translateY(-3.2em);
+  }
+  71% {
+    transform: translateY(-4.8em);
+  }
+  99.99% {
+    transform: translateY(-4.8em);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 /* ============================================================
