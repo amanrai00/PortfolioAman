@@ -6,6 +6,7 @@
   <Impact />
   <About />
   <Skills />
+  <Marquee />
 
   <section id="projects"></section>
   <section id="contact"></section>
@@ -19,6 +20,7 @@ import Home from "./components/Home.vue";
 import Impact from "./components/Impact.vue";
 import About from "./components/About.vue";
 import Skills from "./components/Skills.vue";
+import Marquee from "./components/Marquee.vue";
 </script>
 
 <style>
