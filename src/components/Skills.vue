@@ -60,6 +60,7 @@
             <div><span class="flip-word flip-learn">Learn</span></div>
             <div><span class="flip-word flip-adapt">Adapt</span></div>
             <div><span class="flip-word flip-grow">Grow</span></div>
+            <div><span class="flip-word flip-improve">Improve</span></div>
           </div>
         </div>
       </div>
@@ -164,6 +165,11 @@ onMounted(() => {
       duration: 0.9,
       ease: 'power3.out'
     }, 0.15)
+    .add(() => {
+      if (skillsTagline.value) {
+        skillsTagline.value.classList.add('is-visible');
+      }
+    }, 0.35)
     .to(skillsDivider.value, {
       opacity: 1,
       y: 0,
@@ -272,7 +278,10 @@ onUnmounted(() => {
 }
 
 .flip-content {
-  animation: flip-words 6s linear infinite;
+  transform: translateY(0);
+  animation: flip-words 8s linear infinite;
+  animation-fill-mode: both;
+  animation-play-state: paused;
 }
 
 .flip-content > div {
@@ -307,30 +316,20 @@ onUnmounted(() => {
 }
 
 @keyframes flip-words {
-  0% {
-    transform: translateY(0);
-  }
-  5% {
-    transform: translateY(-1.6em);
-  }
-  25% {
-    transform: translateY(-1.6em);
-  }
-  30% {
-    transform: translateY(-3.2em);
-  }
-  50% {
-    transform: translateY(-3.2em);
-  }
-  55% {
-    transform: translateY(-4.8em);
-  }
-  99.99% {
-    transform: translateY(-4.8em);
-  }
-  100% {
-    transform: translateY(0);
-  }
+  0% { transform: translateY(0); }
+  20% { transform: translateY(0); }
+  25% { transform: translateY(-1.6em); }
+  40% { transform: translateY(-1.6em); }
+  45% { transform: translateY(-3.2em); }
+  60% { transform: translateY(-3.2em); }
+  65% { transform: translateY(-4.8em); }
+  80% { transform: translateY(-4.8em); }
+  85% { transform: translateY(-6.4em); }
+  100% { transform: translateY(-6.4em); }
+}
+
+.tagline-container.is-visible .flip-content {
+  animation-play-state: running;
 }
 
 :deep([data-theme="light"]) {
