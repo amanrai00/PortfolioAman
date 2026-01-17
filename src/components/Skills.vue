@@ -56,6 +56,7 @@
         <span class="tagline-static">I constantly try to</span>
         <div class="flip-container">
           <div class="flip-content">
+            <div><span class="flip-word flip-improve">Improve</span></div>
             <div><span class="flip-word flip-learn">Learn</span></div>
             <div><span class="flip-word flip-adapt">Adapt</span></div>
             <div><span class="flip-word flip-grow">Grow</span></div>
@@ -290,16 +291,20 @@ onUnmounted(() => {
   font-weight: 600;
 }
 
+.flip-improve {
+  background: var(--skills-flip-bg-1);
+}
+
 .flip-learn {
-  background: #4ec7f3;
+  background: var(--skills-flip-bg-2);
 }
 
 .flip-adapt {
-  background: #42c58a;
+  background: var(--skills-flip-bg-3);
 }
 
 .flip-grow {
-  background: #f59e0b;
+  background: var(--skills-flip-bg-4);
 }
 
 @keyframes flip-words {
@@ -309,16 +314,16 @@ onUnmounted(() => {
   5% {
     transform: translateY(-1.6em);
   }
-  33% {
+  25% {
     transform: translateY(-1.6em);
   }
-  38% {
+  30% {
     transform: translateY(-3.2em);
   }
-  66% {
+  50% {
     transform: translateY(-3.2em);
   }
-  71% {
+  55% {
     transform: translateY(-4.8em);
   }
   99.99% {
@@ -327,6 +332,20 @@ onUnmounted(() => {
   100% {
     transform: translateY(0);
   }
+}
+
+:deep([data-theme="light"]) {
+  --skills-flip-bg-1: color-mix(in srgb, var(--theme-cta-bg) 70%, #ffffff 30%);
+  --skills-flip-bg-2: color-mix(in srgb, var(--theme-cta-bg) 55%, #f1ede6 45%);
+  --skills-flip-bg-3: color-mix(in srgb, var(--theme-cta-bg) 50%, #e6dfd4 50%);
+  --skills-flip-bg-4: color-mix(in srgb, var(--theme-cta-bg) 45%, #ddd3c5 55%);
+}
+
+:deep([data-theme="dark"]) {
+  --skills-flip-bg-1: color-mix(in srgb, var(--theme-cta-bg) 65%, #0b0f18 35%);
+  --skills-flip-bg-2: color-mix(in srgb, var(--theme-cta-bg) 55%, #101622 45%);
+  --skills-flip-bg-3: color-mix(in srgb, var(--theme-cta-bg) 50%, #0a111d 50%);
+  --skills-flip-bg-4: color-mix(in srgb, var(--theme-cta-bg) 45%, #0a0f18 55%);
 }
 
 /* ============================================================
