@@ -124,6 +124,7 @@ const skillsDivider = ref(null);
 const skillsTagline = ref(null);
 
 let skillsTimeline = null;
+let skillsGridTimeline = null;
 
 onMounted(() => {
   gsap.registerPlugin(ScrollTrigger);
@@ -184,6 +185,30 @@ onMounted(() => {
       duration: 0.7,
       ease: 'power3.out'
     }, 0.45);
+
+  const skillTags = skillsSection.value.querySelectorAll('.skill-tag');
+  if (skillTags.length) {
+    gsap.set(skillTags, { opacity: 0, scale: 0.1, y: 40 });
+    skillsGridTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: skillsSection.value,
+        start: 'top 70%',
+        toggleActions: 'play none none none'
+      }
+    });
+    skillsGridTimeline.to(skillTags, {
+      duration: 1.4,
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      ease: 'power3.out',
+      stagger: {
+        amount: 1.9,
+        grid: 'auto',
+        from: 'center'
+      }
+    });
+  }
 });
 
 onUnmounted(() => {
@@ -191,6 +216,11 @@ onUnmounted(() => {
     if (skillsTimeline.scrollTrigger) skillsTimeline.scrollTrigger.kill();
     skillsTimeline.kill();
     skillsTimeline = null;
+  }
+  if (skillsGridTimeline) {
+    if (skillsGridTimeline.scrollTrigger) skillsGridTimeline.scrollTrigger.kill();
+    skillsGridTimeline.kill();
+    skillsGridTimeline = null;
   }
 });
 </script>
