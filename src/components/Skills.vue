@@ -145,7 +145,7 @@ onMounted(() => {
   skillsTimeline = gsap.timeline({
     scrollTrigger: {
       trigger: skillsSection.value,
-      start: 'top 70%',
+      start: 'top 50%',
       toggleActions: 'play none none none'
     }
   });
