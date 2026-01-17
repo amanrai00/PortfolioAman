@@ -250,22 +250,20 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
+  width: 100%;
+  gap: 0;
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.25em;
+  letter-spacing: 0;
   color: var(--theme-text-muted);
-}
-
-@media (min-width: 768px) {
-  .tagline-container {
-    font-size: 1rem;
-  }
+  text-align: center;
+  padding-left: 1.5rem;
 }
 
 .tagline-static {
   color: var(--theme-text-muted);
+  letter-spacing: 0.18em;
 }
 
 .flip-container {
@@ -287,8 +285,9 @@ onUnmounted(() => {
 .flip-word {
   padding: 0.15em 0.5em;
   border-radius: 4px;
-  color: #fff;
+  color: var(--theme-text-strong);
   font-weight: 600;
+  letter-spacing: 0.12em;
 }
 
 .flip-improve {
@@ -335,17 +334,17 @@ onUnmounted(() => {
 }
 
 :deep([data-theme="light"]) {
-  --skills-flip-bg-1: color-mix(in srgb, var(--theme-cta-bg) 70%, #ffffff 30%);
-  --skills-flip-bg-2: color-mix(in srgb, var(--theme-cta-bg) 55%, #f1ede6 45%);
-  --skills-flip-bg-3: color-mix(in srgb, var(--theme-cta-bg) 50%, #e6dfd4 50%);
-  --skills-flip-bg-4: color-mix(in srgb, var(--theme-cta-bg) 45%, #ddd3c5 55%);
+  --skills-flip-bg-1: color-mix(in srgb, var(--theme-cta-bg) 45%, var(--theme-bg) 55%);
+  --skills-flip-bg-2: color-mix(in srgb, var(--theme-cta-bg) 40%, var(--theme-bg) 60%);
+  --skills-flip-bg-3: color-mix(in srgb, var(--theme-cta-bg) 35%, var(--theme-bg) 65%);
+  --skills-flip-bg-4: color-mix(in srgb, var(--theme-cta-bg) 30%, var(--theme-bg) 70%);
 }
 
 :deep([data-theme="dark"]) {
-  --skills-flip-bg-1: color-mix(in srgb, var(--theme-cta-bg) 65%, #0b0f18 35%);
-  --skills-flip-bg-2: color-mix(in srgb, var(--theme-cta-bg) 55%, #101622 45%);
-  --skills-flip-bg-3: color-mix(in srgb, var(--theme-cta-bg) 50%, #0a111d 50%);
-  --skills-flip-bg-4: color-mix(in srgb, var(--theme-cta-bg) 45%, #0a0f18 55%);
+  --skills-flip-bg-1: color-mix(in srgb, var(--theme-cta-bg) 45%, var(--theme-bg) 55%);
+  --skills-flip-bg-2: color-mix(in srgb, var(--theme-cta-bg) 40%, var(--theme-bg) 60%);
+  --skills-flip-bg-3: color-mix(in srgb, var(--theme-cta-bg) 35%, var(--theme-bg) 65%);
+  --skills-flip-bg-4: color-mix(in srgb, var(--theme-cta-bg) 30%, var(--theme-bg) 70%);
 }
 
 /* ============================================================
