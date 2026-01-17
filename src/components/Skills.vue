@@ -21,11 +21,11 @@
           xmlns="http://www.w3.org/2000/svg"
         >
           <!-- Left Arrow -->
-          <path d="M8 12L2 8V16L8 12Z" class="divider-fill" />
-          <path d="M8 12L20 8V16L8 12Z" class="divider-fill" />
+          <path d="M8 12L2 8V16L8 12Z" class="divider-fill divider-edge" />
+          <path d="M8 12L20 8V16L8 12Z" class="divider-fill divider-edge" />
 
           <!-- Left Line -->
-          <line x1="20" y1="12" x2="170" y2="12" class="divider-stroke" stroke-width="1" />
+          <line x1="20" y1="12" x2="170" y2="12" class="divider-stroke divider-edge" stroke-width="1" />
 
           <!-- Left Diagonal -->
           <line x1="170" y1="12" x2="185" y2="4" class="divider-stroke" stroke-width="1" />
@@ -40,18 +40,18 @@
           <line x1="215" y1="20" x2="230" y2="12" class="divider-stroke" stroke-width="1" />
 
           <!-- Right Line -->
-          <line x1="230" y1="12" x2="380" y2="12" class="divider-stroke" stroke-width="1" />
+          <line x1="230" y1="12" x2="380" y2="12" class="divider-stroke divider-edge" stroke-width="1" />
 
           <!-- Right Arrow -->
-          <path d="M392 12L398 8V16L392 12Z" class="divider-fill" />
-          <path d="M392 12L380 8V16L392 12Z" class="divider-fill" />
+          <path d="M392 12L398 8V16L392 12Z" class="divider-fill divider-edge" />
+          <path d="M392 12L380 8V16L392 12Z" class="divider-fill divider-edge" />
         </svg>
       </div>
 
       <!-- Tagline -->
       <p
         ref="skillsTagline"
-        class="text-sm md:text-base tracking-[0.25em] uppercase text-[var(--theme-text-muted)] mb-16"
+        class="text-sm md:text-base tracking-[0.25em] uppercase text-[var(--theme-text-muted)] mt-10 mb-16"
       >
         I constantly try to improve
       </p>
@@ -230,6 +230,10 @@ onUnmounted(() => {
 }
 
 /* Theme-specific overrides removed to match shared line color */
+
+.divider-edge {
+  opacity: 0.08;
+}
 
 /* ============================================================
    Skill Tag (Pill Style)
