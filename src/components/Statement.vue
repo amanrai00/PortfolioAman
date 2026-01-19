@@ -125,17 +125,19 @@ onUnmounted(() => {
 }
 
 .statement-line {
-  flex: 1;
+  flex: 2.2;
   height: 1px;
   background: var(--statement-line-color);
 }
 
 .statement-divider-text {
-  font-size: clamp(1.125rem, 2.2vw, 1.5rem);
-  font-weight: 600;
+  font-size: clamp(1.125rem, 2.2vw, 1.9rem);
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--statement-text-muted);
+  letter-spacing: 0.08em;
+  line-height: 1.05;
+  color: var(--theme-text-muted);
+  text-align: center;
   white-space: nowrap;
   padding: 0 1rem;
 }
