@@ -131,7 +131,7 @@ onUnmounted(() => {
 }
 
 .statement-divider-text {
-  font-size: clamp(0.875rem, 1.5vw, 1.125rem);
+  font-size: clamp(1.125rem, 2.2vw, 1.5rem);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.15em;
