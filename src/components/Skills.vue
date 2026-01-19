@@ -80,6 +80,7 @@
           <span class="skill-tag-name">{{ skill.name }}</span>
         </div>
       </div>
+
     </div>
   </section>
 </template>
