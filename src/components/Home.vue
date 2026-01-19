@@ -132,7 +132,7 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 // Configuration
 // ============================================================
 
-const sectionIds = ["home", "about", "skills", "projects", "contact"];
+const sectionIds = ["home", "about", "statement"];
 const words = [
   "Engineer",
   "Designer",
@@ -149,7 +149,7 @@ const words = [
 // ============================================================
 
 const currentWord = ref(words[0]);
-const activeIndex = ref(0);
+const activeIndex = ref(-1);
 const heroVisible = ref(false);
 const scrollSlide = ref(0);
 
@@ -171,7 +171,7 @@ let hasAnimated = false;
 const updateActiveIndex = () => {
   const scrollY = window.scrollY || window.pageYOffset || 0;
   const midPoint = scrollY + window.innerHeight * 0.5;
-  let newIndex = 0;
+  let newIndex = -1;
 
   for (let i = 0; i < sectionIds.length; i += 1) {
     const sectionEl = document.getElementById(sectionIds[i]);
@@ -194,11 +194,11 @@ const scrollToSection = (sectionId) => {
 
   // Special handling for about section
   if (sectionId === "about") {
-    sectionEl.scrollIntoView({ behavior: "smooth", block: "center" });
+    sectionEl.scrollIntoView({ behavior: "auto", block: "center" });
     return;
   }
 
-  sectionEl.scrollIntoView({ behavior: "smooth" });
+  sectionEl.scrollIntoView({ behavior: "auto" });
 };
 
 // ============================================================

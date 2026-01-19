@@ -1,5 +1,5 @@
 <template>
-  <section ref="statementSection" class="statement-section">
+  <section id="statement" ref="statementSection" class="statement-section">
     <!-- Divider with lines and text -->
     <div class="statement-divider">
       <div class="statement-line statement-line-left"></div>
