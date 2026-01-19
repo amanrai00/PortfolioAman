@@ -41,9 +41,8 @@ onMounted(() => {
   const lineTexts = statementSection.value.querySelectorAll('.statement-line-text');
 
   gsap.set(lineTexts, {
-    opacity: 0,
-    y: 60,
-    filter: 'blur(8px)'
+    clipPath: 'inset(100% 0 0 0)',
+    opacity: 1
   });
 
   gsap.set(statementOutline.value, {
@@ -64,7 +63,7 @@ onMounted(() => {
   statementTimeline = gsap.timeline({
     scrollTrigger: {
       trigger: statementSection.value,
-      start: 'top 75%',
+      start: 'top 70%',
       toggleActions: 'play none none none'
     }
   });
@@ -83,12 +82,10 @@ onMounted(() => {
       ease: 'power3.out'
     }, 0.3)
     .to(lineTexts, {
-      opacity: 1,
-      y: 0,
-      filter: 'blur(0px)',
-      duration: 1,
-      ease: 'power3.out',
-      stagger: 0.12
+      clipPath: 'inset(0% 0 0 0)',
+      duration: 1.2,
+      ease: 'power2.out',
+      stagger: 0.15
     }, 0.5)
     .to(statementOutline.value, {
       opacity: 1,
