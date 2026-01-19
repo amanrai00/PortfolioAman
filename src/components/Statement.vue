@@ -70,32 +70,32 @@ onMounted(() => {
   });
 
   statementTimeline
+    .to(dividerLines, {
+      scaleX: 1,
+      duration: 1,
+      ease: 'power2.inOut',
+      stagger: 0.05
+    })
     .to(dividerText.value, {
       opacity: 1,
       y: 0,
-      duration: 0.6,
-      ease: 'power3.out'
-    })
-    .to(dividerLines, {
-      scaleX: 1,
       duration: 0.8,
-      ease: 'power2.out',
-      stagger: 0.1
-    }, 0.1)
+      ease: 'power3.out'
+    }, 0.3)
     .to(lineTexts, {
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
-      duration: 0.9,
+      duration: 1,
       ease: 'power3.out',
-      stagger: 0.15
-    }, 0.2)
+      stagger: 0.12
+    }, 0.5)
     .to(statementOutline.value, {
       opacity: 1,
       x: 0,
-      duration: 0.7,
+      duration: 0.8,
       ease: 'power3.out'
-    }, 0.5);
+    }, 0.9);
 });
 
 onUnmounted(() => {
@@ -131,15 +131,15 @@ onUnmounted(() => {
 }
 
 .statement-divider-text {
-  font-size: clamp(1.125rem, 2.2vw, 1.9rem);
-  font-weight: 800;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   line-height: 1.05;
   color: var(--theme-text-muted);
   text-align: center;
   white-space: nowrap;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
 }
 
 .statement-container {
@@ -184,24 +184,21 @@ onUnmounted(() => {
 
 /* Dark theme */
 :global([data-theme="dark"]) {
-  --statement-text-color: #f8fafc;
-  --statement-text-muted: rgba(248, 250, 252, 0.6);
-  --statement-outline-color: rgba(248, 250, 252, 0.25);
-  --statement-line-color: rgba(255, 255, 255, 0.15);
+  --statement-text-color: var(--theme-text-strong);
+  --statement-outline-color: rgba(255, 255, 255, 0.2);
+  --statement-line-color: var(--theme-line-soft);
 }
 
 /* Light theme */
 :global([data-theme="light"]) {
-  --statement-text-color: #0f4c4c;
-  --statement-text-muted: rgba(15, 76, 76, 0.7);
-  --statement-outline-color: rgba(15, 76, 76, 0.3);
-  --statement-line-color: rgba(15, 76, 76, 0.2);
+  --statement-text-color: var(--theme-text-strong);
+  --statement-outline-color: rgba(15, 23, 42, 0.25);
+  --statement-line-color: var(--theme-line-soft);
 }
 
 /* Default fallback */
 :root {
   --statement-text-color: var(--theme-text-strong);
-  --statement-text-muted: var(--theme-text-muted);
   --statement-outline-color: var(--theme-line-soft);
   --statement-line-color: var(--theme-line-soft);
 }
