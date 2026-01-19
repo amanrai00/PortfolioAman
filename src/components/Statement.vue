@@ -12,7 +12,7 @@
       <div ref="statementText" class="statement-content">
         <h2 class="statement-main">
           <span class="statement-line-text">SELECTED</span>
-          <span class="statement-line-text">PROJECTS</span>
+          <span class="statement-line-text statement-line-text-shift">PROJECTS</span>
         </h2>
         <!-- Outlined subtitle -->
         <p ref="statementOutline" class="statement-outline">SHOWCASE</p>
@@ -63,7 +63,7 @@ onMounted(() => {
   statementTimeline = gsap.timeline({
     scrollTrigger: {
       trigger: statementSection.value,
-      start: 'top 70%',
+      start: 'top 80%',
       toggleActions: 'play none none none'
     }
   });
@@ -162,6 +162,10 @@ onUnmounted(() => {
   text-transform: uppercase;
   letter-spacing: -0.02em;
   color: var(--statement-text-color);
+}
+
+.statement-line-text-shift {
+  margin-left: clamp(4.5rem, 10vw, 10rem);
 }
 
 .statement-outline {
