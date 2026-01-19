@@ -169,6 +169,7 @@ onUnmounted(() => {
 }
 
 .statement-outline {
+  position: relative;
   font-size: clamp(2rem, 8vw, 6rem);
   font-weight: 900;
   text-transform: uppercase;
@@ -183,25 +184,41 @@ onUnmounted(() => {
   text-stroke: 2px var(--statement-outline-color);
 }
 
+/* 3D shadow layer behind text */
+.statement-outline::before {
+  content: 'SHOWCASE';
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transform: translate(4px, 4px);
+  color: transparent;
+  -webkit-text-stroke: 2px var(--statement-shadow-color);
+  text-stroke: 2px var(--statement-shadow-color);
+}
+
 /* Dark theme */
 :global([data-theme="dark"]) {
   --statement-text-color: var(--theme-text-strong);
-  --statement-outline-color: rgba(255, 255, 255, 0.2);
   --statement-line-color: var(--theme-line-soft);
+  --statement-outline-color: rgba(255, 255, 255, 0.25);
+  --statement-shadow-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Light theme */
 :global([data-theme="light"]) {
   --statement-text-color: var(--theme-text-strong);
-  --statement-outline-color: rgba(15, 23, 42, 0.25);
   --statement-line-color: var(--theme-line-soft);
+  --statement-outline-color: rgba(15, 23, 42, 0.3);
+  --statement-shadow-color: rgba(15, 23, 42, 0.12);
 }
 
 /* Default fallback */
 :root {
   --statement-text-color: var(--theme-text-strong);
-  --statement-outline-color: var(--theme-line-soft);
   --statement-line-color: var(--theme-line-soft);
+  --statement-outline-color: var(--theme-line-soft);
+  --statement-shadow-color: rgba(0, 0, 0, 0.08);
 }
 
 /* Responsive */
@@ -219,12 +236,24 @@ onUnmounted(() => {
     text-stroke: 1.5px var(--statement-outline-color);
     padding-right: 1rem;
   }
+
+  .statement-outline::before {
+    transform: translate(3px, 3px);
+    -webkit-text-stroke: 1.5px var(--statement-shadow-color);
+    text-stroke: 1.5px var(--statement-shadow-color);
+  }
 }
 
 @media (max-width: 480px) {
   .statement-outline {
     -webkit-text-stroke: 1px var(--statement-outline-color);
     text-stroke: 1px var(--statement-outline-color);
+  }
+
+  .statement-outline::before {
+    transform: translate(2px, 2px);
+    -webkit-text-stroke: 1px var(--statement-shadow-color);
+    text-stroke: 1px var(--statement-shadow-color);
   }
 }
 </style>
