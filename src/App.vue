@@ -6,10 +6,7 @@
   <Impact />
   <About />
   <Skills />
-  <Statement>
-    Each project added something<br />
-    to how I work now.
-  </Statement>
+  <Statement />
 
   <section id="projects"></section>
   <section id="contact"></section>
