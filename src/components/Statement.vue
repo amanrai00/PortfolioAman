@@ -15,7 +15,9 @@
           <span class="statement-line-text statement-line-text-shift">PROJECTS</span>
         </h2>
         <!-- Outlined subtitle -->
-        <p ref="statementOutline" class="statement-outline">SHOWCASE</p>
+        <p ref="statementOutline" class="statement-outline">
+          <span class="statement-outline-text">SHOWCASE</span>
+        </p>
       </div>
     </div>
   </section>
@@ -178,7 +180,6 @@ onUnmounted(() => {
 }
 
 .statement-outline {
-  position: relative;
   font-size: clamp(2rem, 8vw, 6rem);
   font-weight: 900;
   text-transform: uppercase;
@@ -188,14 +189,20 @@ onUnmounted(() => {
   margin-left: auto;
   width: fit-content;
   padding-right: clamp(1rem, 5vw, 4rem);
+}
+
+/* 3D shadow layer behind text */
+.statement-outline-text {
+  content: 'SHOWCASE';
+  position: relative;
+  display: inline-block;
   color: transparent;
   -webkit-text-stroke: 2px var(--statement-outline-color);
   text-stroke: 2px var(--statement-outline-color);
   transition: color 0.3s ease, -webkit-text-stroke-color 0.3s ease;
 }
 
-/* 3D shadow layer behind text */
-.statement-outline::before {
+.statement-outline-text::before {
   content: 'SHOWCASE';
   position: absolute;
   top: 0;
@@ -208,13 +215,13 @@ onUnmounted(() => {
   transition: -webkit-text-stroke-color 0.3s ease;
 }
 
-.statement-content:hover .statement-outline {
+.statement-outline-text:hover {
   color: var(--statement-showcase-hover-fill);
   -webkit-text-stroke: 2px var(--statement-showcase-hover-stroke);
   text-stroke: 2px var(--statement-showcase-hover-stroke);
 }
 
-.statement-content:hover .statement-outline::before {
+.statement-outline-text:hover::before {
   -webkit-text-stroke: 2px var(--statement-showcase-hover-shadow);
   text-stroke: 2px var(--statement-showcase-hover-shadow);
 }
@@ -263,46 +270,49 @@ onUnmounted(() => {
   }
 
   .statement-outline {
-    -webkit-text-stroke: 1.5px var(--statement-outline-color);
-    text-stroke: 1.5px var(--statement-outline-color);
     padding-right: 1rem;
   }
 
-  .statement-outline::before {
+  .statement-outline-text {
+    -webkit-text-stroke: 1.5px var(--statement-outline-color);
+    text-stroke: 1.5px var(--statement-outline-color);
+  }
+
+  .statement-outline-text::before {
     transform: translate(3px, 3px);
     -webkit-text-stroke: 1.5px var(--statement-shadow-color);
     text-stroke: 1.5px var(--statement-shadow-color);
   }
 
-  .statement-content:hover .statement-outline {
+  .statement-outline-text:hover {
     -webkit-text-stroke: 1.5px var(--statement-showcase-hover-stroke);
     text-stroke: 1.5px var(--statement-showcase-hover-stroke);
   }
 
-  .statement-content:hover .statement-outline::before {
+  .statement-outline-text:hover::before {
     -webkit-text-stroke: 1.5px var(--statement-showcase-hover-shadow);
     text-stroke: 1.5px var(--statement-showcase-hover-shadow);
   }
 }
 
 @media (max-width: 480px) {
-  .statement-outline {
-    -webkit-text-stroke: 1px var(--statement-outline-color);
-    text-stroke: 1px var(--statement-outline-color);
+  .statement-outline-text {
+    -webkit-text-stroke: 1px var(--statement-showcase-hover-stroke);
+    text-stroke: 1px var(--statement-showcase-hover-stroke);
   }
 
-  .statement-outline::before {
+  .statement-outline-text::before {
     transform: translate(2px, 2px);
     -webkit-text-stroke: 1px var(--statement-shadow-color);
     text-stroke: 1px var(--statement-shadow-color);
   }
 
-  .statement-content:hover .statement-outline {
+  .statement-outline-text:hover {
     -webkit-text-stroke: 1px var(--statement-showcase-hover-stroke);
     text-stroke: 1px var(--statement-showcase-hover-stroke);
   }
 
-  .statement-content:hover .statement-outline::before {
+  .statement-outline-text:hover::before {
     -webkit-text-stroke: 1px var(--statement-showcase-hover-shadow);
     text-stroke: 1px var(--statement-showcase-hover-shadow);
   }
