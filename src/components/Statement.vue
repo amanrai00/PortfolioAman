@@ -3,7 +3,7 @@
     <!-- Divider with lines and text -->
     <div class="statement-divider">
       <div class="statement-line statement-line-left"></div>
-      <span ref="dividerText" class="statement-divider-text">Each project shaped how I work today.</span>
+      <span ref="dividerText" class="statement-divider-text">Each project shaped<br class="mobile-break">how I work today.</span>
       <div class="statement-line statement-line-right"></div>
     </div>
 
@@ -130,15 +130,19 @@ onUnmounted(() => {
 }
 
 .statement-divider-text {
-  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-size: clamp(0.75rem, 1.5vw, 1.5rem);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  line-height: 1.05;
+  line-height: 1.4;
   color: var(--theme-text-muted);
   text-align: center;
   white-space: nowrap;
   padding: 0 1.5rem;
+}
+
+.mobile-break {
+  display: none;
 }
 
 .statement-container {
@@ -257,6 +261,27 @@ onUnmounted(() => {
 @media (max-width: 768px) {
   .statement-section {
     padding: 4rem 1rem;
+  }
+
+  .statement-divider {
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  .statement-divider-text {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    line-height: 1.5;
+    padding: 0 0.75rem;
+    white-space: normal;
+  }
+
+  .mobile-break {
+    display: block;
+  }
+
+  .statement-line {
+    flex: 1;
   }
 
   .statement-container {
