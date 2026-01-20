@@ -148,14 +148,27 @@ onUnmounted(() => {
   font-weight: 700;
   margin: 0 0 0.75rem;
   line-height: 1;
-  color: var(--theme-text-strong);
+  color: var(--project-title-color);
   letter-spacing: -0.02em;
   cursor: pointer;
-  transition: color 0.3s ease;
+  background-image: linear-gradient(
+    90deg,
+    var(--project-hover-color),
+    var(--project-hover-color)
+  );
+  background-size: 0% 100%;
+  background-repeat: no-repeat;
+  background-position: left center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: currentColor;
+  transition: background-size 0.35s ease, color 0.35s ease;
 }
 
 .project-title:hover {
-  color: var(--theme-text-muted);
+  background-size: 100% 100%;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 .project-tags {
@@ -163,11 +176,12 @@ onUnmounted(() => {
   flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
+  margin-top: 1.5rem;
 }
 
 .project-tag {
   font-size: clamp(0.75rem, 1.2vw, 0.875rem);
-  color: var(--theme-text-muted);
+  color: var(--project-meta-color);
   position: relative;
 }
 
@@ -180,7 +194,7 @@ onUnmounted(() => {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: var(--theme-text-soft);
+  background: var(--project-dot-color);
 }
 
 .projects-divider {
@@ -192,16 +206,28 @@ onUnmounted(() => {
 /* Dark theme */
 :global([data-theme="dark"]) {
   --project-border-color: rgba(255, 255, 255, 0.15);
+  --project-title-color: #f2f0ea;
+  --project-meta-color: rgba(242, 240, 234, 0.7);
+  --project-dot-color: rgba(242, 240, 234, 0.5);
+  --project-hover-color: #79d98b;
 }
 
 /* Light theme */
 :global([data-theme="light"]) {
   --project-border-color: rgba(15, 23, 42, 0.15);
+  --project-title-color: var(--theme-text-strong);
+  --project-meta-color: var(--theme-text-muted);
+  --project-dot-color: var(--theme-text-soft);
+  --project-hover-color: #1b7f3d;
 }
 
 /* Default fallback */
 :root {
   --project-border-color: rgba(255, 255, 255, 0.15);
+  --project-title-color: var(--theme-text-strong);
+  --project-meta-color: var(--theme-text-muted);
+  --project-dot-color: var(--theme-text-soft);
+  --project-hover-color: #1b7f3d;
 }
 
 /* Responsive */
