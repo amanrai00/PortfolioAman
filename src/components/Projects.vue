@@ -44,7 +44,7 @@ import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import lottie from 'lottie-web';
-import upArrowAnim from '@/assets/lottie/Up Arrow Animation.json';
+import threadLineDownRightAnim from '@/assets/lottie/Thread Line Down Right.json';
 
 const projectsSection = ref(null);
 const projectItems = ref([]);
@@ -86,7 +86,7 @@ const initLottie = async () => {
       renderer: 'svg',
       loop: false,
       autoplay: false,
-      animationData: upArrowAnim
+      animationData: threadLineDownRightAnim
     });
     anim.setSpeed(1);
     const totalFrames = Math.max(anim.getDuration(true), 1);
@@ -323,15 +323,15 @@ onUnmounted(() => {
   height: 1em;
   pointer-events: none;
   opacity: 0;
-  transform: translateY(0.05em) scaleX(-1) rotate(-90deg);
-  margin-left: -0.35em;
+  transform: none;
+  margin-left: 0;
   transition: opacity 200ms ease, transform 200ms ease;
   will-change: opacity, transform;
 }
 
 .project-title-lottie.is-playing {
   opacity: 1;
-  transform: translateY(0) scaleX(-1) rotate(-90deg);
+  transform: none;
 }
 
 .project-title-lottie.is-playing :deep(path) {
