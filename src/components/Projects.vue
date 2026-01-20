@@ -5,6 +5,7 @@
         v-for="(project, index) in projects"
         :key="project.id"
         class="project-item"
+        :class="{ 'project-item-first': index === 0 }"
         ref="projectItems"
       >
         <span class="project-index">_{{ String(index + 1).padStart(2, '0') }}.</span>
@@ -127,6 +128,10 @@ onUnmounted(() => {
   border-top: 1px solid var(--project-border-color);
 }
 
+.project-item-first {
+  border-top: none;
+}
+
 .project-item:last-child {
   border-bottom: none;
 }
@@ -188,7 +193,8 @@ onUnmounted(() => {
   flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
-  margin-top: 1.5rem;
+  margin-top: 1.2rem;
+  transform: translateY(-0.35rem);
 }
 
 .project-tag {
