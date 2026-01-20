@@ -147,10 +147,12 @@ onUnmounted(() => {
   font-size: clamp(2.5rem, 8vw, 5rem);
   font-weight: 700;
   margin: 0 0 0.75rem;
-  line-height: 1;
+  line-height: 1.12;
   color: var(--project-title-color);
   letter-spacing: -0.02em;
   cursor: pointer;
+  display: inline-block;
+  padding-bottom: 0.12em;
   background-image: linear-gradient(
     90deg,
     var(--project-hover-color),
@@ -162,7 +164,7 @@ onUnmounted(() => {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: currentColor;
-  transition: background-size 0.35s ease, color 0.35s ease;
+  transition: background-size 0.7s ease, color 0.7s ease;
 }
 
 .project-title:hover {
