@@ -9,7 +9,7 @@
       >
         <span class="project-index">_{{ String(index + 1).padStart(2, '0') }}.</span>
         <div class="project-content">
-          <h3 class="project-title">{{ project.title }}</h3>
+          <h3 class="project-title" :data-title="project.title">{{ project.title }}</h3>
           <div class="project-tags">
             <span
               v-for="(tag, tagIndex) in project.tags"
@@ -153,6 +153,17 @@ onUnmounted(() => {
   cursor: pointer;
   display: inline-block;
   padding-bottom: 0.12em;
+  position: relative;
+}
+
+.project-title::after {
+  content: attr(data-title);
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: inherit;
+  padding-bottom: 0.12em;
+  display: inline-block;
   background-image: linear-gradient(
     90deg,
     var(--project-hover-color),
@@ -163,14 +174,13 @@ onUnmounted(() => {
   background-position: left center;
   -webkit-background-clip: text;
   background-clip: text;
-  -webkit-text-fill-color: currentColor;
-  transition: background-size 0.7s ease, color 0.7s ease;
+  color: transparent;
+  transition: background-size 0.7s ease;
+  pointer-events: none;
 }
 
-.project-title:hover {
+.project-title:hover::after {
   background-size: 100% 100%;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
 }
 
 .project-tags {
