@@ -10,7 +10,19 @@
       >
         <span class="project-index">_{{ String(index + 1).padStart(2, '0') }}.</span>
         <div class="project-content">
-          <h3 class="project-title" :data-title="project.title">{{ project.title }}</h3>
+          <h3 class="project-title">
+            <span class="project-title-row">
+              <span
+                class="project-title-text"
+                @mouseenter="handleTitleEnter(index)"
+                @mouseleave="handleTitleLeave(index)"
+              >
+                <span class="project-title-base">{{ project.title }}</span>
+                <span ref="titleAnimEls" class="project-title-anim" aria-hidden="true">{{ project.title }}</span>
+              </span>
+              <span ref="lottieEls" class="project-title-lottie" aria-hidden="true"></span>
+            </span>
+          </h3>
           <div class="project-tags">
             <span
               v-for="(tag, tagIndex) in project.tags"
@@ -28,12 +40,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import lottie from 'lottie-web';
+import upArrowAnim from '@/assets/lottie/Up Arrow Animation.json';
 
 const projectsSection = ref(null);
 const projectItems = ref([]);
+const titleAnimEls = ref([]);
+const lottieEls = ref([]);
+
+const lottieAnims = [];
+const lottieEndHandlers = [];
+const lottieTimers = [];
+const lottieStarted = [];
 
 const projects = [
   {
@@ -55,6 +76,76 @@ const projects = [
 
 let projectsTimeline = null;
 
+const initLottie = async () => {
+  await nextTick();
+  lottieEls.value.forEach((el, index) => {
+    if (!el) return;
+    const anim = lottie.loadAnimation({
+      container: el,
+      renderer: 'svg',
+      loop: false,
+      autoplay: false,
+      animationData: upArrowAnim
+    });
+    anim.setSpeed(1);
+    lottieAnims[index] = anim;
+  });
+};
+
+const handleTitleEnter = (index) => {
+  const anim = lottieAnims[index];
+  const el = lottieEls.value[index];
+  const animEl = titleAnimEls.value[index];
+  if (!anim || !animEl) return;
+  lottieStarted[index] = false;
+
+  if (lottieEndHandlers[index]) {
+    animEl.removeEventListener('transitionend', lottieEndHandlers[index]);
+  }
+
+  const startAnim = () => {
+    if (lottieStarted[index]) return;
+    lottieStarted[index] = true;
+    if (el) el.classList.add('is-playing');
+    anim.goToAndStop(0, true);
+    anim.play();
+  };
+
+  const styles = window.getComputedStyle(animEl);
+  const toMs = (value) => {
+    const parsed = parseFloat(value);
+    if (Number.isNaN(parsed)) return 0;
+    return value.includes('ms') ? parsed : parsed * 1000;
+  };
+  const totalDelay = toMs(styles.transitionDuration) + toMs(styles.transitionDelay);
+  const startDelay = totalDelay * 0.35;
+
+  window.clearTimeout(lottieTimers[index]);
+  lottieTimers[index] = window.setTimeout(startAnim, startDelay);
+
+  lottieEndHandlers[index] = (event) => {
+    if (event.propertyName !== 'background-size') return;
+    startAnim();
+  };
+
+  animEl.addEventListener('transitionend', lottieEndHandlers[index], { once: true });
+};
+
+const handleTitleLeave = (index) => {
+  window.clearTimeout(lottieTimers[index]);
+  const anim = lottieAnims[index];
+  const el = lottieEls.value[index];
+  const animEl = titleAnimEls.value[index];
+  if (animEl && lottieEndHandlers[index]) {
+    animEl.removeEventListener('transitionend', lottieEndHandlers[index]);
+  }
+  lottieStarted[index] = false;
+  if (el) el.classList.remove('is-playing');
+  if (!anim) return;
+  anim.stop();
+  anim.goToAndStop(0, true);
+};
+
 onMounted(() => {
   gsap.registerPlugin(ScrollTrigger);
 
@@ -63,7 +154,14 @@ onMounted(() => {
   const items = projectsSection.value.querySelectorAll('.project-item');
   const divider = projectsSection.value.querySelector('.projects-divider');
 
-  gsap.set(items, {
+  const [firstItem, ...restItems] = Array.from(items);
+
+  gsap.set(firstItem, {
+    opacity: 0,
+    y: 60
+  });
+
+  gsap.set(restItems, {
     opacity: 0,
     y: 30
   });
@@ -82,18 +180,26 @@ onMounted(() => {
   });
 
   projectsTimeline
-    .to(items, {
+    .to(firstItem, {
+      opacity: 1,
+      y: 0,
+      duration: 0.9,
+      ease: 'power3.out'
+    })
+    .to(restItems, {
       opacity: 1,
       y: 0,
       duration: 0.8,
       ease: 'power3.out',
       stagger: 0.15
-    })
+    }, '-=0.2')
     .to(divider, {
       scaleX: 1,
       duration: 0.8,
       ease: 'power2.inOut'
     }, '-=0.3');
+
+  initLottie();
 });
 
 onUnmounted(() => {
@@ -102,6 +208,9 @@ onUnmounted(() => {
     projectsTimeline.kill();
     projectsTimeline = null;
   }
+
+  lottieTimers.forEach((timer) => window.clearTimeout(timer));
+  lottieAnims.forEach((anim) => anim?.destroy());
 });
 </script>
 
@@ -157,18 +266,40 @@ onUnmounted(() => {
   letter-spacing: -0.02em;
   cursor: pointer;
   display: inline-block;
-  padding-bottom: 0.12em;
-  position: relative;
 }
 
-.project-title::after {
-  content: attr(data-title);
+.project-title-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+}
+
+.project-title-text {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: fit-content;
+  position: relative;
+  padding-bottom: 0.12em;
+  color: var(--project-title-color);
+}
+
+.project-title-text:hover .project-title-anim {
+  background-size: 100% 100%;
+}
+
+.project-title-base {
+  display: inline-block;
+}
+
+.project-title-anim {
   position: absolute;
   top: 0;
   left: 0;
   line-height: inherit;
   padding-bottom: 0.12em;
   display: inline-block;
+  width: 100%;
+  pointer-events: none;
   background-image: linear-gradient(
     90deg,
     var(--project-hover-color),
@@ -184,8 +315,26 @@ onUnmounted(() => {
   pointer-events: none;
 }
 
-.project-title:hover::after {
-  background-size: 100% 100%;
+.project-title-lottie {
+  width: 1em;
+  height: 1em;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(0.05em) scaleX(-1);
+  margin-left: -0.35em;
+  transition: opacity 200ms ease, transform 200ms ease;
+  will-change: opacity, transform;
+}
+
+.project-title-lottie.is-playing {
+  opacity: 1;
+  transform: translateY(0) scaleX(-1);
+}
+
+.project-title-lottie :deep(svg) {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .project-tags {
