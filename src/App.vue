@@ -7,8 +7,8 @@
   <About />
   <Skills />
   <Statement />
+  <Projects />
 
-  <section id="projects"></section>
   <section id="contact"></section>
 
 </template>
@@ -21,6 +21,7 @@ import Impact from "./components/Impact.vue";
 import About from "./components/About.vue";
 import Skills from "./components/Skills.vue";
 import Statement from "./components/Statement.vue";
+import Projects from "./components/Projects.vue";
 </script>
 
 <style>

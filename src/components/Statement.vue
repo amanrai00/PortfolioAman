@@ -3,7 +3,7 @@
     <!-- Divider with lines and text -->
     <div class="statement-divider">
       <div class="statement-line statement-line-left"></div>
-      <span ref="dividerText" class="statement-divider-text">Each project shaped<br class="mobile-break">how I work today.</span>
+      <span ref="dividerText" class="statement-divider-text">Each project shaped <br class="mobile-break">how I work today.</span>
       <div class="statement-line statement-line-right"></div>
     </div>
 
