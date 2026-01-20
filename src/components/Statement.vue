@@ -288,7 +288,27 @@ onUnmounted(() => {
     padding-left: 1rem;
   }
 
+  .statement-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .statement-main {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15em;
+  }
+
+  .statement-line-text-shift {
+    margin-left: 0;
+  }
+
   .statement-outline {
+    margin-left: 0;
+    margin-right: 0;
     padding-right: 1rem;
   }
 
@@ -304,13 +324,14 @@ onUnmounted(() => {
   }
 
   .statement-outline-text:hover {
-    -webkit-text-stroke: 0 transparent;
-    text-stroke: 0 transparent;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--statement-outline-color);
+    text-stroke: 1.5px var(--statement-outline-color);
   }
 
   .statement-outline-text:hover::before {
-    -webkit-text-stroke: 0 transparent;
-    text-stroke: 0 transparent;
+    -webkit-text-stroke: 1.5px var(--statement-shadow-color);
+    text-stroke: 1.5px var(--statement-shadow-color);
   }
 }
 
@@ -322,13 +343,14 @@ onUnmounted(() => {
   }
 
   .statement-outline-text:hover {
-    -webkit-text-stroke: 0 transparent;
-    text-stroke: 0 transparent;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--statement-outline-color);
+    text-stroke: 1px var(--statement-outline-color);
   }
 
   .statement-outline-text:hover::before {
-    -webkit-text-stroke: 0 transparent;
-    text-stroke: 0 transparent;
+    -webkit-text-stroke: 1px var(--statement-shadow-color);
+    text-stroke: 1px var(--statement-shadow-color);
   }
 }
 </style>
