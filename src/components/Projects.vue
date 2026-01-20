@@ -234,8 +234,8 @@ onUnmounted(() => {
 
 .project-item {
   display: flex;
-  align-items: flex-start;
-  gap: 1.5rem;
+  align-items: baseline;
+  gap: 0.2rem;
   padding: 2rem 0;
   border-top: 1px solid var(--project-border-color);
 }
@@ -253,7 +253,7 @@ onUnmounted(() => {
   font-weight: 500;
   color: var(--theme-text-muted);
   min-width: 3rem;
-  padding-top: 0.5rem;
+  padding-top: 0;
 }
 
 .project-content {
@@ -263,7 +263,7 @@ onUnmounted(() => {
 .project-title {
   font-size: clamp(2.5rem, 8vw, 5rem);
   font-weight: 700;
-  margin: 0 0 0.75rem;
+  margin: 0;
   line-height: 1.12;
   color: var(--project-title-color);
   letter-spacing: -0.02em;
@@ -319,19 +319,19 @@ onUnmounted(() => {
 }
 
 .project-title-lottie {
-  width: 1em;
-  height: 1em;
+  width: 3em;
+  height: 3em;
   pointer-events: none;
   opacity: 0;
-  transform: none;
-  margin-left: 0;
+  transform: translateY(0.28em);
+  margin-left: -0.7em;
   transition: opacity 200ms ease, transform 200ms ease;
   will-change: opacity, transform;
 }
 
 .project-title-lottie.is-playing {
   opacity: 1;
-  transform: none;
+  transform: translateY(0.28em);
 }
 
 .project-title-lottie.is-playing :deep(path) {
@@ -350,8 +350,8 @@ onUnmounted(() => {
   flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
-  margin-top: 1.2rem;
-  transform: translateY(-0.35rem);
+  margin-top: 0.05rem;
+  transform: translateY(0);
 }
 
 .project-tag {
@@ -428,7 +428,6 @@ onUnmounted(() => {
 
 @media (max-width: 480px) {
   .project-item {
-    flex-direction: column;
     gap: 0.5rem;
   }
 
