@@ -8,10 +8,10 @@
         :class="{ 'project-item-first': index === 0 }"
         ref="projectItems"
       >
-        <span class="project-index">_{{ String(index + 1).padStart(2, '0') }}.</span>
         <div class="project-content">
           <h3 class="project-title">
             <span class="project-title-row">
+              <span class="project-index">_{{ String(index + 1).padStart(2, '0') }}.</span>
               <span
                 class="project-title-text"
                 @mouseenter="handleTitleEnter(index)"
@@ -234,7 +234,7 @@ onUnmounted(() => {
 
 .project-item {
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   gap: 0.2rem;
   padding: 2rem 0;
   border-top: 1px solid var(--project-border-color);
@@ -252,8 +252,11 @@ onUnmounted(() => {
   font-size: clamp(0.875rem, 1.5vw, 1rem);
   font-weight: 500;
   color: var(--theme-text-muted);
-  min-width: 3rem;
+  min-width: 0;
   padding-top: 0;
+  line-height: 1;
+  margin-right: 1.2em;
+  transform: translateY(-1.40em);
 }
 
 .project-content {
