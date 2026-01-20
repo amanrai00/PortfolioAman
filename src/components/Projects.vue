@@ -353,7 +353,7 @@ onUnmounted(() => {
   flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
-  margin-top: 0.05rem;
+  margin-top: -2.7rem;
   transform: translateY(0);
 }
 
