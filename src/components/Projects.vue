@@ -55,6 +55,7 @@ const lottieAnims = [];
 const lottieEndHandlers = [];
 const lottieTimers = [];
 const lottieStarted = [];
+const lottieHoldFrames = [];
 
 const projects = [
   {
@@ -88,6 +89,8 @@ const initLottie = async () => {
       animationData: upArrowAnim
     });
     anim.setSpeed(1);
+    const totalFrames = Math.max(anim.getDuration(true), 1);
+    lottieHoldFrames[index] = Math.max(Math.floor(totalFrames * 0.85), 1);
     lottieAnims[index] = anim;
   });
 };
@@ -98,6 +101,7 @@ const handleTitleEnter = (index) => {
   const animEl = titleAnimEls.value[index];
   if (!anim || !animEl) return;
   lottieStarted[index] = false;
+  if (el) el.classList.add('is-playing');
 
   if (lottieEndHandlers[index]) {
     animEl.removeEventListener('transitionend', lottieEndHandlers[index]);
@@ -106,9 +110,8 @@ const handleTitleEnter = (index) => {
   const startAnim = () => {
     if (lottieStarted[index]) return;
     lottieStarted[index] = true;
-    if (el) el.classList.add('is-playing');
-    anim.goToAndStop(0, true);
-    anim.play();
+    const holdFrame = lottieHoldFrames[index] || Math.max(anim.getDuration(true) - 1, 0);
+    anim.playSegments([0, holdFrame], true);
   };
 
   const styles = window.getComputedStyle(animEl);
@@ -320,7 +323,7 @@ onUnmounted(() => {
   height: 1em;
   pointer-events: none;
   opacity: 0;
-  transform: translateY(0.05em) scaleX(-1);
+  transform: translateY(0.05em) scaleX(-1) rotate(-90deg);
   margin-left: -0.35em;
   transition: opacity 200ms ease, transform 200ms ease;
   will-change: opacity, transform;
@@ -328,7 +331,12 @@ onUnmounted(() => {
 
 .project-title-lottie.is-playing {
   opacity: 1;
-  transform: translateY(0) scaleX(-1);
+  transform: translateY(0) scaleX(-1) rotate(-90deg);
+}
+
+.project-title-lottie.is-playing :deep(path) {
+  stroke: #18969e !important;
+  fill: #18969e !important;
 }
 
 .project-title-lottie :deep(svg) {
@@ -376,7 +384,7 @@ onUnmounted(() => {
   --project-title-color: #f2f0ea;
   --project-meta-color: rgba(242, 240, 234, 0.7);
   --project-dot-color: rgba(242, 240, 234, 0.5);
-  --project-hover-color: #79d98b;
+  --project-hover-color: #18969e;
 }
 
 /* Light theme */
@@ -385,7 +393,7 @@ onUnmounted(() => {
   --project-title-color: var(--theme-text-strong);
   --project-meta-color: var(--theme-text-muted);
   --project-dot-color: var(--theme-text-soft);
-  --project-hover-color: #1b7f3d;
+  --project-hover-color: #18969e;
 }
 
 /* Default fallback */
@@ -394,7 +402,7 @@ onUnmounted(() => {
   --project-title-color: var(--theme-text-strong);
   --project-meta-color: var(--theme-text-muted);
   --project-dot-color: var(--theme-text-soft);
-  --project-hover-color: #1b7f3d;
+  --project-hover-color: #18969e;
 }
 
 /* Responsive */
