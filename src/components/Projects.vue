@@ -236,11 +236,13 @@ onUnmounted(() => {
   display: flex;
   align-items: flex-start;
   gap: 0.2rem;
-  padding: 2.7rem 0 0.5rem;
+  padding: 0;
+  margin-top: -2.2rem;
   border-bottom: 1px solid var(--project-border-color);
 }
 
 .project-item-first {
+  margin-top: 0;
   border-bottom: 1px solid var(--project-border-color);
 }
 
@@ -261,7 +263,7 @@ onUnmounted(() => {
 
 .project-content {
   flex: 1;
-  margin-top: -2.7rem;
+  margin-top: 0;
 }
 
 .project-title {
@@ -355,6 +357,7 @@ onUnmounted(() => {
   gap: 1rem;
   align-items: center;
   margin-top: -2.7rem;
+  padding-bottom: 1rem;
   transform: translateY(0);
 }
 
@@ -417,7 +420,7 @@ onUnmounted(() => {
 
   .project-item {
     gap: 1rem;
-    padding: 1.5rem 0;
+    padding: 0.5rem 0;
   }
 
   .project-index {
