@@ -236,7 +236,7 @@ onUnmounted(() => {
   display: flex;
   align-items: flex-start;
   gap: 0.2rem;
-  padding: 2rem 0;
+  padding: 0 0 0.5rem;
   border-top: 1px solid var(--project-border-color);
 }
 
@@ -261,13 +261,14 @@ onUnmounted(() => {
 
 .project-content {
   flex: 1;
+  margin-top: -2.5rem;
 }
 
 .project-title {
   font-size: clamp(2.5rem, 8vw, 5rem);
   font-weight: 700;
   margin: 0;
-  line-height: 1.12;
+  line-height: 1;
   color: var(--project-title-color);
   letter-spacing: -0.02em;
   cursor: pointer;
