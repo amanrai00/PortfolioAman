@@ -6,6 +6,8 @@
         :key="project.id"
         class="project-item"
         :class="{ 'project-item-first': index === 0 }"
+        @mouseenter="handleTitleEnter(index)"
+        @mouseleave="handleTitleLeave(index)"
         ref="projectItems"
       >
         <div class="project-content">
@@ -14,8 +16,6 @@
               <span class="project-index">_{{ String(index + 1).padStart(2, '0') }}.</span>
               <span
                 class="project-title-text"
-                @mouseenter="handleTitleEnter(index)"
-                @mouseleave="handleTitleLeave(index)"
               >
                 <span class="project-title-base">{{ project.title }}</span>
                 <span ref="titleAnimEls" class="project-title-anim" aria-hidden="true">{{ project.title }}</span>
@@ -236,12 +236,12 @@ onUnmounted(() => {
   display: flex;
   align-items: flex-start;
   gap: 0.2rem;
-  padding: 0 0 0.5rem;
-  border-top: 1px solid var(--project-border-color);
+  padding: 2.7rem 0 0.5rem;
+  border-bottom: 1px solid var(--project-border-color);
 }
 
 .project-item-first {
-  border-top: none;
+  border-bottom: 1px solid var(--project-border-color);
 }
 
 .project-item:last-child {
@@ -261,7 +261,7 @@ onUnmounted(() => {
 
 .project-content {
   flex: 1;
-  margin-top: -2.5rem;
+  margin-top: -2.7rem;
 }
 
 .project-title {
@@ -290,7 +290,7 @@ onUnmounted(() => {
   color: var(--project-title-color);
 }
 
-.project-title-text:hover .project-title-anim {
+.project-item:hover .project-title-anim {
   background-size: 100% 100%;
 }
 
