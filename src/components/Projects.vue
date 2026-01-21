@@ -286,7 +286,7 @@ onUnmounted(() => {
   flex: 0 0 auto;
   width: fit-content;
   position: relative;
-  padding-bottom: 0.12em;
+  padding-bottom: 0.22em;
   color: var(--project-title-color);
 }
 
@@ -303,7 +303,7 @@ onUnmounted(() => {
   top: 0;
   left: 0;
   line-height: inherit;
-  padding-bottom: 0.12em;
+  padding-bottom: 0.22em;
   display: inline-block;
   width: 100%;
   pointer-events: none;
