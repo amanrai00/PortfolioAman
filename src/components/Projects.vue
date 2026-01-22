@@ -6,6 +6,7 @@
         :key="project.id"
         class="project-item"
         :class="{ 'project-item-first': index === 0 }"
+        :style="{ '--project-image': `url(${project.image})` }"
         @mouseenter="handleTitleEnter(index)"
         @mouseleave="handleTitleLeave(index)"
         ref="projectItems"
@@ -61,17 +62,20 @@ const projects = [
   {
     id: 1,
     title: 'Progress',
-    tags: ['Next.js', 'Payload CMS', 'Tailwind CSS']
+    tags: ['Next.js', 'Payload CMS', 'Tailwind CSS'],
+    image: '/images/projects/electro-ev.jpg'
   },
   {
     id: 2,
     title: 'Progress',
-    tags: ['React', 'Redux', 'React i18n']
+    tags: ['React', 'Redux', 'React i18n'],
+    image: '/images/projects/epikcart.jpg'
   },
   {
     id: 3,
     title: 'Progress',
-    tags: ['GPT-4', 'Next.js', 'PostgreSQL']
+    tags: ['GPT-4', 'Next.js', 'PostgreSQL'],
+    image: '/images/projects/resume-roaster.jpg'
   }
 ];
 
@@ -241,8 +245,7 @@ onUnmounted(() => {
   margin-bottom: -0.2em;
   border-bottom: 1px solid var(--project-border-color);
   position: relative;
-  overflow: clip;
-  overflow-y: visible;
+  overflow: visible;
   --project-index-width: 4ch;
   --project-index-gap: 1.2em;
 }
@@ -251,6 +254,44 @@ onUnmounted(() => {
 .project-item:nth-child(1) { z-index: 3; }
 .project-item:nth-child(2) { z-index: 2; }
 .project-item:nth-child(3) { z-index: 1; }
+
+/* Skewed image preview on hover */
+.project-item::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 320px;
+  height: 220px;
+  transform: translateY(-50%) skewX(-8deg) scale(0.85);
+  transform-origin: right center;
+
+  background-image: var(--project-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: var(--project-image-overlay, rgba(0, 0, 0, 0.1));
+  background-blend-mode: overlay;
+
+  border-radius: 8px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10;
+}
+
+.project-item:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) skewX(-8deg) scale(1);
+}
+
+.project-item:hover {
+  z-index: 20;
+}
 
 .project-item-first {
   margin-top: 0;
@@ -414,6 +455,7 @@ onUnmounted(() => {
   --project-meta-color: rgba(242, 240, 234, 0.7);
   --project-dot-color: rgba(242, 240, 234, 0.5);
   --project-hover-color: #b8bacf;
+  --project-image-overlay: rgba(0, 0, 0, 0.15);
 }
 
 /* Light theme */
@@ -423,6 +465,7 @@ onUnmounted(() => {
   --project-meta-color: var(--theme-text-muted);
   --project-dot-color: var(--theme-text-soft);
   --project-hover-color: #9c6a4b;
+  --project-image-overlay: rgba(255, 255, 255, 0.1);
 }
 
 /* Default fallback */
@@ -435,6 +478,13 @@ onUnmounted(() => {
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .project-item::after {
+    width: 260px;
+    height: 180px;
+  }
+}
+
 @media (max-width: 768px) {
   .projects-section {
     padding: 1rem 1rem 3rem;
@@ -444,6 +494,10 @@ onUnmounted(() => {
     gap: 1rem;
     padding: 0.5rem 0;
     --project-index-width: 2.5rem;
+  }
+
+  .project-item::after {
+    display: none;
   }
 
   .project-index {
