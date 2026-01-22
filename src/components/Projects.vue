@@ -1,14 +1,28 @@
 <template>
   <section id="projects" ref="projectsSection" class="projects-section">
-    <div class="projects-list">
+    <!-- Shared image preview -->
+    <div
+      ref="imagePreview"
+      class="project-image-preview"
+      :class="{ 'is-visible': hoveredIndex !== null }"
+    >
+      <img
+        v-for="(project, index) in projects"
+        :key="project.id"
+        :src="project.image"
+        :alt="project.title"
+        class="project-image"
+        :class="{ 'is-active': hoveredIndex === index }"
+      />
+    </div>
+
+    <div class="projects-list" @mouseleave="handleListLeave">
       <article
         v-for="(project, index) in projects"
         :key="project.id"
         class="project-item"
-        :class="{ 'project-item-first': index === 0 }"
-        :style="{ '--project-image': `url(${project.image})` }"
+        :class="{ 'project-item-first': index === 0, 'is-hovered': hoveredIndex === index }"
         @mouseenter="handleTitleEnter(index)"
-        @mouseleave="handleTitleLeave(index)"
         ref="projectItems"
       >
         <div class="project-content">
@@ -51,6 +65,8 @@ const projectsSection = ref(null);
 const projectItems = ref([]);
 const titleAnimEls = ref([]);
 const lottieEls = ref([]);
+const imagePreview = ref(null);
+const hoveredIndex = ref(null);
 
 const lottieAnims = [];
 const lottieEndHandlers = [];
@@ -100,6 +116,30 @@ const initLottie = async () => {
 };
 
 const handleTitleEnter = (index) => {
+  // Update hovered index for image preview
+  const prevIndex = hoveredIndex.value;
+  hoveredIndex.value = index;
+
+  // Update image preview position based on hovered item
+  if (imagePreview.value && projectItems.value[index]) {
+    const item = projectItems.value[index];
+    const itemRect = item.getBoundingClientRect();
+    const sectionRect = projectsSection.value.getBoundingClientRect();
+    const topOffset = itemRect.top - sectionRect.top + itemRect.height / 2;
+    imagePreview.value.style.top = `${topOffset}px`;
+  }
+
+  // Stop previous lottie animation if switching items
+  if (prevIndex !== null && prevIndex !== index) {
+    const prevAnim = lottieAnims[prevIndex];
+    const prevEl = lottieEls.value[prevIndex];
+    if (prevEl) prevEl.classList.remove('is-playing');
+    if (prevAnim) {
+      prevAnim.stop();
+      prevAnim.goToAndStop(0, true);
+    }
+  }
+
   const anim = lottieAnims[index];
   const el = lottieEls.value[index];
   const animEl = titleAnimEls.value[index];
@@ -138,7 +178,13 @@ const handleTitleEnter = (index) => {
   animEl.addEventListener('transitionend', lottieEndHandlers[index], { once: true });
 };
 
-const handleTitleLeave = (index) => {
+const handleListLeave = () => {
+  // Clear hovered state when leaving the entire list
+  const index = hoveredIndex.value;
+  hoveredIndex.value = null;
+
+  if (index === null) return;
+
   window.clearTimeout(lottieTimers[index]);
   const anim = lottieAnims[index];
   const el = lottieEls.value[index];
@@ -255,42 +301,47 @@ onUnmounted(() => {
 .project-item:nth-child(2) { z-index: 2; }
 .project-item:nth-child(3) { z-index: 1; }
 
-/* Skewed image preview on hover */
-.project-item::after {
-  content: "";
+.project-item.is-hovered {
+  z-index: 20;
+}
+
+/* Shared image preview container */
+.project-image-preview {
   position: absolute;
-  top: 50%;
-  right: 0;
+  right: clamp(1rem, 5vw, 4rem);
   width: 320px;
   height: 220px;
   transform: translateY(-50%) skewX(-8deg) scale(0.85);
   transform-origin: right center;
-
-  background-image: var(--project-image);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: var(--project-image-overlay, rgba(0, 0, 0, 0.1));
-  background-blend-mode: overlay;
-
   border-radius: 8px;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
   overflow: hidden;
-
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 10;
+              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
 }
 
-.project-item:hover::after {
+.project-image-preview.is-visible {
   opacity: 1;
   transform: translateY(-50%) skewX(-8deg) scale(1);
 }
 
-.project-item:hover {
-  z-index: 20;
+.project-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-image.is-active {
+  opacity: 1;
 }
 
 .project-item-first {
@@ -479,7 +530,7 @@ onUnmounted(() => {
 
 /* Responsive */
 @media (max-width: 1024px) {
-  .project-item::after {
+  .project-image-preview {
     width: 260px;
     height: 180px;
   }
@@ -496,7 +547,7 @@ onUnmounted(() => {
     --project-index-width: 2.5rem;
   }
 
-  .project-item::after {
+  .project-image-preview {
     display: none;
   }
 
