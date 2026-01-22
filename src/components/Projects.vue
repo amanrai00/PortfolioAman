@@ -236,11 +236,13 @@ onUnmounted(() => {
   display: flex;
   align-items: flex-start;
   gap: 0.2rem;
-  padding: 0;
+  padding: 0 0 0.2em;
   margin-top: -2.2rem;
+  margin-bottom: -0.2em;
   border-bottom: 1px solid var(--project-border-color);
   position: relative;
-  overflow: hidden;
+  overflow: clip;
+  overflow-y: visible;
   --project-index-width: 4ch;
   --project-index-gap: 1.2em;
 }
@@ -279,7 +281,7 @@ onUnmounted(() => {
   font-size: clamp(2.5rem, 8vw, 5rem);
   font-weight: 700;
   margin: 0;
-  line-height: 1;
+  line-height: 1.05;
   color: var(--project-title-color);
   letter-spacing: -0.02em;
   cursor: pointer;
@@ -307,6 +309,17 @@ onUnmounted(() => {
 
 .project-title-base {
   display: inline-block;
+  padding-bottom: 0.15em;
+  background: linear-gradient(
+    to bottom,
+    var(--theme-headline-from),
+    var(--theme-headline-via),
+    var(--theme-headline-to)
+  );
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
 }
 
 .project-title-anim {
@@ -350,8 +363,8 @@ onUnmounted(() => {
 }
 
 .project-title-lottie.is-playing :deep(path) {
-  stroke: #18969e !important;
-  fill: #18969e !important;
+  stroke: var(--project-hover-color) !important;
+  fill: var(--project-hover-color) !important;
 }
 
 .project-title-lottie :deep(svg) {
@@ -400,7 +413,7 @@ onUnmounted(() => {
   --project-title-color: #f2f0ea;
   --project-meta-color: rgba(242, 240, 234, 0.7);
   --project-dot-color: rgba(242, 240, 234, 0.5);
-  --project-hover-color: #18969e;
+  --project-hover-color: #b8bacf;
 }
 
 /* Light theme */
@@ -409,7 +422,7 @@ onUnmounted(() => {
   --project-title-color: var(--theme-text-strong);
   --project-meta-color: var(--theme-text-muted);
   --project-dot-color: var(--theme-text-soft);
-  --project-hover-color: #18969e;
+  --project-hover-color: #9c6a4b;
 }
 
 /* Default fallback */
@@ -418,7 +431,7 @@ onUnmounted(() => {
   --project-title-color: var(--theme-text-strong);
   --project-meta-color: var(--theme-text-muted);
   --project-dot-color: var(--theme-text-soft);
-  --project-hover-color: #18969e;
+  --project-hover-color: #9c6a4b;
 }
 
 /* Responsive */
