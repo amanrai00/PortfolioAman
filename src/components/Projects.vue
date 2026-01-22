@@ -240,6 +240,7 @@ onUnmounted(() => {
   margin-top: -2.2rem;
   border-bottom: 1px solid var(--project-border-color);
   position: relative;
+  overflow: hidden;
   --project-index-width: 4ch;
   --project-index-gap: 1.2em;
 }
