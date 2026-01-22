@@ -239,7 +239,13 @@ onUnmounted(() => {
   padding: 0;
   margin-top: -2.2rem;
   border-bottom: 1px solid var(--project-border-color);
+  position: relative;
 }
+
+/* Ensure earlier items stack on top of later ones in the overlap zone */
+.project-item:nth-child(1) { z-index: 3; }
+.project-item:nth-child(2) { z-index: 2; }
+.project-item:nth-child(3) { z-index: 1; }
 
 .project-item-first {
   margin-top: 0;
