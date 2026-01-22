@@ -364,10 +364,9 @@ onUnmounted(() => {
   flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
-  margin-top: -2.7rem;
+  margin-top: -4rem;
   padding-bottom: 1rem;
   padding-left: calc(var(--project-index-width) + var(--project-index-gap) + 0.3em);
-  transform: translateY(0);
 }
 
 .project-tag {
