@@ -240,6 +240,8 @@ onUnmounted(() => {
   margin-top: -2.2rem;
   border-bottom: 1px solid var(--project-border-color);
   position: relative;
+  --project-index-width: 4ch;
+  --project-index-gap: 1.2em;
 }
 
 /* Ensure earlier items stack on top of later ones in the overlap zone */
@@ -260,10 +262,10 @@ onUnmounted(() => {
   font-size: clamp(0.875rem, 1.5vw, 1rem);
   font-weight: 500;
   color: var(--theme-text-muted);
-  min-width: 0;
+  width: var(--project-index-width);
   padding-top: 0;
   line-height: 1;
-  margin-right: 1.2em;
+  margin-right: var(--project-index-gap);
   transform: translateY(-1.40em);
 }
 
@@ -364,6 +366,7 @@ onUnmounted(() => {
   align-items: center;
   margin-top: -2.7rem;
   padding-bottom: 1rem;
+  padding-left: calc(var(--project-index-width) + var(--project-index-gap) + 0.3em);
   transform: translateY(0);
 }
 
@@ -427,10 +430,10 @@ onUnmounted(() => {
   .project-item {
     gap: 1rem;
     padding: 0.5rem 0;
+    --project-index-width: 2.5rem;
   }
 
   .project-index {
-    min-width: 2.5rem;
     padding-top: 0.25rem;
   }
 
