@@ -313,7 +313,7 @@ onUnmounted(() => {
   position: absolute;
   right: clamp(1rem, 5vw, 4rem);
   width: 320px;
-  height: 220px;
+  height: 260px;
   transform: translateY(-50%) skewX(-8deg) scale(0.85);
   transform-origin: right center;
   border-radius: 8px;
@@ -535,7 +535,7 @@ onUnmounted(() => {
 @media (max-width: 1024px) {
   .project-image-preview {
     width: 260px;
-    height: 180px;
+    height: 210px;
   }
 }
 
