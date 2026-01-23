@@ -60,6 +60,9 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import lottie from 'lottie-web';
 import threadLineDownRightAnim from '@/assets/lottie/Thread Line Down Right.json';
+import progress1Img from '@/assets/progress1.jpg';
+import progress2Img from '@/assets/progress2.jpg';
+import progress3Img from '@/assets/progress3.jpg';
 
 const projectsSection = ref(null);
 const projectItems = ref([]);
@@ -79,19 +82,19 @@ const projects = [
     id: 1,
     title: 'Progress',
     tags: ['Next.js', 'Payload CMS', 'Tailwind CSS'],
-    image: '/images/projects/electro-ev.jpg'
+    image: progress1Img
   },
   {
     id: 2,
     title: 'Progress',
     tags: ['React', 'Redux', 'React i18n'],
-    image: '/images/projects/epikcart.jpg'
+    image: progress2Img
   },
   {
     id: 3,
     title: 'Progress',
     tags: ['GPT-4', 'Next.js', 'PostgreSQL'],
-    image: '/images/projects/resume-roaster.jpg'
+    image: progress3Img
   }
 ];
 
