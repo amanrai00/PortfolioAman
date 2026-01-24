@@ -597,7 +597,7 @@ onUnmounted(() => {
 
   .project-tags {
     gap: 0.75rem;
-    padding-left: 0;
+    padding-left: 2rem;
   }
 
   .project-image-preview {
