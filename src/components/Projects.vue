@@ -450,7 +450,8 @@ onUnmounted(() => {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-text-stroke: 0.2px transparent;
+  -webkit-text-stroke: 0.45px transparent;
+  paint-order: stroke fill;
 }
 
 .project-title-base {
