@@ -131,7 +131,7 @@
 
       <ul class="relative z-10 flex flex-col gap-8 text-center">
         <li
-          v-for="(item, index) in sections"
+          v-for="(item, index) in mobileSections"
           :key="item.id"
           :class="[
             'transition-all ease-out',
@@ -143,7 +143,7 @@
           }"
         >
           <button
-            @click="scrollToSection(item.id)"
+            @click="scrollToSection(item.targetId ?? item.id)"
             class="mobile-nav-link text-[28px] font-light tracking-[0.18em] text-[color:var(--theme-text-muted)] hover:text-[color:var(--theme-text-strong)] transition-colors duration-200 transition-transform hover:scale-105 cursor-pointer"
           >
             {{ item.label }}
@@ -157,7 +157,7 @@
             isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           ]"
           :style="{ 
-            transitionDelay: isOpen ? `${160 + (sections.length * 45)}ms` : '0ms',
+            transitionDelay: isOpen ? `${160 + (mobileSections.length * 45)}ms` : '0ms',
             transitionDuration: '310ms'
           }"
         >
@@ -199,7 +199,7 @@
             isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           ]"
           :style="{ 
-            transitionDelay: isOpen ? `${210 + (sections.length * 45)}ms` : '0ms',
+            transitionDelay: isOpen ? `${210 + (mobileSections.length * 45)}ms` : '0ms',
             transitionDuration: '310ms'
           }"
         >
@@ -235,6 +235,13 @@ const sections = [
   { id: "skills", label: "Skills" },
   { id: "projects", label: "Projects" },
   { id: "contact", label: "Contact" },
+];
+
+const mobileSections = [
+  { id: "home", label: "Home", targetId: "home" },
+  { id: "about", label: "About", targetId: "about" },
+  { id: "projects", label: "Projects", targetId: "statement" },
+  { id: "contact", label: "Contact", targetId: "contact" },
 ];
 
 const menuIconEl = ref(null);
