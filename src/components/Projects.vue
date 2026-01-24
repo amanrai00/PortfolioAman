@@ -314,6 +314,9 @@ onUnmounted(() => {
   margin: 0 auto;
   padding-left: clamp(1rem, 5vw, 4rem);
   padding-right: clamp(1rem, 5vw, 4rem);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .projects-list {
@@ -432,10 +435,22 @@ onUnmounted(() => {
   position: relative;
   padding-bottom: 0.22em;
   color: var(--project-title-color);
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  isolation: isolate;
 }
 
 .project-item:hover .project-title-anim {
   background-size: 100% 100%;
+}
+
+.project-title-text,
+.project-title-base,
+.project-title-anim {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-stroke: 0.2px transparent;
 }
 
 .project-title-base {
@@ -451,6 +466,8 @@ onUnmounted(() => {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .project-title-anim {
@@ -475,6 +492,8 @@ onUnmounted(() => {
   color: transparent;
   transition: background-size 0.7s ease;
   pointer-events: none;
+  backface-visibility: hidden;
+  will-change: background-size;
 }
 
 .project-title-lottie {
