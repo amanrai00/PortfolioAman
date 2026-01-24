@@ -63,7 +63,6 @@ import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import lottie from 'lottie-web';
-import threadLineDownRightAnim from '@/assets/lottie/Thread Line Down Right.json';
 import progress1Img from '@/assets/progress1.jpg';
 import progress2Img from '@/assets/progress2.jpg';
 import progress3Img from '@/assets/progress3.jpg';
@@ -80,6 +79,9 @@ const lottieEndHandlers = [];
 const lottieTimers = [];
 const lottieStarted = [];
 const lottieHoldFrames = [];
+let lottieMediaQuery = null;
+let lottieMediaHandler = null;
+let threadLineDownRightAnim = null;
 const resetTitleAnim = (index) => {
   const animEl = titleAnimEls.value[index];
   if (!animEl) return;
@@ -114,8 +116,30 @@ const projects = [
 
 let projectsTimeline = null;
 
+const destroyLottie = () => {
+  lottieTimers.forEach((timer) => window.clearTimeout(timer));
+  lottieTimers.length = 0;
+  lottieAnims.forEach((anim, index) => {
+    const animEl = titleAnimEls.value[index];
+    if (animEl && lottieEndHandlers[index]) {
+      animEl.removeEventListener('transitionend', lottieEndHandlers[index]);
+    }
+    anim?.destroy();
+  });
+  lottieAnims.length = 0;
+  lottieEndHandlers.length = 0;
+  lottieStarted.length = 0;
+  lottieHoldFrames.length = 0;
+  lottieEls.value.forEach((el) => el?.classList.remove('is-playing'));
+};
+
 const initLottie = async () => {
   if (window.matchMedia('(max-width: 768px)').matches) return;
+  if (lottieAnims.length) return;
+  if (!threadLineDownRightAnim) {
+    const module = await import('@/assets/lottie/Thread Line Down Right.json');
+    threadLineDownRightAnim = module?.default ?? module;
+  }
   await nextTick();
   lottieEls.value.forEach((el, index) => {
     if (!el) return;
@@ -309,7 +333,20 @@ onMounted(() => {
       ease: 'power2.inOut'
     }, '-=0.3');
 
-  initLottie();
+  lottieMediaQuery = window.matchMedia('(max-width: 768px)');
+  lottieMediaHandler = (event) => {
+    if (event.matches) {
+      destroyLottie();
+    } else {
+      initLottie();
+    }
+  };
+  if (lottieMediaQuery.addEventListener) {
+    lottieMediaQuery.addEventListener('change', lottieMediaHandler);
+  } else {
+    lottieMediaQuery.addListener(lottieMediaHandler);
+  }
+  lottieMediaHandler(lottieMediaQuery);
 });
 
 onUnmounted(() => {
@@ -319,8 +356,14 @@ onUnmounted(() => {
     projectsTimeline = null;
   }
 
-  lottieTimers.forEach((timer) => window.clearTimeout(timer));
-  lottieAnims.forEach((anim) => anim?.destroy());
+  if (lottieMediaQuery && lottieMediaHandler) {
+    if (lottieMediaQuery.removeEventListener) {
+      lottieMediaQuery.removeEventListener('change', lottieMediaHandler);
+    } else {
+      lottieMediaQuery.removeListener(lottieMediaHandler);
+    }
+  }
+  destroyLottie();
 });
 </script>
 
