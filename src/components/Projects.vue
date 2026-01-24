@@ -16,14 +16,13 @@
       />
     </div>
 
-    <div class="projects-list" @mouseleave="handleListLeave">
+    <div class="projects-list" @mousemove="handleListMouseMove" @mouseleave="handleListLeave">
       <article
         v-for="(project, index) in projects"
         :key="project.id"
         class="project-item"
         :class="{ 'project-item-first': index === 0, 'is-hovered': hoveredIndex === index }"
-        @mouseenter="handleTitleEnter(index)"
-        ref="projectItems"
+                ref="projectItems"
       >
         <div class="project-content">
           <h3 class="project-title">
@@ -116,6 +115,43 @@ const initLottie = async () => {
     lottieHoldFrames[index] = Math.max(Math.floor(totalFrames * 0.85), 1);
     lottieAnims[index] = anim;
   });
+};
+
+const handleListMouseMove = (event) => {
+  if (!projectItems.value.length) return;
+
+  const mouseY = event.clientY;
+  let targetIndex = null;
+
+  // Find which item the mouse is over based on divider positions
+  for (let i = 0; i < projectItems.value.length; i++) {
+    const item = projectItems.value[i];
+    if (!item) continue;
+    const rect = item.getBoundingClientRect();
+    // Use the border-bottom position as the divider
+    const dividerY = rect.bottom;
+
+    if (i === 0) {
+      // First item: from top of item to its divider
+      if (mouseY >= rect.top && mouseY < dividerY) {
+        targetIndex = 0;
+        break;
+      }
+    } else {
+      // For subsequent items, trigger when mouse is past the previous divider
+      const prevItem = projectItems.value[i - 1];
+      const prevDividerY = prevItem.getBoundingClientRect().bottom;
+
+      if (mouseY >= prevDividerY && (i === projectItems.value.length - 1 || mouseY < dividerY)) {
+        targetIndex = i;
+        break;
+      }
+    }
+  }
+
+  if (targetIndex !== null && targetIndex !== hoveredIndex.value) {
+    handleTitleEnter(targetIndex);
+  }
 };
 
 const handleTitleEnter = (index) => {
@@ -508,7 +544,7 @@ onUnmounted(() => {
   --project-title-color: #f2f0ea;
   --project-meta-color: rgba(242, 240, 234, 0.7);
   --project-dot-color: rgba(242, 240, 234, 0.5);
-  --project-hover-color: #b8bacf;
+  --project-hover-color: #354F52;
   --project-image-overlay: rgba(0, 0, 0, 0.15);
 }
 
