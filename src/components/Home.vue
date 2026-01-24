@@ -194,6 +194,10 @@ const scrollToSection = (sectionId) => {
 
   // Special handling for about section
   if (sectionId === "about") {
+    if (window.innerWidth < 1024) {
+      sectionEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
     sectionEl.scrollIntoView({ behavior: "auto", block: "center" });
     return;
   }
