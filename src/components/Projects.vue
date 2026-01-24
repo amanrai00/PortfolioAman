@@ -34,6 +34,7 @@
           </div>
           <h3 class="project-title inline-block m-0 font-bold leading-[1.05] tracking-tight cursor-pointer text-(--project-title-color)">
             <span class="inline-flex items-center gap-0">
+              <span class="project-index-mobile font-medium text-(--theme-text-muted) leading-none">_{{ String(index + 1).padStart(2, '0') }}.</span>
               <span class="project-index font-medium text-(--theme-text-muted) leading-none">_{{ String(index + 1).padStart(2, '0') }}.</span>
               <span class="project-title-text inline-block shrink-0 w-fit relative pb-[0.22em] text-(--project-title-color)">
                 <span class="project-title-base inline-block pb-[0.15em]">{{ project.title }}</span>
@@ -391,6 +392,12 @@ onUnmounted(() => {
   transform: translateY(-1.40em);
 }
 
+.project-index-mobile {
+  display: none;
+  font-size: 0.95rem;
+  margin-right: 0.5em;
+}
+
 /* Project title sizing */
 .project-title {
   font-size: clamp(2.5rem, 8vw, 5rem);
@@ -581,6 +588,11 @@ onUnmounted(() => {
 
   .project-index {
     display: none;
+  }
+
+  .project-index-mobile {
+    display: inline-block;
+    transform: translateY(-0.9em);
   }
 
   .project-tags {
