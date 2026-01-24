@@ -115,6 +115,7 @@ const projects = [
 let projectsTimeline = null;
 
 const initLottie = async () => {
+  if (window.matchMedia('(max-width: 768px)').matches) return;
   await nextTick();
   lottieEls.value.forEach((el, index) => {
     if (!el) return;
