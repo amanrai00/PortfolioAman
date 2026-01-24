@@ -75,6 +75,16 @@ const lottieEndHandlers = [];
 const lottieTimers = [];
 const lottieStarted = [];
 const lottieHoldFrames = [];
+const resetTitleAnim = (index) => {
+  const animEl = titleAnimEls.value[index];
+  if (!animEl) return;
+  animEl.classList.add('is-resetting');
+  animEl.style.backgroundSize = '0% 100%';
+  // Force reflow to apply the no-transition state immediately.
+  void animEl.offsetHeight;
+  animEl.classList.remove('is-resetting');
+  animEl.style.removeProperty('background-size');
+};
 
 const projects = [
   {
@@ -170,6 +180,7 @@ const handleTitleEnter = (index) => {
 
   // Stop previous lottie animation if switching items
   if (prevIndex !== null && prevIndex !== index) {
+    resetTitleAnim(prevIndex);
     const prevAnim = lottieAnims[prevIndex];
     const prevEl = lottieEls.value[prevIndex];
     if (prevEl) prevEl.classList.remove('is-playing');
@@ -228,6 +239,7 @@ const handleListLeave = () => {
   const anim = lottieAnims[index];
   const el = lottieEls.value[index];
   const animEl = titleAnimEls.value[index];
+  resetTitleAnim(index);
   if (animEl && lottieEndHandlers[index]) {
     animEl.removeEventListener('transitionend', lottieEndHandlers[index]);
   }
@@ -495,6 +507,10 @@ onUnmounted(() => {
   pointer-events: none;
   backface-visibility: hidden;
   will-change: background-size;
+}
+
+.project-title-anim.is-resetting {
+  transition: none;
 }
 
 .project-title-lottie {
