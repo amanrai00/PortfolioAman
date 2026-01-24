@@ -556,6 +556,10 @@ onUnmounted(() => {
   .project-title-anim {
     transition: none;
   }
+
+  .projects-divider {
+    display: none;
+  }
 }
 
 /* Responsive: 480px */
