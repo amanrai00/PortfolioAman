@@ -42,7 +42,7 @@
               <span ref="lottieEls" class="project-title-lottie w-[3em] h-[3em] pointer-events-none opacity-0 -ml-[0.7em]" aria-hidden="true"></span>
             </span>
           </h3>
-          <div class="project-tags flex flex-wrap gap-4 items-center -mt-16 pb-4">
+          <div class="project-tags flex flex-wrap gap-4 items-center -mt-16 pb-4 max-md:-mt-7">
             <span
               v-for="(tag, tagIndex) in project.tags"
               :key="tagIndex"
@@ -511,6 +511,7 @@ onUnmounted(() => {
 
   .project-mobile-image {
     display: block;
+    margin-bottom: 0.75rem;
   }
 
   .project-mobile-image img {
@@ -519,19 +520,28 @@ onUnmounted(() => {
   }
 
   .project-item {
-    gap: 1rem;
-    padding: 0.5rem 0;
+    gap: 0;
+    padding: 0;
+    margin-top: 0;
+    margin-bottom: 2.5rem;
+    border-bottom: none;
+  }
+
+  .project-item-first {
+    margin-top: 0;
+  }
+
+  .project-item:last-child {
     margin-bottom: 1.5rem;
   }
 
   .project-index {
-    width: 2.5rem;
-    padding-top: 0.25rem;
+    display: none;
   }
 
   .project-tags {
     gap: 0.75rem;
-    padding-left: calc(2.5rem + 1.2em + 0.3em);
+    padding-left: 0;
   }
 
   .project-image-preview {
@@ -550,11 +560,11 @@ onUnmounted(() => {
 /* Responsive: 480px */
 @media (max-width: 480px) {
   .project-item {
-    gap: 0.5rem;
+    margin-bottom: 2rem;
   }
 
-  .project-index {
-    padding-top: 0;
+  .project-mobile-image {
+    margin-bottom: 0.5rem;
   }
 }
 </style>
