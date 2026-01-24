@@ -312,7 +312,8 @@ const scrollToSection = (id) => {
   if (!section) return;
 
   if (id === "about") {
-    section.scrollIntoView({ behavior: "smooth", block: "center" });
+    const block = window.innerWidth < 1024 ? "start" : "center";
+    section.scrollIntoView({ behavior: "smooth", block });
     if (isOpen.value) {
       isOpen.value = false;
       playIcon(false);
