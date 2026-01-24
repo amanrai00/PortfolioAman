@@ -534,7 +534,7 @@ onUnmounted(() => {
   --project-title-color: var(--theme-text-strong);
   --project-meta-color: var(--theme-text-muted);
   --project-dot-color: var(--theme-text-soft);
-  --project-hover-color: #9c6a4b;
+  --project-hover-color: #18969E;
   --project-image-overlay: rgba(255, 255, 255, 0.1);
 }
 
