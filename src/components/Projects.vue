@@ -1,9 +1,13 @@
 <template>
-  <section id="projects" ref="projectsSection" class="projects-section">
+  <section
+    id="projects"
+    ref="projectsSection"
+    class="projects-section relative max-w-300 mx-auto py-8 pb-16 px-[clamp(1rem,5vw,4rem)]"
+  >
     <!-- Shared image preview -->
     <div
       ref="imagePreview"
-      class="project-image-preview"
+      class="project-image-preview absolute w-80 h-65 rounded-lg overflow-hidden opacity-0 pointer-events-none z-100"
       :class="{ 'is-visible': hoveredIndex !== null }"
     >
       <img
@@ -11,37 +15,38 @@
         :key="project.id"
         :src="project.image"
         :alt="project.title"
-        class="project-image"
+        class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-400"
         :class="{ 'is-active': hoveredIndex === index }"
       />
     </div>
 
-    <div class="projects-list" @mousemove="handleListMouseMove" @mouseleave="handleListLeave">
+    <div class="flex flex-col" @mousemove="handleListMouseMove" @mouseleave="handleListLeave">
       <article
         v-for="(project, index) in projects"
         :key="project.id"
-        class="project-item"
+        class="project-item flex items-start gap-[0.2rem] pb-[0.2em] -mt-[2.2rem] -mb-[0.2em] border-b border-(--project-border-color) relative overflow-visible"
         :class="{ 'project-item-first': index === 0, 'is-hovered': hoveredIndex === index }"
-                ref="projectItems"
+        ref="projectItems"
       >
-        <div class="project-content">
-          <h3 class="project-title">
-            <span class="project-title-row">
-              <span class="project-index">_{{ String(index + 1).padStart(2, '0') }}.</span>
-              <span
-                class="project-title-text"
-              >
-                <span class="project-title-base">{{ project.title }}</span>
-                <span ref="titleAnimEls" class="project-title-anim" aria-hidden="true">{{ project.title }}</span>
+        <div class="flex-1 mt-0">
+          <div class="project-mobile-image hidden w-full rounded-[10px] overflow-hidden mb-5 bg-(--project-image-overlay)" aria-hidden="true">
+            <img :src="project.image" :alt="project.title" class="block w-full h-auto object-cover" />
+          </div>
+          <h3 class="project-title inline-block m-0 font-bold leading-[1.05] tracking-tight cursor-pointer text-(--project-title-color)">
+            <span class="inline-flex items-center gap-0">
+              <span class="project-index font-medium text-(--theme-text-muted) leading-none">_{{ String(index + 1).padStart(2, '0') }}.</span>
+              <span class="project-title-text inline-block shrink-0 w-fit relative pb-[0.22em] text-(--project-title-color)">
+                <span class="project-title-base inline-block pb-[0.15em]">{{ project.title }}</span>
+                <span ref="titleAnimEls" class="project-title-anim absolute top-0 left-0 w-full inline-block pb-[0.22em] pointer-events-none" aria-hidden="true">{{ project.title }}</span>
               </span>
-              <span ref="lottieEls" class="project-title-lottie" aria-hidden="true"></span>
+              <span ref="lottieEls" class="project-title-lottie w-[3em] h-[3em] pointer-events-none opacity-0 -ml-[0.7em]" aria-hidden="true"></span>
             </span>
           </h3>
-          <div class="project-tags">
+          <div class="project-tags flex flex-wrap gap-4 items-center -mt-16 pb-4">
             <span
               v-for="(tag, tagIndex) in project.tags"
               :key="tagIndex"
-              class="project-tag"
+              class="project-tag relative text-(--project-meta-color)"
             >
               {{ tag }}
             </span>
@@ -49,7 +54,7 @@
         </div>
       </article>
     </div>
-    <div class="projects-divider"></div>
+    <div class="projects-divider h-px bg-(--project-border-color) mt-0"></div>
   </section>
 </template>
 
@@ -319,143 +324,36 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* Font rendering optimizations */
 .projects-section {
-  position: relative;
-  padding: 2rem 0 4rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-left: clamp(1rem, 5vw, 4rem);
-  padding-right: clamp(1rem, 5vw, 4rem);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.projects-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.project-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.2rem;
-  padding: 0 0 0.2em;
-  margin-top: -2.2rem;
-  margin-bottom: -0.2em;
-  border-bottom: 1px solid var(--project-border-color);
-  position: relative;
-  overflow: visible;
-  --project-index-width: 4ch;
-  --project-index-gap: 1.2em;
-}
-
-/* Ensure earlier items stack on top of later ones in the overlap zone */
+/* Project item z-index stacking */
 .project-item:nth-child(1) { z-index: 3; }
 .project-item:nth-child(2) { z-index: 2; }
 .project-item:nth-child(3) { z-index: 1; }
+.project-item.is-hovered { z-index: 20; }
+.project-item-first { margin-top: 0; }
+.project-item:last-child { border-bottom: none; }
 
-.project-item.is-hovered {
-  z-index: 20;
-}
-
-/* Shared image preview container */
-.project-image-preview {
-  position: absolute;
-  right: clamp(1rem, 5vw, 4rem);
-  width: 320px;
-  height: 260px;
-  transform: translateY(-50%) skewX(-8deg) scale(0.85);
-  transform-origin: right center;
-  border-radius: 8px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-  overflow: hidden;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 100;
-}
-
-.project-image-preview.is-visible {
-  opacity: 1;
-  transform: translateY(-50%) skewX(-8deg) scale(1);
-}
-
-.project-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.project-image.is-active {
-  opacity: 1;
-}
-
-.project-item-first {
-  margin-top: 0;
-  border-bottom: 1px solid var(--project-border-color);
-}
-
-.project-item:last-child {
-  border-bottom: none;
-}
-
+/* Project index positioning */
 .project-index {
   font-size: clamp(0.875rem, 1.5vw, 1rem);
-  font-weight: 500;
-  color: var(--theme-text-muted);
-  width: var(--project-index-width);
-  padding-top: 0;
-  line-height: 1;
-  margin-right: var(--project-index-gap);
+  width: 4ch;
+  margin-right: 1.2em;
   transform: translateY(-1.40em);
 }
 
-.project-content {
-  flex: 1;
-  margin-top: 0;
-}
-
+/* Project title sizing */
 .project-title {
   font-size: clamp(2.5rem, 8vw, 5rem);
-  font-weight: 700;
-  margin: 0;
-  line-height: 1.05;
-  color: var(--project-title-color);
   letter-spacing: -0.02em;
-  cursor: pointer;
-  display: inline-block;
 }
 
-.project-title-row {
-  display: inline-flex;
-  align-items: center;
-  gap: 0;
-}
-
-.project-title-text {
-  display: inline-block;
-  flex: 0 0 auto;
-  width: fit-content;
-  position: relative;
-  padding-bottom: 0.22em;
-  color: var(--project-title-color);
-  backface-visibility: hidden;
-  transform: translateZ(0);
-  isolation: isolate;
-}
-
-.project-item:hover .project-title-anim {
-  background-size: 100% 100%;
-}
-
+/* Title text rendering */
 .project-title-text,
 .project-title-base,
 .project-title-anim {
@@ -466,15 +364,15 @@ onUnmounted(() => {
   paint-order: stroke fill;
 }
 
+.project-title-text {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  isolation: isolate;
+}
+
+/* Base title gradient */
 .project-title-base {
-  display: inline-block;
-  padding-bottom: 0.15em;
-  background: linear-gradient(
-    to bottom,
-    var(--theme-headline-from),
-    var(--theme-headline-via),
-    var(--theme-headline-to)
-  );
+  background: linear-gradient(to bottom, var(--theme-headline-from), var(--theme-headline-via), var(--theme-headline-to));
   color: transparent;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -483,20 +381,10 @@ onUnmounted(() => {
   transform: translateZ(0);
 }
 
+/* Animated title overlay */
 .project-title-anim {
-  position: absolute;
-  top: 0;
-  left: 0;
   line-height: inherit;
-  padding-bottom: 0.22em;
-  display: inline-block;
-  width: 100%;
-  pointer-events: none;
-  background-image: linear-gradient(
-    90deg,
-    var(--project-hover-color),
-    var(--project-hover-color)
-  );
+  background-image: linear-gradient(90deg, var(--project-hover-color), var(--project-hover-color));
   background-size: 0% 100%;
   background-repeat: no-repeat;
   background-position: left center;
@@ -504,22 +392,21 @@ onUnmounted(() => {
   background-clip: text;
   color: transparent;
   transition: background-size 0.7s ease;
-  pointer-events: none;
   backface-visibility: hidden;
   will-change: background-size;
+}
+
+.project-item:hover .project-title-anim {
+  background-size: 100% 100%;
 }
 
 .project-title-anim.is-resetting {
   transition: none;
 }
 
+/* Lottie animation */
 .project-title-lottie {
-  width: 3em;
-  height: 3em;
-  pointer-events: none;
-  opacity: 0;
   transform: translateY(0.28em);
-  margin-left: -0.7em;
   transition: opacity 200ms ease, transform 200ms ease;
   will-change: opacity, transform;
 }
@@ -540,20 +427,13 @@ onUnmounted(() => {
   display: block;
 }
 
+/* Project tags */
 .project-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: center;
-  margin-top: -4rem;
-  padding-bottom: 1rem;
-  padding-left: calc(var(--project-index-width) + var(--project-index-gap) + 0.3em);
+  padding-left: calc(4ch + 1.2em + 0.3em);
 }
 
 .project-tag {
   font-size: clamp(0.75rem, 1.2vw, 0.875rem);
-  color: var(--project-meta-color);
-  position: relative;
 }
 
 .project-tag:not(:last-child)::after {
@@ -568,13 +448,27 @@ onUnmounted(() => {
   background: var(--project-dot-color);
 }
 
-.projects-divider {
-  height: 1px;
-  background: var(--project-border-color);
-  margin-top: 0;
+/* Image preview */
+.project-image-preview {
+  right: clamp(1rem, 5vw, 4rem);
+  transform: translateY(-50%) skewX(-8deg) scale(0.85);
+  transform-origin: right center;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Dark theme */
+.project-image-preview.is-visible {
+  opacity: 1;
+  transform: translateY(-50%) skewX(-8deg) scale(1);
+}
+
+.project-image-preview img.is-active {
+  opacity: 1;
+}
+
+/* Theme variables */
 :global([data-theme="dark"]) {
   --project-border-color: rgba(255, 255, 255, 0.15);
   --project-title-color: #f2f0ea;
@@ -584,7 +478,6 @@ onUnmounted(() => {
   --project-image-overlay: rgba(0, 0, 0, 0.15);
 }
 
-/* Light theme */
 :global([data-theme="light"]) {
   --project-border-color: rgba(15, 23, 42, 0.15);
   --project-title-color: var(--theme-text-strong);
@@ -594,7 +487,6 @@ onUnmounted(() => {
   --project-image-overlay: rgba(255, 255, 255, 0.1);
 }
 
-/* Default fallback */
 :root {
   --project-border-color: rgba(255, 255, 255, 0.15);
   --project-title-color: var(--theme-text-strong);
@@ -603,7 +495,7 @@ onUnmounted(() => {
   --project-hover-color: #9c6a4b;
 }
 
-/* Responsive */
+/* Responsive: 1024px */
 @media (max-width: 1024px) {
   .project-image-preview {
     width: 260px;
@@ -611,30 +503,51 @@ onUnmounted(() => {
   }
 }
 
+/* Responsive: 768px */
 @media (max-width: 768px) {
   .projects-section {
     padding: 1rem 1rem 3rem;
   }
 
+  .project-mobile-image {
+    display: block;
+  }
+
+  .project-mobile-image img {
+    aspect-ratio: 16 / 9;
+    max-height: 220px;
+  }
+
   .project-item {
     gap: 1rem;
     padding: 0.5rem 0;
-    --project-index-width: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-index {
+    width: 2.5rem;
+    padding-top: 0.25rem;
+  }
+
+  .project-tags {
+    gap: 0.75rem;
+    padding-left: calc(2.5rem + 1.2em + 0.3em);
   }
 
   .project-image-preview {
     display: none;
   }
 
-  .project-index {
-    padding-top: 0.25rem;
+  .project-item:hover .project-title-anim {
+    background-size: 0% 100%;
   }
 
-  .project-tags {
-    gap: 0.75rem;
+  .project-title-anim {
+    transition: none;
   }
 }
 
+/* Responsive: 480px */
 @media (max-width: 480px) {
   .project-item {
     gap: 0.5rem;
