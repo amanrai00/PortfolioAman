@@ -2,7 +2,7 @@
   <section
     id="projects"
     ref="projectsSection"
-    class="projects-section relative max-w-300 mx-auto py-8 pb-16 px-[clamp(1rem,5vw,4rem)]"
+    class="projects-section relative max-w-300 mx-auto py-8 pb-20 mb-24 md:mb-32 px-[clamp(1rem,5vw,4rem)]"
   >
     <!-- Shared image preview -->
     <div
