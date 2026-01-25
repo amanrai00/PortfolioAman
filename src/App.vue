@@ -8,8 +8,7 @@
   <Skills />
   <Statement />
   <Projects />
-
-  <section id="contact"></section>
+  <Contact />
 
 </template>
 
@@ -22,6 +21,7 @@ import About from "./components/About.vue";
 import Skills from "./components/Skills.vue";
 import Statement from "./components/Statement.vue";
 import Projects from "./components/Projects.vue";
+import Contact from "./components/Contact.vue";
 </script>
 
 <style>
