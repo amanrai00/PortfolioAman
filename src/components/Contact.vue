@@ -140,6 +140,9 @@ const contactSection = ref(null);
 
 let lottieAnim = null;
 let scrollTriggerInstance = null;
+let clipPathSetter = null;
+let lastClipValue = 100;
+let isLottiePlaying = false;
 
 onMounted(async () => {
   gsap.registerPlugin(ScrollTrigger);
@@ -150,9 +153,9 @@ onMounted(async () => {
 
   lottieAnim = lottie.loadAnimation({
     container: lottieEl.value,
-    renderer: 'svg',
+    renderer: 'canvas',
     loop: true,
-    autoplay: true,
+    autoplay: false,
     animationData: wavyData,
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice',
@@ -167,6 +170,9 @@ onMounted(async () => {
     clipPath: 'inset(100% 0 0 0)',
   });
 
+  // Use quickSetter for better performance
+  clipPathSetter = gsap.quickSetter(contactSection.value, 'clipPath');
+
   // Reveal animation with contact section fixed at bottom
   scrollTriggerInstance = ScrollTrigger.create({
     trigger: contactWrapper.value,
@@ -174,10 +180,20 @@ onMounted(async () => {
     end: 'bottom bottom',
     scrub: true,
     onUpdate: (self) => {
-      const clipValue = 100 - (self.progress * 100);
-      gsap.set(contactSection.value, {
-        clipPath: `inset(${clipValue}% 0 0 0)`,
-      });
+      const clipValue = Math.round(100 - (self.progress * 100));
+      if (clipValue !== lastClipValue) {
+        lastClipValue = clipValue;
+        clipPathSetter(`inset(${clipValue}% 0 0 0)`);
+
+        // Only play lottie when visible
+        if (clipValue < 100 && !isLottiePlaying) {
+          lottieAnim?.play();
+          isLottiePlaying = true;
+        } else if (clipValue >= 100 && isLottiePlaying) {
+          lottieAnim?.pause();
+          isLottiePlaying = false;
+        }
+      }
     },
   });
 });
@@ -210,7 +226,6 @@ onUnmounted(() => {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  will-change: clip-path;
 }
 
 .contact-lottie {
