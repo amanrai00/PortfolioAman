@@ -169,7 +169,7 @@ onUnmounted(() => {
 }
 
 .contact-lottie {
-  opacity: 0.6;
+  opacity: 0.4;
 }
 
 .contact-lottie :deep(svg) {
@@ -208,7 +208,7 @@ onUnmounted(() => {
 
 /* Theme variables */
 :global([data-theme="dark"]) {
-  --contact-overlay: rgba(0, 0, 0, 0.5);
+  --contact-overlay: rgba(0, 0, 0, 0.6);
   --contact-btn-shadow: rgba(255, 255, 255, 0.15);
   --contact-btn-border: rgba(255, 255, 255, 0.3);
   --contact-btn-bg: rgba(0, 0, 0, 0.4);
@@ -218,7 +218,7 @@ onUnmounted(() => {
 }
 
 :global([data-theme="light"]) {
-  --contact-overlay: rgba(255, 255, 255, 0.4);
+  --contact-overlay: rgba(255, 255, 255, 0.5);
   --contact-btn-shadow: rgba(0, 0, 0, 0.15);
   --contact-btn-border: rgba(15, 23, 42, 0.3);
   --contact-btn-bg: rgba(255, 255, 255, 0.8);
@@ -228,7 +228,7 @@ onUnmounted(() => {
 }
 
 :root {
-  --contact-overlay: rgba(0, 0, 0, 0.5);
+  --contact-overlay: rgba(0, 0, 0, 0.6);
   --contact-btn-shadow: rgba(255, 255, 255, 0.15);
   --contact-btn-border: rgba(255, 255, 255, 0.3);
   --contact-btn-bg: rgba(0, 0, 0, 0.4);

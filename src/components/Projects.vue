@@ -55,7 +55,6 @@
         </div>
       </article>
     </div>
-    <div class="projects-divider h-px bg-(--project-border-color) mt-0"></div>
   </section>
 </template>
 
@@ -287,8 +286,6 @@ onMounted(() => {
   if (!projectsSection.value) return;
 
   const items = projectsSection.value.querySelectorAll('.project-item');
-  const divider = projectsSection.value.querySelector('.projects-divider');
-
   const [firstItem, ...restItems] = Array.from(items);
 
   gsap.set(firstItem, {
@@ -299,11 +296,6 @@ onMounted(() => {
   gsap.set(restItems, {
     opacity: 0,
     y: 30
-  });
-
-  gsap.set(divider, {
-    scaleX: 0,
-    transformOrigin: 'left center'
   });
 
   projectsTimeline = gsap.timeline({
@@ -327,12 +319,7 @@ onMounted(() => {
       duration: 0.8,
       ease: 'power3.out',
       stagger: 0.15
-    }, '-=0.2')
-    .to(divider, {
-      scaleX: 1,
-      duration: 0.8,
-      ease: 'power2.inOut'
-    }, '-=0.3');
+    }, '-=0.2');
 
   lottieMediaQuery = window.matchMedia('(max-width: 768px)');
   lottieMediaHandler = (event) => {
