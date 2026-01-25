@@ -1,15 +1,17 @@
 <template>
-  <section
-    id="contact"
-    class="contact-section relative mt-20 min-h-screen overflow-hidden"
-  >
-    <!-- Wavy lottie background -->
-    <div class="contact-bg absolute inset-0 z-0" aria-hidden="true">
-      <div ref="lottieEl" class="contact-lottie w-full h-full"></div>
-      <div class="contact-overlay"></div>
-    </div>
+  <div ref="contactWrapper" class="contact-wrapper">
+    <section
+      id="contact"
+      ref="contactSection"
+      class="contact-section relative min-h-screen overflow-hidden"
+    >
+      <!-- Wavy lottie background -->
+      <div class="contact-bg absolute inset-0 z-0" aria-hidden="true">
+        <div ref="lottieEl" class="contact-lottie w-full h-full"></div>
+        <div class="contact-overlay"></div>
+      </div>
 
-    <!-- Content -->
+      <!-- Content -->
     <div
       class="contact-content relative z-20 flex flex-col items-center justify-center min-h-screen px-[clamp(1rem,5vw,4rem)] py-16"
     >
@@ -123,17 +125,25 @@
       </div>
     </div>
   </section>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import lottie from 'lottie-web';
 
 const lottieEl = ref(null);
+const contactWrapper = ref(null);
+const contactSection = ref(null);
 
 let lottieAnim = null;
+let scrollTriggerInstance = null;
 
 onMounted(async () => {
+  gsap.registerPlugin(ScrollTrigger);
+
   // Load wavy lottie animation
   const wavyModule = await import('@/assets/lottie/wavy.json');
   const wavyData = wavyModule?.default ?? wavyModule;
@@ -151,6 +161,28 @@ onMounted(async () => {
   });
 
   lottieAnim.setSpeed(0.5);
+
+  // Set initial clip - hidden from top
+  gsap.set(contactSection.value, {
+    clipPath: 'inset(100% 0 0 0)',
+  });
+
+  // Reveal animation - clip path animates to show content
+  scrollTriggerInstance = ScrollTrigger.create({
+    trigger: contactWrapper.value,
+    start: 'top top',
+    end: 'bottom bottom',
+    pin: contactSection.value,
+    pinSpacing: false,
+    scrub: true,
+    onUpdate: (self) => {
+      // Animate clip-path from 100% (hidden) to 0% (fully visible)
+      const clipValue = 100 - (self.progress * 100);
+      gsap.set(contactSection.value, {
+        clipPath: `inset(${clipValue}% 0 0 0)`,
+      });
+    },
+  });
 });
 
 onUnmounted(() => {
@@ -158,14 +190,25 @@ onUnmounted(() => {
     lottieAnim.destroy();
     lottieAnim = null;
   }
+
+  if (scrollTriggerInstance) {
+    scrollTriggerInstance.kill();
+    scrollTriggerInstance = null;
+  }
 });
 </script>
 
 <style scoped>
+.contact-wrapper {
+  position: relative;
+  height: 200vh; /* Extra scroll space for the reveal */
+}
+
 .contact-section {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  will-change: clip-path;
 }
 
 .contact-lottie {
