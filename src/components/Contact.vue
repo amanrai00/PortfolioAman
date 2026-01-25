@@ -1,15 +1,8 @@
 <template>
   <section
     id="contact"
-    ref="contactSection"
     class="contact-section relative min-h-screen overflow-hidden"
   >
-    <!-- Curtain overlay that slides up -->
-    <div
-      ref="curtain"
-      class="curtain absolute inset-0 z-10 bg-(--theme-bg)"
-    ></div>
-
     <!-- Wavy lottie background -->
     <div class="contact-bg absolute inset-0 z-0" aria-hidden="true">
       <div ref="lottieEl" class="contact-lottie w-full h-full"></div>
@@ -18,24 +11,21 @@
 
     <!-- Content -->
     <div
-      ref="contentEl"
       class="contact-content relative z-20 flex flex-col items-center justify-center min-h-screen px-[clamp(1rem,5vw,4rem)] py-16"
     >
       <h2
-        ref="titleEl"
         class="contact-title text-center font-bold leading-tight tracking-tight mb-8"
       >
         <span class="contact-title-text">Get In Touch</span>
       </h2>
 
       <p
-        ref="subtitleEl"
         class="contact-subtitle text-center max-w-2xl mb-12 text-(--theme-text-muted)"
       >
         Have a project in mind or just want to say hello? Feel free to reach out.
       </p>
 
-      <div ref="linksEl" class="contact-links flex flex-wrap gap-8 justify-center">
+      <div class="contact-links flex flex-wrap gap-8 justify-center">
         <a
           href="mailto:hello@example.com"
           class="contact-link group relative px-8 py-4 font-medium"
@@ -137,24 +127,13 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import lottie from 'lottie-web';
 
-const contactSection = ref(null);
-const curtain = ref(null);
 const lottieEl = ref(null);
-const contentEl = ref(null);
-const titleEl = ref(null);
-const subtitleEl = ref(null);
-const linksEl = ref(null);
 
 let lottieAnim = null;
-let scrollTimeline = null;
 
 onMounted(async () => {
-  gsap.registerPlugin(ScrollTrigger);
-
   // Load wavy lottie animation
   const wavyModule = await import('@/assets/lottie/wavy.json');
   const wavyData = wavyModule?.default ?? wavyModule;
@@ -172,67 +151,12 @@ onMounted(async () => {
   });
 
   lottieAnim.setSpeed(0.5);
-
-  // Set initial states
-  gsap.set(curtain.value, { yPercent: 0 });
-  gsap.set([titleEl.value, subtitleEl.value, linksEl.value], {
-    opacity: 0,
-    y: 40,
-  });
-
-  // Create curtain reveal animation on scroll
-  scrollTimeline = gsap.timeline({
-    scrollTrigger: {
-      trigger: contactSection.value,
-      start: 'top 80%',
-      end: 'top 20%',
-      scrub: 0.5,
-      onEnter: () => {
-        // Animate content after curtain starts revealing
-        gsap.to(titleEl.value, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          delay: 0.2,
-        });
-        gsap.to(subtitleEl.value, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          delay: 0.4,
-        });
-        gsap.to(linksEl.value, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          delay: 0.6,
-        });
-      },
-    },
-  });
-
-  // Curtain slides up to reveal content
-  scrollTimeline.to(curtain.value, {
-    yPercent: -100,
-    ease: 'none',
-  });
 });
 
 onUnmounted(() => {
   if (lottieAnim) {
     lottieAnim.destroy();
     lottieAnim = null;
-  }
-
-  if (scrollTimeline) {
-    if (scrollTimeline.scrollTrigger) {
-      scrollTimeline.scrollTrigger.kill();
-    }
-    scrollTimeline.kill();
-    scrollTimeline = null;
   }
 });
 </script>
@@ -242,10 +166,6 @@ onUnmounted(() => {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.curtain {
-  transform-origin: top center;
 }
 
 .contact-lottie {
