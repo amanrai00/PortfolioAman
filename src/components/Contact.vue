@@ -167,16 +167,13 @@ onMounted(async () => {
     clipPath: 'inset(100% 0 0 0)',
   });
 
-  // Reveal animation - clip path animates to show content
+  // Reveal animation with contact section fixed at bottom
   scrollTriggerInstance = ScrollTrigger.create({
     trigger: contactWrapper.value,
-    start: 'top top',
+    start: 'top bottom',
     end: 'bottom bottom',
-    pin: contactSection.value,
-    pinSpacing: false,
     scrub: true,
     onUpdate: (self) => {
-      // Animate clip-path from 100% (hidden) to 0% (fully visible)
       const clipValue = 100 - (self.progress * 100);
       gsap.set(contactSection.value, {
         clipPath: `inset(${clipValue}% 0 0 0)`,
@@ -201,10 +198,15 @@ onUnmounted(() => {
 <style scoped>
 .contact-wrapper {
   position: relative;
-  height: 200vh; /* Extra scroll space for the reveal */
+  height: 100vh;
 }
 
 .contact-section {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
