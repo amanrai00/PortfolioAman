@@ -1,7 +1,7 @@
 <template>
   <section
     id="contact"
-    class="contact-section relative min-h-screen overflow-hidden"
+    class="contact-section relative mt-20 min-h-screen overflow-hidden"
   >
     <!-- Wavy lottie background -->
     <div class="contact-bg absolute inset-0 z-0" aria-hidden="true">
