@@ -12,118 +12,52 @@
       </div>
 
       <!-- Content -->
-    <div
-      class="contact-content relative z-20 flex flex-col items-center justify-center min-h-screen px-[clamp(1rem,5vw,4rem)] py-16"
-    >
-      <h2
-        class="contact-title text-center font-bold leading-tight tracking-tight mb-8"
+      <div
+        class="contact-content relative z-20 flex min-h-screen items-center px-[clamp(1rem,5vw,4rem)] py-16"
       >
-        <span class="contact-title-text">Get In Touch</span>
-      </h2>
+        <div class="contact-panel grid w-full max-w-6xl gap-12 lg:grid-cols-2">
+          <div class="contact-left flex flex-col justify-center">
+            <h2 class="contact-title font-bold leading-tight tracking-tight">
+              <span class="contact-title-text">Get in Touch</span>
+            </h2>
+            <p class="contact-subtitle mt-6 max-w-xl">
+              Connect with us effortlessly through our Contact page, where you
+              can reach our dedicated team for inquiries, support, or
+              collaborations.
+            </p>
+          </div>
 
-      <p
-        class="contact-subtitle text-center max-w-2xl mb-12 text-(--theme-text-muted)"
-      >
-        Have a project in mind or just want to say hello? Feel free to reach out.
-      </p>
-
-      <div class="contact-links flex flex-wrap gap-8 justify-center">
-        <a
-          href="mailto:hello@example.com"
-          class="contact-link group relative px-8 py-4 font-medium"
-        >
-          <span
-            class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-(--contact-btn-shadow) transition duration-200 ease-out group-hover:translate-x-0 group-hover:translate-y-0"
-          ></span>
-          <span
-            class="absolute inset-0 h-full w-full border-2 border-(--contact-btn-border) bg-(--contact-btn-bg) transition-colors duration-200 group-hover:bg-(--contact-btn-hover-bg)"
-          ></span>
-          <span
-            class="relative flex items-center gap-x-3 text-(--contact-btn-text) transition-colors duration-200 group-hover:text-(--contact-btn-hover-text)"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <rect width="20" height="16" x="2" y="4" rx="2" />
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-            </svg>
-            Email Me
-          </span>
-        </a>
-
-        <a
-          href="https://linkedin.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="contact-link group relative px-8 py-4 font-medium"
-        >
-          <span
-            class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-(--contact-btn-shadow) transition duration-200 ease-out group-hover:translate-x-0 group-hover:translate-y-0"
-          ></span>
-          <span
-            class="absolute inset-0 h-full w-full border-2 border-(--contact-btn-border) bg-(--contact-btn-bg) transition-colors duration-200 group-hover:bg-(--contact-btn-hover-bg)"
-          ></span>
-          <span
-            class="relative flex items-center gap-x-3 text-(--contact-btn-text) transition-colors duration-200 group-hover:text-(--contact-btn-hover-text)"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-              <rect width="4" height="12" x="2" y="9" />
-              <circle cx="4" cy="4" r="2" />
-            </svg>
-            LinkedIn
-          </span>
-        </a>
-
-        <a
-          href="https://github.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="contact-link group relative px-8 py-4 font-medium"
-        >
-          <span
-            class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-(--contact-btn-shadow) transition duration-200 ease-out group-hover:translate-x-0 group-hover:translate-y-0"
-          ></span>
-          <span
-            class="absolute inset-0 h-full w-full border-2 border-(--contact-btn-border) bg-(--contact-btn-bg) transition-colors duration-200 group-hover:bg-(--contact-btn-hover-bg)"
-          ></span>
-          <span
-            class="relative flex items-center gap-x-3 text-(--contact-btn-text) transition-colors duration-200 group-hover:text-(--contact-btn-hover-text)"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-              <path d="M9 18c-4.51 2-5-2-7-2" />
-            </svg>
-            GitHub
-          </span>
-        </a>
+          <div class="contact-right">
+            <div class="contact-steps" aria-hidden="true">
+              <span class="contact-step contact-step--active"></span>
+              <span class="contact-step"></span>
+              <span class="contact-step"></span>
+            </div>
+            <h3 class="contact-form-title">About you</h3>
+            <form class="contact-form" @submit.prevent>
+              <label class="contact-field">
+                <span class="contact-label">First name</span>
+                <input class="contact-input" type="text" placeholder="First name" />
+              </label>
+              <label class="contact-field">
+                <span class="contact-label">Last name</span>
+                <input class="contact-input" type="text" placeholder="Last name" />
+              </label>
+              <label class="contact-field">
+                <span class="contact-label">Work email</span>
+                <input class="contact-input" type="email" placeholder="Work email" />
+              </label>
+              <label class="contact-field">
+                <span class="contact-label">Country</span>
+                <select class="contact-input">
+                  <option selected disabled>Select country</option>
+                </select>
+              </label>
+              <button class="contact-submit" type="submit">Next</button>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
   </section>
   </div>
 </template>
@@ -223,6 +157,12 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
+  background: radial-gradient(
+      120% 120% at 10% 0%,
+      rgba(36, 38, 56, 0.6),
+      rgba(12, 12, 16, 0.95)
+    ),
+    linear-gradient(140deg, #0d0e14, #141525 50%, #0b0c12);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -241,6 +181,48 @@ onUnmounted(() => {
   position: absolute;
   inset: 0;
   background: var(--contact-overlay);
+  mix-blend-mode: screen;
+}
+
+.contact-content {
+  position: relative;
+}
+
+.contact-panel {
+  align-items: center;
+}
+
+.contact-left {
+  color: var(--contact-title-text);
+  text-align: left;
+}
+
+.contact-right {
+  position: relative;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border-radius: 20px;
+  background: var(--contact-card-bg);
+  border: 1px solid var(--contact-card-border);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.contact-steps {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+
+.contact-step {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.contact-step--active {
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(186, 128, 255, 0.7);
 }
 
 .contact-title {
@@ -249,52 +231,132 @@ onUnmounted(() => {
 }
 
 .contact-title-text {
-  background: linear-gradient(
-    to bottom,
-    var(--theme-headline-from),
-    var(--theme-headline-via),
-    var(--theme-headline-to)
-  );
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  -webkit-background-clip: text;
+  color: var(--contact-title-text);
 }
 
 .contact-subtitle {
   font-size: clamp(1rem, 2vw, 1.25rem);
   line-height: 1.7;
+  color: var(--contact-subtitle-text);
+}
+
+.contact-form-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--contact-title-text);
+  margin-bottom: 1.5rem;
+}
+
+.contact-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.contact-field {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.contact-label {
+  font-size: 0.9rem;
+  color: var(--contact-subtitle-text);
+}
+
+.contact-input {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--contact-input-border);
+  background: var(--contact-input-bg);
+  color: var(--contact-input-text);
+  padding: 0.9rem 1rem;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.contact-input::placeholder {
+  color: var(--contact-input-placeholder);
+}
+
+.contact-input:focus {
+  border-color: var(--contact-input-focus);
+  box-shadow: 0 0 0 3px rgba(186, 128, 255, 0.2);
+}
+
+.contact-submit {
+  justify-self: end;
+  margin-top: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  border-radius: 999px;
+  border: none;
+  background: #ffffff;
+  color: #0d0e14;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 /* Theme variables */
 :global([data-theme="dark"]) {
-  --contact-overlay: rgba(0, 0, 0, 0.6);
-  --contact-btn-shadow: rgba(255, 255, 255, 0.15);
-  --contact-btn-border: rgba(255, 255, 255, 0.3);
-  --contact-btn-bg: rgba(0, 0, 0, 0.4);
-  --contact-btn-hover-bg: rgba(255, 255, 255, 0.1);
-  --contact-btn-text: #f2f0ea;
-  --contact-btn-hover-text: #ffffff;
+  --contact-overlay: linear-gradient(
+    140deg,
+    rgba(18, 18, 24, 0.65),
+    rgba(12, 12, 16, 0.85)
+  );
+  --contact-title-text: #f7f7fb;
+  --contact-subtitle-text: #b9bbca;
+  --contact-card-bg: linear-gradient(
+    150deg,
+    rgba(30, 31, 43, 0.96),
+    rgba(20, 21, 32, 0.92)
+  );
+  --contact-card-border: rgba(255, 255, 255, 0.08);
+  --contact-input-bg: rgba(36, 37, 48, 0.9);
+  --contact-input-border: rgba(255, 255, 255, 0.08);
+  --contact-input-text: #f7f7fb;
+  --contact-input-placeholder: rgba(255, 255, 255, 0.35);
+  --contact-input-focus: rgba(186, 128, 255, 0.8);
 }
 
 :global([data-theme="light"]) {
-  --contact-overlay: rgba(255, 255, 255, 0.5);
-  --contact-btn-shadow: rgba(0, 0, 0, 0.15);
-  --contact-btn-border: rgba(15, 23, 42, 0.3);
-  --contact-btn-bg: rgba(255, 255, 255, 0.8);
-  --contact-btn-hover-bg: rgba(255, 255, 255, 0.95);
-  --contact-btn-text: var(--theme-text-strong);
-  --contact-btn-hover-text: var(--theme-text-strong);
+  --contact-overlay: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.6),
+    rgba(220, 224, 235, 0.7)
+  );
+  --contact-title-text: #111827;
+  --contact-subtitle-text: #4b5563;
+  --contact-card-bg: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.96),
+    rgba(236, 238, 245, 0.9)
+  );
+  --contact-card-border: rgba(15, 23, 42, 0.08);
+  --contact-input-bg: rgba(255, 255, 255, 0.9);
+  --contact-input-border: rgba(15, 23, 42, 0.12);
+  --contact-input-text: #0f172a;
+  --contact-input-placeholder: rgba(15, 23, 42, 0.4);
+  --contact-input-focus: rgba(80, 70, 229, 0.5);
 }
 
 :root {
-  --contact-overlay: rgba(0, 0, 0, 0.6);
-  --contact-btn-shadow: rgba(255, 255, 255, 0.15);
-  --contact-btn-border: rgba(255, 255, 255, 0.3);
-  --contact-btn-bg: rgba(0, 0, 0, 0.4);
-  --contact-btn-hover-bg: rgba(255, 255, 255, 0.1);
-  --contact-btn-text: #f2f0ea;
-  --contact-btn-hover-text: #ffffff;
+  --contact-overlay: linear-gradient(
+    140deg,
+    rgba(18, 18, 24, 0.65),
+    rgba(12, 12, 16, 0.85)
+  );
+  --contact-title-text: #f7f7fb;
+  --contact-subtitle-text: #b9bbca;
+  --contact-card-bg: linear-gradient(
+    150deg,
+    rgba(30, 31, 43, 0.96),
+    rgba(20, 21, 32, 0.92)
+  );
+  --contact-card-border: rgba(255, 255, 255, 0.08);
+  --contact-input-bg: rgba(36, 37, 48, 0.9);
+  --contact-input-border: rgba(255, 255, 255, 0.08);
+  --contact-input-text: #f7f7fb;
+  --contact-input-placeholder: rgba(255, 255, 255, 0.35);
+  --contact-input-focus: rgba(186, 128, 255, 0.8);
 }
 
 /* Responsive */
@@ -303,15 +365,17 @@ onUnmounted(() => {
     padding: 4rem 1rem;
   }
 
-  .contact-links {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+  .contact-panel {
+    gap: 2.5rem;
   }
 
-  .contact-link {
+  .contact-right {
     width: 100%;
-    max-width: 280px;
+  }
+
+  .contact-submit {
+    justify-self: stretch;
+    text-align: center;
   }
 }
 </style>
