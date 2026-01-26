@@ -186,15 +186,20 @@ onUnmounted(() => {
 
 .contact-content {
   position: relative;
+  justify-content: center;
 }
 
 .contact-panel {
   align-items: center;
+  column-gap: clamp(2rem, 6vw, 6rem);
+  margin-left: clamp(1rem, 6vw, 5rem);
+  margin-right: clamp(1rem, 4vw, 4rem);
 }
 
 .contact-left {
   color: var(--contact-title-text);
   text-align: left;
+  max-width: 520px;
 }
 
 .contact-right {
@@ -367,6 +372,8 @@ onUnmounted(() => {
 
   .contact-panel {
     gap: 2.5rem;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .contact-right {
