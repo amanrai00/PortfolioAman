@@ -30,32 +30,33 @@
         <!-- Right: Form -->
         <div class="contact-right">
           <div class="contact-form-wrapper">
-            <div class="contact-steps" aria-hidden="true">
-              <span class="contact-step contact-step--active"></span>
-              <span class="contact-step"></span>
-              <span class="contact-step"></span>
-            </div>
-            <h3 class="contact-form-title">About you</h3>
+            <h3 class="contact-form-title">Open to opportunities</h3>
             <form class="contact-form" @submit.prevent>
               <label class="contact-field">
-                <span class="contact-label">First name</span>
-                <input class="contact-input" type="text" placeholder="First name" />
+                <span class="contact-label">Name</span>
+                <input
+                  class="contact-input"
+                  type="text"
+                  placeholder="How should I call you?"
+                />
               </label>
               <label class="contact-field">
-                <span class="contact-label">Last name</span>
-                <input class="contact-input" type="text" placeholder="Last name" />
+                <span class="contact-label">Email</span>
+                <input
+                  class="contact-input"
+                  type="email"
+                  placeholder="Where can I reach you?"
+                />
               </label>
               <label class="contact-field">
-                <span class="contact-label">Work email</span>
-                <input class="contact-input" type="email" placeholder="Work email" />
+                <span class="contact-label">Message</span>
+                <textarea
+                  class="contact-input"
+                  rows="4"
+                  placeholder="Anything you'd like to discuss?"
+                ></textarea>
               </label>
-              <label class="contact-field">
-                <span class="contact-label">Country</span>
-                <select class="contact-input">
-                  <option selected disabled>Select country</option>
-                </select>
-              </label>
-              <button class="contact-submit" type="submit">Next</button>
+              <button class="contact-submit" type="submit">Send</button>
             </form>
           </div>
         </div>
