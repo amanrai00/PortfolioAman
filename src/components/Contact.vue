@@ -1,7 +1,6 @@
 <template>
-  <div ref="contactWrapper" class="contact-wrapper">
+  <div id="contact" ref="contactWrapper" class="contact-wrapper">
     <section
-      id="contact"
       ref="contactSection"
       class="contact-section relative min-h-screen overflow-hidden"
     >

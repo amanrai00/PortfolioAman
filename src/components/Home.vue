@@ -132,7 +132,7 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 // Configuration
 // ============================================================
 
-const sectionIds = ["home", "about", "statement"];
+const sectionIds = ["home", "about", "statement", "contact"];
 const words = [
   "Engineer",
   "Designer",
