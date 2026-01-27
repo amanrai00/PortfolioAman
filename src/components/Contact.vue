@@ -16,13 +16,11 @@
         <!-- Left: Background + text -->
         <div class="contact-left">
           <div class="contact-left-content">
-            <h2 class="contact-title font-bold leading-tight tracking-tight">
-              <span class="contact-title-text">Get in Touch</span>
+            <h2 class="contact-title contact-title--stacked font-bold leading-tight tracking-tight">
+              <span class="contact-title-text">Conversation comes first</span>
             </h2>
             <p class="contact-subtitle mt-6 max-w-xl">
-              Connect with us effortlessly through our Contact page, where you
-              can reach our dedicated team for inquiries, support, or
-              collaborations.
+              That’s often where good things begin.
             </p>
           </div>
         </div>
@@ -250,6 +248,10 @@ onUnmounted(() => {
 .contact-title {
   font-size: clamp(2.5rem, 5vw, 5rem);
   letter-spacing: -0.02em;
+}
+
+.contact-title--stacked {
+  font-size: clamp(2.25rem, 4.2vw, 4.25rem);
 }
 
 .contact-title-text {
