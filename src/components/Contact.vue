@@ -11,12 +11,11 @@
         <div class="contact-overlay"></div>
       </div>
 
-      <!-- Content -->
-      <div
-        class="contact-content relative z-20 flex min-h-screen items-center px-[clamp(1rem,5vw,4rem)] py-16"
-      >
-        <div class="contact-panel grid w-full max-w-6xl gap-12 lg:grid-cols-2">
-          <div class="contact-left flex flex-col justify-center">
+      <!-- Split layout -->
+      <div class="contact-split relative z-20">
+        <!-- Left: Background + text -->
+        <div class="contact-left">
+          <div class="contact-left-content">
             <h2 class="contact-title font-bold leading-tight tracking-tight">
               <span class="contact-title-text">Get in Touch</span>
             </h2>
@@ -26,8 +25,11 @@
               collaborations.
             </p>
           </div>
+        </div>
 
-          <div class="contact-right">
+        <!-- Right: Form -->
+        <div class="contact-right">
+          <div class="contact-form-wrapper">
             <div class="contact-steps" aria-hidden="true">
               <span class="contact-step contact-step--active"></span>
               <span class="contact-step"></span>
@@ -168,6 +170,10 @@ onUnmounted(() => {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.contact-bg {
+  pointer-events: none;
+}
+
 .contact-lottie {
   opacity: 0.4;
 }
@@ -184,31 +190,41 @@ onUnmounted(() => {
   mix-blend-mode: screen;
 }
 
-.contact-content {
-  position: relative;
-  justify-content: center;
-}
-
-.contact-panel {
-  align-items: center;
-  column-gap: clamp(2rem, 6vw, 6rem);
-  margin-left: clamp(1rem, 6vw, 5rem);
-  margin-right: clamp(1rem, 4vw, 4rem);
+/* Split layout */
+.contact-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
 }
 
 .contact-left {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-left-content {
+  max-width: 520px;
+  padding: clamp(2rem, 4vw, 3.5rem);
   color: var(--contact-title-text);
   text-align: left;
-  max-width: 520px;
 }
 
 .contact-right {
   position: relative;
-  padding: clamp(1.5rem, 3vw, 2.5rem);
-  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--contact-card-bg);
-  border: 1px solid var(--contact-card-border);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  border-left: 1px solid var(--contact-card-border);
+  z-index: 1;
+}
+
+.contact-form-wrapper {
+  width: 100%;
+  max-width: 480px;
+  padding: clamp(2rem, 4vw, 3.5rem);
 }
 
 .contact-steps {
@@ -231,7 +247,7 @@ onUnmounted(() => {
 }
 
 .contact-title {
-  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-size: clamp(2.5rem, 5vw, 5rem);
   letter-spacing: -0.02em;
 }
 
@@ -240,7 +256,7 @@ onUnmounted(() => {
 }
 
 .contact-subtitle {
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
   line-height: 1.7;
   color: var(--contact-subtitle-text);
 }
@@ -366,18 +382,18 @@ onUnmounted(() => {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .contact-content {
-    padding: 4rem 1rem;
+  .contact-split {
+    grid-template-columns: 1fr;
   }
 
-  .contact-panel {
-    gap: 2.5rem;
-    margin-left: 0;
-    margin-right: 0;
+  .contact-left {
+    padding: 2rem 1rem;
   }
 
   .contact-right {
-    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--contact-card-border);
+    padding: 2rem 1rem;
   }
 
   .contact-submit {
