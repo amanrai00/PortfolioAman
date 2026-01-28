@@ -74,6 +74,7 @@ const contactSection = ref(null);
 
 let lottieAnim = null;
 let scrollTriggerInstance = null;
+let mediaMatch = null;
 let clipPathSetter = null;
 let lastClipValue = 100;
 let isLottiePlaying = false;
@@ -84,10 +85,6 @@ onMounted(async () => {
   // Load wavy lottie animation
   const wavyModule = await import('@/assets/lottie/wavy.json');
   const wavyData = wavyModule?.default ?? wavyModule;
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
-  const initialClip = isMobile ? 70 : 100;
-  const triggerStart = isMobile ? 'top 700%' : 'top bottom';
-
   lottieAnim = lottie.loadAnimation({
     container: lottieEl.value,
     renderer: 'canvas',
@@ -102,44 +99,67 @@ onMounted(async () => {
 
   lottieAnim.setSpeed(0.5);
 
-  // Set initial clip - hidden from top
-  gsap.set(contactSection.value, {
-    clipPath: `inset(${initialClip}% 0 0 0)`,
-  });
-
   // Use quickSetter for better performance
   clipPathSetter = gsap.quickSetter(contactSection.value, 'clipPath');
-  lastClipValue = initialClip;
 
-  // Reveal animation with contact section fixed at bottom
-  scrollTriggerInstance = ScrollTrigger.create({
-    trigger: contactWrapper.value,
-    start: triggerStart,
-    end: 'bottom bottom',
-    scrub: true,
-    onUpdate: (self) => {
-      const clipValue = Math.round(initialClip - (self.progress * initialClip));
-      if (clipValue !== lastClipValue) {
-        lastClipValue = clipValue;
-        clipPathSetter(`inset(${clipValue}% 0 0 0)`);
+  const createScrollTrigger = (initialClip, triggerStart) => {
+    // Set initial clip - hidden from top
+    gsap.set(contactSection.value, {
+      clipPath: `inset(${initialClip}% 0 0 0)`,
+    });
+    lastClipValue = initialClip;
 
-        // Only play lottie when visible
-        if (clipValue < 100 && !isLottiePlaying) {
-          lottieAnim?.play();
-          isLottiePlaying = true;
-        } else if (clipValue >= 100 && isLottiePlaying) {
-          lottieAnim?.pause();
-          isLottiePlaying = false;
+    // Reveal animation with contact section fixed at bottom
+    scrollTriggerInstance = ScrollTrigger.create({
+      trigger: contactWrapper.value,
+      start: triggerStart,
+      end: 'bottom bottom',
+      scrub: true,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        const clipValue = Math.round(initialClip - (self.progress * initialClip));
+        if (clipValue !== lastClipValue) {
+          lastClipValue = clipValue;
+          clipPathSetter(`inset(${clipValue}% 0 0 0)`);
+
+          // Only play lottie when visible
+          if (clipValue < 100 && !isLottiePlaying) {
+            lottieAnim?.play();
+            isLottiePlaying = true;
+          } else if (clipValue >= 100 && isLottiePlaying) {
+            lottieAnim?.pause();
+            isLottiePlaying = false;
+          }
         }
+      },
+    });
+
+    return () => {
+      if (scrollTriggerInstance) {
+        scrollTriggerInstance.kill();
+        scrollTriggerInstance = null;
       }
-    },
-  });
+    };
+  };
+
+  mediaMatch = ScrollTrigger.matchMedia();
+  mediaMatch.add('(max-width: 768px)', () =>
+    createScrollTrigger(70, 'top 700%')
+  );
+  mediaMatch.add('(min-width: 769px)', () =>
+    createScrollTrigger(100, 'top bottom')
+  );
 });
 
 onUnmounted(() => {
   if (lottieAnim) {
     lottieAnim.destroy();
     lottieAnim = null;
+  }
+
+  if (mediaMatch) {
+    mediaMatch.kill();
+    mediaMatch = null;
   }
 
   if (scrollTriggerInstance) {
