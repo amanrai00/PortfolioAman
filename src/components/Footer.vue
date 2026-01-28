@@ -279,6 +279,9 @@ onUnmounted(() => {
 .footer-bracket {
   display: inline-block;
   transition: transform 0.35s ease;
+  font-size: 1.15em;
+  line-height: 1;
+  vertical-align: middle;
 }
 
 .footer-social-link--roll:hover .footer-bracket-left,
@@ -296,6 +299,7 @@ onUnmounted(() => {
   height: 1em;
   line-height: 1em;
   overflow: hidden;
+  transform: translateY(0.12em);
 }
 
 .footer-roll-word-track {
@@ -325,6 +329,11 @@ onUnmounted(() => {
 
 .oh--social {
   overflow: visible;
+}
+
+.oh--social > span {
+  display: inline-flex;
+  align-items: center;
 }
 
 .oh > span {
