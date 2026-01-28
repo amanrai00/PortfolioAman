@@ -70,9 +70,9 @@ onBeforeUnmount(() => {
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  width: 8px;
-  height: 140px;
-  background: rgba(10, 10, 10, 0.25);
+  width: 4px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 999px;
   z-index: 9999;
   pointer-events: none;
@@ -84,7 +84,7 @@ onBeforeUnmount(() => {
   top: 0;
   width: 100%;
   height: 6px;
-  background: #00ff6a;
+  background: #01baef;
   border-radius: 999px;
   will-change: height;
 }
