@@ -150,24 +150,32 @@ onMounted(async () => {
     });
   }
 
-  // Animate the footer name once it enters the viewport
+  // Animate the footer name once it enters the viewport (desktop only)
   if (footerNameEl.value) {
-    nameTl = gsap.from(footerNameEl.value, {
-      x: -120,
-      opacity: 0,
-      duration: 1.2,
-      stagger: 0.25,
-      delay: 0,
-      ease: 'expo.out',
-    });
+    const mm = ScrollTrigger.matchMedia();
+    mm.add('(min-width: 769px)', () => {
+      nameTl = gsap.from(footerNameEl.value, {
+        x: -120,
+        opacity: 0,
+        duration: 1.2,
+        stagger: 0.25,
+        delay: 0,
+        ease: 'expo.out',
+      });
 
-    nameTrigger = ScrollTrigger.create({
-      trigger: footerSectionEl.value,
-      start: 'top 50%',
-      onEnter: () => nameTl && nameTl.restart(),
-      onEnterBack: () => nameTl && nameTl.restart(),
-      onLeave: () => nameTl && nameTl.pause(0),
-      onLeaveBack: () => nameTl && nameTl.pause(0),
+      nameTrigger = ScrollTrigger.create({
+        trigger: footerSectionEl.value,
+        start: 'top 50%',
+        onEnter: () => nameTl && nameTl.restart(),
+        onEnterBack: () => nameTl && nameTl.restart(),
+        onLeave: () => nameTl && nameTl.pause(0),
+        onLeaveBack: () => nameTl && nameTl.pause(0),
+      });
+
+      return () => {
+        if (nameTl) nameTl.kill();
+        if (nameTrigger) nameTrigger.kill();
+      };
     });
   }
 });
@@ -387,27 +395,53 @@ onUnmounted(() => {
 @media (max-width: 768px) {
   .footer-section {
     padding: 2rem 1.5rem;
-    min-height: 80vh;
+    min-height: auto;
+    gap: 3rem;
+  }
+
+  .footer-wave {
+    display: none;
   }
 
   .footer-socials {
-    flex-direction: column;
-    gap: 0.75rem;
-    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    justify-content: center;
+  }
+
+  .footer-name {
+    padding: 2rem 0;
+  }
+
+  .footer-name-text {
+    font-size: clamp(2.5rem, 14vw, 5rem);
   }
 
   .footer-bottom {
     flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
+    gap: 1.5rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-bottom-center {
+    display: none;
   }
 
   .footer-bottom-right {
-    align-items: flex-start;
+    align-items: center;
+    order: -1;
   }
 
-  .footer-name-text {
-    font-size: clamp(3rem, 12vw, 8rem);
+  .footer-bottom-left {
+    order: 1;
+  }
+
+  /* Disable reveal animation on mobile - show content immediately */
+  .oh > span {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 </style>
