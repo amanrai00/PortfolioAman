@@ -93,9 +93,9 @@ onMounted(async () => {
     const st = ScrollTrigger.create({
       trigger: footerSectionEl.value,
       start: 'top top',
-      end: '+=100%',
+      end: 'bottom bottom',
       pin: true,
-      pinSpacing: true,
+      pinSpacing: false,
     });
     return () => st.kill();
   });
