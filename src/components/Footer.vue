@@ -9,7 +9,7 @@
     <!-- Social links row -->
     <div class="footer-socials">
       <a href="https://github.com/amanrai00" target="_blank" rel="noopener noreferrer" class="footer-social-link footer-social-link--roll">
-        <span class="oh">
+        <span class="oh oh--social">
           <span>
             <span class="footer-bracket footer-bracket-left">[</span>
             <span class="footer-roll-word" aria-label="GITHUB">
@@ -23,7 +23,7 @@
         </span>
       </a>
       <a href="https://www.linkedin.com/in/amanrai00/" target="_blank" rel="noopener noreferrer" class="footer-social-link footer-social-link--roll">
-        <span class="oh">
+        <span class="oh oh--social">
           <span>
             <span class="footer-bracket footer-bracket-left">[</span>
             <span class="footer-roll-word" aria-label="LINKEDIN">
@@ -37,7 +37,7 @@
         </span>
       </a>
       <a href="mailto:amanrai1630@gmail.com" class="footer-social-link footer-social-link--roll">
-        <span class="oh">
+        <span class="oh oh--social">
           <span>
             <span class="footer-bracket footer-bracket-left">[</span>
             <span class="footer-roll-word" aria-label="INQUIRY">
@@ -54,7 +54,9 @@
 
     <!-- Big name -->
     <div class="footer-name">
-      <h2 ref="footerNameEl" class="footer-name-text">AMAN</h2>
+      <h2 ref="footerNameEl" id="chasing-gold" class="footer-name-text">
+        <span class="items__hold">AMAN</span>
+      </h2>
     </div>
 
     <!-- Bottom info row -->
@@ -90,7 +92,6 @@ let waveLottieAnim = null;
 let timeInterval = null;
 let pinTrigger = null;
 let nameTrigger = null;
-let nameTl = null;
 let revealTrigger = null;
 
 function updateTime() {
@@ -150,22 +151,44 @@ onMounted(async () => {
 
   // Animate the footer name once it enters the viewport
   if (footerNameEl.value) {
-    gsap.set(footerNameEl.value, { opacity: 0, scale: 4 });
-    nameTl = gsap.timeline({ paused: true });
-    nameTl.to(footerNameEl.value, {
-      opacity: 1,
-      scale: 1,
-      duration: 1,
-      ease: 'sine.inOut',
-    });
+    const item = footerNameEl.value;
+    const hold = item.querySelector('.items__hold');
+
+    gsap.set(item, { '--widthline': '0%' });
+    if (hold) {
+      gsap.set(hold, { y: 600, opacity: 0 });
+    }
 
     nameTrigger = ScrollTrigger.create({
-      trigger: footerSectionEl.value,
-      start: 'top 60%',
-      onEnter: () => nameTl && nameTl.restart(),
-      onEnterBack: () => nameTl && nameTl.restart(),
-      onLeave: () => nameTl && nameTl.pause(0),
-      onLeaveBack: () => nameTl && nameTl.pause(0),
+      trigger: item,
+      start: 'top 75%',
+      onEnter: () => {
+        gsap.to(item, {
+          duration: 2,
+          '--widthline': '100%',
+          ease: 'expo.inOut',
+        });
+
+        if (hold) {
+          gsap.to(hold, {
+            delay: 0.5,
+            duration: 1.5,
+            y: 0,
+            ease: 'expo.out',
+          });
+
+          gsap.to(hold, {
+            delay: 0.5,
+            duration: 1,
+            opacity: 1,
+            ease: 'none',
+          });
+
+          gsap.delayedCall(2, () => {
+            hold.style.pointerEvents = 'auto';
+          });
+        }
+      },
     });
   }
 });
@@ -190,10 +213,6 @@ onUnmounted(() => {
   if (nameTrigger) {
     nameTrigger.kill();
     nameTrigger = null;
-  }
-  if (nameTl) {
-    nameTl.kill();
-    nameTl = null;
   }
 });
 </script>
@@ -311,6 +330,10 @@ onUnmounted(() => {
 .oh {
   display: inline-block;
   overflow: hidden;
+}
+
+.oh--social {
+  overflow: visible;
 }
 
 .oh > span {
