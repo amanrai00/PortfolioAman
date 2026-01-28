@@ -8,33 +8,33 @@
 
     <!-- Social links row -->
     <div class="footer-socials">
-      <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="footer-social-link">
+      <a href="https://github.com/amanrai00" target="_blank" rel="noopener noreferrer" class="footer-social-link">
         [ GITHUB ]
       </a>
-      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="footer-social-link">
+      <a href="https://www.linkedin.com/in/amanrai00/" target="_blank" rel="noopener noreferrer" class="footer-social-link">
         [ LINKEDIN ]
       </a>
-      <a href="https://codepen.io" target="_blank" rel="noopener noreferrer" class="footer-social-link">
-        [ CODEPEN ]
+      <a href="mailto:amanrai1630@gmail.com" class="footer-social-link">
+        [ INQUIRY ]
       </a>
     </div>
 
     <!-- Big name -->
     <div class="footer-name">
-      <h2 class="footer-name-text">IFEOLUWA</h2>
+      <h2 class="footer-name-text">AMAN</h2>
     </div>
 
     <!-- Bottom info row -->
     <div class="footer-bottom">
       <div class="footer-bottom-left">
-        LAGOS, NIGERIA: (GMT+1) {{ currentTime }}
+        TOKYO, JAPAN: (GMT+9) {{ currentTime }}
       </div>
       <div class="footer-bottom-center">
         DEVELOPMENT &nbsp;&mdash;&nbsp; CREATIVE
       </div>
       <div class="footer-bottom-right">
         <span>&copy; All Rights Reserved.</span>
-        <span>{{ currentYear }} Ifeoluwa</span>
+        <span>{{ currentYear }} Aman Rai</span>
       </div>
     </div>
   </footer>
@@ -59,7 +59,7 @@ let pinTrigger = null;
 function updateTime() {
   const now = new Date();
   const lagosTime = new Intl.DateTimeFormat('en-GB', {
-    timeZone: 'Africa/Lagos',
+    timeZone: 'Asia/Tokyo',
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
