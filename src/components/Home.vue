@@ -92,7 +92,7 @@
     <!-- Social Links (Desktop) -->
     <aside
       class="hidden lg:flex fixed right-6 bottom-12 z-30 flex-col items-end gap-4 text-[color:var(--theme-text-strong)]"
-      :class="{ 'social-links-hidden': isContactVisible }"
+      :class="{ 'social-links-hidden': isContactFading }"
       aria-label="Social links"
     >
       <a
@@ -130,7 +130,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 
 // ============================================================
 // Configuration
@@ -156,9 +156,7 @@ const currentWord = ref(words[0]);
 const activeIndex = ref(-1);
 const heroVisible = ref(false);
 const scrollSlide = ref(0);
-const isContactVisible = computed(
-  () => sectionIds[activeIndex.value] === "contact"
-);
+const isContactFading = ref(false);
 
 let wordIndex = 0;
 let timerId = null;
@@ -189,6 +187,13 @@ const updateActiveIndex = () => {
 
   activeIndex.value = newIndex;
   scrollSlide.value = Math.min(scrollY * 0.55, 220);
+
+  const contactEl = document.getElementById("contact");
+  if (contactEl) {
+    const triggerOffset =
+      window.innerWidth <= 768 ? window.innerHeight * 7 : window.innerHeight;
+    isContactFading.value = scrollY + triggerOffset >= contactEl.offsetTop;
+  }
 };
 
 /**
