@@ -340,6 +340,29 @@ onUnmounted(() => {
   transition: 100ms;
 }
 
+/* Light theme button styling */
+:global([data-theme="light"] .contact-submit) {
+  color: #1f2a37;
+  border-color: rgba(31, 42, 55, 0.22);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(236, 242, 250, 0.92));
+  box-shadow: -2px -2px 12px rgba(255, 255, 255, 0.85),
+    3px 3px 12px rgba(24, 150, 158, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+:global([data-theme="light"] .contact-submit:hover) {
+  color: #13202c;
+  box-shadow: -1px -1px 8px rgba(255, 255, 255, 0.9),
+    2px 2px 10px rgba(24, 150, 158, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+:global([data-theme="light"] .contact-submit:active) {
+  box-shadow: -1px -1px 6px rgba(255, 255, 255, 0.75),
+    1px 1px 8px rgba(24, 150, 158, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
 /* Theme variables */
 :global([data-theme="dark"]) {
   --contact-overlay: linear-gradient(
