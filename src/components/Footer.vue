@@ -91,6 +91,7 @@ const footerNameEl = ref(null);
 let waveLottieAnim = null;
 let timeInterval = null;
 let pinTrigger = null;
+let nameTl = null;
 let nameTrigger = null;
 let revealTrigger = null;
 
@@ -151,44 +152,22 @@ onMounted(async () => {
 
   // Animate the footer name once it enters the viewport
   if (footerNameEl.value) {
-    const item = footerNameEl.value;
-    const hold = item.querySelector('.items__hold');
-
-    gsap.set(item, { '--widthline': '0%' });
-    if (hold) {
-      gsap.set(hold, { y: 600, opacity: 0 });
-    }
+    nameTl = gsap.from(footerNameEl.value, {
+      x: -120,
+      opacity: 0,
+      duration: 1.2,
+      stagger: 0.25,
+      delay: 0,
+      ease: 'expo.out',
+    });
 
     nameTrigger = ScrollTrigger.create({
-      trigger: item,
-      start: 'top 75%',
-      onEnter: () => {
-        gsap.to(item, {
-          duration: 2,
-          '--widthline': '100%',
-          ease: 'expo.inOut',
-        });
-
-        if (hold) {
-          gsap.to(hold, {
-            delay: 0.5,
-            duration: 1.5,
-            y: 0,
-            ease: 'expo.out',
-          });
-
-          gsap.to(hold, {
-            delay: 0.5,
-            duration: 1,
-            opacity: 1,
-            ease: 'none',
-          });
-
-          gsap.delayedCall(2, () => {
-            hold.style.pointerEvents = 'auto';
-          });
-        }
-      },
+      trigger: footerSectionEl.value,
+      start: 'top 50%',
+      onEnter: () => nameTl && nameTl.restart(),
+      onEnterBack: () => nameTl && nameTl.restart(),
+      onLeave: () => nameTl && nameTl.pause(0),
+      onLeaveBack: () => nameTl && nameTl.pause(0),
     });
   }
 });
@@ -209,6 +188,10 @@ onUnmounted(() => {
   if (revealTrigger) {
     revealTrigger.kill();
     revealTrigger = null;
+  }
+  if (nameTl) {
+    nameTl.kill();
+    nameTl = null;
   }
   if (nameTrigger) {
     nameTrigger.kill();
