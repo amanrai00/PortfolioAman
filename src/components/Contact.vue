@@ -77,6 +77,7 @@ let revealTween = null;
 let exitTween = null;
 let mediaMatch = null;
 let isLottiePlaying = false;
+let scrollResumeTimer = null;
 
 onMounted(async () => {
   gsap.registerPlugin(ScrollTrigger);
@@ -97,6 +98,24 @@ onMounted(async () => {
   });
 
   lottieAnim.setSpeed(0.5);
+  lottieAnim.setSubframe(false);
+
+  // Pause lottie canvas during scroll to prevent main-thread contention
+  const pauseLottieDuringScroll = () => {
+    if (isLottiePlaying) {
+      lottieAnim?.pause();
+      isLottiePlaying = false;
+    }
+    clearTimeout(scrollResumeTimer);
+    scrollResumeTimer = setTimeout(() => {
+      const exitProgress = exitTween?.scrollTrigger?.progress ?? 0;
+      const revealProgress = revealTween?.scrollTrigger?.progress ?? 0;
+      if (revealProgress > 0 && exitProgress < 1 && !isLottiePlaying) {
+        lottieAnim?.play();
+        isLottiePlaying = true;
+      }
+    }, 150);
+  };
 
   const createScrollTrigger = (initialClip, triggerStart, triggerEnd = 'bottom bottom') => {
     // Reveal animation driven by a GSAP tween for smooth interpolation
@@ -113,13 +132,12 @@ onMounted(async () => {
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const clipValue = initialClip - (self.progress * initialClip);
-            // Only play lottie when visible
-            if (clipValue < 100 && !isLottiePlaying) {
-              lottieAnim?.play();
-              isLottiePlaying = true;
-            } else if (clipValue >= 100 && isLottiePlaying) {
+            if (clipValue < 100) {
+              pauseLottieDuringScroll();
+            } else if (isLottiePlaying) {
               lottieAnim?.pause();
               isLottiePlaying = false;
+              clearTimeout(scrollResumeTimer);
             }
           },
         },
@@ -147,6 +165,9 @@ onMounted(async () => {
         end: 'top top',
         scrub: true,
         invalidateOnRefresh: true,
+        onUpdate: () => {
+          pauseLottieDuringScroll();
+        },
       },
     });
 
@@ -194,6 +215,7 @@ onUnmounted(() => {
     exitTween.kill();
     exitTween = null;
   }
+  clearTimeout(scrollResumeTimer);
 });
 </script>
 
@@ -209,6 +231,7 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
+  will-change: transform;
   background: radial-gradient(
       120% 120% at 10% 0%,
       rgba(36, 38, 56, 0.6),
