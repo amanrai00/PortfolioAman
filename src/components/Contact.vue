@@ -74,6 +74,7 @@ const contactSection = ref(null);
 
 let lottieAnim = null;
 let scrollTriggerInstance = null;
+let exitTween = null;
 let mediaMatch = null;
 let clipPathSetter = null;
 let lastClipValue = 100;
@@ -102,7 +103,7 @@ onMounted(async () => {
   // Use quickSetter for better performance
   clipPathSetter = gsap.quickSetter(contactSection.value, 'clipPath');
 
-  const createScrollTrigger = (initialClip, triggerStart) => {
+  const createScrollTrigger = (initialClip, triggerStart, triggerEnd = 'bottom bottom') => {
     // Set initial clip - hidden from top
     gsap.set(contactSection.value, {
       clipPath: `inset(${initialClip}% 0 0 0)`,
@@ -113,7 +114,7 @@ onMounted(async () => {
     scrollTriggerInstance = ScrollTrigger.create({
       trigger: contactWrapper.value,
       start: triggerStart,
-      end: 'bottom bottom',
+      end: triggerEnd,
       scrub: true,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
@@ -142,13 +143,42 @@ onMounted(async () => {
     };
   };
 
+  const createExitScroll = () => {
+    gsap.set(contactSection.value, { yPercent: 0 });
+    exitTween = gsap.to(contactSection.value, {
+      yPercent: -100,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: contactWrapper.value,
+        start: () => `top+=${window.innerHeight} bottom`,
+        end: () => `top+=${window.innerHeight * 2} bottom`,
+        scrub: true,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    return () => {
+      if (exitTween) {
+        exitTween.kill();
+        exitTween = null;
+      }
+      gsap.set(contactSection.value, { yPercent: 0 });
+    };
+  };
+
   mediaMatch = ScrollTrigger.matchMedia();
   mediaMatch.add('(max-width: 768px)', () =>
     createScrollTrigger(70, 'top 700%')
   );
-  mediaMatch.add('(min-width: 769px)', () =>
-    createScrollTrigger(100, 'top bottom')
-  );
+  mediaMatch.add('(min-width: 769px)', () => {
+    const killReveal = createScrollTrigger(100, 'top bottom', () => `+=${window.innerHeight}`);
+    const killExit = createExitScroll();
+
+    return () => {
+      killReveal?.();
+      killExit?.();
+    };
+  });
 });
 
 onUnmounted(() => {
@@ -166,13 +196,18 @@ onUnmounted(() => {
     scrollTriggerInstance.kill();
     scrollTriggerInstance = null;
   }
+
+  if (exitTween) {
+    exitTween.kill();
+    exitTween = null;
+  }
 });
 </script>
 
 <style scoped>
 .contact-wrapper {
   position: relative;
-  height: 100vh;
+  height: 200vh;
 }
 
 .contact-section {
