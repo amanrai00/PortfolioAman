@@ -382,9 +382,13 @@ onUnmounted(() => {
 }
 
 :global([data-theme="light"] .contact-submit:active) {
+  color: #0f172a;
+  border-color: rgba(15, 23, 42, 0.35);
+  background: linear-gradient(135deg, rgba(226, 244, 246, 0.95), rgba(210, 232, 236, 0.95));
   box-shadow: -1px -1px 6px rgba(255, 255, 255, 0.75),
     1px 1px 8px rgba(24, 150, 158, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 2px 2px 6px rgba(12, 74, 110, 0.18);
 }
 
 /* Theme variables */
