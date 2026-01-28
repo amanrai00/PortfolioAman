@@ -183,11 +183,6 @@ onUnmounted(() => {
   text-transform: uppercase;
   color: var(--theme-headline-from);
   text-decoration: none;
-  transition: opacity 0.3s ease;
-}
-
-.footer-social-link:hover {
-  opacity: 0.6;
 }
 
 .footer-social-link--github {
@@ -213,28 +208,29 @@ onUnmounted(() => {
 }
 
 .footer-roll-word {
-  display: inline-block;
+  display: inline-flex;
   height: 1em;
   line-height: 1em;
   overflow: hidden;
 }
 
 .footer-roll-word-track {
-  display: block;
-  transform: translateY(0%);
+  display: flex;
+  flex-direction: column;
+  transform: translateY(0);
   transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
 }
 
 .footer-roll-word-item {
   display: block;
-  height: 1em;
+  min-height: 1em;
   line-height: 1em;
 }
 
 .footer-social-link--github:hover .footer-roll-word-track,
 .footer-social-link--github:focus-visible .footer-roll-word-track {
-  transform: translateY(-100%);
+  transform: translateY(-1em);
 }
 
 /* Big name */
