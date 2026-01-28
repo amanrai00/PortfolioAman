@@ -8,8 +8,15 @@
 
     <!-- Social links row -->
     <div class="footer-socials">
-      <a href="https://github.com/amanrai00" target="_blank" rel="noopener noreferrer" class="footer-social-link">
-        [ GITHUB ]
+      <a href="https://github.com/amanrai00" target="_blank" rel="noopener noreferrer" class="footer-social-link footer-social-link--github">
+        <span class="footer-bracket footer-bracket-left">[</span>
+        <span class="footer-roll-word" aria-label="GITHUB">
+          <span class="footer-roll-word-track">
+            <span class="footer-roll-word-item">GITHUB</span>
+            <span class="footer-roll-word-item">GITHUB</span>
+          </span>
+        </span>
+        <span class="footer-bracket footer-bracket-right">]</span>
       </a>
       <a href="https://www.linkedin.com/in/amanrai00/" target="_blank" rel="noopener noreferrer" class="footer-social-link">
         [ LINKEDIN ]
@@ -181,6 +188,53 @@ onUnmounted(() => {
 
 .footer-social-link:hover {
   opacity: 0.6;
+}
+
+.footer-social-link--github {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  perspective: 700px;
+}
+
+.footer-bracket {
+  display: inline-block;
+  transition: transform 0.35s ease;
+}
+
+.footer-social-link--github:hover .footer-bracket-left,
+.footer-social-link--github:focus-visible .footer-bracket-left {
+  transform: translateX(-0.25em) scaleX(1.06);
+}
+
+.footer-social-link--github:hover .footer-bracket-right,
+.footer-social-link--github:focus-visible .footer-bracket-right {
+  transform: translateX(0.25em) scaleX(1.06);
+}
+
+.footer-roll-word {
+  display: inline-block;
+  height: 1em;
+  line-height: 1em;
+  overflow: hidden;
+}
+
+.footer-roll-word-track {
+  display: block;
+  transform: translateY(0%);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.footer-roll-word-item {
+  display: block;
+  height: 1em;
+  line-height: 1em;
+}
+
+.footer-social-link--github:hover .footer-roll-word-track,
+.footer-social-link--github:focus-visible .footer-roll-word-track {
+  transform: translateY(-100%);
 }
 
 /* Big name */
