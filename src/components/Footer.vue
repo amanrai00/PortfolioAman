@@ -8,7 +8,7 @@
 
     <!-- Social links row -->
     <div class="footer-socials">
-      <a href="https://github.com/amanrai00" target="_blank" rel="noopener noreferrer" class="footer-social-link footer-social-link--github">
+      <a href="https://github.com/amanrai00" target="_blank" rel="noopener noreferrer" class="footer-social-link footer-social-link--roll">
         <span class="footer-bracket footer-bracket-left">[</span>
         <span class="footer-roll-word" aria-label="GITHUB">
           <span class="footer-roll-word-track">
@@ -18,11 +18,25 @@
         </span>
         <span class="footer-bracket footer-bracket-right">]</span>
       </a>
-      <a href="https://www.linkedin.com/in/amanrai00/" target="_blank" rel="noopener noreferrer" class="footer-social-link">
-        [ LINKEDIN ]
+      <a href="https://www.linkedin.com/in/amanrai00/" target="_blank" rel="noopener noreferrer" class="footer-social-link footer-social-link--roll">
+        <span class="footer-bracket footer-bracket-left">[</span>
+        <span class="footer-roll-word" aria-label="LINKEDIN">
+          <span class="footer-roll-word-track">
+            <span class="footer-roll-word-item">LINKEDIN</span>
+            <span class="footer-roll-word-item">LINKEDIN</span>
+          </span>
+        </span>
+        <span class="footer-bracket footer-bracket-right">]</span>
       </a>
-      <a href="mailto:amanrai1630@gmail.com" class="footer-social-link">
-        [ INQUIRY ]
+      <a href="mailto:amanrai1630@gmail.com" class="footer-social-link footer-social-link--roll">
+        <span class="footer-bracket footer-bracket-left">[</span>
+        <span class="footer-roll-word" aria-label="INQUIRY">
+          <span class="footer-roll-word-track">
+            <span class="footer-roll-word-item">INQUIRY</span>
+            <span class="footer-roll-word-item">INQUIRY</span>
+          </span>
+        </span>
+        <span class="footer-bracket footer-bracket-right">]</span>
       </a>
     </div>
 
@@ -185,7 +199,7 @@ onUnmounted(() => {
   text-decoration: none;
 }
 
-.footer-social-link--github {
+.footer-social-link--roll {
   display: inline-flex;
   align-items: center;
   gap: 0.35em;
@@ -197,13 +211,13 @@ onUnmounted(() => {
   transition: transform 0.35s ease;
 }
 
-.footer-social-link--github:hover .footer-bracket-left,
-.footer-social-link--github:focus-visible .footer-bracket-left {
+.footer-social-link--roll:hover .footer-bracket-left,
+.footer-social-link--roll:focus-visible .footer-bracket-left {
   transform: translateX(-0.25em) scaleX(1.06);
 }
 
-.footer-social-link--github:hover .footer-bracket-right,
-.footer-social-link--github:focus-visible .footer-bracket-right {
+.footer-social-link--roll:hover .footer-bracket-right,
+.footer-social-link--roll:focus-visible .footer-bracket-right {
   transform: translateX(0.25em) scaleX(1.06);
 }
 
@@ -228,8 +242,8 @@ onUnmounted(() => {
   line-height: 1em;
 }
 
-.footer-social-link--github:hover .footer-roll-word-track,
-.footer-social-link--github:focus-visible .footer-roll-word-track {
+.footer-social-link--roll:hover .footer-roll-word-track,
+.footer-social-link--roll:focus-visible .footer-roll-word-track {
   transform: translateY(-1em);
 }
 
