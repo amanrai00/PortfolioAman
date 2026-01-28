@@ -103,7 +103,7 @@ onMounted(async () => {
   // Use quickSetter for better performance
   clipPathSetter = gsap.quickSetter(contactSection.value, 'clipPath');
 
-  const createScrollTrigger = (initialClip, triggerStart, triggerEnd = 'bottom bottom') => {
+  const createScrollTrigger = (initialClip, triggerStart) => {
     // Set initial clip - hidden from top
     gsap.set(contactSection.value, {
       clipPath: `inset(${initialClip}% 0 0 0)`,
@@ -114,7 +114,7 @@ onMounted(async () => {
     scrollTriggerInstance = ScrollTrigger.create({
       trigger: contactWrapper.value,
       start: triggerStart,
-      end: triggerEnd,
+      end: 'bottom bottom',
       scrub: true,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
@@ -144,14 +144,16 @@ onMounted(async () => {
   };
 
   const createExitScroll = () => {
+    const footerEl = document.querySelector('.footer-section');
+    if (!footerEl) return () => {};
     gsap.set(contactSection.value, { yPercent: 0 });
     exitTween = gsap.to(contactSection.value, {
       yPercent: -100,
       ease: 'none',
       scrollTrigger: {
-        trigger: contactWrapper.value,
-        start: () => `top+=${window.innerHeight} bottom`,
-        end: () => `top+=${window.innerHeight * 2} bottom`,
+        trigger: footerEl,
+        start: 'top bottom',
+        end: 'top top',
         scrub: true,
         invalidateOnRefresh: true,
       },
@@ -171,7 +173,7 @@ onMounted(async () => {
     createScrollTrigger(70, 'top 700%')
   );
   mediaMatch.add('(min-width: 769px)', () => {
-    const killReveal = createScrollTrigger(100, 'top bottom', () => `+=${window.innerHeight}`);
+    const killReveal = createScrollTrigger(100, 'top bottom');
     const killExit = createExitScroll();
 
     return () => {
@@ -207,7 +209,7 @@ onUnmounted(() => {
 <style scoped>
 .contact-wrapper {
   position: relative;
-  height: 200vh;
+  height: 100vh;
 }
 
 .contact-section {
