@@ -84,6 +84,9 @@ onMounted(async () => {
   // Load wavy lottie animation
   const wavyModule = await import('@/assets/lottie/wavy.json');
   const wavyData = wavyModule?.default ?? wavyModule;
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const initialClip = isMobile ? 70 : 100;
+  const triggerStart = isMobile ? 'top 700%' : 'top bottom';
 
   lottieAnim = lottie.loadAnimation({
     container: lottieEl.value,
@@ -101,20 +104,21 @@ onMounted(async () => {
 
   // Set initial clip - hidden from top
   gsap.set(contactSection.value, {
-    clipPath: 'inset(100% 0 0 0)',
+    clipPath: `inset(${initialClip}% 0 0 0)`,
   });
 
   // Use quickSetter for better performance
   clipPathSetter = gsap.quickSetter(contactSection.value, 'clipPath');
+  lastClipValue = initialClip;
 
   // Reveal animation with contact section fixed at bottom
   scrollTriggerInstance = ScrollTrigger.create({
     trigger: contactWrapper.value,
-    start: 'top bottom',
+    start: triggerStart,
     end: 'bottom bottom',
     scrub: true,
     onUpdate: (self) => {
-      const clipValue = Math.round(100 - (self.progress * 100));
+      const clipValue = Math.round(initialClip - (self.progress * initialClip));
       if (clipValue !== lastClipValue) {
         lastClipValue = clipValue;
         clipPathSetter(`inset(${clipValue}% 0 0 0)`);
@@ -429,6 +433,15 @@ onUnmounted(() => {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .contact-wrapper {
+    height: auto;
+  }
+
+  .contact-section {
+    position: relative;
+    min-height: 100vh;
+  }
+
   .contact-split {
     grid-template-columns: 1fr;
   }
