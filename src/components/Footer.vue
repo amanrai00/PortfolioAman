@@ -65,7 +65,7 @@
         <span class="oh"><span>TOKYO, JAPAN: (GMT+9) {{ currentTime }}</span></span>
       </div>
       <div class="footer-bottom-center">
-        <span class="oh"><span>DEVELOPMENT &nbsp;&mdash;&nbsp; CREATIVE</span></span>
+        <span class="oh"><span>DESIGNING WITH CODE</span></span>
       </div>
       <div class="footer-bottom-right">
         <span class="oh"><span>&copy; All Rights Reserved.</span></span>
