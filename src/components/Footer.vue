@@ -9,34 +9,46 @@
     <!-- Social links row -->
     <div class="footer-socials">
       <a href="https://github.com/amanrai00" target="_blank" rel="noopener noreferrer" class="footer-social-link footer-social-link--roll">
-        <span class="footer-bracket footer-bracket-left">[</span>
-        <span class="footer-roll-word" aria-label="GITHUB">
-          <span class="footer-roll-word-track">
-            <span class="footer-roll-word-item">GITHUB</span>
-            <span class="footer-roll-word-item">GITHUB</span>
+        <span class="oh">
+          <span>
+            <span class="footer-bracket footer-bracket-left">[</span>
+            <span class="footer-roll-word" aria-label="GITHUB">
+              <span class="footer-roll-word-track">
+                <span class="footer-roll-word-item">GITHUB</span>
+                <span class="footer-roll-word-item">GITHUB</span>
+              </span>
+            </span>
+            <span class="footer-bracket footer-bracket-right">]</span>
           </span>
         </span>
-        <span class="footer-bracket footer-bracket-right">]</span>
       </a>
       <a href="https://www.linkedin.com/in/amanrai00/" target="_blank" rel="noopener noreferrer" class="footer-social-link footer-social-link--roll">
-        <span class="footer-bracket footer-bracket-left">[</span>
-        <span class="footer-roll-word" aria-label="LINKEDIN">
-          <span class="footer-roll-word-track">
-            <span class="footer-roll-word-item">LINKEDIN</span>
-            <span class="footer-roll-word-item">LINKEDIN</span>
+        <span class="oh">
+          <span>
+            <span class="footer-bracket footer-bracket-left">[</span>
+            <span class="footer-roll-word" aria-label="LINKEDIN">
+              <span class="footer-roll-word-track">
+                <span class="footer-roll-word-item">LINKEDIN</span>
+                <span class="footer-roll-word-item">LINKEDIN</span>
+              </span>
+            </span>
+            <span class="footer-bracket footer-bracket-right">]</span>
           </span>
         </span>
-        <span class="footer-bracket footer-bracket-right">]</span>
       </a>
       <a href="mailto:amanrai1630@gmail.com" class="footer-social-link footer-social-link--roll">
-        <span class="footer-bracket footer-bracket-left">[</span>
-        <span class="footer-roll-word" aria-label="INQUIRY">
-          <span class="footer-roll-word-track">
-            <span class="footer-roll-word-item">INQUIRY</span>
-            <span class="footer-roll-word-item">INQUIRY</span>
+        <span class="oh">
+          <span>
+            <span class="footer-bracket footer-bracket-left">[</span>
+            <span class="footer-roll-word" aria-label="INQUIRY">
+              <span class="footer-roll-word-track">
+                <span class="footer-roll-word-item">INQUIRY</span>
+                <span class="footer-roll-word-item">INQUIRY</span>
+              </span>
+            </span>
+            <span class="footer-bracket footer-bracket-right">]</span>
           </span>
         </span>
-        <span class="footer-bracket footer-bracket-right">]</span>
       </a>
     </div>
 
@@ -48,14 +60,14 @@
     <!-- Bottom info row -->
     <div class="footer-bottom">
       <div class="footer-bottom-left">
-        TOKYO, JAPAN: (GMT+9) {{ currentTime }}
+        <span class="oh"><span>TOKYO, JAPAN: (GMT+9) {{ currentTime }}</span></span>
       </div>
       <div class="footer-bottom-center">
-        DEVELOPMENT &nbsp;&mdash;&nbsp; CREATIVE
+        <span class="oh"><span>DEVELOPMENT &nbsp;&mdash;&nbsp; CREATIVE</span></span>
       </div>
       <div class="footer-bottom-right">
-        <span>&copy; All Rights Reserved.</span>
-        <span>{{ currentYear }} Aman Rai</span>
+        <span class="oh"><span>&copy; All Rights Reserved.</span></span>
+        <span class="oh"><span>{{ currentYear }} Aman Rai</span></span>
       </div>
     </div>
   </footer>
@@ -79,6 +91,7 @@ let timeInterval = null;
 let pinTrigger = null;
 let nameTrigger = null;
 let nameTl = null;
+let revealTrigger = null;
 
 function updateTime() {
   const now = new Date();
@@ -124,6 +137,17 @@ onMounted(async () => {
     return () => st.kill();
   });
 
+  if (footerSectionEl.value) {
+    revealTrigger = ScrollTrigger.create({
+      trigger: footerSectionEl.value,
+      start: 'top 60%',
+      onEnter: () => footerSectionEl.value && footerSectionEl.value.classList.add('reveal'),
+      onEnterBack: () => footerSectionEl.value && footerSectionEl.value.classList.add('reveal'),
+      onLeave: () => footerSectionEl.value && footerSectionEl.value.classList.remove('reveal'),
+      onLeaveBack: () => footerSectionEl.value && footerSectionEl.value.classList.remove('reveal'),
+    });
+  }
+
   // Animate the footer name once it enters the viewport
   if (footerNameEl.value) {
     gsap.set(footerNameEl.value, { opacity: 0, scale: 4 });
@@ -158,6 +182,10 @@ onUnmounted(() => {
   if (pinTrigger) {
     pinTrigger.kill();
     pinTrigger = null;
+  }
+  if (revealTrigger) {
+    revealTrigger.kill();
+    revealTrigger = null;
   }
   if (nameTrigger) {
     nameTrigger.kill();
@@ -277,6 +305,28 @@ onUnmounted(() => {
 .footer-social-link--roll:hover .footer-roll-word-track,
 .footer-social-link--roll:focus-visible .footer-roll-word-track {
   transform: translateY(-1em);
+}
+
+/* Footer reveal animation for non-name text */
+.oh {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.oh > span {
+  display: inline-block;
+  transform: translateY(140%);
+  opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.2s ease;
+}
+
+.reveal .oh > span {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.reveal .oh:nth-of-type(2) > span {
+  transition-delay: 0.2s;
 }
 
 /* Big name */
