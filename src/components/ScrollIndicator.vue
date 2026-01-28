@@ -25,7 +25,11 @@ function updateFill() {
   const maxScroll = Math.max(scrollHeight - viewportHeight, 1);
   const progress = scrollTop / maxScroll;
 
-  const fillHeight = Math.max(progress * trackHeight, MIN_FILL_HEIGHT);
+  const rawFillHeight = progress * trackHeight;
+  const fillHeight = Math.min(
+    trackHeight,
+    Math.max(rawFillHeight, MIN_FILL_HEIGHT)
+  );
   moveThumb(fillHeight);
 }
 
@@ -70,8 +74,8 @@ onBeforeUnmount(() => {
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  width: 4px;
-  height: 100px;
+  width: 6px;
+  height: 80px;
   background: rgba(255, 255, 255, 0.12);
   border-radius: 999px;
   z-index: 9999;
