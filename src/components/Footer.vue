@@ -1,5 +1,6 @@
 <template>
-  <footer class="footer-section">
+  <div class="footer-wrapper">
+  <footer ref="footerSectionEl" class="footer-section">
     <!-- Wave lottie background -->
     <div class="footer-wave" aria-hidden="true">
       <div ref="waveLottieEl" class="footer-wave-lottie"></div>
@@ -37,18 +38,23 @@
       </div>
     </div>
   </footer>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import lottie from 'lottie-web';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const waveLottieEl = ref(null);
+const footerSectionEl = ref(null);
 const currentTime = ref('');
 const currentYear = new Date().getFullYear();
 
 let waveLottieAnim = null;
 let timeInterval = null;
+let pinTrigger = null;
 
 function updateTime() {
   const now = new Date();
@@ -79,6 +85,20 @@ onMounted(async () => {
   });
 
   waveLottieAnim.setSpeed(0.4);
+
+  // Pin footer for scroll delay effect (desktop only)
+  gsap.registerPlugin(ScrollTrigger);
+  pinTrigger = ScrollTrigger.matchMedia();
+  pinTrigger.add('(min-width: 769px)', () => {
+    const st = ScrollTrigger.create({
+      trigger: footerSectionEl.value,
+      start: 'top top',
+      end: '+=100%',
+      pin: true,
+      pinSpacing: true,
+    });
+    return () => st.kill();
+  });
 });
 
 onUnmounted(() => {
@@ -90,10 +110,18 @@ onUnmounted(() => {
     clearInterval(timeInterval);
     timeInterval = null;
   }
+  if (pinTrigger) {
+    pinTrigger.kill();
+    pinTrigger = null;
+  }
 });
 </script>
 
 <style scoped>
+.footer-wrapper {
+  position: relative;
+}
+
 .footer-section {
   position: relative;
   display: flex;

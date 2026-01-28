@@ -103,7 +103,7 @@ onMounted(async () => {
   // Use quickSetter for better performance
   clipPathSetter = gsap.quickSetter(contactSection.value, 'clipPath');
 
-  const createScrollTrigger = (initialClip, triggerStart) => {
+  const createScrollTrigger = (initialClip, triggerStart, triggerEnd = 'bottom bottom') => {
     // Set initial clip - hidden from top
     gsap.set(contactSection.value, {
       clipPath: `inset(${initialClip}% 0 0 0)`,
@@ -114,7 +114,7 @@ onMounted(async () => {
     scrollTriggerInstance = ScrollTrigger.create({
       trigger: contactWrapper.value,
       start: triggerStart,
-      end: 'bottom bottom',
+      end: triggerEnd,
       scrub: true,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
@@ -173,7 +173,7 @@ onMounted(async () => {
     createScrollTrigger(70, 'top 700%')
   );
   mediaMatch.add('(min-width: 769px)', () => {
-    const killReveal = createScrollTrigger(100, 'top bottom');
+    const killReveal = createScrollTrigger(100, 'top bottom', () => `top+=${window.innerHeight}px bottom`);
     const killExit = createExitScroll();
 
     return () => {
@@ -209,7 +209,7 @@ onUnmounted(() => {
 <style scoped>
 .contact-wrapper {
   position: relative;
-  height: 100vh;
+  height: 200vh;
 }
 
 .contact-section {
