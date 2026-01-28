@@ -82,6 +82,10 @@ let scrollResumeTimer = null;
 onMounted(async () => {
   gsap.registerPlugin(ScrollTrigger);
 
+  // scroll-behavior: smooth conflicts with ScrollTrigger scrub animations
+  // (GSAP docs: "Do NOT set scroll-behavior: smooth with ScrollTrigger")
+  document.documentElement.style.scrollBehavior = 'auto';
+
   // Load wavy lottie animation
   const wavyModule = await import('@/assets/lottie/wavy.json');
   const wavyData = wavyModule?.default ?? wavyModule;
@@ -153,7 +157,7 @@ onMounted(async () => {
   };
 
   const createExitScroll = () => {
-    const footerEl = document.querySelector('.footer-section');
+    const footerEl = document.querySelector('.footer-wrapper');
     if (!footerEl) return () => {};
     gsap.set(contactSection.value, { yPercent: 0 });
     exitTween = gsap.to(contactSection.value, {
@@ -216,6 +220,7 @@ onUnmounted(() => {
     exitTween = null;
   }
   clearTimeout(scrollResumeTimer);
+  document.documentElement.style.scrollBehavior = '';
 });
 </script>
 
@@ -232,6 +237,7 @@ onUnmounted(() => {
   right: 0;
   bottom: 0;
   will-change: transform;
+  contain: layout paint;
   background: radial-gradient(
       120% 120% at 10% 0%,
       rgba(36, 38, 56, 0.6),
