@@ -11,7 +11,7 @@ import { gsap } from "gsap";
 const trackRef = ref(null);
 const thumbRef = ref(null);
 
-const MIN_FILL_HEIGHT = 6;
+const MIN_FILL_HEIGHT = 0;
 let trackHeight = 0;
 let moveThumb = null;
 

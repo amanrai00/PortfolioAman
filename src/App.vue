@@ -32,4 +32,17 @@ import Footer from "./components/Footer.vue";
 html {
   scroll-behavior: smooth;
 }
+
+/* Hide native scrollbars so the custom indicator is the only one visible */
+html,
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
 </style>
