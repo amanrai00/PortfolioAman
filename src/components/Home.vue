@@ -3,7 +3,7 @@
   <section id="home" class="min-h-screen px-5 lg:px-28 pt-6 pb-16 lg:pt-6 flex items-center relative overflow-hidden">
 
     <!-- Navigation Dots (Desktop) -->
-    <nav class="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-30 flex-col items-start gap-3" aria-label="Section navigation">
+    <nav ref="heroNavEl" class="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-30 flex-col items-start gap-3" aria-label="Section navigation">
       <button
         v-for="(sectionId, index) in sectionIds"
         :key="sectionId"
@@ -21,6 +21,7 @@
 
     <!-- Scroll Indicator (Desktop) -->
     <div
+      ref="heroScrollEl"
       class="hidden lg:flex fixed left-8 bottom-12 z-30 flex-col items-center gap-3 text-[color:var(--theme-text-muted)] transition-transform duration-200 ease-out transition-opacity duration-200 ease-out cursor-default"
       :style="{
         transform: `translateY(${scrollSlide}px)`,
@@ -160,6 +161,8 @@ const scrollSlide = ref(0);
 const isContactFading = ref(false);
 const heroTextEl = ref(null);
 const heroEffectsStarted = ref(false);
+const heroNavEl = ref(null);
+const heroScrollEl = ref(null);
 
 let wordIndex = 0;
 let timerId = null;
@@ -266,7 +269,7 @@ onMounted(() => {
     if (heroSection) heroObserver.observe(heroSection);
     if (heroSection) {
       const rect = heroSection.getBoundingClientRect();
-      const isInView = rect.top >= 0 && rect.bottom <= window.innerHeight;
+      const isInView = rect.top < window.innerHeight && rect.bottom > 0;
       if (isInView && !hasAnimated) {
         heroVisible.value = false;
         requestAnimationFrame(() => {
@@ -278,7 +281,15 @@ onMounted(() => {
   };
 
   if (heroTextEl.value) {
-    gsap.fromTo(
+    const fadeTargets = [heroNavEl.value, heroScrollEl.value].filter(Boolean);
+    if (fadeTargets.length) {
+      gsap.set(fadeTargets, { opacity: 0 });
+    }
+
+    const introTl = gsap.timeline({
+      onComplete: startHeroEffects,
+    });
+    introTl.fromTo(
       heroTextEl.value,
       { opacity: 0, scale: 4, transformOrigin: "50% 50%", force3D: true },
       {
@@ -286,9 +297,22 @@ onMounted(() => {
         scale: 1,
         duration: 1,
         ease: "sine.inOut",
-        onComplete: startHeroEffects,
       }
     );
+    if (fadeTargets.length) {
+      introTl.to(
+        fadeTargets,
+        { opacity: 1, duration: 0.8, ease: "sine.out" },
+        0.8
+      );
+    }
+    introTl.call(() => {
+      heroVisible.value = false;
+      requestAnimationFrame(() => {
+        heroVisible.value = true;
+      });
+      hasAnimated = true;
+    }, null, 1);
   } else {
     startHeroEffects();
   }
@@ -351,7 +375,7 @@ onBeforeUnmount(() => {
 }
 
 .steel-line-animate {
-  animation: steel-line-reveal 1.2s ease-out 0.2s both;
+  animation: steel-line-reveal 1.2s ease-out 0s both;
   visibility: visible;
 }
 
