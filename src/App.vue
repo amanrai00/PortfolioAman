@@ -9,6 +9,7 @@
   <Statement />
   <Projects />
   <Contact />
+  <Footer />
 
 </template>
 
@@ -22,6 +23,7 @@ import Skills from "./components/Skills.vue";
 import Statement from "./components/Statement.vue";
 import Projects from "./components/Projects.vue";
 import Contact from "./components/Contact.vue";
+import Footer from "./components/Footer.vue";
 </script>
 
 <style>
