@@ -138,8 +138,10 @@ onMounted(async () => {
     nameTrigger = ScrollTrigger.create({
       trigger: footerSectionEl.value,
       start: 'top 60%',
-      once: true,
-      onEnter: () => nameTl && nameTl.play(),
+      onEnter: () => nameTl && nameTl.restart(),
+      onEnterBack: () => nameTl && nameTl.restart(),
+      onLeave: () => nameTl && nameTl.pause(0),
+      onLeaveBack: () => nameTl && nameTl.pause(0),
     });
   }
 });
