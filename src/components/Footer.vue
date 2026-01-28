@@ -42,7 +42,7 @@
 
     <!-- Big name -->
     <div class="footer-name">
-      <h2 class="footer-name-text">AMAN</h2>
+      <h2 ref="footerNameEl" class="footer-name-text">AMAN</h2>
     </div>
 
     <!-- Bottom info row -->
@@ -72,10 +72,13 @@ const waveLottieEl = ref(null);
 const footerSectionEl = ref(null);
 const currentTime = ref('');
 const currentYear = new Date().getFullYear();
+const footerNameEl = ref(null);
 
 let waveLottieAnim = null;
 let timeInterval = null;
 let pinTrigger = null;
+let nameTrigger = null;
+let nameTl = null;
 
 function updateTime() {
   const now = new Date();
@@ -120,6 +123,25 @@ onMounted(async () => {
     });
     return () => st.kill();
   });
+
+  // Animate the footer name once it enters the viewport
+  if (footerNameEl.value) {
+    gsap.set(footerNameEl.value, { opacity: 0, scale: 4 });
+    nameTl = gsap.timeline({ paused: true });
+    nameTl.to(footerNameEl.value, {
+      opacity: 1,
+      scale: 1,
+      duration: 1,
+      ease: 'sine.inOut',
+    });
+
+    nameTrigger = ScrollTrigger.create({
+      trigger: footerSectionEl.value,
+      start: 'top 60%',
+      once: true,
+      onEnter: () => nameTl && nameTl.play(),
+    });
+  }
 });
 
 onUnmounted(() => {
@@ -134,6 +156,14 @@ onUnmounted(() => {
   if (pinTrigger) {
     pinTrigger.kill();
     pinTrigger = null;
+  }
+  if (nameTrigger) {
+    nameTrigger.kill();
+    nameTrigger = null;
+  }
+  if (nameTl) {
+    nameTl.kill();
+    nameTl = null;
   }
 });
 </script>
