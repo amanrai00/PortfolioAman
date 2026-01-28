@@ -73,11 +73,9 @@ const contactWrapper = ref(null);
 const contactSection = ref(null);
 
 let lottieAnim = null;
-let scrollTriggerInstance = null;
+let revealTween = null;
 let exitTween = null;
 let mediaMatch = null;
-let clipPathSetter = null;
-let lastClipValue = 100;
 let isLottiePlaying = false;
 
 onMounted(async () => {
@@ -100,45 +98,38 @@ onMounted(async () => {
 
   lottieAnim.setSpeed(0.5);
 
-  // Use quickSetter for better performance
-  clipPathSetter = gsap.quickSetter(contactSection.value, 'clipPath');
-
   const createScrollTrigger = (initialClip, triggerStart, triggerEnd = 'bottom bottom') => {
-    // Set initial clip - hidden from top
-    gsap.set(contactSection.value, {
-      clipPath: `inset(${initialClip}% 0 0 0)`,
-    });
-    lastClipValue = initialClip;
-
-    // Reveal animation with contact section fixed at bottom
-    scrollTriggerInstance = ScrollTrigger.create({
-      trigger: contactWrapper.value,
-      start: triggerStart,
-      end: triggerEnd,
-      scrub: true,
-      invalidateOnRefresh: true,
-      onUpdate: (self) => {
-        const clipValue = Math.round(initialClip - (self.progress * initialClip));
-        if (clipValue !== lastClipValue) {
-          lastClipValue = clipValue;
-          clipPathSetter(`inset(${clipValue}% 0 0 0)`);
-
-          // Only play lottie when visible
-          if (clipValue < 100 && !isLottiePlaying) {
-            lottieAnim?.play();
-            isLottiePlaying = true;
-          } else if (clipValue >= 100 && isLottiePlaying) {
-            lottieAnim?.pause();
-            isLottiePlaying = false;
-          }
-        }
-      },
-    });
+    // Reveal animation driven by a GSAP tween for smooth interpolation
+    revealTween = gsap.fromTo(contactSection.value,
+      { clipPath: `inset(${initialClip}% 0 0 0)` },
+      {
+        clipPath: 'inset(0% 0 0 0)',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: contactWrapper.value,
+          start: triggerStart,
+          end: triggerEnd,
+          scrub: true,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const clipValue = initialClip - (self.progress * initialClip);
+            // Only play lottie when visible
+            if (clipValue < 100 && !isLottiePlaying) {
+              lottieAnim?.play();
+              isLottiePlaying = true;
+            } else if (clipValue >= 100 && isLottiePlaying) {
+              lottieAnim?.pause();
+              isLottiePlaying = false;
+            }
+          },
+        },
+      }
+    );
 
     return () => {
-      if (scrollTriggerInstance) {
-        scrollTriggerInstance.kill();
-        scrollTriggerInstance = null;
+      if (revealTween) {
+        revealTween.kill();
+        revealTween = null;
       }
     };
   };
@@ -194,9 +185,9 @@ onUnmounted(() => {
     mediaMatch = null;
   }
 
-  if (scrollTriggerInstance) {
-    scrollTriggerInstance.kill();
-    scrollTriggerInstance = null;
+  if (revealTween) {
+    revealTween.kill();
+    revealTween = null;
   }
 
   if (exitTween) {
