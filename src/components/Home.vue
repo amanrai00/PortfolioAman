@@ -1,6 +1,6 @@
 8<template>
   <!-- Hero Section -->
-  <section id="home" class="min-h-screen px-5 lg:px-28 pt-6 pb-16 lg:pt-6 flex items-center relative">
+  <section id="home" class="min-h-screen px-5 lg:px-28 pt-6 pb-16 lg:pt-6 flex items-center relative overflow-hidden">
 
     <!-- Navigation Dots (Desktop) -->
     <nav class="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-30 flex-col items-start gap-3" aria-label="Section navigation">
@@ -33,7 +33,7 @@
     </div>
 
     <!-- Main Content -->
-    <div class="mx-auto flex w-full max-w-6xl flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
+    <div ref="heroTextEl" class="mx-auto flex w-full max-w-6xl flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
 
       <!-- Rotating Headline -->
       <div class="flex-[1.2] min-w-0 flex flex-col lg:justify-center">
@@ -54,8 +54,8 @@
 
         <!-- Decorative Line (Desktop) -->
         <div
-          class="steel-line relative hidden h-[1.5px] w-20 opacity-75 bg-gradient-to-r from-transparent via-[color:var(--theme-line-strong)] to-transparent shadow-[0_0_4px_var(--theme-line-shadow)] lg:block lg:h-48 lg:w-0.5 lg:bg-gradient-to-b lg:from-[color:var(--theme-line-soft)] lg:via-[color:var(--theme-line-strong)] lg:to-[color:var(--theme-line-soft)] lg:rounded-full"
-          :class="{ 'steel-line-animate': heroVisible }"
+          class="steel-line relative hidden h-[1.5px] w-20 bg-gradient-to-r from-transparent via-[color:var(--theme-line-strong)] to-transparent shadow-[0_0_4px_var(--theme-line-shadow)] lg:block lg:h-48 lg:w-0.5 lg:bg-gradient-to-b lg:from-[color:var(--theme-line-soft)] lg:via-[color:var(--theme-line-strong)] lg:to-[color:var(--theme-line-soft)] lg:rounded-full"
+          :class="{ 'steel-line-animate': heroVisible, 'steel-line-hidden': !heroEffectsStarted }"
           aria-hidden="true"
         ></div>
 
@@ -131,6 +131,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
+import gsap from "gsap";
 
 // ============================================================
 // Configuration
@@ -157,6 +158,8 @@ const activeIndex = ref(-1);
 const heroVisible = ref(false);
 const scrollSlide = ref(0);
 const isContactFading = ref(false);
+const heroTextEl = ref(null);
+const heroEffectsStarted = ref(false);
 
 let wordIndex = 0;
 let timerId = null;
@@ -222,41 +225,73 @@ const scrollToSection = (sectionId) => {
 // ============================================================
 
 onMounted(() => {
-  // Start word rotation animation
-  timerId = setInterval(() => {
-    wordIndex = (wordIndex + 1) % words.length;
-    currentWord.value = words[wordIndex];
-  }, 900);
+  const startHeroEffects = () => {
+    if (heroEffectsStarted.value) return;
+    heroEffectsStarted.value = true;
 
-  // Setup scroll tracking
-  scrollHandler = () => updateActiveIndex();
-  updateActiveIndex();
-  window.addEventListener("scroll", scrollHandler, { passive: true });
+    // Start word rotation animation
+    timerId = setInterval(() => {
+      wordIndex = (wordIndex + 1) % words.length;
+      currentWord.value = words[wordIndex];
+    }, 900);
 
-  // Setup intersection observer for hero animation
-  const heroSection = document.getElementById("home");
-  heroObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          if (heroAnimating) return;
-          heroAnimating = true;
-          hasAnimated = true;
-          heroVisible.value = false;
-          requestAnimationFrame(() => {
-            heroVisible.value = true;
-          });
-          if (heroTimerId) clearTimeout(heroTimerId);
-          heroTimerId = setTimeout(() => {
-            heroAnimating = false;
-          }, 1500);
-        }
-      });
-    },
-    { threshold: 1 }
-  );
+    // Setup scroll tracking
+    scrollHandler = () => updateActiveIndex();
+    updateActiveIndex();
+    window.addEventListener("scroll", scrollHandler, { passive: true });
 
-  if (heroSection) heroObserver.observe(heroSection);
+    // Setup intersection observer for hero animation
+    const heroSection = document.getElementById("home");
+    heroObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            if (heroAnimating) return;
+            heroAnimating = true;
+            hasAnimated = true;
+            heroVisible.value = false;
+            requestAnimationFrame(() => {
+              heroVisible.value = true;
+            });
+            if (heroTimerId) clearTimeout(heroTimerId);
+            heroTimerId = setTimeout(() => {
+              heroAnimating = false;
+            }, 1500);
+          }
+        });
+      },
+      { threshold: 1 }
+    );
+
+    if (heroSection) heroObserver.observe(heroSection);
+    if (heroSection) {
+      const rect = heroSection.getBoundingClientRect();
+      const isInView = rect.top >= 0 && rect.bottom <= window.innerHeight;
+      if (isInView && !hasAnimated) {
+        heroVisible.value = false;
+        requestAnimationFrame(() => {
+          heroVisible.value = true;
+        });
+        hasAnimated = true;
+      }
+    }
+  };
+
+  if (heroTextEl.value) {
+    gsap.fromTo(
+      heroTextEl.value,
+      { opacity: 0, scale: 4, transformOrigin: "50% 50%", force3D: true },
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 1,
+        ease: "sine.inOut",
+        onComplete: startHeroEffects,
+      }
+    );
+  } else {
+    startHeroEffects();
+  }
 });
 
 onBeforeUnmount(() => {
@@ -306,10 +341,18 @@ onBeforeUnmount(() => {
    ============================================================ */
 .steel-line {
   transform-origin: top center;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.steel-line-hidden {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .steel-line-animate {
   animation: steel-line-reveal 1.2s ease-out 0.2s both;
+  visibility: visible;
 }
 
 @keyframes steel-line-reveal {
