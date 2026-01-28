@@ -399,10 +399,6 @@ onUnmounted(() => {
     gap: 3rem;
   }
 
-  .footer-wave {
-    display: none;
-  }
-
   .footer-socials {
     flex-direction: row;
     flex-wrap: wrap;
