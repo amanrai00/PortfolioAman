@@ -90,7 +90,11 @@
     </div>
 
     <!-- Social Links (Desktop) -->
-    <aside class="hidden lg:flex fixed right-6 bottom-12 z-30 flex-col items-end gap-4 text-[color:var(--theme-text-strong)]" aria-label="Social links">
+    <aside
+      class="hidden lg:flex fixed right-6 bottom-12 z-30 flex-col items-end gap-4 text-[color:var(--theme-text-strong)]"
+      :class="{ 'social-links-hidden': isContactVisible }"
+      aria-label="Social links"
+    >
       <a
         class="social-item group"
         href="mailto:amanrai1630@gmail.com"
@@ -126,7 +130,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 
 // ============================================================
 // Configuration
@@ -152,6 +156,9 @@ const currentWord = ref(words[0]);
 const activeIndex = ref(-1);
 const heroVisible = ref(false);
 const scrollSlide = ref(0);
+const isContactVisible = computed(
+  () => sectionIds[activeIndex.value] === "contact"
+);
 
 let wordIndex = 0;
 let timerId = null;
@@ -334,6 +341,13 @@ onBeforeUnmount(() => {
   position: relative;
   display: inline-flex;
   align-items: center;
+}
+
+.social-links-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .social-label {
