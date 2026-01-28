@@ -53,10 +53,10 @@ html {
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --theme-bg: #0f1112;
+  --theme-bg: #0a0a0b;
   --theme-bg-gradient: none;
-  --theme-nav-bg: rgba(15, 17, 18, 0.35);
-  --theme-bg-overlay: rgba(0, 0, 0, 0.2);
+  --theme-nav-bg: rgba(10, 10, 11, 0.45);
+  --theme-bg-overlay: rgba(0, 0, 0, 0.45);
   --theme-bg-filter: none;
   --theme-bg-blend: normal;
   --theme-bg-scale: 1;
