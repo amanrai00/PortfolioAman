@@ -1,0 +1,58 @@
+{
+  "nav": {
+    "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "contact": "Contact",
+    "home": "Home",
+    "resume": "Resume"
+  },
+  "home": {
+    "scrollDown": "SCROLL DOWN",
+    "words": ["Engineer", "Designer", "Builder", "WebDev", "Commit", "Creative", "Crafting", "Focused"],
+    "tagline": "Turning ideas into thoughtful web experiences",
+    "cta": "Let's connect",
+    "role": "Front-End Engineer",
+    "subtitle": "Crafting fast, accessible web interfaces",
+    "location": "Based in Japan · Vue · Tailwind"
+  },
+  "about": {
+    "title": "About me",
+    "paragraph1": "I'm Aman, a web developer focused on crafting clear, modern interfaces that balance design and functionality.",
+    "paragraph2": "With a background in creative work, I approach development with both logic and visual intention, designing digital experiences that are built to grow and adapt."
+  },
+  "skills": {
+    "title": "Skills",
+    "bgText": "SKILLS",
+    "taglineStatic": "I constantly try to",
+    "taglineWords": ["Improve", "Learn", "Adapt", "Grow"]
+  },
+  "statement": {
+    "dividerText": "Each project shaped",
+    "dividerText2": "how I work today.",
+    "selected": "SELECTED",
+    "projects": "PROJECTS",
+    "showcase": "SHOWCASE"
+  },
+  "contact": {
+    "title": "Conversation comes first",
+    "subtitle": "That's often where good things begin.",
+    "formTitle": "Open to opportunities",
+    "nameLabel": "Name",
+    "namePlaceholder": "How should I call you?",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Where can I reach you?",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Anything you'd like to discuss?",
+    "send": "Send"
+  },
+  "footer": {
+    "github": "GITHUB",
+    "linkedin": "LINKEDIN",
+    "inquiry": "INQUIRY",
+    "location": "TOKYO, JAPAN: (GMT+9)",
+    "tagline": "DESIGNING WITH CODE",
+    "rights": "All Rights Reserved.",
+    "name": "AMAN"
+  }
+}

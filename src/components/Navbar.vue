@@ -43,7 +43,14 @@
           <!-- Desktop resume + mobile toggle -->
           <div class="ml-auto flex items-center gap-3 lg:ml-0 lg:justify-self-end">
             <!-- Language Switcher -->
-            <button class="lang-switcher hidden lg:inline-flex items-center mr-3" aria-label="Switch language">
+            <button
+              class="lang-switcher hidden lg:inline-flex items-center mr-3"
+              :class="isJa ? 'is-ja' : ''"
+              type="button"
+              aria-label="Switch language"
+              :aria-pressed="isJa"
+              @click="toggleLocale"
+            >
               <span class="lang-roll">
                 <span class="lang-roll-track">
                   <span class="lang-roll-item">
@@ -86,7 +93,7 @@
               <span
                 class="relative flex items-center gap-x-3 text-[color:var(--theme-resume-text)] transition-colors duration-200 group-hover:text-[color:var(--theme-resume-hover-text)]"
               >
-                Resume
+                {{ t('nav.resume') }}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-4 w-4"
@@ -197,7 +204,7 @@
             <span
               class="relative flex items-center gap-x-3 text-[color:var(--theme-resume-text)] transition-colors duration-200 group-hover:text-[color:var(--theme-resume-hover-text)]"
             >
-              Resume
+              {{ t('nav.resume') }}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-4 w-4"
@@ -229,7 +236,14 @@
         >
           <div class="flex items-center justify-center gap-6">
             <!-- Mobile Language Switcher -->
-            <button class="lang-switcher inline-flex items-center" aria-label="Switch language">
+            <button
+              class="lang-switcher inline-flex items-center"
+              :class="isJa ? 'is-ja' : ''"
+              type="button"
+              aria-label="Switch language"
+              :aria-pressed="isJa"
+              @click="toggleLocale"
+            >
               <span class="lang-roll">
                 <span class="lang-roll-track">
                   <span class="lang-roll-item">
@@ -266,7 +280,8 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 import logo from "../assets/logo1.png";
 import SecondLogo from "../assets/second-logo.png";
 import lottie from "lottie-web";
@@ -298,6 +313,16 @@ let menuAnim = null;
 let menuBgAnim = null;
 let endFrame = 0;
 const themeKey = "theme";
+const localeKey = "locale";
+
+const { t, locale } = useI18n();
+const isJa = computed(() => locale.value === "ja");
+
+const toggleLocale = () => {
+  locale.value = isJa.value ? "en" : "ja";
+  localStorage.setItem(localeKey, locale.value);
+  document.documentElement.setAttribute("lang", locale.value);
+};
 
 const applyTheme = () => {
   const theme = isDark.value ? "dark" : "light";
@@ -379,6 +404,7 @@ const scrollToSection = (id) => {
 };
 
 onMounted(() => {
+  document.documentElement.setAttribute("lang", locale.value);
   const storedTheme = localStorage.getItem(themeKey);
   if (storedTheme === "dark" || storedTheme === "light") {
     isDark.value = storedTheme === "dark";
@@ -613,6 +639,10 @@ onBeforeUnmount(() => {
 
 .lang-switcher:hover {
   color: var(--theme-text-hover);
+}
+
+.lang-switcher.is-ja .lang-roll-track {
+  transform: translateY(-1.25em);
 }
 
 .lang-roll {

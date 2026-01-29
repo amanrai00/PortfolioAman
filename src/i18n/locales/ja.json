@@ -1,0 +1,58 @@
+﻿{
+  "nav": {
+    "about": "私について",
+    "skills": "スキル",
+    "projects": "プロジェクト",
+    "contact": "お問い合わせ",
+    "home": "ホーム",
+    "resume": "履歴書"
+  },
+  "home": {
+    "scrollDown": "スクロール",
+    "words": ["エンジニア", "デザイナー", "ビルダー", "Web開発", "コミット", "クリエイティブ", "クラフト", "集中"],
+    "tagline": "アイデアを丁寧なWeb体験へ",
+    "cta": "話しましょう",
+    "role": "フロントエンドエンジニア",
+    "subtitle": "速くてアクセシブルなWebインターフェースを設計",
+    "location": "日本在住 ・ Vue ・ Tailwind"
+  },
+  "about": {
+    "title": "私について",
+    "paragraph1": "私はAman。デザインと機能のバランスを大切に、明快でモダンなUIを作るWeb開発者です。",
+    "paragraph2": "クリエイティブの背景を活かし、論理と視覚の両方からアプローチして、成長に合わせて拡張できる体験を設計しています。"
+  },
+  "skills": {
+    "title": "スキル",
+    "bgText": "スキル",
+    "taglineStatic": "いつも",
+    "taglineWords": ["改善", "学習", "適応", "成長"]
+  },
+  "statement": {
+    "dividerText": "各プロジェクトが",
+    "dividerText2": "今の私を形づくった。",
+    "selected": "選抜",
+    "projects": "プロジェクト",
+    "showcase": "ショーケース"
+  },
+  "contact": {
+    "title": "会話から始まる",
+    "subtitle": "良いことはそこから始まる。",
+    "formTitle": "新しい機会に前向きです",
+    "nameLabel": "お名前",
+    "namePlaceholder": "お呼びするお名前は？",
+    "emailLabel": "メール",
+    "emailPlaceholder": "連絡先を教えてください",
+    "messageLabel": "メッセージ",
+    "messagePlaceholder": "相談したい内容があれば",
+    "send": "送信"
+  },
+  "footer": {
+    "github": "GITHUB",
+    "linkedin": "LINKEDIN",
+    "inquiry": "お問い合わせ",
+    "location": "東京、日本: (GMT+9)",
+    "tagline": "DESIGNING WITH CODE",
+    "rights": "無断転載を禁じます。",
+    "name": "AMAN"
+  }
+}

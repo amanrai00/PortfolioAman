@@ -29,7 +29,7 @@
       }"
       aria-hidden="true"
     >
-      <span class="scroll-text">SCROLL DOWN</span>
+      <span class="scroll-text">{{ t('home.scrollDown') }}</span>
       <span class="scroll-line"></span>
     </div>
 
@@ -66,7 +66,7 @@
           <!-- Mobile View -->
           <div class="flex flex-col items-center justify-center gap-4 text-center lg:hidden">
             <p class="text-sm font-medium text-[color:var(--theme-text-muted)] leading-relaxed tracking-wide">
-              Turning ideas into thoughtful web experiences
+              {{ t('home.tagline') }}
             </p>
             <div class="mt-6 flex justify-center">
               <button
@@ -75,16 +75,16 @@
                 @click="scrollToSection('about')"
                 aria-label="Scroll to about section"
               >
-                Let's connect
+                {{ t('home.cta') }}
               </button>
             </div>
           </div>
 
           <!-- Desktop View -->
           <div class="hidden space-y-2 lg:block lg:text-left">
-            <p class="font-semibold text-[color:var(--theme-text-strong)]">Front-End Engineer</p>
-            <p class="text-[color:var(--theme-text-muted)]">Crafting fast, accessible web interfaces</p>
-            <p>Based in Japan · Vue · Tailwind</p>
+            <p class="font-semibold text-[color:var(--theme-text-strong)]">{{ t('home.role') }}</p>
+            <p class="text-[color:var(--theme-text-muted)]">{{ t('home.subtitle') }}</p>
+            <p>{{ t('home.location') }}</p>
           </div>
         </div>
       </div>
@@ -131,30 +131,27 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { computed, ref, onMounted, onBeforeUnmount, watch } from "vue";
 import gsap from "gsap";
+import { useI18n } from "vue-i18n";
 
 // ============================================================
 // Configuration
 // ============================================================
 
 const sectionIds = ["home", "about", "statement", "contact"];
-const words = [
-  "Engineer",
-  "Designer",
-  "Builder",
-  "WebDev",
-  "Commit",
-  "Creative",
-  "Crafting",
-  "Focused",
-];
+
+const { t, tm } = useI18n();
+const wordsList = computed(() => {
+  const value = tm("home.words");
+  return Array.isArray(value) ? value : [];
+});
 
 // ============================================================
 // State Management
 // ============================================================
 
-const currentWord = ref(words[0]);
+const currentWord = ref("");
 const activeIndex = ref(-1);
 const heroVisible = ref(false);
 const scrollSlide = ref(0);
@@ -171,6 +168,15 @@ let heroObserver = null;
 let heroAnimating = false;
 let heroTimerId = null;
 let hasAnimated = false;
+
+watch(
+  wordsList,
+  (nextWords) => {
+    wordIndex = 0;
+    currentWord.value = nextWords[0] || "";
+  },
+  { immediate: true }
+);
 
 // ============================================================
 // Navigation & Scroll Logic
@@ -233,10 +239,14 @@ onMounted(() => {
     heroEffectsStarted.value = true;
 
     // Start word rotation animation
-    timerId = setInterval(() => {
-      wordIndex = (wordIndex + 1) % words.length;
-      currentWord.value = words[wordIndex];
-    }, 900);
+    if (wordsList.value.length > 0) {
+      timerId = setInterval(() => {
+        const list = wordsList.value;
+        if (!list.length) return;
+        wordIndex = (wordIndex + 1) % list.length;
+        currentWord.value = list[wordIndex];
+      }, 900);
+    }
 
     // Setup scroll tracking
     scrollHandler = () => updateActiveIndex();
