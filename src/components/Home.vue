@@ -29,7 +29,7 @@
       }"
       aria-hidden="true"
     >
-      <span class="scroll-text">{{ t('home.scrollDown') }}</span>
+      <span class="scroll-text">{{ isJa ? 'SCROLL DOWN' : t('home.scrollDown') }}</span>
       <span class="scroll-line"></span>
     </div>
 
@@ -61,7 +61,7 @@
         ></div>
 
         <!-- Text Content -->
-        <div class="hero-right w-full text-base text-[color:var(--theme-text-soft)] lg:text-lg lg:pl-20 lg:mt-[36px]" :class="isJa ? 'is-ja' : ''">
+        <div class="hero-right w-full text-base text-[color:var(--theme-text-soft)] lg:text-lg lg:pl-20 lg:mt-[26px]" :class="isJa ? 'is-ja' : ''">
 
           <!-- Mobile View -->
           <div class="flex flex-col items-center justify-center gap-4 text-center lg:hidden">
@@ -477,6 +477,13 @@ onBeforeUnmount(() => {
 .hero-right.is-ja {
   font-size: 0.95em;
 }
+
+@media (min-width: 1024px) {
+  .hero-right.is-ja {
+    margin-top: 34px;
+  }
+}
+
 
 /* ============================================================
    Hero CTA Button - Base Styles
