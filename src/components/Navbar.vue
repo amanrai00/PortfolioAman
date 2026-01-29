@@ -42,6 +42,30 @@
 
           <!-- Desktop resume + mobile toggle -->
           <div class="ml-auto flex items-center gap-3 lg:ml-0 lg:justify-self-end">
+            <!-- Language Switcher -->
+            <button class="lang-switcher hidden lg:inline-flex items-center mr-3" aria-label="Switch language">
+              <span class="lang-roll">
+                <span class="lang-roll-track">
+                  <span class="lang-roll-item">
+                    <svg class="lang-globe" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M2 12h20"/>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                    <span class="lang-text">EN</span>
+                  </span>
+                  <span class="lang-roll-item">
+                    <svg class="lang-globe" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M2 12h20"/>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                    <span class="lang-text">JA</span>
+                  </span>
+                </span>
+              </span>
+            </button>
+
             <!-- Desktop Resume -->
             <label class="ui-switch hidden lg:inline-flex mr-5 desktop-switch">
               <input v-model="isDark" type="checkbox" aria-label="Toggle theme" />
@@ -198,12 +222,36 @@
             'transition-all ease-out mt-5',
             isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
           ]"
-          :style="{ 
+          :style="{
             transitionDelay: isOpen ? `${210 + (mobileSections.length * 45)}ms` : '0ms',
             transitionDuration: '310ms'
           }"
         >
-          <div class="flex items-center justify-center">
+          <div class="flex items-center justify-center gap-6">
+            <!-- Mobile Language Switcher -->
+            <button class="lang-switcher inline-flex items-center" aria-label="Switch language">
+              <span class="lang-roll">
+                <span class="lang-roll-track">
+                  <span class="lang-roll-item">
+                    <svg class="lang-globe" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M2 12h20"/>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                    <span class="lang-text">EN</span>
+                  </span>
+                  <span class="lang-roll-item">
+                    <svg class="lang-globe" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M2 12h20"/>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                    <span class="lang-text">JA</span>
+                  </span>
+                </span>
+              </span>
+            </button>
+
             <label class="ui-switch inline-flex">
               <input v-model="isDark" type="checkbox" aria-label="Toggle theme" />
               <div class="slider">
@@ -551,5 +599,59 @@ onBeforeUnmount(() => {
 :global(:root.theme-switching) .desktop-switch .slider .circle {
   transition: background-color 220ms ease, left 220ms cubic-bezier(0.4, 0, 0.2, 1),
     transform 220ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Language Switcher */
+.lang-switcher {
+  cursor: pointer;
+  color: var(--theme-text-strong);
+  background: transparent;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.lang-switcher:hover {
+  color: var(--theme-text-hover);
+}
+
+.lang-roll {
+  display: inline-flex;
+  height: 1.25em;
+  line-height: 1.25em;
+  overflow: hidden;
+}
+
+.lang-roll-track {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(0);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.lang-roll-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  min-height: 1.25em;
+  line-height: 1.25em;
+}
+
+.lang-globe {
+  width: 1.1em;
+  height: 1.1em;
+  flex-shrink: 0;
+}
+
+.lang-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.lang-switcher:hover .lang-roll-track,
+.lang-switcher:focus-visible .lang-roll-track {
+  transform: translateY(-1.25em);
 }
 </style>
