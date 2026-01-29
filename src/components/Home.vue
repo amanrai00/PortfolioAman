@@ -82,9 +82,9 @@
 
           <!-- Desktop View -->
           <div class="hidden space-y-2 lg:block lg:text-left">
-            <p class="font-semibold text-[color:var(--theme-text-strong)]">Front-End Engineer</p>
-            <p class="text-[color:var(--theme-text-muted)]">Crafting fast, accessible web interfaces</p>
-            <p>Based in Japan · Vue · Tailwind</p>
+            <p class="font-semibold text-[color:var(--theme-text-strong)]">{{ t('home.role') }}</p>
+            <p class="text-[color:var(--theme-text-muted)]">{{ t('home.subtitle') }}</p>
+            <p>{{ t('home.location') }}</p>
           </div>
         </div>
       </div>

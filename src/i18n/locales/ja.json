@@ -13,8 +13,8 @@
     "tagline": "アイデアを丁寧なWeb体験へ",
     "cta": "話しましょう",
     "role": "フロントエンドエンジニア",
-    "subtitle": "速くてアクセシブルなWebインターフェースを設計",
-    "location": "日本在住 ・ Vue ・ Tailwind"
+    "subtitle": "高速で使いやすいWebインターフェースを設計・開発",
+    "location": "日本在住・Vue・Tailwind"
   },
   "about": {
     "title": "私について",
@@ -56,3 +56,4 @@
     "name": "AMAN"
   }
 }
+
