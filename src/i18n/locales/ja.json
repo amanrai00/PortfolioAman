@@ -32,11 +32,11 @@
     "taglineWords": ["学習", "改善", "適応", "成長"]
   },
   "statement": {
-    "dividerText": "各プロジェクトが",
-    "dividerText2": "今の私を形づくった。",
+    "dividerText": "各プロジェクトが、",
+    "dividerText2": "現在の私の制作スタイルを形作っています。",
     "selected": "選抜",
     "projects": "プロジェクト",
-    "showcase": "ショーケース"
+    "showcase": "制作実績"
   },
   "contact": {
     "title": "会話から始まる",
