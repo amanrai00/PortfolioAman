@@ -155,12 +155,12 @@ onMounted(async () => {
     const mm = ScrollTrigger.matchMedia();
     mm.add('(min-width: 769px)', () => {
       nameTl = gsap.from(footerNameEl.value, {
-        x: -120,
         opacity: 0,
-        duration: 1.2,
-        stagger: 0.25,
-        delay: 0,
-        ease: 'expo.out',
+        scale: 4,
+        transformOrigin: '50% 50%',
+        force3D: true,
+        duration: 1,
+        ease: 'sine.inOut',
       });
 
       nameTrigger = ScrollTrigger.create({

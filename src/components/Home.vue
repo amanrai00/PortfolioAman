@@ -291,10 +291,9 @@ onMounted(() => {
     });
     introTl.fromTo(
       heroTextEl.value,
-      { opacity: 0, scale: 4, transformOrigin: "50% 50%", force3D: true },
+      { opacity: 0 },
       {
         opacity: 1,
-        scale: 1,
         duration: 1,
         ease: "sine.inOut",
       }
