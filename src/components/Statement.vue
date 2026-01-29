@@ -3,7 +3,11 @@
     <!-- Divider with lines and text -->
     <div class="statement-divider">
       <div class="statement-line statement-line-left"></div>
-      <span ref="dividerText" class="statement-divider-text">Each project shaped <br class="mobile-break">how I work today.</span>
+      <span ref="dividerText" class="statement-divider-text">
+        {{ t('statement.dividerText') }}
+        <br class="mobile-break">
+        {{ t('statement.dividerText2') }}
+      </span>
       <div class="statement-line statement-line-right"></div>
     </div>
 
@@ -11,12 +15,12 @@
     <div class="statement-container">
       <div ref="statementText" class="statement-content">
         <h2 class="statement-main">
-          <span class="statement-line-text">SELECTED</span>
-          <span class="statement-line-text statement-line-text-shift">PROJECTS</span>
+          <span class="statement-line-text">{{ t('statement.selected') }}</span>
+          <span class="statement-line-text statement-line-text-shift">{{ t('statement.projects') }}</span>
         </h2>
         <!-- Outlined subtitle -->
         <p ref="statementOutline" class="statement-outline">
-          <span class="statement-outline-text">SHOWCASE</span>
+          <span class="statement-outline-text" :data-text="t('statement.showcase')">{{ t('statement.showcase') }}</span>
         </p>
       </div>
     </div>
@@ -25,6 +29,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -32,6 +37,7 @@ const statementSection = ref(null);
 const statementText = ref(null);
 const statementOutline = ref(null);
 const dividerText = ref(null);
+const { t } = useI18n();
 
 let statementTimeline = null;
 
@@ -197,7 +203,6 @@ onUnmounted(() => {
 
 /* 3D shadow layer behind text */
 .statement-outline-text {
-  content: 'SHOWCASE';
   position: relative;
   display: inline-block;
   color: transparent;
@@ -207,7 +212,7 @@ onUnmounted(() => {
 }
 
 .statement-outline-text::before {
-  content: 'SHOWCASE';
+  content: attr(data-text);
   position: absolute;
   top: 0;
   left: 0;
