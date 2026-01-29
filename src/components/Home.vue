@@ -61,7 +61,7 @@
         ></div>
 
         <!-- Text Content -->
-        <div class="w-full text-base text-[color:var(--theme-text-soft)] lg:text-lg lg:pl-20 lg:mt-[26px]">
+        <div class="hero-right w-full text-base text-[color:var(--theme-text-soft)] lg:text-lg lg:pl-20 lg:mt-[26px]" :class="isJa ? 'is-ja' : ''">
 
           <!-- Mobile View -->
           <div class="flex flex-col items-center justify-center gap-4 text-center lg:hidden">
@@ -83,7 +83,7 @@
           <!-- Desktop View -->
           <div class="hidden space-y-2 lg:block lg:text-left">
             <p class="font-semibold text-[color:var(--theme-text-strong)]">{{ t('home.role') }}</p>
-            <p class="text-[color:var(--theme-text-muted)]">{{ t('home.subtitle') }}</p>
+            <p class="hero-subtitle text-[color:var(--theme-text-muted)]" :class="isJa ? 'is-ja' : ''">{{ t('home.subtitle') }}</p>
             <p>{{ t('home.location') }}</p>
           </div>
         </div>
@@ -131,7 +131,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { computed, ref, onMounted, onBeforeUnmount } from "vue";
 import gsap from "gsap";
 import { useI18n } from "vue-i18n";
 
@@ -151,7 +151,8 @@ const words = [
   "Focused",
 ];
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
+const isJa = computed(() => locale.value === "ja");
 
 // ============================================================
 // State Management
@@ -465,6 +466,16 @@ onBeforeUnmount(() => {
   transform: translateX(-2px);
   background: linear-gradient(135deg, rgba(24, 150, 158, 0.95), rgba(26, 163, 173, 0.85));
   box-shadow: none;
+}
+
+.hero-subtitle.is-ja {
+  white-space: nowrap;
+  font-size: 0.95em;
+  letter-spacing: 0.01em;
+}
+
+.hero-right.is-ja {
+  font-size: 0.95em;
 }
 
 /* ============================================================
