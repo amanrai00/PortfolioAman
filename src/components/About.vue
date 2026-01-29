@@ -37,13 +37,13 @@
             class="inline-block w-16 h-1 rounded-full bg-[var(--theme-line-strong)] shadow-[0_0_12px_var(--theme-line-shadow)] mb-5"
           ></span>
           <h2 class="text-[clamp(2rem,3vw,3.2rem)] font-extrabold tracking-[0.08em] uppercase text-[var(--theme-text-strong)]">
-            About me
+            {{ t('about.title') }}
           </h2>
           <p class="mt-6 text-lg md:text-xl font-medium leading-[2.2] text-[var(--theme-text-muted)]">
-            I'm Aman, a web developer focused on crafting clear, modern interfaces that balance design and functionality.
+            {{ t('about.paragraph1') }}
           </p>
           <p class="mt-6 text-lg md:text-xl font-medium leading-[2.2] text-[var(--theme-text-muted)]">
-            With a background in creative work, I approach development with both logic and visual intention, designing digital experiences that are built to grow and adapt.
+            {{ t('about.paragraph2') }}
           </p>
         </div>
       </div>
@@ -54,7 +54,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import gsap from 'gsap';
+import { useI18n } from 'vue-i18n';
 import profileImage from '@/assets/profile.jpg';
+
+const { t } = useI18n();
 
 const aboutSection = ref(null);
 const aboutText = ref(null);
