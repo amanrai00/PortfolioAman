@@ -139,7 +139,7 @@ import { useI18n } from "vue-i18n";
 // Configuration
 // ============================================================
 
-const sectionIds = ["home", "impact", "about", "statement", "contact"];
+const sectionIds = ["home", "about", "statement", "contact"];
 const words = [
   "Engineer",
   "Designer",
