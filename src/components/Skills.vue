@@ -8,8 +8,8 @@
     <div class="mx-auto w-full max-w-4xl text-center">
       <!-- Section Title with Background Text -->
       <div class="relative mb-8">
-        <span ref="skillsBg" class="skills-bg-text">SKILLS</span>
-        <h2 ref="skillsTitle" class="skills-title">Skills</h2>
+        <span ref="skillsBg" class="skills-bg-text">{{ t('skills.bgText') }}</span>
+        <h2 ref="skillsTitle" class="skills-title">{{ t('skills.title') }}</h2>
       </div>
 
       <!-- Decorative Arrow Divider -->
@@ -53,14 +53,12 @@
         ref="skillsTagline"
         class="tagline-container mt-10 mb-16"
       >
-        <span class="tagline-static">I constantly try to</span>
+        <span class="tagline-static">{{ t('skills.taglineStatic') }}</span>
         <div class="flip-container">
           <div class="flip-content">
-            <div><span class="flip-word flip-improve">Improve</span></div>
-            <div><span class="flip-word flip-learn">Learn</span></div>
-            <div><span class="flip-word flip-adapt">Adapt</span></div>
-            <div><span class="flip-word flip-grow">Grow</span></div>
-            <div><span class="flip-word flip-improve">Improve</span></div>
+            <div v-for="word in flipWords" :key="word.key">
+              <span class="flip-word" :class="word.className">{{ word.text }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -86,9 +84,38 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+const { t, tm } = useI18n();
+
+const flipClassMap = ['flip-improve', 'flip-learn', 'flip-adapt', 'flip-grow'];
+const fallbackTaglineWords = ['Improve', 'Learn', 'Adapt', 'Grow'];
+
+const normalizedTaglineWords = computed(() => {
+  const words = tm('skills.taglineWords');
+  if (Array.isArray(words) && words.length === 4) {
+    return words;
+  }
+  return fallbackTaglineWords;
+});
+
+const flipWords = computed(() => {
+  const baseWords = normalizedTaglineWords.value;
+  const mapped = baseWords.map((text, index) => ({
+    key: `word-${index}`,
+    text,
+    className: flipClassMap[index] || 'flip-improve'
+  }));
+  mapped.push({
+    key: 'word-loop',
+    text: baseWords[0],
+    className: flipClassMap[0]
+  });
+  return mapped;
+});
 
 // Skills Data with CDN icons
 const skills = [

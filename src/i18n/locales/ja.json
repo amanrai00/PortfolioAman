@@ -28,8 +28,8 @@
   "skills": {
     "title": "スキル",
     "bgText": "スキル",
-    "taglineStatic": "いつも",
-    "taglineWords": ["改善", "学習", "適応", "成長"]
+    "taglineStatic": "より良い体験をつくるために",
+    "taglineWords": ["学習", "改善", "適応", "成長"]
   },
   "statement": {
     "dividerText": "各プロジェクトが",
