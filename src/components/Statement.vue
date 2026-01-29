@@ -20,7 +20,7 @@
         </h2>
         <!-- Outlined subtitle -->
         <p ref="statementOutline" class="statement-outline">
-          <span class="statement-outline-text" :data-text="t('statement.showcase')">{{ t('statement.showcase') }}</span>
+          <span class="statement-outline-text" :class="{ 'is-ja': isJa }" :data-text="t('statement.showcase')">{{ t('statement.showcase') }}</span>
         </p>
       </div>
     </div>
@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -37,7 +37,8 @@ const statementSection = ref(null);
 const statementText = ref(null);
 const statementOutline = ref(null);
 const dividerText = ref(null);
-const { t } = useI18n();
+const { t, locale } = useI18n();
+const isJa = computed(() => locale.value === 'ja');
 
 let statementTimeline = null;
 
@@ -222,6 +223,10 @@ onUnmounted(() => {
   -webkit-text-stroke: 2px var(--statement-shadow-color);
   text-stroke: 2px var(--statement-shadow-color);
   transition: -webkit-text-stroke-color 0.3s ease;
+}
+
+.statement-outline-text.is-ja::before {
+  transform: translate(2px, 2px);
 }
 
 .statement-outline-text:hover {
