@@ -1,6 +1,7 @@
-{
+﻿{
   "nav": {
     "about": "About",
+    "impact": "Impact",
     "skills": "Skills",
     "projects": "Projects",
     "contact": "Contact",
@@ -14,7 +15,10 @@
     "cta": "Let's connect",
     "role": "Front-End Engineer",
     "subtitle": "Crafting fast, accessible web interfaces",
-    "location": "Based in Japan · Vue · Tailwind"
+    "location": "Based in Japan ﾂｷ Vue ﾂｷ Tailwind"
+  },
+  "impact": {
+    "quote": "This portfolio is a snapshot of my problem-solving mindset, design decisions, and the way I turn ideas into reliable interfaces."
   },
   "about": {
     "title": "About me",
@@ -56,3 +60,4 @@
     "name": "AMAN"
   }
 }
+

@@ -294,6 +294,7 @@ const isReady = ref(false);
 const isDark = ref(true);
 
 const sections = [
+  { id: "impact", label: "Impact" },
   { id: "about", label: "About" },
   { id: "skills", label: "Skills" },
   { id: "projects", label: "Projects" },
@@ -302,6 +303,7 @@ const sections = [
 
 const mobileSections = [
   { id: "home", label: "Home", targetId: "home" },
+  { id: "impact", label: "Impact", targetId: "impact" },
   { id: "about", label: "About", targetId: "about" },
   { id: "projects", label: "Projects", targetId: "statement" },
   { id: "contact", label: "Contact", targetId: "contact" },

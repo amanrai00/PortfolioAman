@@ -9,7 +9,7 @@
             :class="quoteVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
           >
             <p class="impact-text">
-              This portfolio is a snapshot of my problem-solving mindset, design decisions, and the way I turn ideas into reliable interfaces.
+              {{ t('impact.quote') }}
             </p>
           </div>
         </div>
@@ -20,6 +20,9 @@
 
 <script setup>
 import { onMounted, onUnmounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const quoteSection = ref(null);
 const quoteVisible = ref(false);
