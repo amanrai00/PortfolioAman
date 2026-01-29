@@ -93,7 +93,7 @@
               <span
                 class="relative flex items-center gap-x-3 text-[color:var(--theme-resume-text)] transition-colors duration-200 group-hover:text-[color:var(--theme-resume-hover-text)]"
               >
-                {{ t('nav.resume') }}
+                <span class="resume-label">{{ t('nav.resume') }}</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-4 w-4"
@@ -204,7 +204,7 @@
             <span
               class="relative flex items-center gap-x-3 text-[color:var(--theme-resume-text)] transition-colors duration-200 group-hover:text-[color:var(--theme-resume-hover-text)]"
             >
-              {{ t('nav.resume') }}
+              <span class="resume-label">{{ t('nav.resume') }}</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-4 w-4"
@@ -641,10 +641,6 @@ onBeforeUnmount(() => {
   color: var(--theme-text-hover);
 }
 
-.lang-switcher.is-ja .lang-roll-track {
-  transform: translateY(-1.25em);
-}
-
 .lang-roll {
   display: inline-flex;
   height: 1.25em;
@@ -683,5 +679,21 @@ onBeforeUnmount(() => {
 .lang-switcher:hover .lang-roll-track,
 .lang-switcher:focus-visible .lang-roll-track {
   transform: translateY(-1.25em);
+}
+
+.resume-label {
+  display: inline-flex;
+  justify-content: center;
+  min-width: 6.5ch;
+  letter-spacing: 0.04em;
+}
+
+.lang-switcher.is-ja .lang-roll-track {
+  transform: translateY(-1.25em);
+}
+
+.lang-switcher.is-ja:hover .lang-roll-track,
+.lang-switcher.is-ja:focus-visible .lang-roll-track {
+  transform: translateY(0);
 }
 </style>
