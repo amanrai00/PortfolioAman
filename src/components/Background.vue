@@ -13,27 +13,32 @@ import { ref, onMounted, onBeforeUnmount } from "vue";
 import lottie from "lottie-web";
 import nightSky from "@/assets/lottie/night-sky.json";
 
+const LOTTIE_SPEED = 0.8;
+const LOTTIE_RENDERER = "svg";
+const LOTTIE_RENDERER_SETTINGS = {
+  preserveAspectRatio: "xMidYMid slice",
+  progressiveLoad: true,
+};
+
 const el = ref(null);
 let anim = null;
 
 onMounted(() => {
   anim = lottie.loadAnimation({
     container: el.value,
-    renderer: "svg", // change to "canvas" if you want lighter CPU
+    renderer: LOTTIE_RENDERER,
     loop: true,
     autoplay: true,
     animationData: nightSky,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice", // fills screen nicely
-      progressiveLoad: true,
-    },
+    rendererSettings: LOTTIE_RENDERER_SETTINGS,
   });
 
-  anim.setSpeed(0.8); // slower / smoother
+  // Slightly slower playback keeps the background calm and unobtrusive.
+  anim.setSpeed(LOTTIE_SPEED);
 });
 
 onBeforeUnmount(() => {
-  if (anim) anim.destroy();
+  anim?.destroy();
   anim = null;
 });
 </script>
@@ -42,12 +47,11 @@ onBeforeUnmount(() => {
 .bg-wrap {
   position: fixed;
   inset: 0;
-  z-index: -50;          /* behind everything */
-  pointer-events: none;  /* clicks go through */
+  z-index: -50;
+  pointer-events: none;
   overflow: hidden;
 }
 
-/* Lottie container */
 .bg-lottie {
   width: 100vw;
   height: 100vh;
@@ -57,13 +61,11 @@ onBeforeUnmount(() => {
   transform-origin: center;
 }
 
-/* Force SVG to cover */
 .bg-lottie :deep(svg) {
   width: 100%;
   height: 100%;
 }
 
-/* Optional overlay (adjust strength) */
 .bg-overlay {
   position: absolute;
   inset: 0;
