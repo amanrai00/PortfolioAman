@@ -306,8 +306,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700;800&display=swap");
-
 .word-rotator {
   font-family: "Oxanium", sans-serif;
 }
