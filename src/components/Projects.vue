@@ -4,7 +4,6 @@
     ref="projectsSection"
     class="projects-section relative max-w-300 mx-auto py-8 pb-20 mb-24 md:mb-32 px-[clamp(1rem,5vw,4rem)]"
   >
-    <!-- Shared image preview -->
     <div
       ref="imagePreview"
       class="project-image-preview absolute w-80 h-65 rounded-lg overflow-hidden opacity-0 pointer-events-none z-100"
@@ -59,10 +58,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import lottie from 'lottie-web';
+import { nextTick, onMounted, onUnmounted, ref } from 'vue';
 import progress1Img from '@/assets/progress1.jpg';
 import progress2Img from '@/assets/progress2.jpg';
 import progress3Img from '@/assets/progress3.jpg';
@@ -163,22 +162,18 @@ const handleListMouseMove = (event) => {
   const mouseY = event.clientY;
   let targetIndex = null;
 
-  // Find which item the mouse is over based on divider positions
   for (let i = 0; i < projectItems.value.length; i++) {
     const item = projectItems.value[i];
     if (!item) continue;
     const rect = item.getBoundingClientRect();
-    // Use the border-bottom position as the divider
     const dividerY = rect.bottom;
 
     if (i === 0) {
-      // First item: from top of item to its divider
       if (mouseY >= rect.top && mouseY < dividerY) {
         targetIndex = 0;
         break;
       }
     } else {
-      // For subsequent items, trigger when mouse is past the previous divider
       const prevItem = projectItems.value[i - 1];
       const prevDividerY = prevItem.getBoundingClientRect().bottom;
 
@@ -195,11 +190,9 @@ const handleListMouseMove = (event) => {
 };
 
 const handleTitleEnter = (index) => {
-  // Update hovered index for image preview
   const prevIndex = hoveredIndex.value;
   hoveredIndex.value = index;
 
-  // Update image preview position based on hovered item
   if (imagePreview.value && projectItems.value[index]) {
     const item = projectItems.value[index];
     const itemRect = item.getBoundingClientRect();
@@ -208,7 +201,6 @@ const handleTitleEnter = (index) => {
     imagePreview.value.style.top = `${topOffset}px`;
   }
 
-  // Stop previous lottie animation if switching items
   if (prevIndex !== null && prevIndex !== index) {
     resetTitleAnim(prevIndex);
     const prevAnim = lottieAnims[prevIndex];
@@ -259,7 +251,6 @@ const handleTitleEnter = (index) => {
 };
 
 const handleListLeave = () => {
-  // Clear hovered state when leaving the entire list
   const index = hoveredIndex.value;
   hoveredIndex.value = null;
 
@@ -283,9 +274,11 @@ const handleListLeave = () => {
 onMounted(() => {
   gsap.registerPlugin(ScrollTrigger);
 
-  if (!projectsSection.value) return;
+  const sectionEl = projectsSection.value;
+  if (!sectionEl) return;
 
-  const items = projectsSection.value.querySelectorAll('.project-item');
+  const items = sectionEl.querySelectorAll('.project-item');
+  if (!items.length) return;
   const [firstItem, ...restItems] = Array.from(items);
 
   gsap.set(firstItem, {
@@ -300,7 +293,7 @@ onMounted(() => {
 
   projectsTimeline = gsap.timeline({
     scrollTrigger: {
-      trigger: projectsSection.value,
+      trigger: sectionEl,
       start: 'top 60%',
       toggleActions: 'play none none none'
     }
@@ -356,14 +349,12 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* Font rendering optimizations */
 .projects-section {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Project item z-index stacking */
 .project-item:nth-child(1) { z-index: 3; }
 .project-item:nth-child(2) { z-index: 2; }
 .project-item:nth-child(3) { z-index: 1; }
@@ -371,7 +362,6 @@ onUnmounted(() => {
 .project-item-first { margin-top: 0; }
 .project-item:last-child { border-bottom: none; }
 
-/* Project index positioning */
 .project-index {
   font-size: clamp(0.875rem, 1.5vw, 1rem);
   width: 4ch;
@@ -385,13 +375,11 @@ onUnmounted(() => {
   margin-right: 0.5em;
 }
 
-/* Project title sizing */
 .project-title {
   font-size: clamp(2.5rem, 8vw, 5rem);
   letter-spacing: -0.02em;
 }
 
-/* Title text rendering */
 .project-title-text,
 .project-title-base,
 .project-title-anim {
@@ -408,7 +396,6 @@ onUnmounted(() => {
   isolation: isolate;
 }
 
-/* Base title gradient */
 .project-title-base {
   background: linear-gradient(to bottom, var(--theme-headline-from), var(--theme-headline-via), var(--theme-headline-to));
   color: transparent;
@@ -419,7 +406,6 @@ onUnmounted(() => {
   transform: translateZ(0);
 }
 
-/* Animated title overlay */
 .project-title-anim {
   line-height: inherit;
   background-image: linear-gradient(90deg, var(--project-hover-color), var(--project-hover-color));
@@ -442,7 +428,6 @@ onUnmounted(() => {
   transition: none;
 }
 
-/* Lottie animation */
 .project-title-lottie {
   transform: translateY(0.28em);
   transition: opacity 200ms ease, transform 200ms ease;
@@ -465,7 +450,6 @@ onUnmounted(() => {
   display: block;
 }
 
-/* Project tags */
 .project-tags {
   padding-left: calc(4ch + 1.2em + 0.3em);
 }
@@ -486,7 +470,6 @@ onUnmounted(() => {
   background: var(--project-dot-color);
 }
 
-/* Image preview */
 .project-image-preview {
   right: clamp(1rem, 5vw, 4rem);
   transform: translateY(-50%) skewX(-8deg) scale(0.85);
@@ -506,7 +489,6 @@ onUnmounted(() => {
   opacity: 1;
 }
 
-/* Theme variables */
 :global([data-theme="dark"]) {
   --project-border-color: rgba(255, 255, 255, 0.15);
   --project-title-color: #f2f0ea;
@@ -533,7 +515,6 @@ onUnmounted(() => {
   --project-hover-color: #9c6a4b;
 }
 
-/* Responsive: 1024px */
 @media (max-width: 1024px) {
   .project-image-preview {
     width: 260px;
@@ -541,7 +522,6 @@ onUnmounted(() => {
   }
 }
 
-/* Responsive: 768px */
 @media (max-width: 768px) {
   .projects-section {
     padding: 1rem 1rem 3rem;
@@ -604,7 +584,6 @@ onUnmounted(() => {
   }
 }
 
-/* Responsive: 480px */
 @media (max-width: 480px) {
   .project-item {
     margin-bottom: 2rem;
