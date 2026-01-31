@@ -1,0 +1,435 @@
+<template>
+  <section id="statement" ref="statementSection" class="statement-section">
+    <div class="statement-divider">
+      <div class="statement-line statement-line-left"></div>
+      <span ref="dividerText" class="statement-divider-text">
+        {{ t('statement.dividerText') }}
+        <br class="mobile-break">
+        {{ t('statement.dividerText2') }}
+      </span>
+      <div class="statement-line statement-line-right"></div>
+    </div>
+
+    <div class="statement-container">
+      <div ref="statementText" class="statement-content" :class="{ 'is-ja': isJa }">
+        <h2 class="statement-main">
+          <span class="statement-line-text">{{ t('statement.selected') }}</span>
+          <span class="statement-line-text statement-line-text-shift">{{ t('statement.projects') }}</span>
+        </h2>
+        <p ref="statementOutline" class="statement-outline">
+          <span
+            class="statement-outline-text"
+            :class="{ 'is-ja': isJa }"
+            :data-text="t('statement.showcase')"
+          >
+            {{ t('statement.showcase') }}
+          </span>
+        </p>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script setup>
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+const statementSection = ref(null);
+const statementText = ref(null);
+const statementOutline = ref(null);
+const dividerText = ref(null);
+const { t, locale } = useI18n();
+const isJa = computed(() => locale.value === 'ja');
+
+let statementTimeline = null;
+
+onMounted(() => {
+  gsap.registerPlugin(ScrollTrigger);
+
+  const sectionEl = statementSection.value;
+  const outlineEl = statementOutline.value;
+  const dividerTextEl = dividerText.value;
+
+  if (!sectionEl || !outlineEl || !dividerTextEl) return;
+
+  const lineTexts = sectionEl.querySelectorAll('.statement-line-text');
+  const dividerLines = sectionEl.querySelectorAll('.statement-line');
+
+  gsap.set(lineTexts, {
+    clipPath: 'inset(100% 0 0 0)',
+    opacity: 1
+  });
+
+  gsap.set(outlineEl, {
+    opacity: 0,
+    x: -30
+  });
+
+  gsap.set(dividerTextEl, {
+    opacity: 0,
+    y: 10
+  });
+
+  if (dividerLines[0]) {
+    gsap.set(dividerLines[0], { scaleX: 0, transformOrigin: 'right center' });
+  }
+  if (dividerLines[1]) {
+    gsap.set(dividerLines[1], { scaleX: 0, transformOrigin: 'left center' });
+  }
+
+  statementTimeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: sectionEl,
+      start: 'top 55%',
+      toggleActions: 'play none none none'
+    }
+  });
+
+  statementTimeline
+    .to(dividerLines, {
+      scaleX: 1,
+      duration: 1,
+      ease: 'power2.inOut',
+      stagger: 0.05
+    })
+    .to(dividerTextEl, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    }, 0.3)
+    .to(lineTexts, {
+      clipPath: 'inset(0% 0 0 0)',
+      duration: 1.2,
+      ease: 'power2.out',
+      stagger: 0.15
+    }, 0.5)
+    .to(outlineEl, {
+      opacity: 1,
+      x: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    }, 0.9);
+});
+
+onUnmounted(() => {
+  if (statementTimeline) {
+    if (statementTimeline.scrollTrigger) statementTimeline.scrollTrigger.kill();
+    statementTimeline.kill();
+    statementTimeline = null;
+  }
+});
+</script>
+
+<style scoped>
+.statement-section {
+  position: relative;
+  padding: 6rem 1.5rem;
+  overflow: hidden;
+}
+
+.statement-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 4rem;
+  padding: 0 clamp(1rem, 5vw, 4rem);
+}
+
+.statement-line {
+  flex: 2.2;
+  height: 1px;
+  background: var(--statement-line-color);
+}
+
+.statement-divider-text {
+  font-size: clamp(0.75rem, 1.5vw, 1.5rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  color: var(--theme-text-muted);
+  text-align: center;
+  white-space: nowrap;
+  padding: 0 1.5rem;
+}
+
+.mobile-break {
+  display: none;
+}
+
+.statement-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: clamp(1rem, 5vw, 4rem);
+}
+
+.statement-content {
+  text-align: left;
+}
+
+.statement-content.is-ja {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.85rem;
+}
+
+.statement-main {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  line-height: 0.95;
+}
+
+.statement-content.is-ja .statement-main {
+  align-items: center;
+}
+
+.statement-line-text {
+  font-size: clamp(3rem, 12vw, 9rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  background: linear-gradient(
+    to bottom,
+    var(--theme-headline-from),
+    var(--theme-headline-via),
+    var(--theme-headline-to)
+  );
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.statement-line-text-shift {
+  margin-left: clamp(4.5rem, 10vw, 10rem);
+}
+
+.statement-outline {
+  font-size: clamp(2rem, 8vw, 6rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0;
+  margin-top: -0.1em;
+  margin-left: auto;
+  width: fit-content;
+  padding-right: clamp(1rem, 5vw, 4rem);
+}
+
+.statement-content.is-ja .statement-outline {
+  margin-top: 0.1em;
+  margin-left: 0;
+  padding-right: 0;
+}
+
+/* 3D shadow layer behind text */
+.statement-outline-text {
+  position: relative;
+  display: inline-block;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--statement-outline-color);
+  text-stroke: 2px var(--statement-outline-color);
+  transition: color 0.3s ease, -webkit-text-stroke-color 0.3s ease;
+}
+
+.statement-outline-text::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transform: translate(4px, 4px);
+  color: transparent;
+  -webkit-text-stroke: 2px var(--statement-shadow-color);
+  text-stroke: 2px var(--statement-shadow-color);
+  transition: -webkit-text-stroke-color 0.3s ease;
+}
+
+.statement-outline-text.is-ja {
+  font-size: clamp(1.4rem, 4.5vw, 3.2rem);
+  color: var(--theme-text-muted);
+  opacity: 0.45;
+  -webkit-text-stroke: 0 transparent;
+  text-stroke: 0 transparent;
+}
+
+.statement-outline-text.is-ja::before {
+  content: none;
+  display: none;
+}
+
+.statement-outline-text.is-ja:hover {
+  color: var(--theme-text-muted);
+  -webkit-text-stroke: 0 transparent;
+  text-stroke: 0 transparent;
+}
+
+.statement-outline-text:hover {
+  color: var(--statement-showcase-hover-fill);
+  -webkit-text-stroke: 0 transparent;
+  text-stroke: 0 transparent;
+}
+
+.statement-outline-text:hover::before {
+  -webkit-text-stroke: 0 transparent;
+  text-stroke: 0 transparent;
+}
+
+:global([data-theme="dark"]) {
+  --statement-line-color: var(--theme-line-soft);
+  --statement-outline-color: rgba(255, 255, 255, 0.25);
+  --statement-shadow-color: rgba(255, 255, 255, 0.1);
+  --statement-showcase-hover-fill: #f2f0ea;
+}
+
+:global([data-theme="light"]) {
+  --statement-line-color: var(--theme-line-soft);
+  --statement-outline-color: rgba(15, 23, 42, 0.3);
+  --statement-shadow-color: rgba(15, 23, 42, 0.12);
+  --statement-showcase-hover-fill: #3f444c;
+}
+
+/* Default fallback */
+:root {
+  --statement-line-color: var(--theme-line-soft);
+  --statement-outline-color: var(--theme-line-soft);
+  --statement-shadow-color: rgba(0, 0, 0, 0.08);
+  --statement-showcase-hover-fill: #f4f1eb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .statement-section {
+    padding: 4rem 1rem;
+  }
+
+  .statement-divider {
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  .statement-divider-text {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    line-height: 1.5;
+    padding: 0 0.75rem;
+    white-space: normal;
+  }
+
+  .mobile-break {
+    display: block;
+  }
+
+  .statement-line {
+    flex: 1;
+  }
+
+  .statement-container {
+    padding-left: 1rem;
+  }
+
+  .statement-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .statement-main {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15em;
+  }
+
+  .statement-line-text-shift {
+    margin-left: 0;
+  }
+
+  .statement-outline {
+    margin-left: 0;
+    margin-right: 0;
+    padding-right: 1rem;
+  }
+
+  .statement-outline-text {
+    -webkit-text-stroke: 1.5px var(--statement-outline-color);
+    text-stroke: 1.5px var(--statement-outline-color);
+  }
+
+  .statement-outline-text.is-ja {
+    -webkit-text-stroke: 0 transparent;
+    text-stroke: 0 transparent;
+  }
+
+  .statement-outline-text.is-ja::before {
+    content: none;
+    display: none;
+  }
+
+  .statement-outline-text::before {
+    transform: translate(3px, 3px);
+    -webkit-text-stroke: 1.5px var(--statement-shadow-color);
+    text-stroke: 1.5px var(--statement-shadow-color);
+  }
+
+  .statement-outline-text:hover {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--statement-outline-color);
+    text-stroke: 1.5px var(--statement-outline-color);
+  }
+
+  .statement-outline-text:hover::before {
+    -webkit-text-stroke: 1.5px var(--statement-shadow-color);
+    text-stroke: 1.5px var(--statement-shadow-color);
+  }
+
+  .statement-outline-text.is-ja:hover {
+    color: var(--theme-text-muted);
+    -webkit-text-stroke: 0 transparent;
+    text-stroke: 0 transparent;
+  }
+}
+
+@media (max-width: 480px) {
+  .statement-outline-text::before {
+    transform: translate(2px, 2px);
+    -webkit-text-stroke: 1px var(--statement-shadow-color);
+    text-stroke: 1px var(--statement-shadow-color);
+  }
+
+  .statement-outline-text.is-ja {
+    -webkit-text-stroke: 0 transparent;
+    text-stroke: 0 transparent;
+  }
+
+  .statement-outline-text.is-ja::before {
+    content: none;
+    display: none;
+  }
+
+  .statement-outline-text:hover {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--statement-outline-color);
+    text-stroke: 1px var(--statement-outline-color);
+  }
+
+  .statement-outline-text:hover::before {
+    -webkit-text-stroke: 1px var(--statement-shadow-color);
+    text-stroke: 1px var(--statement-shadow-color);
+  }
+
+  .statement-outline-text.is-ja:hover {
+    color: var(--theme-text-muted);
+    -webkit-text-stroke: 0 transparent;
+    text-stroke: 0 transparent;
+  }
+}
+</style>
