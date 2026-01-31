@@ -16,6 +16,10 @@
         :alt="project.title"
         class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-400"
         :class="{ 'is-active': hoveredIndex === index }"
+        :width="project.width"
+        :height="project.height"
+        loading="lazy"
+        decoding="async"
       />
     </div>
 
@@ -29,7 +33,15 @@
       >
         <div class="flex-1 mt-0">
           <div class="project-mobile-image hidden w-full rounded-[10px] overflow-hidden mb-5 bg-(--project-image-overlay)" aria-hidden="true">
-            <img :src="project.image" :alt="project.title" class="block w-full h-auto object-cover" />
+            <img
+              :src="project.image"
+              :alt="project.title"
+              class="block w-full h-auto object-cover"
+              :width="project.width"
+              :height="project.height"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
           <h3 class="project-title inline-block m-0 font-bold leading-[1.05] tracking-tight cursor-pointer text-(--project-title-color)">
             <span class="inline-flex items-center gap-0">
@@ -97,19 +109,25 @@ const projects = [
     id: 1,
     title: 'Progress',
     tags: ['Next.js', 'Payload CMS', 'Tailwind CSS'],
-    image: progress1Img
+    image: progress1Img,
+    width: 4500,
+    height: 4500
   },
   {
     id: 2,
     title: 'Progress',
     tags: ['React', 'Redux', 'React i18n'],
-    image: progress2Img
+    image: progress2Img,
+    width: 6870,
+    height: 6703
   },
   {
     id: 3,
     title: 'Progress',
     tags: ['GPT-4', 'Next.js', 'PostgreSQL'],
-    image: progress3Img
+    image: progress3Img,
+    width: 3000,
+    height: 2000
   }
 ];
 

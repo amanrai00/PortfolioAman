@@ -59,6 +59,10 @@
             :src="skill.icon"
             :alt="skill.name"
             class="w-5 h-5 md:w-6 md:h-6 object-contain"
+            width="24"
+            height="24"
+            loading="lazy"
+            decoding="async"
           />
           <span class="skill-tag-name">{{ skill.name }}</span>
         </div>

@@ -24,6 +24,10 @@
                 :src="profileImage"
                 alt="Profile portrait"
                 class="about-image block h-full w-full object-cover opacity-0"
+                width="2555"
+                height="3110"
+                loading="lazy"
+                decoding="async"
               />
               <div
                 class="about-image-glow absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(0,0,0,0.28)_100%)] opacity-0"

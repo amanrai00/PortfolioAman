@@ -20,8 +20,26 @@
             ]"
             @click="handleLogoClick"
           >
-            <img :src="logo" alt="Logo" class="h-11 lg:h-11 logo-primary" />
-            <img :src="SecondLogo" alt="Second Logo" class="h-8 lg:h-8 logo-secondary" />
+            <img
+              :src="logo"
+              alt="Logo"
+              class="h-11 w-auto lg:h-11 logo-primary"
+              width="716"
+              height="413"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+            />
+            <img
+              :src="SecondLogo"
+              alt="Second Logo"
+              class="h-8 w-auto lg:h-8 logo-secondary"
+              width="804"
+              height="312"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+            />
           </div>
 
           <!-- Desktop nav -->
