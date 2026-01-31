@@ -1,87 +1,96 @@
 <template>
   <div class="footer-wrapper">
-  <footer ref="footerSectionEl" class="footer-section">
-    <!-- Wave lottie background -->
-    <div class="footer-wave" aria-hidden="true">
-      <div ref="waveLottieEl" class="footer-wave-lottie"></div>
-    </div>
-
-    <!-- Social links row -->
-    <div class="footer-socials">
-      <a href="https://github.com/amanrai00" target="_blank" rel="noopener noreferrer" class="footer-social-link footer-social-link--roll">
-        <span class="oh oh--social">
-          <span>
-            <span class="footer-bracket footer-bracket-left">[</span>
-            <span class="footer-roll-word" :aria-label="t('footer.github')">
-              <span class="footer-roll-word-track">
-                <span class="footer-roll-word-item">{{ t('footer.github') }}</span>
-                <span class="footer-roll-word-item">{{ t('footer.github') }}</span>
-              </span>
-            </span>
-            <span class="footer-bracket footer-bracket-right">]</span>
-          </span>
-        </span>
-      </a>
-      <a href="https://www.linkedin.com/in/amanrai00/" target="_blank" rel="noopener noreferrer" class="footer-social-link footer-social-link--roll">
-        <span class="oh oh--social">
-          <span>
-            <span class="footer-bracket footer-bracket-left">[</span>
-            <span class="footer-roll-word" :aria-label="t('footer.linkedin')">
-              <span class="footer-roll-word-track">
-                <span class="footer-roll-word-item">{{ t('footer.linkedin') }}</span>
-                <span class="footer-roll-word-item">{{ t('footer.linkedin') }}</span>
-              </span>
-            </span>
-            <span class="footer-bracket footer-bracket-right">]</span>
-          </span>
-        </span>
-      </a>
-      <a href="mailto:amanrai1630@gmail.com" class="footer-social-link footer-social-link--roll">
-        <span class="oh oh--social">
-          <span>
-            <span class="footer-bracket footer-bracket-left">[</span>
-            <span class="footer-roll-word" :aria-label="t('footer.inquiry')">
-              <span class="footer-roll-word-track">
-                <span class="footer-roll-word-item">{{ t('footer.inquiry') }}</span>
-                <span class="footer-roll-word-item">{{ t('footer.inquiry') }}</span>
-              </span>
-            </span>
-            <span class="footer-bracket footer-bracket-right">]</span>
-          </span>
-        </span>
-      </a>
-    </div>
-
-    <!-- Big name -->
-    <div class="footer-name">
-      <h2 ref="footerNameEl" id="chasing-gold" class="footer-name-text">
-        <span class="items__hold">{{ t('footer.name') }}</span>
-      </h2>
-    </div>
-
-    <!-- Bottom info row -->
-    <div class="footer-bottom">
-      <div class="footer-bottom-left">
-        <span class="oh"><span>{{ t('footer.location') }} {{ currentTime }}</span></span>
+    <footer ref="footerSectionEl" class="footer-section">
+      <div class="footer-wave" aria-hidden="true">
+        <div ref="waveLottieEl" class="footer-wave-lottie"></div>
       </div>
-      <div class="footer-bottom-center">
-        <span class="oh"><span>{{ t('footer.tagline') }}</span></span>
+
+      <div class="footer-socials">
+        <a
+          href="https://github.com/amanrai00"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer-social-link footer-social-link--roll"
+        >
+          <span class="oh oh--social">
+            <span>
+              <span class="footer-bracket footer-bracket-left">[</span>
+              <span class="footer-roll-word" :aria-label="t('footer.github')">
+                <span class="footer-roll-word-track">
+                  <span class="footer-roll-word-item">{{ t('footer.github') }}</span>
+                  <span class="footer-roll-word-item">{{ t('footer.github') }}</span>
+                </span>
+              </span>
+              <span class="footer-bracket footer-bracket-right">]</span>
+            </span>
+          </span>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/amanrai00/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer-social-link footer-social-link--roll"
+        >
+          <span class="oh oh--social">
+            <span>
+              <span class="footer-bracket footer-bracket-left">[</span>
+              <span class="footer-roll-word" :aria-label="t('footer.linkedin')">
+                <span class="footer-roll-word-track">
+                  <span class="footer-roll-word-item">{{ t('footer.linkedin') }}</span>
+                  <span class="footer-roll-word-item">{{ t('footer.linkedin') }}</span>
+                </span>
+              </span>
+              <span class="footer-bracket footer-bracket-right">]</span>
+            </span>
+          </span>
+        </a>
+        <a
+          href="mailto:amanrai1630@gmail.com"
+          class="footer-social-link footer-social-link--roll"
+        >
+          <span class="oh oh--social">
+            <span>
+              <span class="footer-bracket footer-bracket-left">[</span>
+              <span class="footer-roll-word" :aria-label="t('footer.inquiry')">
+                <span class="footer-roll-word-track">
+                  <span class="footer-roll-word-item">{{ t('footer.inquiry') }}</span>
+                  <span class="footer-roll-word-item">{{ t('footer.inquiry') }}</span>
+                </span>
+              </span>
+              <span class="footer-bracket footer-bracket-right">]</span>
+            </span>
+          </span>
+        </a>
       </div>
-      <div class="footer-bottom-right">
-        <span class="oh"><span>&copy; {{ t('footer.rights') }}</span></span>
-        <span class="oh"><span>{{ currentYear }} Aman Rai</span></span>
+
+      <div class="footer-name">
+        <h2 ref="footerNameEl" id="chasing-gold" class="footer-name-text">
+          <span class="items__hold">{{ t('footer.name') }}</span>
+        </h2>
       </div>
-    </div>
-  </footer>
+
+      <div class="footer-bottom">
+        <div class="footer-bottom-left">
+          <span class="oh"><span>{{ t('footer.location') }} {{ currentTime }}</span></span>
+        </div>
+        <div class="footer-bottom-center">
+          <span class="oh"><span>{{ t('footer.tagline') }}</span></span>
+        </div>
+        <div class="footer-bottom-right">
+          <span class="oh"><span>&copy; {{ t('footer.rights') }}</span></span>
+          <span class="oh"><span>{{ currentYear }} Aman Rai</span></span>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
-import { useI18n } from 'vue-i18n';
-import lottie from 'lottie-web';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import lottie from 'lottie-web';
+import { onMounted, onUnmounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const waveLottieEl = ref(null);
 const footerSectionEl = ref(null);
@@ -99,23 +108,27 @@ let revealTrigger = null;
 
 function updateTime() {
   const now = new Date();
-  const lagosTime = new Intl.DateTimeFormat('en-GB', {
+  const timeValue = new Intl.DateTimeFormat('en-GB', {
     timeZone: 'Asia/Tokyo',
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
   }).format(now);
-  currentTime.value = lagosTime;
+  currentTime.value = timeValue;
 }
 
 onMounted(async () => {
   updateTime();
   timeInterval = setInterval(updateTime, 60000);
 
+  const sectionEl = footerSectionEl.value;
+  const lottieContainer = waveLottieEl.value;
+  if (!sectionEl || !lottieContainer) return;
+
   const waveModule = await import('@/assets/lottie/wave shaped line graphic.json');
   const waveData = waveModule?.default ?? waveModule;
   waveLottieAnim = lottie.loadAnimation({
-    container: waveLottieEl.value,
+    container: lottieContainer,
     renderer: 'svg',
     loop: true,
     autoplay: true,
@@ -132,7 +145,7 @@ onMounted(async () => {
   pinTrigger = ScrollTrigger.matchMedia();
   pinTrigger.add('(min-width: 769px)', () => {
     const st = ScrollTrigger.create({
-      trigger: footerSectionEl.value,
+      trigger: sectionEl,
       start: 'top top',
       end: 'bottom bottom',
       pin: true,
@@ -141,45 +154,42 @@ onMounted(async () => {
     return () => st.kill();
   });
 
-  if (footerSectionEl.value) {
-    revealTrigger = ScrollTrigger.create({
-      trigger: footerSectionEl.value,
-      start: 'top 60%',
-      onEnter: () => footerSectionEl.value && footerSectionEl.value.classList.add('reveal'),
-      onEnterBack: () => footerSectionEl.value && footerSectionEl.value.classList.add('reveal'),
-      onLeave: () => footerSectionEl.value && footerSectionEl.value.classList.remove('reveal'),
-      onLeaveBack: () => footerSectionEl.value && footerSectionEl.value.classList.remove('reveal'),
-    });
-  }
+  revealTrigger = ScrollTrigger.create({
+    trigger: sectionEl,
+    start: 'top 60%',
+    onEnter: () => sectionEl.classList.add('reveal'),
+    onEnterBack: () => sectionEl.classList.add('reveal'),
+    onLeave: () => sectionEl.classList.remove('reveal'),
+    onLeaveBack: () => sectionEl.classList.remove('reveal'),
+  });
 
   // Animate the footer name once it enters the viewport (desktop only)
-  if (footerNameEl.value) {
-    const mm = ScrollTrigger.matchMedia();
-    mm.add('(min-width: 769px)', () => {
-      nameTl = gsap.from(footerNameEl.value, {
-        opacity: 0,
-        scale: 4,
-        transformOrigin: '50% 50%',
-        force3D: true,
-        duration: 1,
-        ease: 'sine.inOut',
-      });
-
-      nameTrigger = ScrollTrigger.create({
-        trigger: footerSectionEl.value,
-        start: 'top 50%',
-        onEnter: () => nameTl && nameTl.restart(),
-        onEnterBack: () => nameTl && nameTl.restart(),
-        onLeave: () => nameTl && nameTl.pause(0),
-        onLeaveBack: () => nameTl && nameTl.pause(0),
-      });
-
-      return () => {
-        if (nameTl) nameTl.kill();
-        if (nameTrigger) nameTrigger.kill();
-      };
+  if (!footerNameEl.value) return;
+  const mm = ScrollTrigger.matchMedia();
+  mm.add('(min-width: 769px)', () => {
+    nameTl = gsap.from(footerNameEl.value, {
+      opacity: 0,
+      scale: 4,
+      transformOrigin: '50% 50%',
+      force3D: true,
+      duration: 1,
+      ease: 'sine.inOut',
     });
-  }
+
+    nameTrigger = ScrollTrigger.create({
+      trigger: sectionEl,
+      start: 'top 50%',
+      onEnter: () => nameTl && nameTl.restart(),
+      onEnterBack: () => nameTl && nameTl.restart(),
+      onLeave: () => nameTl && nameTl.pause(0),
+      onLeaveBack: () => nameTl && nameTl.pause(0),
+    });
+
+    return () => {
+      if (nameTl) nameTl.kill();
+      if (nameTrigger) nameTrigger.kill();
+    };
+  });
 });
 
 onUnmounted(() => {
@@ -226,7 +236,6 @@ onUnmounted(() => {
   overflow: hidden;
 }
 
-/* Wave lottie - positioned behind the big name text */
 .footer-wave {
   position: absolute;
   left: 0;
@@ -252,7 +261,6 @@ onUnmounted(() => {
   stroke: var(--theme-headline-from) !important;
 }
 
-/* Social links */
 .footer-socials {
   position: relative;
   z-index: 1;
@@ -323,7 +331,6 @@ onUnmounted(() => {
   transform: translateY(-1em);
 }
 
-/* Footer reveal animation for non-name text */
 .oh {
   display: inline-block;
   overflow: hidden;
@@ -354,7 +361,6 @@ onUnmounted(() => {
   transition-delay: 0.2s;
 }
 
-/* Big name */
 .footer-name {
   position: relative;
   z-index: 1;
@@ -374,7 +380,6 @@ onUnmounted(() => {
   user-select: none;
 }
 
-/* Bottom info row */
 .footer-bottom {
   position: relative;
   z-index: 1;
@@ -402,7 +407,6 @@ onUnmounted(() => {
   gap: 0.15rem;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .footer-section {
     padding: 2rem 1.5rem;
@@ -445,7 +449,6 @@ onUnmounted(() => {
     order: 1;
   }
 
-  /* Disable reveal animation on mobile - show content immediately */
   .oh > span {
     transform: translateY(0);
     opacity: 1;
