@@ -1,6 +1,5 @@
 <template>
   <section id="statement" ref="statementSection" class="statement-section">
-    <!-- Divider with lines and text -->
     <div class="statement-divider">
       <div class="statement-line statement-line-left"></div>
       <span ref="dividerText" class="statement-divider-text">
@@ -11,16 +10,20 @@
       <div class="statement-line statement-line-right"></div>
     </div>
 
-    <!-- Main content -->
     <div class="statement-container">
       <div ref="statementText" class="statement-content" :class="{ 'is-ja': isJa }">
         <h2 class="statement-main">
           <span class="statement-line-text">{{ t('statement.selected') }}</span>
           <span class="statement-line-text statement-line-text-shift">{{ t('statement.projects') }}</span>
         </h2>
-        <!-- Outlined subtitle -->
         <p ref="statementOutline" class="statement-outline">
-          <span class="statement-outline-text" :class="{ 'is-ja': isJa }" :data-text="t('statement.showcase')">{{ t('statement.showcase') }}</span>
+          <span
+            class="statement-outline-text"
+            :class="{ 'is-ja': isJa }"
+            :data-text="t('statement.showcase')"
+          >
+            {{ t('statement.showcase') }}
+          </span>
         </p>
       </div>
     </div>
@@ -28,10 +31,10 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted, onUnmounted } from 'vue';
-import { useI18n } from 'vue-i18n';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const statementSection = ref(null);
 const statementText = ref(null);
@@ -45,33 +48,40 @@ let statementTimeline = null;
 onMounted(() => {
   gsap.registerPlugin(ScrollTrigger);
 
-  if (!statementSection.value) return;
+  const sectionEl = statementSection.value;
+  const outlineEl = statementOutline.value;
+  const dividerTextEl = dividerText.value;
 
-  const lineTexts = statementSection.value.querySelectorAll('.statement-line-text');
+  if (!sectionEl || !outlineEl || !dividerTextEl) return;
+
+  const lineTexts = sectionEl.querySelectorAll('.statement-line-text');
+  const dividerLines = sectionEl.querySelectorAll('.statement-line');
 
   gsap.set(lineTexts, {
     clipPath: 'inset(100% 0 0 0)',
     opacity: 1
   });
 
-  gsap.set(statementOutline.value, {
+  gsap.set(outlineEl, {
     opacity: 0,
     x: -30
   });
 
-  gsap.set(dividerText.value, {
+  gsap.set(dividerTextEl, {
     opacity: 0,
     y: 10
   });
 
-  const dividerLines = statementSection.value.querySelectorAll('.statement-line');
-
-  gsap.set(dividerLines[0], { scaleX: 0, transformOrigin: 'right center' });
-  gsap.set(dividerLines[1], { scaleX: 0, transformOrigin: 'left center' });
+  if (dividerLines[0]) {
+    gsap.set(dividerLines[0], { scaleX: 0, transformOrigin: 'right center' });
+  }
+  if (dividerLines[1]) {
+    gsap.set(dividerLines[1], { scaleX: 0, transformOrigin: 'left center' });
+  }
 
   statementTimeline = gsap.timeline({
     scrollTrigger: {
-      trigger: statementSection.value,
+      trigger: sectionEl,
       start: 'top 55%',
       toggleActions: 'play none none none'
     }
@@ -84,7 +94,7 @@ onMounted(() => {
       ease: 'power2.inOut',
       stagger: 0.05
     })
-    .to(dividerText.value, {
+    .to(dividerTextEl, {
       opacity: 1,
       y: 0,
       duration: 0.8,
@@ -96,7 +106,7 @@ onMounted(() => {
       ease: 'power2.out',
       stagger: 0.15
     }, 0.5)
-    .to(statementOutline.value, {
+    .to(outlineEl, {
       opacity: 1,
       x: 0,
       duration: 0.8,
@@ -275,7 +285,6 @@ onUnmounted(() => {
 
 /* Dark theme */
 :global([data-theme="dark"]) {
-  --statement-text-color: var(--theme-text-strong);
   --statement-line-color: var(--theme-line-soft);
   --statement-outline-color: rgba(255, 255, 255, 0.25);
   --statement-shadow-color: rgba(255, 255, 255, 0.1);
@@ -284,7 +293,6 @@ onUnmounted(() => {
 
 /* Light theme */
 :global([data-theme="light"]) {
-  --statement-text-color: var(--theme-text-strong);
   --statement-line-color: var(--theme-line-soft);
   --statement-outline-color: rgba(15, 23, 42, 0.3);
   --statement-shadow-color: rgba(15, 23, 42, 0.12);
@@ -293,7 +301,6 @@ onUnmounted(() => {
 
 /* Default fallback */
 :root {
-  --statement-text-color: var(--theme-text-strong);
   --statement-line-color: var(--theme-line-soft);
   --statement-outline-color: var(--theme-line-soft);
   --statement-shadow-color: rgba(0, 0, 0, 0.08);

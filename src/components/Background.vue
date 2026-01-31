@@ -1,9 +1,6 @@
 <template>
-  <!-- Lottie background -->
   <div class="bg-wrap" aria-hidden="true">
     <div ref="el" class="bg-lottie"></div>
-
-    <!-- Optional dark overlay for readability -->
     <div class="bg-overlay"></div>
   </div>
 </template>
@@ -71,5 +68,4 @@ onBeforeUnmount(() => {
   inset: 0;
   background: var(--theme-bg-overlay);
 }
-
 </style>
