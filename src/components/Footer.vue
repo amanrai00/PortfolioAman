@@ -400,6 +400,11 @@ onUnmounted(() => {
   color: var(--theme-headline-from);
 }
 
+.footer-bottom-left {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
 .footer-bottom-right {
   display: flex;
   flex-direction: column;
