@@ -16,10 +16,10 @@
         <div class="contact-left">
           <div class="contact-left-content">
             <h2 class="contact-title contact-title--stacked font-bold leading-tight tracking-tight">
-              <span class="contact-title-text">Conversation comes first</span>
+              <span class="contact-title-text">{{ t('contact.title') }}</span>
             </h2>
             <p class="contact-subtitle mt-6 max-w-xl">
-              That’s often where good things begin.
+              {{ t('contact.subtitle') }}
             </p>
           </div>
         </div>
@@ -27,33 +27,45 @@
         <!-- Right: Form -->
         <div class="contact-right">
           <div class="contact-form-wrapper">
-            <h3 class="contact-form-title">Open to opportunities</h3>
-            <form class="contact-form" @submit.prevent>
+            <h3 class="contact-form-title">{{ t('contact.formTitle') }}</h3>
+            <form class="contact-form" @submit.prevent="handleSubmit">
               <label class="contact-field">
-                <span class="contact-label">Name</span>
+                <span class="contact-label">{{ t('contact.nameLabel') }}</span>
                 <input
+                  v-model.trim="formState.name"
                   class="contact-input"
                   type="text"
-                  placeholder="How should I call you?"
+                  name="name"
+                  autocomplete="name"
+                  :placeholder="t('contact.namePlaceholder')"
+                  required
                 />
               </label>
               <label class="contact-field">
-                <span class="contact-label">Email</span>
+                <span class="contact-label">{{ t('contact.emailLabel') }}</span>
                 <input
+                  v-model.trim="formState.email"
                   class="contact-input"
                   type="email"
-                  placeholder="Where can I reach you?"
+                  name="email"
+                  autocomplete="email"
+                  inputmode="email"
+                  :placeholder="t('contact.emailPlaceholder')"
+                  required
                 />
               </label>
               <label class="contact-field">
-                <span class="contact-label">Message</span>
+                <span class="contact-label">{{ t('contact.messageLabel') }}</span>
                 <textarea
+                  v-model.trim="formState.message"
                   class="contact-input"
                   rows="4"
-                  placeholder="Anything you'd like to discuss?"
+                  name="message"
+                  :placeholder="t('contact.messagePlaceholder')"
+                  required
                 ></textarea>
               </label>
-              <button class="contact-submit" type="submit">Send</button>
+              <button class="contact-submit" type="submit">{{ t('contact.send') }}</button>
             </form>
           </div>
         </div>
@@ -67,10 +79,19 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import lottie from 'lottie-web';
+import { useI18n } from 'vue-i18n';
 
 const lottieEl = ref(null);
 const contactWrapper = ref(null);
 const contactSection = ref(null);
+const { t } = useI18n();
+const contactEmail = 'amanrai1630@gmail.com';
+
+const formState = ref({
+  name: '',
+  email: '',
+  message: '',
+});
 
 let lottieAnim = null;
 let revealTween = null;
@@ -78,6 +99,29 @@ let exitTween = null;
 let mediaMatch = null;
 let isLottiePlaying = false;
 let scrollResumeTimer = null;
+
+const resetForm = () => {
+  formState.value = {
+    name: '',
+    email: '',
+    message: '',
+  };
+};
+
+const handleSubmit = () => {
+  const { name, email, message } = formState.value;
+  const subject = 'Portfolio inquiry';
+  const body = [
+    `${t('contact.nameLabel')}: ${name}`,
+    `${t('contact.emailLabel')}: ${email}`,
+    '',
+    message,
+  ].join('\n');
+
+  const mailtoUrl = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailtoUrl;
+  resetForm();
+};
 
 onMounted(async () => {
   gsap.registerPlugin(ScrollTrigger);
