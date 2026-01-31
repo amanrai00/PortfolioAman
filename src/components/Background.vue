@@ -7,7 +7,6 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import lottie from "lottie-web";
 import nightSky from "@/assets/lottie/night-sky.json";
 
 const LOTTIE_SPEED = 0.8;
@@ -20,7 +19,8 @@ const LOTTIE_RENDERER_SETTINGS = {
 const el = ref(null);
 let anim = null;
 
-onMounted(() => {
+onMounted(async () => {
+  const { default: lottie } = await import("lottie-web");
   anim = lottie.loadAnimation({
     container: el.value,
     renderer: LOTTIE_RENDERER,

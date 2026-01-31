@@ -75,8 +75,6 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const { t, tm } = useI18n();
 
@@ -132,7 +130,11 @@ const skillsTagline = ref(null);
 let skillsTimeline = null;
 let skillsGridTimeline = null;
 
-onMounted(() => {
+onMounted(async () => {
+  const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
+    import('gsap'),
+    import('gsap/ScrollTrigger'),
+  ]);
   gsap.registerPlugin(ScrollTrigger);
 
   const sectionEl = skillsSection.value;

@@ -302,7 +302,6 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import logo from "../assets/logo1.png";
 import SecondLogo from "../assets/second-logo.png";
-import lottie from "lottie-web";
 import hamburgerAnim from "@/assets/lottie/hamburger.json";
 import nightSky from "@/assets/lottie/night-sky.json";
 
@@ -420,7 +419,7 @@ const scrollToSection = (id) => {
   }
 };
 
-onMounted(() => {
+onMounted(async () => {
   document.documentElement.setAttribute("lang", locale.value);
   const storedTheme = localStorage.getItem(themeKey);
   if (storedTheme === "dark" || storedTheme === "light") {
@@ -440,6 +439,7 @@ onMounted(() => {
     isReady.value = true;
   });
 
+  const { default: lottie } = await import("lottie-web");
   menuAnim = lottie.loadAnimation({
     container: menuIconEl.value,
     renderer: "svg",

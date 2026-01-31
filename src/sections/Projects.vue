@@ -71,9 +71,6 @@
 
 <script setup>
 import { nextTick, onMounted, onUnmounted, ref } from 'vue';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import lottie from 'lottie-web';
 import progress1Img from '@/assets/progress1.jpg';
 import progress2Img from '@/assets/progress2.jpg';
 import progress3Img from '@/assets/progress3.jpg';
@@ -90,6 +87,7 @@ const lottieEndHandlers = [];
 const lottieTimers = [];
 const lottieStarted = [];
 const lottieHoldFrames = [];
+let lottieLib = null;
 let lottieMediaQuery = null;
 let lottieMediaHandler = null;
 let threadLineDownRightAnim = null;
@@ -153,6 +151,10 @@ const destroyLottie = () => {
 const initLottie = async () => {
   if (window.matchMedia('(max-width: 768px)').matches) return;
   if (lottieAnims.length) return;
+  if (!lottieLib) {
+    const module = await import('lottie-web');
+    lottieLib = module?.default ?? module;
+  }
   if (!threadLineDownRightAnim) {
     const module = await import('@/assets/lottie/Thread Line Down Right.json');
     threadLineDownRightAnim = module?.default ?? module;
@@ -160,7 +162,7 @@ const initLottie = async () => {
   await nextTick();
   lottieEls.value.forEach((el, index) => {
     if (!el) return;
-    const anim = lottie.loadAnimation({
+    const anim = lottieLib.loadAnimation({
       container: el,
       renderer: 'svg',
       loop: false,
@@ -289,7 +291,11 @@ const handleListLeave = () => {
   anim.goToAndStop(0, true);
 };
 
-onMounted(() => {
+onMounted(async () => {
+  const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
+    import('gsap'),
+    import('gsap/ScrollTrigger'),
+  ]);
   gsap.registerPlugin(ScrollTrigger);
 
   const sectionEl = projectsSection.value;

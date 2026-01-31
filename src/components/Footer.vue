@@ -86,9 +86,6 @@
 </template>
 
 <script setup>
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import lottie from 'lottie-web';
 import { onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -118,6 +115,11 @@ function updateTime() {
 }
 
 onMounted(async () => {
+  const [{ default: gsap }, { ScrollTrigger }, { default: lottie }] = await Promise.all([
+    import('gsap'),
+    import('gsap/ScrollTrigger'),
+    import('lottie-web'),
+  ]);
   updateTime();
   timeInterval = setInterval(updateTime, 60000);
 

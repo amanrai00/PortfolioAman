@@ -61,7 +61,6 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import gsap from 'gsap';
 import { useI18n } from 'vue-i18n';
 import profileImage from '@/assets/profile.jpg';
 
@@ -86,7 +85,8 @@ const getRevealTargets = () => {
   return Array.from(aboutText.value.querySelectorAll(':scope > :not(.about-reveal-grid)'));
 };
 
-onMounted(() => {
+onMounted(async () => {
+  const { default: gsap } = await import('gsap');
   if (revealGrid.value) {
     const fragment = document.createDocumentFragment();
     for (let i = 0; i < 200; i += 1) {

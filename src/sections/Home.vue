@@ -117,7 +117,6 @@
 
 <script setup>
 import { computed, ref, onMounted, onBeforeUnmount } from "vue";
-import gsap from "gsap";
 import { useI18n } from "vue-i18n";
 
 const sectionIds = ["home", "about", "statement", "contact"];
@@ -214,7 +213,8 @@ const triggerHeroReveal = () => {
   });
 };
 
-onMounted(() => {
+onMounted(async () => {
+  const { default: gsap } = await import("gsap");
   updateActiveIndex();
   const startHeroEffects = () => {
     if (heroEffectsStarted.value) return;
