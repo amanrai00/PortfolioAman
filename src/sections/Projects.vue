@@ -34,7 +34,7 @@
         <div class="flex-1 mt-0">
           <div class="project-mobile-image hidden w-full rounded-[10px] overflow-hidden mb-5 bg-(--project-image-overlay)" aria-hidden="true">
             <img
-              :src="project.image"
+              :src="project.imageMobile"
               :alt="project.title"
               class="block w-full h-auto object-cover"
               :width="project.width"
@@ -74,6 +74,9 @@ import { nextTick, onMounted, onUnmounted, ref } from 'vue';
 import progress1Img from '@/assets/progress1.jpg';
 import progress2Img from '@/assets/progress2.jpg';
 import progress3Img from '@/assets/progress3.jpg';
+import progress1ImgSmall from '@/assets/progress1-1280.jpg';
+import progress2ImgSmall from '@/assets/progress2-1280.jpg';
+import progress3ImgSmall from '@/assets/progress3-1280.jpg';
 
 const projectsSection = ref(null);
 const projectItems = ref([]);
@@ -108,6 +111,7 @@ const projects = [
     title: 'Progress',
     tags: ['Next.js', 'Payload CMS', 'Tailwind CSS'],
     image: progress1Img,
+    imageMobile: progress1ImgSmall,
     width: 4500,
     height: 4500
   },
@@ -116,6 +120,7 @@ const projects = [
     title: 'Progress',
     tags: ['React', 'Redux', 'React i18n'],
     image: progress2Img,
+    imageMobile: progress2ImgSmall,
     width: 6870,
     height: 6703
   },
@@ -124,6 +129,7 @@ const projects = [
     title: 'Progress',
     tags: ['GPT-4', 'Next.js', 'PostgreSQL'],
     image: progress3Img,
+    imageMobile: progress3ImgSmall,
     width: 3000,
     height: 2000
   }
@@ -618,3 +624,7 @@ onUnmounted(() => {
   }
 }
 </style>
+
+
+
+

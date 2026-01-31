@@ -22,6 +22,8 @@
             >
               <img
                 :src="profileImage"
+                :srcset="`${profileImageSmall} 1280w, ${profileImage} 2555w`"
+                sizes="(max-width: 1024px) 80vw, 360px"
                 alt="Profile portrait"
                 class="about-image block h-full w-full object-cover opacity-0"
                 width="2555"
@@ -63,6 +65,7 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import profileImage from '@/assets/profile.jpg';
+import profileImageSmall from '@/assets/profile-1280.jpg';
 
 const { t } = useI18n();
 
@@ -354,3 +357,6 @@ onUnmounted(() => {
   }
 }
 </style>
+
+
+
