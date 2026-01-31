@@ -13,7 +13,7 @@
 
     <!-- Main content -->
     <div class="statement-container">
-      <div ref="statementText" class="statement-content">
+      <div ref="statementText" class="statement-content" :class="{ 'is-ja': isJa }">
         <h2 class="statement-main">
           <span class="statement-line-text">{{ t('statement.selected') }}</span>
           <span class="statement-line-text statement-line-text-shift">{{ t('statement.projects') }}</span>
@@ -162,11 +162,23 @@ onUnmounted(() => {
   text-align: left;
 }
 
+.statement-content.is-ja {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.85rem;
+}
+
 .statement-main {
   display: flex;
   flex-direction: column;
   margin: 0;
   line-height: 0.95;
+}
+
+.statement-content.is-ja .statement-main {
+  align-items: center;
 }
 
 .statement-line-text {
@@ -202,6 +214,12 @@ onUnmounted(() => {
   padding-right: clamp(1rem, 5vw, 4rem);
 }
 
+.statement-content.is-ja .statement-outline {
+  margin-top: 0.1em;
+  margin-left: 0;
+  padding-right: 0;
+}
+
 /* 3D shadow layer behind text */
 .statement-outline-text {
   position: relative;
@@ -228,7 +246,7 @@ onUnmounted(() => {
 .statement-outline-text.is-ja {
   font-size: clamp(1.4rem, 4.5vw, 3.2rem);
   color: var(--theme-text-muted);
-  opacity: 0.7;
+  opacity: 0.45;
   -webkit-text-stroke: 0 transparent;
   text-stroke: 0 transparent;
 }
