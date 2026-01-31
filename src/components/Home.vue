@@ -3,7 +3,7 @@
   <section id="home" class="min-h-screen px-5 lg:px-28 pt-6 pb-16 lg:pt-6 flex items-center relative overflow-hidden">
 
     <!-- Navigation Dots (Desktop) -->
-    <nav ref="heroNavEl" class="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-30 flex-col items-start gap-3" aria-label="Section navigation">
+    <nav ref="heroNavEl" class="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-30 flex-col items-start gap-3" :class="{ 'hero-nav-dim': isHomeNavDimmed }" aria-label="Section navigation">
       <button
         v-for="(sectionId, index) in sectionIds"
         :key="sectionId"
@@ -163,6 +163,7 @@ const activeIndex = ref(-1);
 const heroVisible = ref(false);
 const scrollSlide = ref(0);
 const isContactFading = ref(false);
+const isHomeNavDimmed = ref(true);
 const heroTextEl = ref(null);
 const heroEffectsStarted = ref(false);
 const heroNavEl = ref(null);
@@ -197,6 +198,7 @@ const updateActiveIndex = () => {
 
   activeIndex.value = newIndex;
   scrollSlide.value = Math.min(scrollY * 0.55, 220);
+  isHomeNavDimmed.value = newIndex === 0;
 
   const contactEl = document.getElementById("contact");
   if (contactEl) {
@@ -232,6 +234,7 @@ const scrollToSection = (sectionId) => {
 // ============================================================
 
 onMounted(() => {
+  updateActiveIndex();
   const startHeroEffects = () => {
     if (heroEffectsStarted.value) return;
     heroEffectsStarted.value = true;
@@ -361,6 +364,11 @@ onBeforeUnmount(() => {
 .group:hover .nav-line {
   background: var(--theme-line-strong);
   transform: scaleX(1.1);
+}
+
+.hero-nav-dim .nav-line {
+  opacity: 0.3;
+  transition: opacity 0.25s ease;
 }
 
 /* ============================================================
