@@ -372,6 +372,9 @@ onUnmounted(() => {
 .contact-title {
   font-size: clamp(2.5rem, 5vw, 5rem);
   letter-spacing: -0.02em;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  hyphens: none;
 }
 
 .contact-title--stacked {

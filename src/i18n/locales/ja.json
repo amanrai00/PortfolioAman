@@ -39,16 +39,16 @@
     "showcase": "選抜プロジェクト"
   },
   "contact": {
-    "title": "会話から始まる",
-    "subtitle": "良いことはそこから始まる。",
-    "formTitle": "新しい機会に前向きです",
+    "title": "まずは、お話ししましょう。",
+    "subtitle": "ご相談やご連絡をお待ちしています。",
+    "formTitle": "お問い合わせ",
     "nameLabel": "お名前",
-    "namePlaceholder": "お呼びするお名前は？",
-    "emailLabel": "メール",
-    "emailPlaceholder": "連絡先を教えてください",
-    "messageLabel": "メッセージ",
-    "messagePlaceholder": "相談したい内容があれば",
-    "send": "送信"
+    "namePlaceholder": "お名前をご入力ください",
+    "emailLabel": "メールアドレス",
+    "emailPlaceholder": "ご連絡可能なメールアドレス",
+    "messageLabel": "お問い合わせ内容",
+    "messagePlaceholder": "ご相談内容をご記入ください",
+    "send": "送信する"
   },
   "footer": {
     "github": "GITHUB",
