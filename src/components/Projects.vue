@@ -58,10 +58,10 @@
 </template>
 
 <script setup>
+import { nextTick, onMounted, onUnmounted, ref } from 'vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import lottie from 'lottie-web';
-import { nextTick, onMounted, onUnmounted, ref } from 'vue';
 import progress1Img from '@/assets/progress1.jpg';
 import progress2Img from '@/assets/progress2.jpg';
 import progress3Img from '@/assets/progress3.jpg';
