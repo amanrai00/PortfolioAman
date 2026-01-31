@@ -34,9 +34,9 @@
   "statement": {
     "dividerText": "各プロジェクトが、",
     "dividerText2": "現在の私の制作スタイルを形作っています。",
-    "selected": "選抜",
-    "projects": "プロジェクト",
-    "showcase": "制作実績"
+    "selected": "制作実績",
+    "projects": "",
+    "showcase": "選抜プロジェクト"
   },
   "contact": {
     "title": "会話から始まる",
