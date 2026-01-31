@@ -4,15 +4,12 @@
       ref="contactSection"
       class="contact-section relative min-h-screen overflow-hidden"
     >
-      <!-- Wavy lottie background -->
       <div class="contact-bg absolute inset-0 z-0" aria-hidden="true">
         <div ref="lottieEl" class="contact-lottie w-full h-full"></div>
         <div class="contact-overlay"></div>
       </div>
 
-      <!-- Split layout -->
       <div class="contact-split relative z-20">
-        <!-- Left: Background + text -->
         <div class="contact-left">
           <div class="contact-left-content">
             <h2 class="contact-title contact-title--stacked font-bold leading-tight tracking-tight">
@@ -24,7 +21,6 @@
           </div>
         </div>
 
-        <!-- Right: Form -->
         <div class="contact-right">
           <div class="contact-form-wrapper">
             <h3 class="contact-form-title">{{ t('contact.formTitle') }}</h3>
@@ -75,10 +71,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import lottie from 'lottie-web';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const lottieEl = ref(null);
@@ -126,6 +122,11 @@ const handleSubmit = () => {
 onMounted(async () => {
   gsap.registerPlugin(ScrollTrigger);
 
+  const wrapperEl = contactWrapper.value;
+  const sectionEl = contactSection.value;
+  const lottieContainer = lottieEl.value;
+  if (!wrapperEl || !sectionEl || !lottieContainer) return;
+
   // scroll-behavior: smooth conflicts with ScrollTrigger scrub animations
   // (GSAP docs: "Do NOT set scroll-behavior: smooth with ScrollTrigger")
   document.documentElement.style.scrollBehavior = 'auto';
@@ -134,7 +135,7 @@ onMounted(async () => {
   const wavyModule = await import('@/assets/lottie/wavy.json');
   const wavyData = wavyModule?.default ?? wavyModule;
   lottieAnim = lottie.loadAnimation({
-    container: lottieEl.value,
+    container: lottieContainer,
     renderer: 'canvas',
     loop: true,
     autoplay: false,
@@ -167,13 +168,13 @@ onMounted(async () => {
 
   const createScrollTrigger = (initialClip, triggerStart, triggerEnd = 'bottom bottom') => {
     // Reveal animation driven by a GSAP tween for smooth interpolation
-    revealTween = gsap.fromTo(contactSection.value,
+    revealTween = gsap.fromTo(sectionEl,
       { clipPath: `inset(${initialClip}% 0 0 0)` },
       {
         clipPath: 'inset(0% 0 0 0)',
         ease: 'none',
         scrollTrigger: {
-          trigger: contactWrapper.value,
+          trigger: wrapperEl,
           start: triggerStart,
           end: triggerEnd,
           scrub: true,
@@ -203,8 +204,8 @@ onMounted(async () => {
   const createExitScroll = () => {
     const footerEl = document.querySelector('.footer-wrapper');
     if (!footerEl) return () => {};
-    gsap.set(contactSection.value, { yPercent: 0 });
-    exitTween = gsap.to(contactSection.value, {
+    gsap.set(sectionEl, { yPercent: 0 });
+    exitTween = gsap.to(sectionEl, {
       yPercent: -100,
       ease: 'none',
       scrollTrigger: {
@@ -224,7 +225,7 @@ onMounted(async () => {
         exitTween.kill();
         exitTween = null;
       }
-      gsap.set(contactSection.value, { yPercent: 0 });
+      gsap.set(sectionEl, { yPercent: 0 });
     };
   };
 
@@ -348,25 +349,6 @@ onUnmounted(() => {
   width: 100%;
   max-width: 480px;
   padding: clamp(2rem, 4vw, 3.5rem);
-}
-
-.contact-steps {
-  display: flex;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  justify-content: center;
-}
-
-.contact-step {
-  width: 12px;
-  height: 12px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.contact-step--active {
-  background: #ffffff;
-  box-shadow: 0 0 10px rgba(186, 128, 255, 0.7);
 }
 
 .contact-title {
