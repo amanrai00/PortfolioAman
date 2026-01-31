@@ -6,43 +6,47 @@
   >
     <div class="mx-auto w-full max-w-6xl">
       <div class="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:items-center">
-        <div class="about-left">
+        <div class="flex items-center justify-center self-center">
           <div
             class="relative w-[clamp(260px,32vw,360px)] h-[clamp(340px,42vw,480px)]"
             aria-hidden="true"
           >
             <div
-              class="about-bg absolute inset-0 rounded-[24px] z-[1] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--theme-bg)_78%,var(--theme-cta-bg)_22%),color-mix(in_srgb,var(--theme-bg)_48%,var(--theme-cta-bg)_52%))] shadow-[0_18px_50px_rgba(0,0,0,0.25),0_0_20px_color-mix(in_srgb,var(--theme-cta-bg)_30%,transparent)] blur-[2px]"
+              class="about-bg absolute inset-0 z-[1] rounded-[24px] bg-[linear-gradient(145deg,color-mix(in_srgb,var(--theme-bg)_78%,var(--theme-cta-bg)_22%),color-mix(in_srgb,var(--theme-bg)_48%,var(--theme-cta-bg)_52%))] shadow-[0_18px_50px_rgba(0,0,0,0.25),0_0_20px_color-mix(in_srgb,var(--theme-cta-bg)_30%,transparent)] blur-[2px]"
               :class="imageVisible ? 'is-visible' : ''"
             ></div>
             <div
               ref="imageFrame"
-              class="about-image-frame absolute top-[16px] left-[18px] w-full h-full rounded-[24px] overflow-hidden z-[2] shadow-[0_22px_60px_rgba(0,0,0,0.35),0_0_24px_color-mix(in_srgb,var(--theme-cta-bg)_35%,transparent)]"
+              class="about-image-frame absolute top-[16px] left-[18px] z-[2] h-full w-full overflow-hidden rounded-[24px] shadow-[0_22px_60px_rgba(0,0,0,0.35),0_0_24px_color-mix(in_srgb,var(--theme-cta-bg)_35%,transparent)]"
               :class="[imageVisible ? 'is-visible' : '', showEffects ? 'show-effects' : '']"
             >
               <img
                 :src="profileImage"
                 alt="Profile portrait"
-                class="about-image w-full h-full object-cover block"
+                class="about-image block h-full w-full object-cover opacity-0"
               />
               <div
-                class="about-image-glow absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(0,0,0,0.28)_100%)]"
+                class="about-image-glow absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(0,0,0,0.28)_100%)] opacity-0"
               ></div>
             </div>
           </div>
         </div>
-        <div ref="aboutText" class="about-text-wrap">
-          <div ref="revealGrid" class="about-reveal-grid" aria-hidden="true"></div>
+        <div ref="aboutText" class="relative overflow-hidden">
+          <div
+            ref="revealGrid"
+            class="about-reveal-grid absolute -inset-2.5 z-[2] grid grid-cols-12 [grid-auto-rows:1fr] gap-2.5 pointer-events-none"
+            aria-hidden="true"
+          ></div>
           <span
-            class="inline-block w-16 h-1 rounded-full bg-[var(--theme-line-strong)] shadow-[0_0_12px_var(--theme-line-shadow)] mb-5"
+            class="relative z-[1] mb-5 inline-block h-1 w-16 rounded-full bg-[var(--theme-line-strong)] shadow-[0_0_12px_var(--theme-line-shadow)]"
           ></span>
-          <h2 class="text-[clamp(2rem,3vw,3.2rem)] font-extrabold tracking-[0.08em] uppercase text-[var(--theme-text-strong)]">
+          <h2 class="relative z-[1] text-[clamp(2rem,3vw,3.2rem)] font-extrabold uppercase tracking-[0.08em] text-[var(--theme-text-strong)]">
             {{ t('about.title') }}
           </h2>
-          <p class="mt-6 text-lg md:text-xl font-medium leading-[2.2] text-[var(--theme-text-muted)]">
+          <p class="relative z-[1] mt-6 text-lg font-medium leading-[2.2] text-[var(--theme-text-muted)] md:text-xl">
             {{ t('about.paragraph1') }}
           </p>
-          <p class="mt-6 text-lg md:text-xl font-medium leading-[2.2] text-[var(--theme-text-muted)]">
+          <p class="relative z-[1] mt-6 text-lg font-medium leading-[2.2] text-[var(--theme-text-muted)] md:text-xl">
             {{ t('about.paragraph2') }}
           </p>
         </div>
@@ -195,48 +199,11 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.transition-all {
-  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.about-left {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-self: center;
-}
-
-.about-text-wrap {
-  position: relative;
-  overflow: hidden;
-}
-
-.about-text-wrap > *:not(.about-reveal-grid) {
-  position: relative;
-  z-index: 1;
-}
-
-.about-reveal-grid {
-  position: absolute;
-  inset: -10px;
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: 1fr;
-  gap: 10px;
-  z-index: 2;
-  pointer-events: none;
-}
-
 .about-reveal-box {
   background: color-mix(in srgb, var(--theme-text-strong) 72%, var(--theme-bg) 28%);
   clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
   transform: scale(1);
   opacity: 1;
-}
-
-.about-image-frame {
-  position: absolute;
-  overflow: hidden;
 }
 
 .about-bg {
@@ -258,12 +225,7 @@ onUnmounted(() => {
     0 0 34px color-mix(in srgb, var(--theme-cta-bg) 45%, transparent) !important;
 }
 
-.about-image {
-  opacity: 0;
-}
-
 .about-image-glow {
-  opacity: 0;
   transition: opacity 0.2s ease 1.1s;
 }
 
