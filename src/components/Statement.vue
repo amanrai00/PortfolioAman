@@ -225,8 +225,23 @@ onUnmounted(() => {
   transition: -webkit-text-stroke-color 0.3s ease;
 }
 
+.statement-outline-text.is-ja {
+  font-size: clamp(1.4rem, 4.5vw, 3.2rem);
+  color: var(--theme-text-muted);
+  opacity: 0.7;
+  -webkit-text-stroke: 0 transparent;
+  text-stroke: 0 transparent;
+}
+
 .statement-outline-text.is-ja::before {
-  transform: translate(2px, 2px);
+  content: none;
+  display: none;
+}
+
+.statement-outline-text.is-ja:hover {
+  color: var(--theme-text-muted);
+  -webkit-text-stroke: 0 transparent;
+  text-stroke: 0 transparent;
 }
 
 .statement-outline-text:hover {
@@ -327,6 +342,16 @@ onUnmounted(() => {
     text-stroke: 1.5px var(--statement-outline-color);
   }
 
+  .statement-outline-text.is-ja {
+    -webkit-text-stroke: 0 transparent;
+    text-stroke: 0 transparent;
+  }
+
+  .statement-outline-text.is-ja::before {
+    content: none;
+    display: none;
+  }
+
   .statement-outline-text::before {
     transform: translate(3px, 3px);
     -webkit-text-stroke: 1.5px var(--statement-shadow-color);
@@ -343,6 +368,12 @@ onUnmounted(() => {
     -webkit-text-stroke: 1.5px var(--statement-shadow-color);
     text-stroke: 1.5px var(--statement-shadow-color);
   }
+
+  .statement-outline-text.is-ja:hover {
+    color: var(--theme-text-muted);
+    -webkit-text-stroke: 0 transparent;
+    text-stroke: 0 transparent;
+  }
 }
 
 @media (max-width: 480px) {
@@ -350,6 +381,16 @@ onUnmounted(() => {
     transform: translate(2px, 2px);
     -webkit-text-stroke: 1px var(--statement-shadow-color);
     text-stroke: 1px var(--statement-shadow-color);
+  }
+
+  .statement-outline-text.is-ja {
+    -webkit-text-stroke: 0 transparent;
+    text-stroke: 0 transparent;
+  }
+
+  .statement-outline-text.is-ja::before {
+    content: none;
+    display: none;
   }
 
   .statement-outline-text:hover {
@@ -361,6 +402,12 @@ onUnmounted(() => {
   .statement-outline-text:hover::before {
     -webkit-text-stroke: 1px var(--statement-shadow-color);
     text-stroke: 1px var(--statement-shadow-color);
+  }
+
+  .statement-outline-text.is-ja:hover {
+    color: var(--theme-text-muted);
+    -webkit-text-stroke: 0 transparent;
+    text-stroke: 0 transparent;
   }
 }
 </style>
