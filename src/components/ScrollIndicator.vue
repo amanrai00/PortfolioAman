@@ -6,7 +6,6 @@
 
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from "vue";
-import { gsap } from "gsap";
 
 const trackRef = ref(null);
 const thumbRef = ref(null);
@@ -48,9 +47,10 @@ function onResize() {
   recalcThumb();
 }
 
-onMounted(() => {
+onMounted(async () => {
   if (!thumbRef.value) return;
 
+  const { gsap } = await import("gsap");
   moveThumb = gsap.quickTo(thumbRef.value, "height", {
     duration: 0.2,
     ease: "power2.out",

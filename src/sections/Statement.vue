@@ -33,8 +33,6 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const statementSection = ref(null);
 const statementText = ref(null);
@@ -45,7 +43,11 @@ const isJa = computed(() => locale.value === 'ja');
 
 let statementTimeline = null;
 
-onMounted(() => {
+onMounted(async () => {
+  const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
+    import('gsap'),
+    import('gsap/ScrollTrigger'),
+  ]);
   gsap.registerPlugin(ScrollTrigger);
 
   const sectionEl = statementSection.value;
