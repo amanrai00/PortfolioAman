@@ -162,6 +162,7 @@ onMounted(() => {
           requestAnimationFrame(() => {
             imageVisible.value = true;
             if (effectsTimerId) clearTimeout(effectsTimerId);
+            // Matches the image reveal animation duration before adding glow/shadow.
             effectsTimerId = setTimeout(() => {
               showEffects.value = true;
             }, 1800);
@@ -322,7 +323,6 @@ onUnmounted(() => {
   opacity: 1;
 }
 
-
 @keyframes about-image-reveal-ltr {
   0% {
     width: 0;
@@ -349,6 +349,4 @@ onUnmounted(() => {
     opacity: 1;
   }
 }
-
-
 </style>
