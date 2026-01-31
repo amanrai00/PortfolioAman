@@ -20,6 +20,7 @@ const el = ref(null);
 let anim = null;
 
 onMounted(async () => {
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
   const { default: lottie } = await import("lottie-web");
   anim = lottie.loadAnimation({
     container: el.value,
@@ -31,7 +32,7 @@ onMounted(async () => {
   });
 
   // Slightly slower playback keeps the background calm and unobtrusive.
-  anim.setSpeed(LOTTIE_SPEED);
+  anim.setSpeed(isMobile ? 0.5 : LOTTIE_SPEED);
 });
 
 onBeforeUnmount(() => {

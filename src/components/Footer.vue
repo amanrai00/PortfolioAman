@@ -97,6 +97,7 @@ const footerNameEl = ref(null);
 const { t } = useI18n();
 
 let waveLottieAnim = null;
+let waveLottieObserver = null;
 let timeInterval = null;
 let pinTrigger = null;
 let nameTl = null;
@@ -129,6 +130,7 @@ onMounted(async () => {
 
   const waveModule = await import('@/assets/lottie/wave shaped line graphic.json');
   const waveData = waveModule?.default ?? waveModule;
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
   waveLottieAnim = lottie.loadAnimation({
     container: lottieContainer,
     renderer: 'svg',
@@ -140,7 +142,23 @@ onMounted(async () => {
     },
   });
 
-  waveLottieAnim.setSpeed(0.4);
+  waveLottieAnim.setSpeed(isMobile ? 0.3 : 0.4);
+  if (isMobile) {
+    waveLottieAnim.pause();
+    waveLottieObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            waveLottieAnim?.play();
+          } else {
+            waveLottieAnim?.pause();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    if (sectionEl) waveLottieObserver.observe(sectionEl);
+  }
 
   // Pin footer for scroll delay effect (desktop only)
   gsap.registerPlugin(ScrollTrigger);
@@ -206,6 +224,10 @@ onUnmounted(() => {
   if (pinTrigger) {
     pinTrigger.kill();
     pinTrigger = null;
+  }
+  if (waveLottieObserver) {
+    waveLottieObserver.disconnect();
+    waveLottieObserver = null;
   }
   if (revealTrigger) {
     revealTrigger.kill();

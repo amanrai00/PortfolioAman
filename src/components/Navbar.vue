@@ -452,7 +452,7 @@ onMounted(async () => {
     container: menuBgEl.value,
     renderer: "svg",
     loop: true,
-    autoplay: true,
+    autoplay: false,
     animationData: nightSky,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
@@ -472,6 +472,15 @@ onMounted(async () => {
 
 watch(isDark, () => {
   applyTheme();
+});
+
+watch(isOpen, (open) => {
+  if (!menuBgAnim) return;
+  if (open) {
+    menuBgAnim.play();
+  } else {
+    menuBgAnim.pause();
+  }
 });
 
 onBeforeUnmount(() => {

@@ -90,6 +90,7 @@ let lottieAnim = null;
 let revealTween = null;
 let exitTween = null;
 let mediaMatch = null;
+let lottieObserver = null;
 let isLottiePlaying = false;
 let scrollResumeTimer = null;
 
@@ -133,6 +134,8 @@ onMounted(async () => {
   // (GSAP docs: "Do NOT set scroll-behavior: smooth with ScrollTrigger")
   document.documentElement.style.scrollBehavior = 'auto';
 
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
   // Load wavy lottie animation
   const wavyModule = await import('@/assets/lottie/wavy.json');
   const wavyData = wavyModule?.default ?? wavyModule;
@@ -148,8 +151,26 @@ onMounted(async () => {
     },
   });
 
-  lottieAnim.setSpeed(0.5);
+  lottieAnim.setSpeed(isMobile ? 0.4 : 0.5);
   lottieAnim.setSubframe(false);
+  if (isMobile) {
+    lottieAnim.pause();
+    lottieObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            lottieAnim?.play();
+            isLottiePlaying = true;
+          } else {
+            lottieAnim?.pause();
+            isLottiePlaying = false;
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    lottieObserver.observe(sectionEl);
+  }
 
   // Pause lottie canvas during scroll to prevent main-thread contention
   const pauseLottieDuringScroll = () => {
@@ -255,6 +276,10 @@ onUnmounted(() => {
   if (mediaMatch) {
     mediaMatch.kill();
     mediaMatch = null;
+  }
+  if (lottieObserver) {
+    lottieObserver.disconnect();
+    lottieObserver = null;
   }
 
   if (revealTween) {
