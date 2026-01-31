@@ -12,10 +12,10 @@
         <span class="oh oh--social">
           <span>
             <span class="footer-bracket footer-bracket-left">[</span>
-            <span class="footer-roll-word" aria-label="GITHUB">
+            <span class="footer-roll-word" :aria-label="t('footer.github')">
               <span class="footer-roll-word-track">
-                <span class="footer-roll-word-item">GITHUB</span>
-                <span class="footer-roll-word-item">GITHUB</span>
+                <span class="footer-roll-word-item">{{ t('footer.github') }}</span>
+                <span class="footer-roll-word-item">{{ t('footer.github') }}</span>
               </span>
             </span>
             <span class="footer-bracket footer-bracket-right">]</span>
@@ -26,10 +26,10 @@
         <span class="oh oh--social">
           <span>
             <span class="footer-bracket footer-bracket-left">[</span>
-            <span class="footer-roll-word" aria-label="LINKEDIN">
+            <span class="footer-roll-word" :aria-label="t('footer.linkedin')">
               <span class="footer-roll-word-track">
-                <span class="footer-roll-word-item">LINKEDIN</span>
-                <span class="footer-roll-word-item">LINKEDIN</span>
+                <span class="footer-roll-word-item">{{ t('footer.linkedin') }}</span>
+                <span class="footer-roll-word-item">{{ t('footer.linkedin') }}</span>
               </span>
             </span>
             <span class="footer-bracket footer-bracket-right">]</span>
@@ -40,10 +40,10 @@
         <span class="oh oh--social">
           <span>
             <span class="footer-bracket footer-bracket-left">[</span>
-            <span class="footer-roll-word" aria-label="INQUIRY">
+            <span class="footer-roll-word" :aria-label="t('footer.inquiry')">
               <span class="footer-roll-word-track">
-                <span class="footer-roll-word-item">INQUIRY</span>
-                <span class="footer-roll-word-item">INQUIRY</span>
+                <span class="footer-roll-word-item">{{ t('footer.inquiry') }}</span>
+                <span class="footer-roll-word-item">{{ t('footer.inquiry') }}</span>
               </span>
             </span>
             <span class="footer-bracket footer-bracket-right">]</span>
@@ -55,20 +55,20 @@
     <!-- Big name -->
     <div class="footer-name">
       <h2 ref="footerNameEl" id="chasing-gold" class="footer-name-text">
-        <span class="items__hold">AMAN</span>
+        <span class="items__hold">{{ t('footer.name') }}</span>
       </h2>
     </div>
 
     <!-- Bottom info row -->
     <div class="footer-bottom">
       <div class="footer-bottom-left">
-        <span class="oh"><span>TOKYO, JAPAN: (GMT+9) {{ currentTime }}</span></span>
+        <span class="oh"><span>{{ t('footer.location') }} {{ currentTime }}</span></span>
       </div>
       <div class="footer-bottom-center">
-        <span class="oh"><span>DESIGNING WITH CODE</span></span>
+        <span class="oh"><span>{{ t('footer.tagline') }}</span></span>
       </div>
       <div class="footer-bottom-right">
-        <span class="oh"><span>&copy; All Rights Reserved.</span></span>
+        <span class="oh"><span>&copy; {{ t('footer.rights') }}</span></span>
         <span class="oh"><span>{{ currentYear }} Aman Rai</span></span>
       </div>
     </div>
@@ -78,6 +78,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import lottie from 'lottie-web';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -87,6 +88,7 @@ const footerSectionEl = ref(null);
 const currentTime = ref('');
 const currentYear = new Date().getFullYear();
 const footerNameEl = ref(null);
+const { t } = useI18n();
 
 let waveLottieAnim = null;
 let timeInterval = null;
