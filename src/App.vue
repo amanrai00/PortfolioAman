@@ -18,13 +18,13 @@
 import Navbar from "./components/Navbar.vue";
 import Background from "./components/Background.vue";
 import ScrollIndicator from "./components/ScrollIndicator.vue";
-import Home from "./components/Home.vue";
-import Impact from "./components/Impact.vue";
-import About from "./components/About.vue";
-import Skills from "./components/Skills.vue";
-import Statement from "./components/Statement.vue";
-import Projects from "./components/Projects.vue";
-import Contact from "./components/Contact.vue";
+import Home from "./sections/Home.vue";
+import Impact from "./sections/Impact.vue";
+import About from "./sections/About.vue";
+import Skills from "./sections/Skills.vue";
+import Statement from "./sections/Statement.vue";
+import Projects from "./sections/Projects.vue";
+import Contact from "./sections/Contact.vue";
 import Footer from "./components/Footer.vue";
 </script>
 

@@ -1,37 +1,38 @@
-# .
+# Portfolio
 
-This template should help get you started developing with Vue 3 in Vite.
+Personal portfolio site built with Vue 3 + Vite + Tailwind CSS, featuring custom theming, Lottie animations, and section-based layout.
 
-## Recommended IDE Setup
+## Stack
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Vue 3
+- Vite
+- Tailwind CSS
+- GSAP
+- Lottie
+- Vue I18n (English/Japanese)
 
-## Recommended Browser Setup
+## Structure
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- `src/main.js` bootstraps the app and global styles.
+- `src/App.vue` composes the page from section components.
+- `src/sections/` holds page sections (Home, About, Skills, Projects, Contact, etc.).
+- `src/components/` holds reusable UI (Navbar, Footer, Background, ScrollIndicator).
+- `src/assets/` holds images, Lottie JSON, and theme tokens (`style.css`).
+- `src/i18n/` holds locale files.
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## Setup
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+## Development
 
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+## Production build
 
 ```sh
 npm run build

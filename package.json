@@ -18,6 +18,7 @@
     "lottie-web": "^5.13.0",
     "tailwindcss": "^4.1.18",
     "vue": "^3.5.25",
+    "vue-i18n": "^11.2.8",
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
