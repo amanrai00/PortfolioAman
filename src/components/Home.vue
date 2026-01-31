@@ -140,6 +140,11 @@ import { useI18n } from "vue-i18n";
 // ============================================================
 
 const sectionIds = ["home", "about", "statement", "contact"];
+const WORD_ROTATE_MS = 900;
+const HERO_REVEAL_LOCK_MS = 1500;
+const CONTACT_FADE_MOBILE_MULTIPLIER = 7;
+const DESKTOP_BREAKPOINT = 1024;
+const TABLET_MAX = 768;
 const words = [
   "Engineer",
   "Designer",
@@ -164,8 +169,8 @@ const heroVisible = ref(false);
 const scrollSlide = ref(0);
 const isContactFading = ref(false);
 const isHomeNavDimmed = ref(true);
-const heroTextEl = ref(null);
 const heroEffectsStarted = ref(false);
+const heroTextEl = ref(null);
 const heroNavEl = ref(null);
 const heroScrollEl = ref(null);
 
@@ -203,7 +208,9 @@ const updateActiveIndex = () => {
   const contactEl = document.getElementById("contact");
   if (contactEl) {
     const triggerOffset =
-      window.innerWidth <= 768 ? window.innerHeight * 7 : window.innerHeight;
+      window.innerWidth <= TABLET_MAX
+        ? window.innerHeight * CONTACT_FADE_MOBILE_MULTIPLIER
+        : window.innerHeight;
     isContactFading.value = scrollY + triggerOffset >= contactEl.offsetTop;
   }
 };
@@ -218,7 +225,7 @@ const scrollToSection = (sectionId) => {
 
   // Special handling for about section
   if (sectionId === "about") {
-    if (window.innerWidth < 1024) {
+    if (window.innerWidth < DESKTOP_BREAKPOINT) {
       sectionEl.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
@@ -227,6 +234,13 @@ const scrollToSection = (sectionId) => {
   }
 
   sectionEl.scrollIntoView({ behavior: "auto" });
+};
+
+const triggerHeroReveal = () => {
+  heroVisible.value = false;
+  requestAnimationFrame(() => {
+    heroVisible.value = true;
+  });
 };
 
 // ============================================================
@@ -243,7 +257,7 @@ onMounted(() => {
     timerId = setInterval(() => {
       wordIndex = (wordIndex + 1) % words.length;
       currentWord.value = words[wordIndex];
-    }, 900);
+    }, WORD_ROTATE_MS);
 
     // Setup scroll tracking
     scrollHandler = () => updateActiveIndex();
@@ -259,14 +273,11 @@ onMounted(() => {
             if (heroAnimating) return;
             heroAnimating = true;
             hasAnimated = true;
-            heroVisible.value = false;
-            requestAnimationFrame(() => {
-              heroVisible.value = true;
-            });
+            triggerHeroReveal();
             if (heroTimerId) clearTimeout(heroTimerId);
             heroTimerId = setTimeout(() => {
               heroAnimating = false;
-            }, 1500);
+            }, HERO_REVEAL_LOCK_MS);
           }
         });
       },
@@ -278,10 +289,7 @@ onMounted(() => {
       const rect = heroSection.getBoundingClientRect();
       const isInView = rect.top < window.innerHeight && rect.bottom > 0;
       if (isInView && !hasAnimated) {
-        heroVisible.value = false;
-        requestAnimationFrame(() => {
-          heroVisible.value = true;
-        });
+        triggerHeroReveal();
         hasAnimated = true;
       }
     }
@@ -313,10 +321,8 @@ onMounted(() => {
       );
     }
     introTl.call(() => {
-      heroVisible.value = false;
-      requestAnimationFrame(() => {
-        heroVisible.value = true;
-      });
+      // Keep reveal synced to the intro timeline before the observer takes over.
+      triggerHeroReveal();
       hasAnimated = true;
     }, null, 1);
   } else {
