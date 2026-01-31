@@ -31,10 +31,10 @@
 </template>
 
 <script setup>
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const statementSection = ref(null);
 const statementText = ref(null);
@@ -130,7 +130,6 @@ onUnmounted(() => {
   overflow: hidden;
 }
 
-/* Divider lines at top */
 .statement-divider {
   display: flex;
   align-items: center;
@@ -283,7 +282,6 @@ onUnmounted(() => {
   text-stroke: 0 transparent;
 }
 
-/* Dark theme */
 :global([data-theme="dark"]) {
   --statement-line-color: var(--theme-line-soft);
   --statement-outline-color: rgba(255, 255, 255, 0.25);
@@ -291,7 +289,6 @@ onUnmounted(() => {
   --statement-showcase-hover-fill: #f2f0ea;
 }
 
-/* Light theme */
 :global([data-theme="light"]) {
   --statement-line-color: var(--theme-line-soft);
   --statement-outline-color: rgba(15, 23, 42, 0.3);
@@ -307,7 +304,6 @@ onUnmounted(() => {
   --statement-showcase-hover-fill: #f4f1eb;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .statement-section {
     padding: 4rem 1rem;
