@@ -1,18 +1,15 @@
 <template>
-  <!-- Skills Section -->
   <section
     id="skills"
     ref="skillsSection"
     class="relative px-5 lg:px-28 py-24 lg:py-32"
   >
     <div class="mx-auto w-full max-w-4xl text-center">
-      <!-- Section Title with Background Text -->
       <div class="relative mb-8">
         <span ref="skillsBg" class="skills-bg-text">{{ t('skills.bgText') }}</span>
         <h2 ref="skillsTitle" class="skills-title">{{ t('skills.title') }}</h2>
       </div>
 
-      <!-- Decorative Arrow Divider -->
       <div ref="skillsDivider" class="flex items-center justify-center mt-20 mb-6">
         <svg
           class="skills-divider-svg"
@@ -20,39 +17,28 @@
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <!-- Left Arrow -->
           <path d="M8 12L2 8V16L8 12Z" class="divider-fill divider-edge" />
           <path d="M8 12L20 8V16L8 12Z" class="divider-fill divider-edge" />
 
-          <!-- Left Line -->
           <line x1="20" y1="12" x2="170" y2="12" class="divider-stroke divider-edge" stroke-width="1" />
 
-          <!-- Left Diagonal -->
           <line x1="170" y1="12" x2="185" y2="4" class="divider-stroke" stroke-width="1" />
           <line x1="170" y1="12" x2="185" y2="20" class="divider-stroke" stroke-width="1" />
 
-          <!-- Center X -->
           <line x1="185" y1="4" x2="215" y2="20" class="divider-stroke" stroke-width="1" />
           <line x1="185" y1="20" x2="215" y2="4" class="divider-stroke" stroke-width="1" />
 
-          <!-- Right Diagonal -->
           <line x1="215" y1="4" x2="230" y2="12" class="divider-stroke" stroke-width="1" />
           <line x1="215" y1="20" x2="230" y2="12" class="divider-stroke" stroke-width="1" />
 
-          <!-- Right Line -->
           <line x1="230" y1="12" x2="380" y2="12" class="divider-stroke divider-edge" stroke-width="1" />
 
-          <!-- Right Arrow -->
           <path d="M392 12L398 8V16L392 12Z" class="divider-fill divider-edge" />
           <path d="M392 12L380 8V16L392 12Z" class="divider-fill divider-edge" />
         </svg>
       </div>
 
-      <!-- Tagline with Flip Animation -->
-      <div
-        ref="skillsTagline"
-        class="tagline-container mt-10 mb-16"
-      >
+      <div ref="skillsTagline" class="tagline-container mt-10 mb-16">
         <span class="tagline-static">{{ t('skills.taglineStatic') }}</span>
         <div class="flip-container">
           <div class="flip-content">
@@ -63,7 +49,6 @@
         </div>
       </div>
 
-      <!-- Skills Tags -->
       <div class="flex flex-wrap justify-center gap-3 md:gap-4">
         <div
           v-for="skill in skills"
@@ -84,10 +69,10 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const { t, tm } = useI18n();
 
@@ -117,7 +102,6 @@ const flipWords = computed(() => {
   return mapped;
 });
 
-// Skills Data with CDN icons
 const skills = [
   { name: 'HTML', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
   { name: 'CSS', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' },
@@ -147,15 +131,21 @@ let skillsGridTimeline = null;
 onMounted(() => {
   gsap.registerPlugin(ScrollTrigger);
 
-  if (!skillsSection.value) return;
+  const sectionEl = skillsSection.value;
+  const titleEl = skillsTitle.value;
+  const bgEl = skillsBg.value;
+  const dividerEl = skillsDivider.value;
+  const taglineEl = skillsTagline.value;
 
-  gsap.set([skillsTitle.value, skillsBg.value], {
+  if (!sectionEl || !titleEl || !bgEl || !dividerEl || !taglineEl) return;
+
+  gsap.set([titleEl, bgEl], {
     opacity: 0,
     y: 28,
     filter: 'blur(6px)'
   });
 
-  gsap.set([skillsDivider.value, skillsTagline.value], {
+  gsap.set([dividerEl, taglineEl], {
     opacity: 0,
     y: 18,
     filter: 'blur(4px)'
@@ -163,21 +153,21 @@ onMounted(() => {
 
   skillsTimeline = gsap.timeline({
     scrollTrigger: {
-      trigger: skillsSection.value,
+      trigger: sectionEl,
       start: 'top 50%',
       toggleActions: 'play none none none'
     }
   });
 
   skillsTimeline
-    .to(skillsBg.value, {
+    .to(bgEl, {
       opacity: 0.08,
       y: 0,
       filter: 'blur(10px)',
       duration: 1.1,
       ease: 'power3.out'
     })
-    .to(skillsTitle.value, {
+    .to(titleEl, {
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
@@ -185,18 +175,16 @@ onMounted(() => {
       ease: 'power3.out'
     }, 0.15)
     .add(() => {
-      if (skillsTagline.value) {
-        skillsTagline.value.classList.add('is-visible');
-      }
+      taglineEl.classList.add('is-visible');
     }, 0.35)
-    .to(skillsDivider.value, {
+    .to(dividerEl, {
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
       duration: 0.7,
       ease: 'power3.out'
     }, 0.35)
-    .to(skillsTagline.value, {
+    .to(taglineEl, {
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
@@ -204,12 +192,12 @@ onMounted(() => {
       ease: 'power3.out'
     }, 0.45);
 
-  const skillTags = skillsSection.value.querySelectorAll('.skill-tag');
+  const skillTags = sectionEl.querySelectorAll('.skill-tag');
   if (skillTags.length) {
     gsap.set(skillTags, { opacity: 0, scale: 0.1, y: 40 });
     skillsGridTimeline = gsap.timeline({
       scrollTrigger: {
-        trigger: skillsSection.value,
+        trigger: sectionEl,
         start: 'top 70%',
         toggleActions: 'play none none none'
       }
@@ -244,9 +232,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* ============================================================
-   Background Text (Large "SKILLS" behind title)
-   ============================================================ */
 .skills-bg-text {
   position: absolute;
   top: 50%;
@@ -264,9 +249,6 @@ onUnmounted(() => {
   filter: blur(10px);
 }
 
-/* ============================================================
-   Section Title
-   ============================================================ */
 .skills-title {
   position: relative;
   font-size: clamp(2.5rem, 5vw, 4rem);
@@ -275,9 +257,6 @@ onUnmounted(() => {
   z-index: 1;
 }
 
-/* ============================================================
-   Arrow Divider
-   ============================================================ */
 .skills-divider-svg {
   width: clamp(280px, 50vw, 400px);
   height: 24px;
@@ -291,15 +270,10 @@ onUnmounted(() => {
   fill: var(--theme-line-strong);
 }
 
-/* Theme-specific overrides removed to match shared line color */
-
 .divider-edge {
   opacity: 0.08;
 }
 
-/* ============================================================
-   Tagline with Flip Animation
-   ============================================================ */
 .tagline-container {
   display: flex;
   align-items: center;
@@ -380,23 +354,13 @@ onUnmounted(() => {
   animation-play-state: running;
 }
 
-:deep([data-theme="light"]) {
+:deep([data-theme]) {
   --skills-flip-bg-1: color-mix(in srgb, var(--theme-cta-bg) 45%, var(--theme-bg) 55%);
   --skills-flip-bg-2: color-mix(in srgb, var(--theme-cta-bg) 40%, var(--theme-bg) 60%);
   --skills-flip-bg-3: color-mix(in srgb, var(--theme-cta-bg) 35%, var(--theme-bg) 65%);
   --skills-flip-bg-4: color-mix(in srgb, var(--theme-cta-bg) 30%, var(--theme-bg) 70%);
 }
 
-:deep([data-theme="dark"]) {
-  --skills-flip-bg-1: color-mix(in srgb, var(--theme-cta-bg) 45%, var(--theme-bg) 55%);
-  --skills-flip-bg-2: color-mix(in srgb, var(--theme-cta-bg) 40%, var(--theme-bg) 60%);
-  --skills-flip-bg-3: color-mix(in srgb, var(--theme-cta-bg) 35%, var(--theme-bg) 65%);
-  --skills-flip-bg-4: color-mix(in srgb, var(--theme-cta-bg) 30%, var(--theme-bg) 70%);
-}
-
-/* ============================================================
-   Skill Tag (Pill Style)
-   ============================================================ */
 .skill-tag {
   display: inline-flex;
   align-items: center;
@@ -420,9 +384,6 @@ onUnmounted(() => {
   white-space: nowrap;
 }
 
-/* ============================================================
-   Dark Theme Adjustments
-   ============================================================ */
 :deep([data-theme="dark"]) .skill-tag {
   background: rgba(30, 35, 45, 0.8);
   border-color: rgba(255, 255, 255, 0.1);
@@ -437,9 +398,6 @@ onUnmounted(() => {
   opacity: 0.04;
 }
 
-/* ============================================================
-   Light Theme Adjustments
-   ============================================================ */
 :deep([data-theme="light"]) .skill-tag {
   background: rgba(255, 255, 255, 0.65);
   border-color: rgba(0, 0, 0, 0.08);
@@ -454,7 +412,6 @@ onUnmounted(() => {
   opacity: 0.05;
 }
 
-/* Invert icons that need it in light mode */
 :deep([data-theme="light"]) .skill-tag img[alt="GitHub"],
 :deep([data-theme="light"]) .skill-tag img[alt="Vercel"],
 :deep([data-theme="light"]) .skill-tag img[alt="NextJS"],
