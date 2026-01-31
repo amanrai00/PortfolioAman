@@ -32,7 +32,7 @@
                 :key="item.id"
                 class="group"
               >
-                <button class="nav-link text-[16.5px] lg:text-[17.5px] tracking-wide font-semibold hover:text-[color:var(--theme-text-hover)] transition-colors cursor-pointer" @click="scrollToSection(item.id)">
+                <button class="nav-link text-[16.5px] lg:text-[17.5px] tracking-wide font-semibold hover:text-[color:var(--theme-text-hover)] transition-colors cursor-pointer" @click="scrollToSection(item.targetId ?? item.id)">
                   {{ item.label }}
                 </button>
                 <span class="nav-underline mt-1 block h-[2.5px] w-0 bg-[color:var(--theme-text-strong)] transition-all duration-300 group-hover:w-full"></span>
@@ -294,16 +294,13 @@ const isReady = ref(false);
 const isDark = ref(true);
 
 const sections = [
-  { id: "impact", label: "Impact" },
   { id: "about", label: "About" },
-  { id: "skills", label: "Skills" },
-  { id: "projects", label: "Projects" },
+  { id: "projects", label: "Projects", targetId: "statement" },
   { id: "contact", label: "Contact" },
 ];
 
 const mobileSections = [
   { id: "home", label: "Home", targetId: "home" },
-  { id: "impact", label: "Impact", targetId: "impact" },
   { id: "about", label: "About", targetId: "about" },
   { id: "projects", label: "Projects", targetId: "statement" },
   { id: "contact", label: "Contact", targetId: "contact" },

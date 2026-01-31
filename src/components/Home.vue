@@ -75,7 +75,7 @@
                 @click="scrollToSection('about')"
                 aria-label="Scroll to about section"
               >
-                {{ t('home.cta') }}
+                自己紹介を見る
               </button>
             </div>
           </div>
