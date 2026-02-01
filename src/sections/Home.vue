@@ -35,7 +35,7 @@
           <span class="block min-h-[2.85rem] overflow-hidden sm:min-h-[3.8rem] lg:min-h-[4.275rem]">
             <span
               :key="currentWord"
-              class="inline-block w-full text-center whitespace-nowrap word-rotator text-7xl bg-gradient-to-b from-[color:var(--theme-headline-from)] via-[color:var(--theme-headline-via)] to-[color:var(--theme-headline-to)] text-transparent bg-clip-text sm:text-7xl lg:text-[6.5rem] tracking-[0.18em]"
+              class="inline-block w-full max-w-full text-center whitespace-nowrap word-rotator text-[clamp(2.6rem,12vw,3.4rem)] bg-gradient-to-b from-[color:var(--theme-headline-from)] via-[color:var(--theme-headline-via)] to-[color:var(--theme-headline-to)] text-transparent bg-clip-text sm:text-7xl lg:text-[6.5rem] tracking-[0.08em] sm:tracking-[0.18em]"
             >
               {{ currentWord }}
             </span>
