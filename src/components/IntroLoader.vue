@@ -30,7 +30,7 @@ const props = defineProps({
   },
   snapOutDuration: {
     type: Number,
-    default: 650,
+    default: 800,
   },
 });
 
@@ -116,9 +116,9 @@ const createCanvasAnimation = (canvas) => {
       }
 
       if (snapOutActive) {
-        this.speed += 0.04;
-        this.opacity -= 0.035;
-        this.size = Math.max(0, this.size - 0.35);
+        this.speed += 0.03;
+        this.opacity -= 0.028;
+        this.size = Math.max(0, this.size - 0.28);
       } else {
         if (this.speed < this.maxSpeed) {
           this.speed += 0.01;
