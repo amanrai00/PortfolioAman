@@ -1,5 +1,5 @@
 <template>
-
+  <IntroLoader v-if="showLoader" title="Entity" @done="showLoader = false" />
   <ScrollIndicator />
   <Background />
   <Navbar />
@@ -15,9 +15,11 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import Navbar from "./components/Navbar.vue";
 import Background from "./components/Background.vue";
 import ScrollIndicator from "./components/ScrollIndicator.vue";
+import IntroLoader from "./components/IntroLoader.vue";
 import Home from "./sections/Home.vue";
 import Impact from "./sections/Impact.vue";
 import About from "./sections/About.vue";
@@ -26,6 +28,8 @@ import Statement from "./sections/Statement.vue";
 import Projects from "./sections/Projects.vue";
 import Contact from "./sections/Contact.vue";
 import Footer from "./components/Footer.vue";
+
+const showLoader = ref(true);
 </script>
 
 <style>
