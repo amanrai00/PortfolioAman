@@ -53,7 +53,7 @@ html {
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --theme-bg: #0a0a0b;
+  --theme-bg: #040404;
   --theme-bg-gradient: none;
   --theme-nav-bg: rgba(10, 10, 11, 0.45);
   --theme-bg-overlay: rgba(0, 0, 0, 0.45);
