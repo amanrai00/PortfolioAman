@@ -248,6 +248,8 @@ const finishIntro = () => {
 
 const scheduleReveal = () => {
   const snapOutStart = Math.max(0, props.duration - props.fadeDuration - props.snapOutDuration);
+  const isSmallScreen = window.innerWidth <= 640;
+  const snapOutHold = isSmallScreen ? 1 : 0.55;
   scheduleTimeout(() => {
     setSnapOut(true);
   }, snapOutStart);
@@ -259,7 +261,7 @@ const scheduleReveal = () => {
     scheduleTimeout(() => {
       finishIntro();
     }, props.fadeDuration);
-  }, snapOutStart + Math.round(props.snapOutDuration * 0.55));
+  }, snapOutStart + Math.round(props.snapOutDuration * snapOutHold));
 };
 
 const clearCanvas = (canvas) => {
