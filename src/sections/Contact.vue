@@ -2,7 +2,7 @@
   <div id="contact" ref="contactWrapper" class="contact-wrapper">
     <section
       ref="contactSection"
-      class="contact-section relative min-h-screen overflow-hidden"
+      class="contact-section relative min-h-screen overflow-hidden is-offscreen"
       :class="isJa ? 'is-ja' : ''"
     >
       <div class="contact-bg absolute inset-0 z-0" aria-hidden="true">
@@ -95,6 +95,11 @@ let mediaMatch = null;
 let lottieObserver = null;
 let isLottiePlaying = false;
 let scrollResumeTimer = null;
+let mountToken = 0;
+let wrapperObserver = null;
+let isWrapperVisible = false;
+let wasWrapperVisible = false;
+let isMobileLayout = false;
 
 const resetForm = () => {
   formState.value = {
@@ -120,11 +125,13 @@ const handleSubmit = () => {
 };
 
 onMounted(async () => {
+  const currentMount = ++mountToken;
   const [{ default: gsap }, { ScrollTrigger }, { default: lottie }] = await Promise.all([
     import('gsap'),
     import('gsap/ScrollTrigger'),
     import('lottie-web'),
   ]);
+  if (currentMount !== mountToken) return;
   gsap.registerPlugin(ScrollTrigger);
 
   const wrapperEl = contactWrapper.value;
@@ -136,10 +143,11 @@ onMounted(async () => {
   // (GSAP docs: "Do NOT set scroll-behavior: smooth with ScrollTrigger")
   document.documentElement.style.scrollBehavior = 'auto';
 
-  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  isMobileLayout = window.matchMedia('(max-width: 768px)').matches;
 
   // Load wavy lottie animation
   const wavyModule = await import('@/assets/lottie/wavy.json');
+  if (currentMount !== mountToken) return;
   const wavyData = wavyModule?.default ?? wavyModule;
   lottieAnim = lottie.loadAnimation({
     container: lottieContainer,
@@ -153,26 +161,41 @@ onMounted(async () => {
     },
   });
 
-  lottieAnim.setSpeed(isMobile ? 0.4 : 0.5);
+  lottieAnim.setSpeed(isMobileLayout ? 0.4 : 0.5);
   lottieAnim.setSubframe(false);
-  if (isMobile) {
-    lottieAnim.pause();
-    lottieObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            lottieAnim?.play();
-            isLottiePlaying = true;
-          } else {
-            lottieAnim?.pause();
-            isLottiePlaying = false;
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    lottieObserver.observe(sectionEl);
-  }
+  lottieAnim.pause();
+
+  const updateLottiePlayback = () => {
+    if (!lottieAnim) return;
+    const exitProgress = exitTween?.scrollTrigger?.progress ?? 0;
+    const shouldPlay = isWrapperVisible && exitProgress < 1;
+
+    if (shouldPlay && !isLottiePlaying) {
+      lottieAnim.play();
+      isLottiePlaying = true;
+      return;
+    }
+    if (!shouldPlay && isLottiePlaying) {
+      lottieAnim.pause();
+      isLottiePlaying = false;
+    }
+  };
+
+  wrapperObserver = new IntersectionObserver(
+    (entries) => {
+      const isVisible = entries.some((entry) => entry.isIntersecting);
+      isWrapperVisible = isVisible;
+      sectionEl.classList.toggle('is-offscreen', !isVisible);
+      if (isVisible && !wasWrapperVisible && lottieAnim) {
+        lottieAnim.goToAndPlay(0, true);
+        isLottiePlaying = true;
+      }
+      wasWrapperVisible = isVisible;
+      updateLottiePlayback();
+    },
+    { threshold: 0.1 }
+  );
+  wrapperObserver.observe(wrapperEl);
 
   // Pause lottie canvas during scroll to prevent main-thread contention
   const pauseLottieDuringScroll = () => {
@@ -182,12 +205,7 @@ onMounted(async () => {
     }
     clearTimeout(scrollResumeTimer);
     scrollResumeTimer = setTimeout(() => {
-      const exitProgress = exitTween?.scrollTrigger?.progress ?? 0;
-      const revealProgress = revealTween?.scrollTrigger?.progress ?? 0;
-      if (revealProgress > 0 && exitProgress < 1 && !isLottiePlaying) {
-        lottieAnim?.play();
-        isLottiePlaying = true;
-      }
+      updateLottiePlayback();
     }, 150);
   };
 
@@ -267,9 +285,20 @@ onMounted(async () => {
       killExit?.();
     };
   });
+
+  requestAnimationFrame(() => {
+    ScrollTrigger.refresh();
+    updateLottiePlayback();
+    window.setTimeout(updateLottiePlayback, 250);
+  });
+
+  lottieAnim.addEventListener('DOMLoaded', () => {
+    updateLottiePlayback();
+  });
 });
 
 onUnmounted(() => {
+  mountToken += 1;
   if (lottieAnim) {
     lottieAnim.destroy();
     lottieAnim = null;
@@ -283,6 +312,12 @@ onUnmounted(() => {
     lottieObserver.disconnect();
     lottieObserver = null;
   }
+  if (wrapperObserver) {
+    wrapperObserver.disconnect();
+    wrapperObserver = null;
+  }
+  isWrapperVisible = false;
+  wasWrapperVisible = false;
 
   if (revealTween) {
     revealTween.kill();
@@ -321,6 +356,11 @@ onUnmounted(() => {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.contact-section.is-offscreen {
+  visibility: hidden;
+  opacity: 0;
 }
 
 .contact-bg {
