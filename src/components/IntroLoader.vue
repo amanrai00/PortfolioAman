@@ -26,7 +26,11 @@ const props = defineProps({
   },
   fadeDuration: {
     type: Number,
-    default: 700,
+    default: 400,
+  },
+  snapOutDuration: {
+    type: Number,
+    default: 650,
   },
 });
 
@@ -36,7 +40,6 @@ const canvasEl = ref(null);
 const isVisible = ref(true);
 const isFading = ref(false);
 const isReady = ref(false);
-
 let rafId = 0;
 let resizeHandler = null;
 let animationCleanup = null;
@@ -48,27 +51,13 @@ const scheduleTimeout = (handler, delay) => {
   timeouts.push(id);
 };
 
-const finishIntro = () => {
-  if (!isVisible.value) return;
-  isVisible.value = false;
-  if (animationCleanup) {
-    animationCleanup();
-    animationCleanup = null;
-  }
-  if (resizeHandler) {
-    window.removeEventListener("resize", resizeHandler);
-    resizeHandler = null;
-  }
-  document.body.style.overflow = previousOverflow;
-  emit("done");
-};
-
 const createCanvasAnimation = (canvas) => {
   const ctx = canvas.getContext("2d");
   let width = document.documentElement.clientWidth;
   let height = document.documentElement.clientHeight;
   let dots = [];
   let currentDotCount = 0;
+  let snapOutActive = false;
 
   const startDotCount = width > 640 ? 280 : 200;
   const amplitude = 380;
@@ -119,17 +108,24 @@ const createCanvasAnimation = (canvas) => {
       const y = this._getYPos();
       const pos = this.x * 2 * this.section;
       const isOffScreenX = x >= width + this.size / 2;
+      const isOffScreenY = y <= 0 - this.size;
       const hasEndFunc = typeof this.endFunc !== "undefined";
 
-      if (isOffScreenX && hasEndFunc) {
+      if (isOffScreenX && hasEndFunc && !snapOutActive) {
         this.endFunc.call();
       }
 
-      if (this.speed < this.maxSpeed) {
-        this.speed += 0.01;
-      }
-      if (this.opacity < 1) {
-        this.opacity += 0.02;
+      if (snapOutActive) {
+        this.speed += 0.04;
+        this.opacity -= 0.035;
+        this.size = Math.max(0, this.size - 0.35);
+      } else {
+        if (this.speed < this.maxSpeed) {
+          this.speed += 0.01;
+        }
+        if (this.opacity < 1) {
+          this.opacity += 0.02;
+        }
       }
 
       if (this.size < this.maxSize / 3) {
@@ -140,6 +136,12 @@ const createCanvasAnimation = (canvas) => {
       }
 
       this.x += this.speed;
+
+      if (snapOutActive && (this.opacity <= 0 || this.size <= 0 || isOffScreenY)) {
+        dots.splice(dots.indexOf(this), 1);
+        currentDotCount -= 1;
+        return;
+      }
 
       this.ctx.fillStyle = `rgba(${this.color.join(",")}, ${this.opacity})`;
       this.ctx.beginPath();
@@ -198,11 +200,87 @@ const createCanvasAnimation = (canvas) => {
   createDots();
   draw();
 
-  return () => {
-    if (rafId) {
-      window.cancelAnimationFrame(rafId);
-    }
+  const setSnapOut = (active) => {
+    snapOutActive = active;
   };
+
+  return {
+    stop: () => {
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+      }
+    },
+    setSnapOut,
+  };
+};
+
+const stopAnimation = () => {
+  if (!animationCleanup) return;
+  animationCleanup.stop();
+};
+
+const setSnapOut = (active) => {
+  if (!animationCleanup) return;
+  animationCleanup.setSnapOut(active);
+};
+
+const createAnimation = (canvas) => {
+  animationCleanup = createCanvasAnimation(canvas);
+};
+
+const cleanupAnimation = () => {
+  if (!animationCleanup) return;
+  animationCleanup.stop();
+  animationCleanup = null;
+};
+
+const finishIntro = () => {
+  if (!isVisible.value) return;
+  isVisible.value = false;
+  cleanupAnimation();
+  if (resizeHandler) {
+    window.removeEventListener("resize", resizeHandler);
+    resizeHandler = null;
+  }
+  document.body.style.overflow = previousOverflow;
+  emit("done");
+};
+
+const scheduleReveal = () => {
+  const snapOutStart = Math.max(0, props.duration - props.fadeDuration - props.snapOutDuration);
+  scheduleTimeout(() => {
+    setSnapOut(true);
+  }, snapOutStart);
+
+  scheduleTimeout(() => {
+    stopAnimation();
+    isFading.value = true;
+    scheduleTimeout(() => {
+      finishIntro();
+    }, props.fadeDuration);
+  }, snapOutStart + Math.round(props.snapOutDuration * 0.55));
+};
+
+const clearCanvas = (canvas) => {
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+};
+
+const handleResize = () => {
+  if (!canvasEl.value) return;
+  clearCanvas(canvasEl.value);
+};
+
+const setupResize = () => {
+  resizeHandler = handleResize;
+  window.addEventListener("resize", resizeHandler, { passive: true });
+};
+
+const teardownResize = () => {
+  if (!resizeHandler) return;
+  window.removeEventListener("resize", resizeHandler);
+  resizeHandler = null;
 };
 
 onMounted(() => {
@@ -210,44 +288,22 @@ onMounted(() => {
   document.body.style.overflow = "hidden";
 
   if (canvasEl.value) {
-    animationCleanup = createCanvasAnimation(canvasEl.value);
+    createAnimation(canvasEl.value);
   }
 
   requestAnimationFrame(() => {
     isReady.value = true;
   });
 
-  const fadeStart = Math.max(0, props.duration - props.fadeDuration);
-  scheduleTimeout(() => {
-    isFading.value = true;
-  }, fadeStart);
-
-  scheduleTimeout(() => {
-    finishIntro();
-  }, props.duration);
-
-  resizeHandler = () => {
-    if (!canvasEl.value) return;
-    const ctx = canvasEl.value.getContext("2d");
-    if (!ctx) return;
-    ctx.clearRect(0, 0, canvasEl.value.width, canvasEl.value.height);
-  };
-
-  window.addEventListener("resize", resizeHandler, { passive: true });
+  scheduleReveal();
+  setupResize();
 });
 
 onBeforeUnmount(() => {
-  if (resizeHandler) {
-    window.removeEventListener("resize", resizeHandler);
-  }
-
-  if (animationCleanup) {
-    animationCleanup();
-  }
-
+  teardownResize();
+  cleanupAnimation();
   timeouts.forEach((timeoutId) => window.clearTimeout(timeoutId));
   timeouts = [];
-
   document.body.style.overflow = previousOverflow;
 });
 </script>
@@ -262,14 +318,14 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  transition: opacity 520ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 400ms ease, transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
   transform: scale(1);
   transform-origin: center;
 }
 
 .intro-loader--fade {
   opacity: 0;
-  transform: scale(1.12);
+  transform: scale(1.25);
   pointer-events: none;
 }
 
@@ -294,8 +350,7 @@ onBeforeUnmount(() => {
 
 .intro-title--animate {
   animation: intro-pop 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards,
-    intro-fade 700ms ease forwards 2200ms,
-    intro-zoom-out 520ms cubic-bezier(0.22, 1, 0.36, 1) forwards 3000ms;
+    intro-fade 700ms ease forwards 2200ms;
 }
 
 @keyframes intro-pop {
@@ -320,10 +375,4 @@ onBeforeUnmount(() => {
   }
 }
 
-@keyframes intro-zoom-out {
-  to {
-    transform: translateY(-10px) scale(1.25);
-    opacity: 0;
-  }
-}
 </style>
