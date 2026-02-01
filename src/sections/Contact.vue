@@ -6,7 +6,7 @@
       :class="isJa ? 'is-ja' : ''"
     >
       <div class="contact-bg absolute inset-0 z-0" aria-hidden="true">
-        <div ref="lottieEl" class="contact-lottie w-full h-full"></div>
+        <img :src="contactBgImage" alt="" class="contact-bg-image" />
         <div class="contact-overlay"></div>
       </div>
 
@@ -72,10 +72,10 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onBeforeUnmount, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import contactBgImage from '@/assets/contact bg.jpg';
 
-const lottieEl = ref(null);
 const contactWrapper = ref(null);
 const contactSection = ref(null);
 const { t, locale } = useI18n();
@@ -88,18 +88,13 @@ const formState = ref({
   message: '',
 });
 
-let lottieAnim = null;
 let revealTween = null;
 let exitTween = null;
 let mediaMatch = null;
-let lottieObserver = null;
-let isLottiePlaying = false;
-let scrollResumeTimer = null;
 let mountToken = 0;
 let wrapperObserver = null;
 let isWrapperVisible = false;
 let wasWrapperVisible = false;
-let isMobileLayout = false;
 
 const resetForm = () => {
   formState.value = {
@@ -126,91 +121,32 @@ const handleSubmit = () => {
 
 onMounted(async () => {
   const currentMount = ++mountToken;
-  const [{ default: gsap }, { ScrollTrigger }, { default: lottie }] = await Promise.all([
+
+  const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
     import('gsap'),
     import('gsap/ScrollTrigger'),
-    import('lottie-web'),
   ]);
   if (currentMount !== mountToken) return;
   gsap.registerPlugin(ScrollTrigger);
 
   const wrapperEl = contactWrapper.value;
   const sectionEl = contactSection.value;
-  const lottieContainer = lottieEl.value;
-  if (!wrapperEl || !sectionEl || !lottieContainer) return;
+  if (!wrapperEl || !sectionEl) return;
 
-  // scroll-behavior: smooth conflicts with ScrollTrigger scrub animations
-  // (GSAP docs: "Do NOT set scroll-behavior: smooth with ScrollTrigger")
   document.documentElement.style.scrollBehavior = 'auto';
-
-  isMobileLayout = window.matchMedia('(max-width: 768px)').matches;
-
-  // Load wavy lottie animation
-  const wavyModule = await import('@/assets/lottie/wavy.json');
-  if (currentMount !== mountToken) return;
-  const wavyData = wavyModule?.default ?? wavyModule;
-  lottieAnim = lottie.loadAnimation({
-    container: lottieContainer,
-    renderer: 'canvas',
-    loop: true,
-    autoplay: false,
-    animationData: wavyData,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-      progressiveLoad: true,
-    },
-  });
-
-  lottieAnim.setSpeed(isMobileLayout ? 0.4 : 0.5);
-  lottieAnim.setSubframe(false);
-  lottieAnim.pause();
-
-  const updateLottiePlayback = () => {
-    if (!lottieAnim) return;
-    const exitProgress = exitTween?.scrollTrigger?.progress ?? 0;
-    const shouldPlay = isWrapperVisible && exitProgress < 1;
-
-    if (shouldPlay && !isLottiePlaying) {
-      lottieAnim.play();
-      isLottiePlaying = true;
-      return;
-    }
-    if (!shouldPlay && isLottiePlaying) {
-      lottieAnim.pause();
-      isLottiePlaying = false;
-    }
-  };
 
   wrapperObserver = new IntersectionObserver(
     (entries) => {
       const isVisible = entries.some((entry) => entry.isIntersecting);
       isWrapperVisible = isVisible;
       sectionEl.classList.toggle('is-offscreen', !isVisible);
-      if (isVisible && !wasWrapperVisible && lottieAnim) {
-        lottieAnim.goToAndPlay(0, true);
-        isLottiePlaying = true;
-      }
       wasWrapperVisible = isVisible;
-      updateLottiePlayback();
     },
     { threshold: 0.1 }
   );
   wrapperObserver.observe(wrapperEl);
 
-  // Pause lottie canvas during scroll to prevent main-thread contention
-  const pauseLottieDuringScroll = () => {
-    if (isLottiePlaying) {
-      lottieAnim?.pause();
-      isLottiePlaying = false;
-    }
-    clearTimeout(scrollResumeTimer);
-    scrollResumeTimer = setTimeout(() => {
-      updateLottiePlayback();
-    }, 150);
-  };
-
   const createScrollTrigger = (initialClip, triggerStart, triggerEnd = 'bottom bottom') => {
-    // Reveal animation driven by a GSAP tween for smooth interpolation
     revealTween = gsap.fromTo(sectionEl,
       { clipPath: `inset(${initialClip}% 0 0 0)` },
       {
@@ -222,16 +158,6 @@ onMounted(async () => {
           end: triggerEnd,
           scrub: true,
           invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            const clipValue = initialClip - (self.progress * initialClip);
-            if (clipValue < 100) {
-              pauseLottieDuringScroll();
-            } else if (isLottiePlaying) {
-              lottieAnim?.pause();
-              isLottiePlaying = false;
-              clearTimeout(scrollResumeTimer);
-            }
-          },
         },
       }
     );
@@ -257,9 +183,6 @@ onMounted(async () => {
         end: 'top top',
         scrub: true,
         invalidateOnRefresh: true,
-        onUpdate: () => {
-          pauseLottieDuringScroll();
-        },
       },
     });
 
@@ -272,63 +195,51 @@ onMounted(async () => {
     };
   };
 
-  mediaMatch = ScrollTrigger.matchMedia();
-  mediaMatch.add('(max-width: 768px)', () =>
-    createScrollTrigger(70, 'top 700%')
-  );
-  mediaMatch.add('(min-width: 769px)', () => {
-    const killReveal = createScrollTrigger(100, 'top bottom', () => `top+=${window.innerHeight}px bottom`);
-    const killExit = createExitScroll();
+  const isMobileLayout = window.matchMedia('(max-width: 768px)').matches;
 
-    return () => {
-      killReveal?.();
-      killExit?.();
-    };
-  });
+  if (isMobileLayout) {
+    createScrollTrigger(70, 'top 700%');
+  } else {
+    mediaMatch = ScrollTrigger.matchMedia();
+    mediaMatch.add('(min-width: 769px)', () => {
+      const killReveal = createScrollTrigger(100, 'top bottom', () => `top+=${window.innerHeight}px bottom`);
+      const killExit = createExitScroll();
+
+      return () => {
+        killReveal?.();
+        killExit?.();
+      };
+    });
+  }
 
   requestAnimationFrame(() => {
     ScrollTrigger.refresh();
-    updateLottiePlayback();
-    window.setTimeout(updateLottiePlayback, 250);
-  });
-
-  lottieAnim.addEventListener('DOMLoaded', () => {
-    updateLottiePlayback();
   });
 });
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   mountToken += 1;
-  if (lottieAnim) {
-    lottieAnim.destroy();
-    lottieAnim = null;
-  }
 
-  if (mediaMatch) {
-    mediaMatch.kill();
-    mediaMatch = null;
-  }
-  if (lottieObserver) {
-    lottieObserver.disconnect();
-    lottieObserver = null;
-  }
   if (wrapperObserver) {
     wrapperObserver.disconnect();
     wrapperObserver = null;
   }
-  isWrapperVisible = false;
-  wasWrapperVisible = false;
 
   if (revealTween) {
     revealTween.kill();
     revealTween = null;
   }
-
   if (exitTween) {
     exitTween.kill();
     exitTween = null;
   }
-  clearTimeout(scrollResumeTimer);
+  if (mediaMatch) {
+    mediaMatch.kill();
+    mediaMatch = null;
+  }
+
+  isWrapperVisible = false;
+  wasWrapperVisible = false;
   document.documentElement.style.scrollBehavior = '';
 });
 </script>
@@ -367,13 +278,11 @@ onUnmounted(() => {
   pointer-events: none;
 }
 
-.contact-lottie {
-  opacity: 0.4;
-}
-
-.contact-lottie :deep(svg) {
+.contact-bg-image {
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  opacity: 0.4;
 }
 
 .contact-overlay {
