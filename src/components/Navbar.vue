@@ -436,10 +436,14 @@ onMounted(async () => {
   const { default: lottie } = await import("lottie-web");
   menuAnim = lottie.loadAnimation({
     container: menuIconEl.value,
-    renderer: "svg",
+    renderer: "canvas",
     loop: false,
     autoplay: false,
     animationData: hamburgerAnim,
+    rendererSettings: {
+      clearCanvas: true,
+      progressiveLoad: false,
+    },
   });
 
   menuBgAnim = lottie.loadAnimation({
@@ -456,8 +460,8 @@ onMounted(async () => {
 
   menuBgAnim.setSpeed(0.8);
 
-  menuAnim.setSubframe(true);
-  menuAnim.setSpeed(1.5);
+  menuAnim.setSubframe(false);
+  menuAnim.setSpeed(2.2);
 
   menuAnim.addEventListener("DOMLoaded", () => {
     endFrame = Math.floor(menuAnim.getDuration(true));
@@ -494,38 +498,25 @@ onBeforeUnmount(() => {
 .hamburger-btn {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
-  transform: scale(1.1) translateZ(0);
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  perspective: 1000px;
+  transform: scale(1.1);
+  contain: layout;
 }
 
 .hamburger-btn:active {
-  transform: scale(1) translateZ(0);
-  transition: transform 0.1s ease-out;
+  transform: scale(1);
 }
 
 .hamburger-icon {
   filter: var(--theme-icon-filter);
   position: relative;
   z-index: 100;
-  transform: translateZ(0);
-  will-change: contents;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  contain: layout style;
 }
 
-.hamburger-icon :deep(svg) {
+.hamburger-icon :deep(canvas) {
   width: 100% !important;
   height: 100% !important;
   display: block !important;
-  transform: translateZ(0);
-}
-
-.hamburger-icon :deep(svg *) {
-  transform-origin: center center;
-  will-change: transform, opacity;
 }
 
 .mobile-menu-bg {
