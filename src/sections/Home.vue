@@ -31,11 +31,11 @@
 
     <div ref="heroTextEl" class="mx-auto flex w-full max-w-6xl flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
       <div class="flex-[1.2] min-w-0 flex flex-col lg:justify-center">
-        <h1 class="mx-auto w-full text-center text-[clamp(2.4rem,10vw,3.8rem)] font-extrabold uppercase leading-[0.9] text-[color:var(--theme-text-strong)] sm:text-6xl lg:text-7xl lg:mt-0">
+        <h1 class="mx-auto w-full text-center text-6xl font-extrabold uppercase leading-[0.9] text-[color:var(--theme-text-strong)] sm:text-6xl lg:text-7xl lg:mt-0">
           <span class="block min-h-[2.85rem] overflow-hidden sm:min-h-[3.8rem] lg:min-h-[4.275rem]">
             <span
               :key="currentWord"
-              class="inline-block w-full px-2 text-center whitespace-nowrap word-rotator text-[clamp(2.6rem,12vw,4.25rem)] bg-gradient-to-b from-[color:var(--theme-headline-from)] via-[color:var(--theme-headline-via)] to-[color:var(--theme-headline-to)] text-transparent bg-clip-text sm:text-7xl lg:text-[6.5rem] tracking-[0.12em] sm:tracking-[0.18em]"
+              class="inline-block w-full text-center whitespace-nowrap word-rotator text-7xl bg-gradient-to-b from-[color:var(--theme-headline-from)] via-[color:var(--theme-headline-via)] to-[color:var(--theme-headline-to)] text-transparent bg-clip-text sm:text-7xl lg:text-[6.5rem] tracking-[0.18em]"
             >
               {{ currentWord }}
             </span>
