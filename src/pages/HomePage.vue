@@ -1,12 +1,14 @@
 ﻿<template>
-  <Home />
-  <Impact />
-  <About />
-  <Skills />
-  <Statement />
-  <Projects />
-  <Contact />
-  <Footer />
+  <main class="home-page">
+    <Home />
+    <Impact />
+    <About />
+    <Skills />
+    <Statement />
+    <Projects />
+    <Contact />
+    <Footer />
+  </main>
 </template>
 
 <script setup>

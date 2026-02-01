@@ -75,12 +75,13 @@
 </template>
 
 <script setup>
-import { nextTick, onMounted, onUnmounted, ref } from 'vue';
+import { inject, nextTick, onMounted, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import progress1Img from '@/assets/progress1.jpg';
 import progress1ImgSmall from '@/assets/progress1-1280.jpg';
 
 const router = useRouter();
+const startPageTransition = inject('startPageTransition', null);
 const projectsSection = ref(null);
 const projectItems = ref([]);
 const titleAnimEls = ref([]);
@@ -284,7 +285,11 @@ const handleListLeave = () => {
 
 const goToProject = (project) => {
   if (!project) return;
-  router.push('/projects/progress');
+  if (startPageTransition) {
+    startPageTransition(() => router.push('/projects/progress'));
+  } else {
+    router.push('/projects/progress');
+  }
 };
 
 onMounted(async () => {
