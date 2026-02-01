@@ -151,12 +151,12 @@
       :style="{
         top: 'calc(1.25rem + 20px)',
         right: 'calc(1.25rem + 20px)',
-        width: isOpen ? '300vmax' : '0',
-        height: isOpen ? '300vmax' : '0',
-        transform: 'translate(50%, -50%)',
-        transition: isOpen 
-          ? 'width 0.45s cubic-bezier(0.19, 1, 0.22, 1), height 0.45s cubic-bezier(0.19, 1, 0.22, 1)' 
-          : 'width 0.20s cubic-bezier(0.55, 0.085, 0.68, 0.53), height 0.20s cubic-bezier(0.55, 0.085, 0.68, 0.53)'
+        width: '300vmax',
+        height: '300vmax',
+        transform: `translate(50%, -50%) scale(${isOpen ? 1 : 0})`,
+        transition: isOpen
+          ? 'transform 0.55s cubic-bezier(0.19, 1, 0.22, 1)'
+          : 'transform 0.28s cubic-bezier(0.55, 0.085, 0.68, 0.53)'
       }"
     ></div>
 
@@ -460,7 +460,7 @@ onMounted(async () => {
   menuBgAnim.setSpeed(0.8);
 
   menuAnim.setSubframe(true);
-  menuAnim.setSpeed(2.1);
+  menuAnim.setSpeed(1.8);
 
   menuAnim.addEventListener("DOMLoaded", () => {
     endFrame = Math.floor(menuAnim.getDuration(true));
@@ -610,6 +610,8 @@ onBeforeUnmount(() => {
 
 .menu-circle-bg {
   background: var(--theme-menu-circle);
+  transform-origin: top right;
+  will-change: transform;
 }
 
 .resume-link {
