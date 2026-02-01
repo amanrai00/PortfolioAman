@@ -355,15 +355,12 @@ const applyTheme = () => {
 
 // Play icon animation on button click
 const playIcon = (open) => {
-  if (!menuAnim) return;
+  if (!menuAnim || endFrame <= 0) return;
 
   menuAnim.stop();
-
-  if (open) {
-    menuAnim.playSegments([0, endFrame], true);
-  } else {
-    menuAnim.playSegments([endFrame, 0], true);
-  }
+  menuAnim.setDirection(open ? 1 : -1);
+  menuAnim.goToAndStop(open ? 0 : endFrame, true);
+  menuAnim.play();
 };
 
 const handleScroll = () => {
@@ -462,7 +459,8 @@ onMounted(async () => {
 
   menuBgAnim.setSpeed(0.8);
 
-  menuAnim.setSpeed(2.4);
+  menuAnim.setSubframe(true);
+  menuAnim.setSpeed(2.1);
 
   menuAnim.addEventListener("DOMLoaded", () => {
     endFrame = Math.floor(menuAnim.getDuration(true));
@@ -500,6 +498,9 @@ onBeforeUnmount(() => {
   filter: var(--theme-icon-filter);
   position: relative;
   z-index: 100;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .hamburger-icon :deep(svg) {

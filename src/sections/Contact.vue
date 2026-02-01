@@ -3,6 +3,7 @@
     <section
       ref="contactSection"
       class="contact-section relative min-h-screen overflow-hidden"
+      :class="isJa ? 'is-ja' : ''"
     >
       <div class="contact-bg absolute inset-0 z-0" aria-hidden="true">
         <div ref="lottieEl" class="contact-lottie w-full h-full"></div>
@@ -71,13 +72,14 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const lottieEl = ref(null);
 const contactWrapper = ref(null);
 const contactSection = ref(null);
-const { t } = useI18n();
+const { t, locale } = useI18n();
+const isJa = computed(() => locale.value === 'ja');
 const contactEmail = 'amanrai1630@gmail.com';
 
 const formState = ref({
@@ -595,6 +597,31 @@ onUnmounted(() => {
 
   .contact-submit {
     justify-self: center;
+  }
+
+  .contact-section.is-ja .contact-left {
+    padding: 1.5rem 1rem 1rem;
+  }
+
+  .contact-section.is-ja .contact-left-content {
+    padding: 1.5rem 0.5rem 1rem;
+  }
+
+  .contact-section.is-ja .contact-right {
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  .contact-section.is-ja .contact-form-wrapper {
+    padding: 1.5rem 0.5rem 2rem;
+    margin: 0 auto;
+  }
+
+  .contact-section.is-ja .contact-title--stacked {
+    font-size: clamp(2rem, 7.5vw, 3rem);
+  }
+
+  .contact-section.is-ja .contact-subtitle {
+    font-size: 0.95rem;
   }
 }
 </style>
