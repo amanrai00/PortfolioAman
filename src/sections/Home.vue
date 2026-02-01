@@ -214,15 +214,17 @@ const triggerHeroReveal = () => {
   });
 };
 
+const startWordRotation = () => {
+  if (timerId) return;
+  timerId = setInterval(() => {
+    wordIndex = (wordIndex + 1) % words.length;
+    currentWord.value = words[wordIndex];
+  }, WORD_ROTATE_MS);
+};
+
 const startHeroEffects = () => {
   if (heroEffectsStarted.value) return;
   heroEffectsStarted.value = true;
-
-    // Start rotation after the intro so it doesn't compete with the fade-in.
-    timerId = setInterval(() => {
-      wordIndex = (wordIndex + 1) % words.length;
-      currentWord.value = words[wordIndex];
-    }, WORD_ROTATE_MS);
 
     // Keep nav dots and scroll indicator synced with viewport position.
     scrollHandler = () => updateActiveIndex();
@@ -303,6 +305,7 @@ const runHeroIntro = async () => {
 const startHeroAfterIntro = () => {
   if (introStarted) return;
   introStarted = true;
+  startWordRotation();
   runHeroIntro();
 };
 
