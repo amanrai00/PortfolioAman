@@ -439,7 +439,9 @@ onUnmounted(() => {
 @media (max-width: 768px) {
   .footer-section {
     padding: 2rem 1.5rem;
-    min-height: auto;
+    min-height: 100vh;
+    min-height: 100svh;
+    min-height: 100dvh;
     gap: 3rem;
   }
 
