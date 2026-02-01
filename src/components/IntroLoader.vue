@@ -254,6 +254,7 @@ const scheduleReveal = () => {
 
   scheduleTimeout(() => {
     stopAnimation();
+    window.dispatchEvent(new CustomEvent("intro:reveal"));
     isFading.value = true;
     scheduleTimeout(() => {
       finishIntro();

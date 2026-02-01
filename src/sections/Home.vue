@@ -1,4 +1,4 @@
-8<template>
+<template>
   <section id="home" class="min-h-screen px-5 lg:px-28 pt-6 pb-16 lg:pt-6 flex items-center relative overflow-hidden">
     <nav ref="heroNavEl" class="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 z-30 flex-col items-start gap-3" :class="{ 'hero-nav-dim': isHomeNavDimmed }" aria-label="Section navigation">
       <button
@@ -160,6 +160,7 @@ let heroObserver = null;
 let heroAnimating = false;
 let heroTimerId = null;
 let hasAnimated = false;
+let introStarted = false;
 
 const updateActiveIndex = () => {
   const scrollY = window.scrollY;
@@ -213,12 +214,9 @@ const triggerHeroReveal = () => {
   });
 };
 
-onMounted(async () => {
-  const { default: gsap } = await import("gsap");
-  updateActiveIndex();
-  const startHeroEffects = () => {
-    if (heroEffectsStarted.value) return;
-    heroEffectsStarted.value = true;
+const startHeroEffects = () => {
+  if (heroEffectsStarted.value) return;
+  heroEffectsStarted.value = true;
 
     // Start rotation after the intro so it doesn't compete with the fade-in.
     timerId = setInterval(() => {
@@ -251,49 +249,70 @@ onMounted(async () => {
       { threshold: 1 }
     );
 
-    if (heroSection) heroObserver.observe(heroSection);
-    if (heroSection) {
-      const rect = heroSection.getBoundingClientRect();
-      const isInView = rect.top < window.innerHeight && rect.bottom > 0;
-      if (isInView && !hasAnimated) {
-        triggerHeroReveal();
-        hasAnimated = true;
-      }
-    }
-  };
-
-  if (heroTextEl.value) {
-    const fadeTargets = [heroNavEl.value, heroScrollEl.value].filter(Boolean);
-    if (fadeTargets.length) {
-      gsap.set(fadeTargets, { opacity: 0 });
-    }
-
-    const introTl = gsap.timeline({
-      onComplete: startHeroEffects,
-    });
-    introTl.fromTo(
-      heroTextEl.value,
-      { opacity: 0 },
-      {
-        opacity: 1,
-        duration: 1,
-        ease: "sine.inOut",
-      }
-    );
-    if (fadeTargets.length) {
-      introTl.to(
-        fadeTargets,
-        { opacity: 1, duration: 0.8, ease: "sine.out" },
-        0.8
-      );
-    }
-    introTl.call(() => {
-      // Keep reveal synced to the intro timeline before the observer takes over.
+  if (heroSection) heroObserver.observe(heroSection);
+  if (heroSection) {
+    const rect = heroSection.getBoundingClientRect();
+    const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (isInView && !hasAnimated) {
       triggerHeroReveal();
       hasAnimated = true;
-    }, null, 1);
-  } else {
+    }
+  }
+};
+
+const runHeroIntro = async () => {
+  const { default: gsap } = await import("gsap");
+  updateActiveIndex();
+
+  if (!heroTextEl.value) {
     startHeroEffects();
+    return;
+  }
+
+  const fadeTargets = [heroNavEl.value, heroScrollEl.value].filter(Boolean);
+  if (fadeTargets.length) {
+    gsap.set(fadeTargets, { opacity: 0 });
+  }
+
+  const introTl = gsap.timeline({
+    onComplete: startHeroEffects,
+  });
+  introTl.fromTo(
+    heroTextEl.value,
+    { opacity: 0 },
+    {
+      opacity: 1,
+      duration: 1,
+      ease: "sine.inOut",
+    }
+  );
+  if (fadeTargets.length) {
+    introTl.to(
+      fadeTargets,
+      { opacity: 1, duration: 0.8, ease: "sine.out" },
+      0.8
+    );
+  }
+  introTl.call(() => {
+    // Keep reveal synced to the intro timeline before the observer takes over.
+    triggerHeroReveal();
+    hasAnimated = true;
+  }, null, 1);
+};
+
+const startHeroAfterIntro = () => {
+  if (introStarted) return;
+  introStarted = true;
+  runHeroIntro();
+};
+
+onMounted(() => {
+  const overlay = document.querySelector(".intro-loader");
+  if (overlay) {
+    const handleReveal = () => startHeroAfterIntro();
+    window.addEventListener("intro:reveal", handleReveal, { once: true });
+  } else {
+    startHeroAfterIntro();
   }
 });
 
