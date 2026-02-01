@@ -59,10 +59,10 @@ const createCanvasAnimation = (canvas) => {
   let currentDotCount = 0;
   let snapOutActive = false;
 
-  const startDotCount = width > 640 ? 280 : 200;
+  const startDotCount = 280;
   const amplitude = 380;
   const frequency = 0.075;
-  const maxSpeedBase = width > 640 ? 3 : 4;
+  const maxSpeedBase = 3;
 
   const updateCanvasSize = () => {
     width = window.innerWidth;
