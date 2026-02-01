@@ -43,7 +43,7 @@
           </div>
 
           <!-- Desktop nav -->
-          <div class="hidden lg:block lg:justify-self-center">
+          <div v-if="!isProjectPage" class="hidden lg:block lg:justify-self-center">
             <ul class="flex items-center gap-x-8 font-semibold text-[15px] lg:text-[16px]">
               <li
                 v-for="item in sections"
@@ -68,6 +68,7 @@
               aria-label="Switch language"
               :aria-pressed="isJa"
               @click="toggleLocale"
+              v-if="!isProjectPage"
             >
               <span class="lang-roll">
                 <span class="lang-roll-track">
@@ -92,14 +93,14 @@
             </button>
 
             <!-- Desktop Resume -->
-            <label class="ui-switch hidden lg:inline-flex mr-5 desktop-switch">
+            <label v-if="!isProjectPage" class="ui-switch hidden lg:inline-flex mr-5 desktop-switch">
               <input v-model="isDark" type="checkbox" aria-label="Toggle theme" />
               <div class="slider">
                 <div class="circle"></div>
               </div>
             </label>
 
-            <a href="" class="group relative hidden px-4 py-2 font-medium lg:inline-block">
+            <a v-if="!isProjectPage" href="" class="group relative hidden px-4 py-2 font-medium lg:inline-block">
               <span
                 class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[color:var(--theme-resume-border)] transition duration-200 ease-out
                        group-hover:translate-x-0 group-hover:translate-y-0"
@@ -131,7 +132,8 @@
 
             <!-- Mobile menu toggle - Lottie Hamburger -->
             <button
-              class="lg:hidden fixed top-5 right-5 z-[100] scale-110 cursor-pointer hamburger-btn"
+              class="fixed top-5 right-5 z-[100] scale-110 cursor-pointer hamburger-btn"
+              :class="isProjectPage ? 'block' : 'lg:hidden'"
               @click="toggleMenu"
               aria-label="Toggle menu"
               :aria-expanded="isOpen"
@@ -297,6 +299,7 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
+import { useRoute } from "vue-router";
 import logo from "../assets/logo1.png";
 import SecondLogo from "../assets/second-logo.png";
 import hamburgerAnim from "@/assets/lottie/hamburger.json";
@@ -330,6 +333,8 @@ const localeKey = "locale";
 
 const { t, locale } = useI18n();
 const isJa = computed(() => locale.value === "ja");
+const route = useRoute();
+const isProjectPage = computed(() => route.name === "project-progress");
 
 const toggleLocale = () => {
   locale.value = isJa.value ? "en" : "ja";
