@@ -340,13 +340,16 @@ onBeforeUnmount(() => {
 .intro-title {
   position: relative;
   font-family: "Oxanium", "Trebuchet MS", sans-serif;
-  letter-spacing: 0.35em;
+  font-weight: 800;
+  text-shadow: 0 16px 34px rgba(0, 0, 0, 0.45);
   text-transform: uppercase;
-  font-size: clamp(1.4rem, 3vw, 3rem);
+  letter-spacing: 0.3em;
+  font-size: clamp(2.8rem, 6.2vw, 6rem);
+  -webkit-text-stroke: 0.4px rgba(248, 250, 252, 0.55);
+  text-stroke: 0.4px rgba(248, 250, 252, 0.55);
   color: #f8fafc;
-  text-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
   overflow: hidden;
-  line-height: 1;
+  line-height: 1.06;
 }
 
 .intro-title-text {
