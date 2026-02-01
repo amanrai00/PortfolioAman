@@ -7,7 +7,7 @@
   >
     <canvas ref="canvasEl" class="intro-canvas"></canvas>
     <div class="intro-title" :class="{ 'intro-title--animate': isReady }">
-      {{ title }}
+      <span class="intro-title-text">{{ title }}</span>
     </div>
   </div>
 </template>
@@ -344,35 +344,26 @@ onBeforeUnmount(() => {
   text-transform: uppercase;
   font-size: clamp(1.4rem, 3vw, 3rem);
   color: #f8fafc;
-  opacity: 0;
-  transform: translateY(40px);
   text-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  line-height: 1;
 }
 
-.intro-title--animate {
-  animation: intro-pop 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards,
-    intro-fade 700ms ease forwards 2200ms;
+.intro-title-text {
+  display: block;
+  transform: translateY(100%);
 }
 
-@keyframes intro-pop {
+.intro-title--animate .intro-title-text {
+  animation: intro-reveal 1.5s cubic-bezier(0.77, 0, 0.175, 1) 0s forwards;
+}
+
+@keyframes intro-reveal {
   0% {
-    opacity: 0;
-    transform: translateY(52px);
-  }
-  60% {
-    opacity: 1;
-    transform: translateY(-6px);
+    transform: translateY(100%);
   }
   100% {
-    opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes intro-fade {
-  to {
-    opacity: 0;
-    transform: translateY(-10px);
   }
 }
 
