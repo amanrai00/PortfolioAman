@@ -131,7 +131,7 @@
 
             <!-- Mobile menu toggle - Lottie Hamburger -->
             <button
-              class="lg:hidden fixed top-5 right-5 z-[100] scale-110 cursor-pointer active:scale-100 transition-transform"
+              class="lg:hidden fixed top-5 right-5 z-[100] scale-110 cursor-pointer hamburger-btn"
               @click="toggleMenu"
               aria-label="Toggle menu"
               :aria-expanded="isOpen"
@@ -146,17 +146,14 @@
     <!-- Expanding Circle Overlay - Dark Theme -->
     <div
       :class="[
-        'fixed z-[55] rounded-full lg:hidden pointer-events-none menu-circle-bg'
+        'fixed z-[55] rounded-full lg:hidden pointer-events-none menu-circle-bg',
+        isOpen ? 'menu-circle-open' : 'menu-circle-closed'
       ]"
       :style="{
         top: 'calc(1.25rem + 20px)',
         right: 'calc(1.25rem + 20px)',
         width: '300vmax',
-        height: '300vmax',
-        transform: `translate(50%, -50%) scale(${isOpen ? 1 : 0})`,
-        transition: isOpen
-          ? 'transform 0.55s cubic-bezier(0.19, 1, 0.22, 1)'
-          : 'transform 0.28s cubic-bezier(0.55, 0.085, 0.68, 0.53)'
+        height: '300vmax'
       }"
     ></div>
 
@@ -169,9 +166,12 @@
     >
       <div
         :class="[
-          'mobile-menu-bg transition-opacity duration-300',
+          'mobile-menu-bg',
           isOpen ? 'opacity-100' : 'opacity-0'
         ]"
+        :style="{
+          transition: isOpen ? 'opacity 0.4s ease-out' : 'opacity 0.2s ease-in'
+        }"
         aria-hidden="true"
       >
         <div ref="menuBgEl" class="mobile-menu-lottie"></div>
@@ -182,13 +182,12 @@
         <li
           v-for="(item, index) in mobileSections"
           :key="item.id"
+          class="menu-item-animate"
           :class="[
-            'transition-all ease-out',
-            isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            isOpen ? 'menu-item-visible' : 'menu-item-hidden'
           ]"
-          :style="{ 
-            transitionDelay: isOpen ? `${240 + (index * 75)}ms` : '0ms',
-            transitionDuration: '220ms'
+          :style="{
+            transitionDelay: isOpen ? `${200 + (index * 60)}ms` : '0ms'
           }"
         >
           <button
@@ -201,13 +200,12 @@
 
         <!-- Mobile Resume in Menu -->
         <li
+          class="menu-item-animate mt-6"
           :class="[
-            'transition-all ease-out mt-6',
-            isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            isOpen ? 'menu-item-visible' : 'menu-item-hidden'
           ]"
-          :style="{ 
-            transitionDelay: isOpen ? `${160 + (mobileSections.length * 45)}ms` : '0ms',
-            transitionDuration: '310ms'
+          :style="{
+            transitionDelay: isOpen ? `${200 + (mobileSections.length * 60)}ms` : '0ms'
           }"
         >
           <a href="" class="group resume-link relative inline-block px-6 py-3 font-medium transition-transform duration-200">
@@ -243,13 +241,12 @@
 
         <!-- Mobile Theme Switch -->
         <li
+          class="menu-item-animate mt-5"
           :class="[
-            'transition-all ease-out mt-5',
-            isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            isOpen ? 'menu-item-visible' : 'menu-item-hidden'
           ]"
           :style="{
-            transitionDelay: isOpen ? `${210 + (mobileSections.length * 45)}ms` : '0ms',
-            transitionDuration: '310ms'
+            transitionDelay: isOpen ? `${240 + (mobileSections.length * 60)}ms` : '0ms'
           }"
         >
           <div class="flex items-center justify-center gap-6">
@@ -460,7 +457,7 @@ onMounted(async () => {
   menuBgAnim.setSpeed(0.8);
 
   menuAnim.setSubframe(true);
-  menuAnim.setSpeed(1.8);
+  menuAnim.setSpeed(1.5);
 
   menuAnim.addEventListener("DOMLoaded", () => {
     endFrame = Math.floor(menuAnim.getDuration(true));
@@ -494,19 +491,41 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+.hamburger-btn {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transform: scale(1.1) translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.hamburger-btn:active {
+  transform: scale(1) translateZ(0);
+  transition: transform 0.1s ease-out;
+}
+
 .hamburger-icon {
   filter: var(--theme-icon-filter);
   position: relative;
   z-index: 100;
   transform: translateZ(0);
-  will-change: transform;
+  will-change: contents;
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .hamburger-icon :deep(svg) {
   width: 100% !important;
   height: 100% !important;
   display: block !important;
+  transform: translateZ(0);
+}
+
+.hamburger-icon :deep(svg *) {
+  transform-origin: center center;
+  will-change: transform, opacity;
 }
 
 .mobile-menu-bg {
@@ -515,6 +534,8 @@ onBeforeUnmount(() => {
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
+  transform: translateZ(0);
+  will-change: opacity;
 }
 
 .mobile-menu-lottie {
@@ -612,6 +633,41 @@ onBeforeUnmount(() => {
   background: var(--theme-menu-circle);
   transform-origin: top right;
   will-change: transform;
+  transform: translate(50%, -50%) scale(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.menu-circle-open {
+  transform: translate(50%, -50%) scale(1);
+  transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.menu-circle-closed {
+  transform: translate(50%, -50%) scale(0);
+  transition: transform 0.25s cubic-bezier(0.32, 0, 0.67, 0);
+}
+
+.menu-item-animate {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity;
+  transition-property: opacity, transform;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.menu-item-visible {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+  transition-duration: 0.35s;
+}
+
+.menu-item-hidden {
+  opacity: 0;
+  transform: translateY(16px) translateZ(0);
+  transition-duration: 0.15s;
+  transition-delay: 0ms !important;
 }
 
 .resume-link {
