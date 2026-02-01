@@ -27,9 +27,14 @@
       <article
         v-for="(project, index) in projects"
         :key="project.id"
-        class="project-item flex items-start gap-[0.2rem] pb-[0.2em] -mt-[2.2rem] -mb-[0.2em] border-b border-(--project-border-color) relative overflow-visible"
+        class="project-item flex items-start gap-[0.2rem] pb-[0.2em] -mt-[2.2rem] -mb-[0.2em] border-b border-(--project-border-color) relative overflow-visible cursor-pointer"
         :class="{ 'project-item-first': index === 0, 'is-hovered': hoveredIndex === index }"
         ref="projectItems"
+        role="link"
+        tabindex="0"
+        @click="goToProject(project)"
+        @keydown.enter.prevent="goToProject(project)"
+        @keydown.space.prevent="goToProject(project)"
       >
         <div class="flex-1 mt-0">
           <div class="project-mobile-image hidden w-full rounded-[10px] overflow-hidden mb-5 bg-(--project-image-overlay)" aria-hidden="true">
@@ -71,13 +76,11 @@
 
 <script setup>
 import { nextTick, onMounted, onUnmounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import progress1Img from '@/assets/progress1.jpg';
-import progress2Img from '@/assets/progress2.jpg';
-import progress3Img from '@/assets/progress3.jpg';
 import progress1ImgSmall from '@/assets/progress1-1280.jpg';
-import progress2ImgSmall from '@/assets/progress2-1280.jpg';
-import progress3ImgSmall from '@/assets/progress3-1280.jpg';
 
+const router = useRouter();
 const projectsSection = ref(null);
 const projectItems = ref([]);
 const titleAnimEls = ref([]);
@@ -114,24 +117,6 @@ const projects = [
     imageMobile: progress1ImgSmall,
     width: 4500,
     height: 4500
-  },
-  {
-    id: 2,
-    title: 'Progress',
-    tags: ['React', 'Redux', 'React i18n'],
-    image: progress2Img,
-    imageMobile: progress2ImgSmall,
-    width: 6870,
-    height: 6703
-  },
-  {
-    id: 3,
-    title: 'Progress',
-    tags: ['GPT-4', 'Next.js', 'PostgreSQL'],
-    image: progress3Img,
-    imageMobile: progress3ImgSmall,
-    width: 3000,
-    height: 2000
   }
 ];
 
@@ -295,6 +280,11 @@ const handleListLeave = () => {
   if (!anim) return;
   anim.stop();
   anim.goToAndStop(0, true);
+};
+
+const goToProject = (project) => {
+  if (!project) return;
+  router.push('/projects/progress');
 };
 
 onMounted(async () => {

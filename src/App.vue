@@ -1,35 +1,23 @@
 <template>
   <IntroLoader v-if="showLoader" title="Entity" @done="showLoader = false" />
-  <ScrollIndicator />
+  <ScrollIndicator v-if="showScrollIndicator" />
   <Background />
   <Navbar />
-  <Home />
-  <Impact />
-  <About />
-  <Skills />
-  <Statement />
-  <Projects />
-  <Contact />
-  <Footer />
+  <RouterView />
 
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import { useRoute } from "vue-router";
 import Navbar from "./components/Navbar.vue";
 import Background from "./components/Background.vue";
 import ScrollIndicator from "./components/ScrollIndicator.vue";
 import IntroLoader from "./components/IntroLoader.vue";
-import Home from "./sections/Home.vue";
-import Impact from "./sections/Impact.vue";
-import About from "./sections/About.vue";
-import Skills from "./sections/Skills.vue";
-import Statement from "./sections/Statement.vue";
-import Projects from "./sections/Projects.vue";
-import Contact from "./sections/Contact.vue";
-import Footer from "./components/Footer.vue";
 
 const showLoader = ref(true);
+const route = useRoute();
+const showScrollIndicator = computed(() => route.name === "home");
 </script>
 
 <style>
