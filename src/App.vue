@@ -68,10 +68,15 @@ html {
   transform: translateY(100%);
 }
 
-.panel-1 { background: #355c7d; }
-.panel-2 { background: #6c5b7b; }
-.panel-3 { background: #c06c84; }
-.panel-4 { background: #f67280; }
+.panel-1 { background: #292524; }
+.panel-2 { background: #57534e; }
+.panel-3 { background: #a39e93; }
+.panel-4 { background: #d6cfc4; }
+
+:root[data-theme="dark"] .panel-1 { background: #64748b; }
+:root[data-theme="dark"] .panel-2 { background: #94a3b8; }
+:root[data-theme="dark"] .panel-3 { background: #cbd5e1; }
+:root[data-theme="dark"] .panel-4 { background: #e2e8f0; }
 
 .page-transition.is-active .wipe-panel {
   animation: panelWipe 1.1s ease-in-out forwards;
