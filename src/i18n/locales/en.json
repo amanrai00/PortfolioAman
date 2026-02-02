@@ -60,6 +60,9 @@
     "rights": "All Rights Reserved.",
     "name": "AMAN"
   },
+  "projects": {
+    "jlptLab": "JLPT Practice Lab"
+  },
   "projectDetail": {
     "back": "Back",
     "status": "Concept in Progress",

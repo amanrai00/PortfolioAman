@@ -60,6 +60,9 @@
     "rights": "All Rights Reserved.",
     "name": "AMAN"
   },
+  "projects": {
+    "jlptLab": "JLPT 実践練習"
+  },
   "projectDetail": {
     "back": "戻る",
     "status": "コンセプト進行中",

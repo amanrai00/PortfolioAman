@@ -75,11 +75,13 @@
 </template>
 
 <script setup>
-import { inject, nextTick, onMounted, onUnmounted, ref } from 'vue';
+import { computed, inject, nextTick, onMounted, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import progress1Img from '@/assets/progress1.jpg';
 import progress1ImgSmall from '@/assets/progress1-1280.jpg';
 
+const { t } = useI18n();
 const router = useRouter();
 const startPageTransition = inject('startPageTransition', null);
 const projectsSection = ref(null);
@@ -109,17 +111,17 @@ const resetTitleAnim = (index) => {
   animEl.style.removeProperty('background-size');
 };
 
-const projects = [
+const projects = computed(() => [
   {
     id: 1,
-    title: 'Progress',
+    title: t('projects.jlptLab'),
     tags: ['Next.js', 'Payload CMS', 'Tailwind CSS'],
     image: progress1Img,
     imageMobile: progress1ImgSmall,
     width: 4500,
     height: 4500
   }
-];
+]);
 
 let projectsTimeline = null;
 
