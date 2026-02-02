@@ -13,6 +13,7 @@
         <div class="relative flex items-center lg:grid lg:grid-cols-3 lg:items-center">
           <!-- Logo -->
           <div
+            v-if="!isProjectPage"
             :class="[
               'flex w-fit items-center gap-1 cursor-pointer origin-center transition-all duration-300 hover:scale-103 active:scale-95 lg:justify-self-start',
               'opacity-100',
@@ -138,7 +139,15 @@
               aria-label="Toggle menu"
               :aria-expanded="isOpen"
             >
-              <div ref="menuIconEl" class="w-8 h-8 hamburger-icon"></div>
+              <div ref="menuIconEl" class="w-8 h-8 hamburger-icon" :class="{ 'is-hidden': !hasMenuAnim }"></div>
+              <svg
+                v-if="!hasMenuAnim"
+                class="hamburger-fallback"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              </svg>
             </button>
           </div>
         </div>
@@ -148,7 +157,8 @@
     <!-- Expanding Circle Overlay - Dark Theme -->
     <div
       :class="[
-        'fixed z-[55] rounded-full lg:hidden pointer-events-none menu-circle-bg',
+        'fixed z-[55] rounded-full pointer-events-none menu-circle-bg',
+        isProjectPage ? '' : 'lg:hidden',
         isOpen ? 'menu-circle-open' : 'menu-circle-closed'
       ]"
       :style="{
@@ -162,7 +172,8 @@
     <!-- Mobile Menu -->
     <div
       :class="[
-        'fixed top-0 right-0 w-full h-screen z-[56] lg:hidden flex items-center justify-center text-[color:var(--theme-text-muted)]',
+        'fixed top-0 right-0 w-full h-screen z-[56] flex items-center justify-center text-[color:var(--theme-text-muted)]',
+        isProjectPage ? '' : 'lg:hidden',
         isOpen ? 'pointer-events-auto' : 'pointer-events-none'
       ]"
     >
@@ -297,9 +308,9 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { computed, inject, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import logo from "../assets/logo1.png";
 import SecondLogo from "../assets/second-logo.png";
 import hamburgerAnim from "@/assets/lottie/hamburger.json";
@@ -325,6 +336,7 @@ const mobileSections = [
 
 const menuIconEl = ref(null);
 const menuBgEl = ref(null);
+const hasMenuAnim = ref(false);
 let menuAnim = null;
 let menuBgAnim = null;
 let endFrame = 0;
@@ -333,8 +345,10 @@ const localeKey = "locale";
 
 const { t, locale } = useI18n();
 const isJa = computed(() => locale.value === "ja");
+const router = useRouter();
 const route = useRoute();
 const isProjectPage = computed(() => route.name === "project-progress");
+const startPageTransition = inject("startPageTransition", null);
 
 const toggleLocale = () => {
   locale.value = isJa.value ? "en" : "ja";
@@ -396,6 +410,21 @@ const handleLogoClick = () => {
 };
 
 const scrollToSection = (id) => {
+  if (isProjectPage.value) {
+    const navigate = () => {
+      router.push({ name: "home", query: { section: id } });
+    };
+    if (startPageTransition) {
+      startPageTransition(navigate);
+    } else {
+      navigate();
+    }
+    if (isOpen.value) {
+      isOpen.value = false;
+      playIcon(false);
+    }
+    return;
+  }
   const section = document.getElementById(id);
   if (!section) return;
 
@@ -441,7 +470,7 @@ onMounted(async () => {
   const { default: lottie } = await import("lottie-web");
   menuAnim = lottie.loadAnimation({
     container: menuIconEl.value,
-    renderer: "canvas",
+    renderer: "svg",
     loop: false,
     autoplay: false,
     animationData: hamburgerAnim,
@@ -471,6 +500,7 @@ onMounted(async () => {
   menuAnim.addEventListener("DOMLoaded", () => {
     endFrame = Math.floor(menuAnim.getDuration(true));
     menuAnim.goToAndStop(0, true); // start closed
+    hasMenuAnim.value = true;
   });
 });
 
@@ -518,7 +548,26 @@ onBeforeUnmount(() => {
   contain: layout style;
 }
 
-.hamburger-icon :deep(canvas) {
+.hamburger-icon.is-hidden {
+  opacity: 0;
+}
+
+.hamburger-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  color: var(--theme-text-strong);
+  filter: var(--theme-icon-filter);
+}
+
+.hamburger-icon :deep(canvas),
+.hamburger-icon :deep(svg) {
   width: 100% !important;
   height: 100% !important;
   display: block !important;

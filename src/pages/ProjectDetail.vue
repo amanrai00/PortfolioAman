@@ -3,7 +3,7 @@
     <section class="project-detail-wrapper">
       <button class="project-back" type="button" @click="goBack">
         <span class="project-back-icon">←</span>
-        <span>Back to home</span>
+        <span>Back</span>
       </button>
 
       <div class="project-detail-grid">
@@ -43,18 +43,26 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { inject, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import progressImage from "@/assets/progress1.jpg";
 import progressImageSmall from "@/assets/progress1-1280.jpg";
 
 const router = useRouter();
+const startPageTransition = inject("startPageTransition", null);
 const revealVisible = ref(false);
 const showEffects = ref(false);
 const tags = ["Next.js", "Payload CMS", "Tailwind CSS"];
 
 const goBack = () => {
-  router.push("/");
+  const navigate = () => {
+    router.push({ name: "home", hash: "#projects" });
+  };
+  if (startPageTransition) {
+    startPageTransition(navigate);
+  } else {
+    navigate();
+  }
 };
 
 onMounted(() => {

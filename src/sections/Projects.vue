@@ -285,10 +285,14 @@ const handleListLeave = () => {
 
 const goToProject = (project) => {
   if (!project) return;
+  const fromSection = projectsSection.value?.id || "projects";
+  const navigate = () => {
+    router.push({ name: "project-progress", query: { from: fromSection } });
+  };
   if (startPageTransition) {
-    startPageTransition(() => router.push('/projects/progress'));
+    startPageTransition(navigate);
   } else {
-    router.push('/projects/progress');
+    navigate();
   }
 };
 
