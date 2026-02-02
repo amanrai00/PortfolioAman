@@ -5,6 +5,7 @@
     <About />
     <Skills />
     <Statement />
+    <div id="projects-anchor" class="projects-anchor" aria-hidden="true"></div>
     <Projects />
     <Contact />
     <Footer />
@@ -60,3 +61,10 @@ watch(
   }
 );
 </script>
+
+<style scoped>
+.projects-anchor {
+  height: 1px;
+  scroll-margin-top: clamp(16vh, 22vh, 28vh);
+}
+</style>

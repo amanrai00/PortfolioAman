@@ -56,7 +56,7 @@ const tags = ["Next.js", "Payload CMS", "Tailwind CSS"];
 
 const goBack = () => {
   const navigate = () => {
-    router.push({ name: "home", hash: "#projects" });
+    router.push({ name: "home", hash: "#projects-anchor" });
   };
   if (startPageTransition) {
     startPageTransition(navigate);
