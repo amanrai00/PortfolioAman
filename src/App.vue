@@ -3,7 +3,12 @@
   <ScrollIndicator v-if="showScrollIndicator" />
   <Background />
   <Navbar />
-  <div class="page-transition" :class="{ 'is-active': isPageTransitioning }" aria-hidden="true"></div>
+  <div class="page-transition" :class="{ 'is-active': isPageTransitioning }" aria-hidden="true">
+    <div class="wipe-panel panel-1"></div>
+    <div class="wipe-panel panel-2"></div>
+    <div class="wipe-panel panel-3"></div>
+    <div class="wipe-panel panel-4"></div>
+  </div>
   <RouterView />
 
 </template>
@@ -31,13 +36,13 @@ const startPageTransition = (onMidpoint) => {
   transitionTimers.push(
     window.setTimeout(() => {
       if (typeof onMidpoint === "function") onMidpoint();
-    }, 900)
+    }, 580)
   );
 
   transitionTimers.push(
     window.setTimeout(() => {
       isPageTransitioning.value = false;
-    }, 1800)
+    }, 1350)
   );
 };
 
@@ -49,7 +54,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Full-page transition overlay (bottom-to-top wipe) */
+/* Multi-panel wipe transition */
 .page-transition {
   position: fixed;
   inset: 0;
@@ -57,45 +62,38 @@ html {
   pointer-events: none;
 }
 
-.page-transition::before,
-.page-transition::after {
-  content: "";
+.wipe-panel {
   position: fixed;
-  left: 0;
-  width: 100%;
-  height: 0;
-  top: 100%;
-  z-index: 98;
+  inset: 0;
+  transform: translateY(100%);
 }
 
-.page-transition::before {
-  background: var(--theme-cta-bg);
+.panel-1 { background: #355c7d; }
+.panel-2 { background: #6c5b7b; }
+.panel-3 { background: #c06c84; }
+.panel-4 { background: #f67280; }
+
+.page-transition.is-active .wipe-panel {
+  animation: panelWipe 1.1s ease-in-out forwards;
 }
 
-.page-transition::after {
-  background: color-mix(in srgb, var(--theme-cta-bg) 55%, #000);
-}
+.page-transition.is-active .panel-1 { animation-delay: 0s; }
+.page-transition.is-active .panel-2 { animation-delay: 0.08s; }
+.page-transition.is-active .panel-3 { animation-delay: 0.16s; }
+.page-transition.is-active .panel-4 { animation-delay: 0.24s; }
 
-.page-transition.is-active::before {
-  animation: page-wipe-btt 1.8s ease forwards;
-}
-
-.page-transition.is-active::after {
-  animation: page-wipe-btt 1s 0.6s ease forwards;
-}
-
-@keyframes page-wipe-btt {
+@keyframes panelWipe {
   0% {
-    top: 100%;
-    height: 0;
+    transform: translateY(100%);
   }
-  65% {
-    top: 0;
-    height: 100%;
+  45% {
+    transform: translateY(0%);
+  }
+  55% {
+    transform: translateY(0%);
   }
   100% {
-    top: 0;
-    height: 0;
+    transform: translateY(-100%);
   }
 }
 
