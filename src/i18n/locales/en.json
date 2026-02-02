@@ -59,6 +59,39 @@
     "tagline": "DESIGNING WITH CODE",
     "rights": "All Rights Reserved.",
     "name": "AMAN"
+  },
+  "projectDetail": {
+    "back": "Back",
+    "status": "Concept in Progress",
+    "title": "JLPT Revision Project",
+    "sections": {
+      "overview": {
+        "title": "Project Overview",
+        "p1": "This project started from my own experience preparing for the JLPT N2 exam.",
+        "p2": "While studying, I realized that learning grammar rules and kanji on their own is not enough. You can memorize a lot, but unless you actually solve real JLPT questions, it is very hard to understand how those grammar patterns appear in the exam. The logic only becomes clear when you see grammar used inside real questions and answer choices.",
+        "p3": "At the same time, solving full past question papers every day is not realistic. Long papers are tiring, time-consuming, and often create unnecessary pressure. Instead of helping with learning, they can make revision feel boring and stressful, especially for people who are studying alongside work or other responsibilities.",
+        "p4": "This project is being built to solve that problem."
+      },
+      "coreIdea": {
+        "title": "Core Idea",
+        "p1": "The main focus of this project is practice using previous JLPT questions in a more approachable way.",
+        "p2": "Instead of asking learners to sit through an entire exam paper, the site breaks past questions into smaller practice units. Each question is used to explain the grammar pattern involved, why the correct option works in that context, and why the other options do not. This helps learners recognize patterns naturally rather than relying on memorization."
+      },
+      "userFriendly": {
+        "title": "User-Friendly Practice",
+        "p1": "Because this project comes from my own struggle with the exam, ease of use is a priority.",
+        "p2": "The website is being designed to feel simple, calm, and user-friendly, so learners can practice regularly without feeling nervous or overwhelmed. The goal is to make revision feel familiar and manageable, not intimidating."
+      },
+      "status": {
+        "title": "Current Development Status",
+        "p1": "The project is currently in an early development stage.",
+        "p2": "The structure of the site and the practice flow are being planned, and UI designs are being explored in Figma as a work in progress. Right now, the focus is on building a solid practice experience based on previous JLPT questions before adding more features."
+      },
+      "purpose": {
+        "title": "Purpose of the Project",
+        "p1": "This project exists to help JLPT learners understand how questions are actually formed, build confidence through consistent practice, and approach the exam with a clearer mindset."
+      }
+    }
   }
 }
 
