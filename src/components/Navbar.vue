@@ -133,7 +133,7 @@
 
             <!-- Mobile menu toggle - Lottie Hamburger -->
             <button
-              class="fixed top-5 right-5 z-[100] scale-110 cursor-pointer hamburger-btn"
+              class="fixed top-5 right-[clamp(1.5rem,5vw,4rem)] z-[100] scale-110 cursor-pointer hamburger-btn"
               :class="isProjectPage ? 'block' : 'lg:hidden'"
               @click="toggleMenu"
               aria-label="Toggle menu"
