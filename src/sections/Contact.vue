@@ -23,7 +23,17 @@
         </div>
 
         <div class="contact-right">
-          <div class="contact-form-wrapper">
+          <!-- Success State -->
+          <div v-if="formSubmitted" class="contact-success-wrapper">
+            <div ref="lottieContainer" class="contact-lottie"></div>
+            <h3 class="contact-success-title">Thanks for getting in touch.</h3>
+            <p class="contact-success-message">
+              I've received your message and will follow up soon.
+            </p>
+          </div>
+
+          <!-- Form State -->
+          <div v-else class="contact-form-wrapper">
             <h3 class="contact-form-title">{{ t('contact.formTitle') }}</h3>
             <form
               class="contact-form"
@@ -91,13 +101,15 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onBeforeUnmount, ref } from 'vue';
+import { computed, nextTick, onMounted, onBeforeUnmount, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import contactBgImage from '@/assets/contact bg.jpg';
 
 const contactWrapper = ref(null);
 const contactSection = ref(null);
+const lottieContainer = ref(null);
 const { t, locale } = useI18n();
+let successLottieAnim = null;
 const isJa = computed(() => locale.value === 'ja');
 
 const formState = ref({
@@ -108,6 +120,7 @@ const formState = ref({
 
 // Security state
 const isSubmitting = ref(false);
+const formSubmitted = ref(false);
 const formLoadTime = ref(Date.now());
 let lastSubmitTime = 0;
 
@@ -199,7 +212,23 @@ const handleSubmit = async () => {
     lastSubmitTime = Date.now();
     resetForm();
     formLoadTime.value = Date.now();
-    alert('Thank you for your message!');
+    formSubmitted.value = true;
+
+    // Initialize success Lottie animation
+    const { default: lottie } = await import('lottie-web');
+    const workAnimData = await import('@/assets/lottie/work.json');
+
+    await nextTick();
+
+    if (lottieContainer.value) {
+      successLottieAnim = lottie.loadAnimation({
+        container: lottieContainer.value,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        animationData: workAnimData.default ?? workAnimData,
+      });
+    }
   } catch (error) {
     console.error('Form error:', error);
     alert('There was an error sending your message. Please try again.');
@@ -326,6 +355,10 @@ onBeforeUnmount(() => {
     mediaMatch.kill();
     mediaMatch = null;
   }
+  if (successLottieAnim) {
+    successLottieAnim.destroy();
+    successLottieAnim = null;
+  }
 
   isWrapperVisible = false;
   wasWrapperVisible = false;
@@ -416,6 +449,36 @@ onBeforeUnmount(() => {
   width: 100%;
   max-width: 480px;
   padding: clamp(2rem, 4vw, 3.5rem);
+}
+
+.contact-success-wrapper {
+  width: 100%;
+  max-width: 480px;
+  padding: clamp(2rem, 4vw, 3.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.contact-lottie {
+  width: 200px;
+  height: 200px;
+  margin-bottom: 1.5rem;
+}
+
+.contact-success-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--contact-title-text);
+  margin-bottom: 1rem;
+}
+
+.contact-success-message {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--contact-subtitle-text);
+  max-width: 320px;
 }
 
 .contact-title {
