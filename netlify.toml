@@ -1,0 +1,8 @@
+[build]
+  publish = "dist"
+
+[[headers]]
+  for = "/*.pdf"
+  [headers.values]
+    Content-Type = "application/pdf"
+    Content-Disposition = "inline"

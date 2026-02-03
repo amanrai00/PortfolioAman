@@ -151,7 +151,7 @@
                     target="_blank"
                     rel="noopener noreferrer"
                     class="resume-dropdown-item group"
-                    @click="closeResumeDropdown"
+                    @click.prevent="openResume(resumeLinks.en)"
                     @keydown.escape="closeResumeDropdown"
                   >
                     <span class="resume-dropdown-item-bg"></span>
@@ -162,7 +162,7 @@
                     target="_blank"
                     rel="noopener noreferrer"
                     class="resume-dropdown-item group"
-                    @click="closeResumeDropdown"
+                    @click.prevent="openResume(resumeLinks.ja)"
                     @keydown.escape="closeResumeDropdown"
                   >
                     <span class="resume-dropdown-item-bg"></span>
@@ -310,7 +310,7 @@
                   target="_blank"
                   rel="noopener noreferrer"
                   class="resume-dropdown-item-mobile"
-                  @click="closeMobileResumeDropdown"
+                  @click.prevent="openResume(resumeLinks.en, true)"
                 >
                   English
                 </a>
@@ -319,7 +319,7 @@
                   target="_blank"
                   rel="noopener noreferrer"
                   class="resume-dropdown-item-mobile"
-                  @click="closeMobileResumeDropdown"
+                  @click.prevent="openResume(resumeLinks.ja, true)"
                 >
                   Japanese
                 </a>
@@ -456,6 +456,18 @@ const toggleMobileResumeDropdown = () => {
 
 const closeMobileResumeDropdown = () => {
   isMobileResumeDropdownOpen.value = false;
+};
+
+const openResume = (url, isMobile = false) => {
+  const newTab = window.open(url, "_blank", "noopener,noreferrer");
+  if (newTab) {
+    newTab.opener = null;
+  }
+  if (isMobile) {
+    closeMobileResumeDropdown();
+  } else {
+    closeResumeDropdown();
+  }
 };
 
 const handleClickOutside = (event) => {
