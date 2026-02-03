@@ -462,8 +462,8 @@ onBeforeUnmount(() => {
 }
 
 .contact-lottie {
-  width: 200px;
-  height: 200px;
+  width: 320px;
+  height: 320px;
   margin-bottom: 1.5rem;
 }
 
