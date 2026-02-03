@@ -90,7 +90,7 @@
                 ></textarea>
               </label>
               <button class="contact-submit" type="submit" :disabled="isSubmitting">
-                {{ isSubmitting ? t('contact.sending') || 'Sending...' : t('contact.send') }}
+                {{ isSubmitting ? 'Sending...' : t('contact.send') }}
               </button>
             </form>
           </div>
@@ -212,11 +212,16 @@ const handleSubmit = async () => {
     lastSubmitTime = Date.now();
     resetForm();
     formLoadTime.value = Date.now();
-    formSubmitted.value = true;
 
-    // Initialize success Lottie animation
-    const { default: lottie } = await import('lottie-web');
-    const workAnimData = await import('@/assets/lottie/work.json');
+    // Preload Lottie animation before showing success state
+    const [{ default: lottie }, workAnimModule] = await Promise.all([
+      import('lottie-web'),
+      import('@/assets/lottie/work.json'),
+    ]);
+    const workAnimData = workAnimModule.default ?? workAnimModule;
+
+    // Show success state after Lottie is preloaded
+    formSubmitted.value = true;
 
     await nextTick();
 
@@ -226,7 +231,7 @@ const handleSubmit = async () => {
         renderer: 'svg',
         loop: true,
         autoplay: true,
-        animationData: workAnimData.default ?? workAnimData,
+        animationData: workAnimData,
       });
     }
   } catch (error) {
