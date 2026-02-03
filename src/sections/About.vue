@@ -306,6 +306,14 @@ onUnmounted(() => {
   background: #c9ad94;
 }
 
+:global([data-theme="dark"] .about-image-frame::before) {
+  background: #0f2b46;
+}
+
+:global([data-theme="dark"] .about-image-frame::after) {
+  background: #1f6e8c;
+}
+
 :global(:root.theme-switching[data-theme="light"] .about-bg.is-visible) {
   transition: opacity 0.6s ease 1.8s !important;
 }
