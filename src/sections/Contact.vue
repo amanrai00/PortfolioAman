@@ -34,9 +34,12 @@
               @submit.prevent="handleSubmit"
             >
               <input type="hidden" name="form-name" value="contact" />
+              <!-- Honeypot fields for bot detection -->
               <p style="display: none;">
                 <label>Don't fill this out: <input name="bot-field" /></label>
               </p>
+              <input type="text" name="website" style="position: absolute; left: -9999px;" tabindex="-1" autocomplete="off" />
+              <input type="hidden" name="_gotcha" />
               <label class="contact-field">
                 <span class="contact-label">{{ t('contact.nameLabel') }}</span>
                 <input
@@ -76,7 +79,9 @@
                   required
                 ></textarea>
               </label>
-              <button class="contact-submit" type="submit">{{ t('contact.send') }}</button>
+              <button class="contact-submit" type="submit" :disabled="isSubmitting">
+                {{ isSubmitting ? t('contact.sending') || 'Sending...' : t('contact.send') }}
+              </button>
             </form>
           </div>
         </div>
@@ -101,6 +106,11 @@ const formState = ref({
   message: '',
 });
 
+// Security state
+const isSubmitting = ref(false);
+const formLoadTime = ref(Date.now());
+let lastSubmitTime = 0;
+
 let revealTween = null;
 let exitTween = null;
 let mediaMatch = null;
@@ -117,8 +127,56 @@ const resetForm = () => {
   };
 };
 
+// Spam pattern detection
+const containsSpamPatterns = (text) => {
+  const spamPatterns = [
+    /\[url=/i,
+    /https?:\/\/[^\s]{50,}/i,
+    /(.)\1{10,}/,
+    /<\s*script/i,
+    /<\s*a\s+href/i,
+  ];
+  return spamPatterns.some((pattern) => pattern.test(text));
+};
+
 const handleSubmit = async () => {
   const { name, email, message } = formState.value;
+  const now = Date.now();
+
+  // Prevent double submission
+  if (isSubmitting.value) return;
+
+  // Rate limiting - minimum 10 seconds between submissions
+  if (now - lastSubmitTime < 10000 && lastSubmitTime > 0) {
+    alert('Please wait before submitting again.');
+    return;
+  }
+
+  // Timing check - reject if submitted too fast (< 3 seconds)
+  if (now - formLoadTime.value < 3000) {
+    alert('Please take your time filling out the form.');
+    formLoadTime.value = Date.now();
+    return;
+  }
+
+  // Spam pattern detection
+  if (containsSpamPatterns(name) || containsSpamPatterns(message)) {
+    alert('Your message could not be sent. Please remove any suspicious content.');
+    return;
+  }
+
+  // Check honeypot fields (should be empty)
+  const form = document.querySelector('form[name="contact"]');
+  const websiteField = form?.querySelector('input[name="website"]');
+  const gotchaField = form?.querySelector('input[name="_gotcha"]');
+  if (websiteField?.value || gotchaField?.value) {
+    // Silent fail for bots
+    resetForm();
+    alert('Thank you for your message!');
+    return;
+  }
+
+  isSubmitting.value = true;
 
   const formData = new URLSearchParams();
   formData.append('form-name', 'contact');
@@ -127,15 +185,22 @@ const handleSubmit = async () => {
   formData.append('message', message);
 
   try {
-    await fetch('/', {
+    const response = await fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: formData.toString(),
     });
+
+    if (!response.ok) throw new Error('Submission failed');
+
+    lastSubmitTime = Date.now();
     resetForm();
+    formLoadTime.value = Date.now();
     alert('Thank you for your message!');
   } catch (error) {
     alert('There was an error sending your message. Please try again.');
+  } finally {
+    isSubmitting.value = false;
   }
 };
 
@@ -446,6 +511,12 @@ onBeforeUnmount(() => {
   box-shadow: 1px 1px 13px #20232e, -1px -1px 33px #545b78;
   color: #d6d6d6;
   transition: 100ms;
+}
+
+.contact-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* Light theme button styling */
