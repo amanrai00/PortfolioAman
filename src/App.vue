@@ -23,7 +23,9 @@ import IntroLoader from "./components/IntroLoader.vue";
 
 const showLoader = ref(true);
 const route = useRoute();
-const showScrollIndicator = computed(() => route.name === "home");
+const showScrollIndicator = computed(() =>
+  route.name === "home" || route.name === "project-progress"
+);
 const isPageTransitioning = ref(false);
 let transitionTimers = [];
 
