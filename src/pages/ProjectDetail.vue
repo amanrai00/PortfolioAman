@@ -60,7 +60,7 @@ const startPageTransition = inject("startPageTransition", null);
 
 const goBack = () => {
   const navigate = () => {
-    router.push({ name: "home", hash: "#projects-anchor" });
+    router.push({ name: "home", query: { section: "projects-anchor" } });
   };
   if (startPageTransition) {
     startPageTransition(navigate);

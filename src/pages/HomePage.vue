@@ -14,7 +14,7 @@
 
 <script setup>
 import { nextTick, onMounted, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import Home from "@/sections/Home.vue";
 import Impact from "@/sections/Impact.vue";
 import About from "@/sections/About.vue";
@@ -25,6 +25,7 @@ import Contact from "@/sections/Contact.vue";
 import Footer from "@/components/Footer.vue";
 
 const route = useRoute();
+const router = useRouter();
 
 const scrollToRouteTarget = () => {
   const hashTarget = route.hash && route.hash.length > 1 ? route.hash : null;
@@ -39,6 +40,10 @@ const scrollToRouteTarget = () => {
     const el = document.querySelector(target);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
+      if (route.hash || route.query.section) {
+        const cleanUrl = router.resolve({ name: "home" }).href;
+        window.history.replaceState({}, "", cleanUrl);
+      }
       return;
     }
     attempts += 1;
