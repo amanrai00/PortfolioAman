@@ -102,33 +102,40 @@
             </label>
 
             <!-- Desktop Resume Dropdown -->
-            <div v-if="!isProjectPage" class="resume-dropdown hidden lg:block relative" ref="desktopResumeDropdown">
+            <div
+              v-if="!isProjectPage"
+              class="resume-dropdown hidden lg:block relative"
+              ref="desktopResumeDropdown"
+              @mouseenter="setResumeHover(true)"
+              @mouseleave="setResumeHover(false)"
+              @focusin="openResumeDropdown"
+              @focusout="closeResumeDropdown"
+            >
               <button
                 type="button"
                 class="group relative px-4 py-2 font-medium"
-                :class="{ 'is-open': isResumeDropdownOpen }"
-                @click="toggleResumeDropdown"
+                :class="{ 'is-open': isResumeDropdownActive }"
                 @keydown.escape="closeResumeDropdown"
                 aria-haspopup="true"
-                :aria-expanded="isResumeDropdownOpen"
+                :aria-expanded="isResumeDropdownActive"
               >
                 <span
                   class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[color:var(--theme-resume-border)] transition duration-200 ease-out"
-                  :class="isResumeDropdownOpen ? 'translate-x-0 translate-y-0' : 'group-hover:translate-x-0 group-hover:translate-y-0'"
+                  :class="isResumeDropdownActive ? 'translate-x-0 translate-y-0' : 'group-hover:translate-x-0 group-hover:translate-y-0'"
                 ></span>
                 <span
                   class="absolute inset-0 h-full w-full border-2 border-[color:var(--theme-resume-border)] bg-[color:var(--theme-resume-bg)] transition-colors duration-200"
-                  :class="isResumeDropdownOpen ? 'bg-[color:var(--theme-resume-hover-bg)]' : 'group-hover:bg-[color:var(--theme-resume-hover-bg)]'"
+                  :class="isResumeDropdownActive ? 'bg-[color:var(--theme-resume-hover-bg)]' : 'group-hover:bg-[color:var(--theme-resume-hover-bg)]'"
                 ></span>
                 <span
                   class="relative flex items-center gap-x-3 transition-colors duration-200"
-                  :class="isResumeDropdownOpen ? 'text-[color:var(--theme-resume-hover-text)]' : 'text-[color:var(--theme-resume-text)] group-hover:text-[color:var(--theme-resume-hover-text)]'"
+                  :class="isResumeDropdownActive ? 'text-[color:var(--theme-resume-hover-text)]' : 'text-[color:var(--theme-resume-text)] group-hover:text-[color:var(--theme-resume-hover-text)]'"
                 >
                   <span class="resume-label">{{ t('nav.resume') }}</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-4 w-4 transition-transform duration-200"
-                    :class="{ 'rotate-180': isResumeDropdownOpen }"
+                    :class="{ 'rotate-180': isResumeDropdownActive }"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -143,7 +150,7 @@
               <!-- Dropdown Menu -->
               <div
                 class="resume-dropdown-menu absolute top-full left-0 w-full mt-1 overflow-hidden"
-                :class="isResumeDropdownOpen ? 'is-visible' : ''"
+                :class="isResumeDropdownActive ? 'is-visible' : ''"
               >
                 <div class="resume-dropdown-content">
                   <a
@@ -397,6 +404,7 @@ const isOpen = ref(false);
 const isReady = ref(false);
 const isDark = ref(true);
 const isResumeDropdownOpen = ref(false);
+const isResumeDropdownHovering = ref(false);
 const isMobileResumeDropdownOpen = ref(false);
 const desktopResumeDropdown = ref(null);
 const mobileResumeDropdown = ref(null);
@@ -430,6 +438,9 @@ const localeKey = "locale";
 
 const { t, locale } = useI18n();
 const isJa = computed(() => locale.value === "ja");
+const isResumeDropdownActive = computed(
+  () => isResumeDropdownOpen.value || isResumeDropdownHovering.value
+);
 const router = useRouter();
 const route = useRoute();
 const isProjectPage = computed(() => route.name === "project-progress");
@@ -442,12 +453,16 @@ const toggleLocale = () => {
 };
 
 // Resume dropdown functions
-const toggleResumeDropdown = () => {
-  isResumeDropdownOpen.value = !isResumeDropdownOpen.value;
+const openResumeDropdown = () => {
+  isResumeDropdownOpen.value = true;
 };
 
 const closeResumeDropdown = () => {
   isResumeDropdownOpen.value = false;
+};
+
+const setResumeHover = (next) => {
+  isResumeDropdownHovering.value = next;
 };
 
 const toggleMobileResumeDropdown = () => {
