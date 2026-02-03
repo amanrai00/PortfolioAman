@@ -351,9 +351,9 @@ onBeforeUnmount(() => {
   text-transform: uppercase;
   letter-spacing: 0.3em;
   font-size: clamp(2.8rem, 6.2vw, 6rem);
-  -webkit-text-stroke: 0.4px rgba(248, 250, 252, 0.55);
-  text-stroke: 0.4px rgba(248, 250, 252, 0.55);
-  color: #f8fafc;
+  -webkit-text-stroke: 0.4px rgba(250, 250, 250, 0.55);
+  text-stroke: 0.4px rgba(250, 250, 250, 0.55);
+  color: #fafafa;
   overflow: hidden;
   line-height: 1.06;
 }

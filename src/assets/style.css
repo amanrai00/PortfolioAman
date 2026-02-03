@@ -53,40 +53,40 @@ html {
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --theme-bg: #040404;
+  --theme-bg: #030303;
   --theme-bg-gradient: none;
-  --theme-nav-bg: rgba(10, 10, 11, 0.45);
-  --theme-bg-overlay: rgba(0, 0, 0, 0.45);
+  --theme-nav-bg: rgba(3, 3, 3, 0.65);
+  --theme-bg-overlay: rgba(0, 0, 0, 0.6);
   --theme-bg-filter: none;
   --theme-bg-blend: normal;
   --theme-bg-scale: 1;
   --theme-bg-shadow: none;
-  --theme-text-strong: #f8fafc;
-  --theme-text-muted: rgba(226, 232, 240, 0.72);
-  --theme-text-soft: rgba(226, 232, 240, 0.6);
-  --theme-text-hover: rgba(248, 250, 252, 0.9);
+  --theme-text-strong: #fafafa;
+  --theme-text-muted: rgba(212, 212, 212, 0.75);
+  --theme-text-soft: rgba(212, 212, 212, 0.6);
+  --theme-text-hover: rgba(250, 250, 250, 0.9);
   --theme-line-strong: rgba(255, 255, 255, 0.75);
   --theme-line-soft: rgba(255, 255, 255, 0.32);
   --theme-line-shadow: rgba(255, 255, 255, 0.18);
-  --theme-cta-bg: #1f2937;
+  --theme-cta-bg: #0a0a0a;
   --theme-cta-text: #ffffff;
   --theme-pill-bg: rgba(255, 255, 255, 0.06);
   --theme-pill-border: rgba(255, 255, 255, 0.08);
   --theme-resume-bg: #ffffff;
-  --theme-resume-border: #274156;
-  --theme-resume-text: #274156;
+  --theme-resume-border: #404040;
+  --theme-resume-text: #404040;
   --theme-resume-hover-bg: #000000;
   --theme-resume-hover-text: #ffffff;
-  --theme-menu-overlay: rgba(0, 0, 0, 0.4);
-  --theme-menu-circle: linear-gradient(180deg, #0f1112 0%, #141718 54%, #0f1112 100%);
+  --theme-menu-overlay: rgba(0, 0, 0, 0.6);
+  --theme-menu-circle: linear-gradient(180deg, #050505 0%, #080808 54%, #050505 100%);
   --theme-logo-filter: invert(1) brightness(1);
   --theme-logo-secondary-filter: invert(1) brightness(1);
   --theme-icon-filter: invert(1) brightness(1.6);
-  --theme-switch-bg: rgb(135, 150, 165);
-  --theme-switch-circle: rgb(0, 56, 146);
-  --theme-headline-from: rgba(255, 255, 255, 0.9);
-  --theme-headline-via: rgba(255, 255, 255, 0.8);
-  --theme-headline-to: rgba(255, 255, 255, 0.7);
+  --theme-switch-bg: rgb(115, 115, 115);
+  --theme-switch-circle: rgb(38, 38, 38);
+  --theme-headline-from: rgba(255, 255, 255, 0.92);
+  --theme-headline-via: rgba(255, 255, 255, 0.82);
+  --theme-headline-to: rgba(255, 255, 255, 0.72);
 }
 
 :root.theme-switching .nav-link,

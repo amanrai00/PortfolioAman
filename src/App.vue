@@ -75,10 +75,10 @@ html {
 .panel-3 { background: #a39e93; }
 .panel-4 { background: #d6cfc4; }
 
-:root[data-theme="dark"] .panel-1 { background: #64748b; }
-:root[data-theme="dark"] .panel-2 { background: #94a3b8; }
-:root[data-theme="dark"] .panel-3 { background: #cbd5e1; }
-:root[data-theme="dark"] .panel-4 { background: #e2e8f0; }
+:root[data-theme="dark"] .panel-1 { background: #1a1a1a; }
+:root[data-theme="dark"] .panel-2 { background: #404040; }
+:root[data-theme="dark"] .panel-3 { background: #6b6b6b; }
+:root[data-theme="dark"] .panel-4 { background: #9a9a9a; }
 
 .page-transition.is-active .wipe-panel {
   animation: panelWipe 1.1s ease-in-out forwards;

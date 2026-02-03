@@ -101,35 +101,76 @@
               </div>
             </label>
 
-            <a v-if="!isProjectPage" href="" class="group relative hidden px-4 py-2 font-medium lg:inline-block">
-              <span
-                class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[color:var(--theme-resume-border)] transition duration-200 ease-out
-                       group-hover:translate-x-0 group-hover:translate-y-0"
-              ></span>
-              <span
-                class="absolute inset-0 h-full w-full border-2 border-[color:var(--theme-resume-border)] bg-[color:var(--theme-resume-bg)] transition-colors duration-200
-                       group-hover:bg-[color:var(--theme-resume-hover-bg)]"
-              ></span>
-              <span
-                class="relative flex items-center gap-x-3 text-[color:var(--theme-resume-text)] transition-colors duration-200 group-hover:text-[color:var(--theme-resume-hover-text)]"
+            <!-- Desktop Resume Dropdown -->
+            <div v-if="!isProjectPage" class="resume-dropdown hidden lg:block relative" ref="desktopResumeDropdown">
+              <button
+                type="button"
+                class="group relative px-4 py-2 font-medium"
+                :class="{ 'is-open': isResumeDropdownOpen }"
+                @click="toggleResumeDropdown"
+                @keydown.escape="closeResumeDropdown"
+                aria-haspopup="true"
+                :aria-expanded="isResumeDropdownOpen"
               >
-                <span class="resume-label">{{ t('nav.resume') }}</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                <span
+                  class="absolute inset-0 h-full w-full translate-x-1 translate-y-1 bg-[color:var(--theme-resume-border)] transition duration-200 ease-out"
+                  :class="isResumeDropdownOpen ? 'translate-x-0 translate-y-0' : 'group-hover:translate-x-0 group-hover:translate-y-0'"
+                ></span>
+                <span
+                  class="absolute inset-0 h-full w-full border-2 border-[color:var(--theme-resume-border)] bg-[color:var(--theme-resume-bg)] transition-colors duration-200"
+                  :class="isResumeDropdownOpen ? 'bg-[color:var(--theme-resume-hover-bg)]' : 'group-hover:bg-[color:var(--theme-resume-hover-bg)]'"
+                ></span>
+                <span
+                  class="relative flex items-center gap-x-3 transition-colors duration-200"
+                  :class="isResumeDropdownOpen ? 'text-[color:var(--theme-resume-hover-text)]' : 'text-[color:var(--theme-resume-text)] group-hover:text-[color:var(--theme-resume-hover-text)]'"
                 >
-                  <path d="M12 3v12" />
-                  <path d="M8 11l4 4 4-4" />
-                  <path d="M4 19h16" />
-                </svg>
-              </span>
-            </a>
+                  <span class="resume-label">{{ t('nav.resume') }}</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 transition-transform duration-200"
+                    :class="{ 'rotate-180': isResumeDropdownOpen }"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </span>
+              </button>
+              <!-- Dropdown Menu -->
+              <div
+                class="resume-dropdown-menu absolute top-full left-0 w-full mt-1 overflow-hidden"
+                :class="isResumeDropdownOpen ? 'is-visible' : ''"
+              >
+                <div class="resume-dropdown-content">
+                  <a
+                    :href="resumeLinks.en"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="resume-dropdown-item group"
+                    @click="closeResumeDropdown"
+                    @keydown.escape="closeResumeDropdown"
+                  >
+                    <span class="resume-dropdown-item-bg"></span>
+                    <span class="resume-dropdown-item-text">English</span>
+                  </a>
+                  <a
+                    :href="resumeLinks.ja"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="resume-dropdown-item group"
+                    @click="closeResumeDropdown"
+                    @keydown.escape="closeResumeDropdown"
+                  >
+                    <span class="resume-dropdown-item-bg"></span>
+                    <span class="resume-dropdown-item-text">Japanese</span>
+                  </a>
+                </div>
+              </div>
+            </div>
 
             <!-- Mobile menu toggle - Lottie Hamburger -->
             <button
@@ -211,7 +252,7 @@
           </button>
         </li>
 
-        <!-- Mobile Resume in Menu -->
+        <!-- Mobile Resume Dropdown in Menu -->
         <li
           class="menu-item-animate mt-6"
           :class="[
@@ -221,35 +262,70 @@
             transitionDelay: isOpen ? `${200 + (mobileSections.length * 60)}ms` : '0ms'
           }"
         >
-          <a href="" class="group resume-link relative inline-block px-6 py-3 font-medium transition-transform duration-200">
-            <span
-              class="absolute inset-0 h-full w-full resume-layer resume-layer-shadow translate-x-1 translate-y-1 bg-[color:var(--theme-resume-border)] transition duration-200 ease-out
-                     group-hover:translate-x-0 group-hover:translate-y-0"
-            ></span>
-            <span
-              class="absolute inset-0 h-full w-full resume-layer resume-layer-base border-2 border-[color:var(--theme-resume-border)] bg-[color:var(--theme-resume-bg)] transition-colors duration-200
-                     group-hover:bg-[color:var(--theme-resume-hover-bg)]"
-            ></span>
-            <span
-              class="relative flex items-center gap-x-3 text-[color:var(--theme-resume-text)] transition-colors duration-200 group-hover:text-[color:var(--theme-resume-hover-text)]"
+          <div class="resume-dropdown-mobile" ref="mobileResumeDropdown">
+            <button
+              type="button"
+              class="group resume-link relative inline-block px-6 py-3 font-medium transition-transform duration-200"
+              :class="{ 'is-open': isMobileResumeDropdownOpen }"
+              @click="toggleMobileResumeDropdown"
+              aria-haspopup="true"
+              :aria-expanded="isMobileResumeDropdownOpen"
             >
-              <span class="resume-label">{{ t('nav.resume') }}</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+              <span
+                class="absolute inset-0 h-full w-full resume-layer resume-layer-shadow translate-x-1 translate-y-1 bg-[color:var(--theme-resume-border)] transition duration-200 ease-out"
+                :class="isMobileResumeDropdownOpen ? 'translate-x-0 translate-y-0' : 'group-hover:translate-x-0 group-hover:translate-y-0'"
+              ></span>
+              <span
+                class="absolute inset-0 h-full w-full resume-layer resume-layer-base border-2 border-[color:var(--theme-resume-border)] bg-[color:var(--theme-resume-bg)] transition-colors duration-200"
+                :class="isMobileResumeDropdownOpen ? 'bg-[color:var(--theme-resume-hover-bg)]' : 'group-hover:bg-[color:var(--theme-resume-hover-bg)]'"
+              ></span>
+              <span
+                class="relative flex items-center gap-x-3 transition-colors duration-200"
+                :class="isMobileResumeDropdownOpen ? 'text-[color:var(--theme-resume-hover-text)]' : 'text-[color:var(--theme-resume-text)] group-hover:text-[color:var(--theme-resume-hover-text)]'"
               >
-                <path d="M12 3v12" />
-                <path d="M8 11l4 4 4-4" />
-                <path d="M4 19h16" />
-              </svg>
-            </span>
-          </a>
+                <span class="resume-label">{{ t('nav.resume') }}</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 transition-transform duration-200"
+                  :class="{ 'rotate-180': isMobileResumeDropdownOpen }"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </span>
+            </button>
+            <!-- Mobile Dropdown Menu -->
+            <div
+              class="resume-dropdown-menu-mobile mt-3"
+              :class="isMobileResumeDropdownOpen ? 'is-visible' : ''"
+            >
+              <div class="flex flex-col gap-2">
+                <a
+                  :href="resumeLinks.en"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="resume-dropdown-item-mobile"
+                  @click="closeMobileResumeDropdown"
+                >
+                  English
+                </a>
+                <a
+                  :href="resumeLinks.ja"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="resume-dropdown-item-mobile"
+                  @click="closeMobileResumeDropdown"
+                >
+                  Japanese
+                </a>
+              </div>
+            </div>
+          </div>
         </li>
 
         <!-- Mobile Theme Switch -->
@@ -320,6 +396,15 @@ const hasShadow = ref(false);
 const isOpen = ref(false);
 const isReady = ref(false);
 const isDark = ref(true);
+const isResumeDropdownOpen = ref(false);
+const isMobileResumeDropdownOpen = ref(false);
+const desktopResumeDropdown = ref(null);
+const mobileResumeDropdown = ref(null);
+
+const resumeLinks = {
+  en: '/resume-en.pdf',
+  ja: '/resume-ja.pdf',
+};
 
 const sections = [
   { id: "about", label: "About" },
@@ -356,6 +441,32 @@ const toggleLocale = () => {
   document.documentElement.setAttribute("lang", locale.value);
 };
 
+// Resume dropdown functions
+const toggleResumeDropdown = () => {
+  isResumeDropdownOpen.value = !isResumeDropdownOpen.value;
+};
+
+const closeResumeDropdown = () => {
+  isResumeDropdownOpen.value = false;
+};
+
+const toggleMobileResumeDropdown = () => {
+  isMobileResumeDropdownOpen.value = !isMobileResumeDropdownOpen.value;
+};
+
+const closeMobileResumeDropdown = () => {
+  isMobileResumeDropdownOpen.value = false;
+};
+
+const handleClickOutside = (event) => {
+  if (desktopResumeDropdown.value && !desktopResumeDropdown.value.contains(event.target)) {
+    isResumeDropdownOpen.value = false;
+  }
+  if (mobileResumeDropdown.value && !mobileResumeDropdown.value.contains(event.target)) {
+    isMobileResumeDropdownOpen.value = false;
+  }
+};
+
 const applyTheme = () => {
   const theme = isDark.value ? "dark" : "light";
   const root = document.documentElement;
@@ -381,6 +492,10 @@ const playIcon = (open) => {
 
 const handleScroll = () => {
   hasShadow.value = window.scrollY > 0;
+  // Close dropdown on scroll
+  if (isResumeDropdownOpen.value) {
+    isResumeDropdownOpen.value = false;
+  }
 };
 
 const handleResize = () => {
@@ -459,6 +574,7 @@ onMounted(async () => {
 
   window.addEventListener("scroll", handleScroll, { passive: true });
   window.addEventListener("resize", handleResize, { passive: true });
+  document.addEventListener("click", handleClickOutside);
 
   handleScroll();
   handleResize();
@@ -514,12 +630,15 @@ watch(isOpen, (open) => {
     menuBgAnim.play();
   } else {
     menuBgAnim.pause();
+    // Close mobile resume dropdown when menu closes
+    isMobileResumeDropdownOpen.value = false;
   }
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", handleScroll);
   window.removeEventListener("resize", handleResize);
+  document.removeEventListener("click", handleClickOutside);
 
   menuAnim?.destroy();
   menuAnim = null;
@@ -825,5 +944,115 @@ onBeforeUnmount(() => {
 .lang-switcher.is-ja:hover .lang-roll-track,
 .lang-switcher.is-ja:focus-visible .lang-roll-track {
   transform: translateY(0);
+}
+
+/* Resume Dropdown Styles */
+.resume-dropdown {
+  position: relative;
+}
+
+.resume-dropdown button {
+  cursor: pointer;
+}
+
+.resume-dropdown-menu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  pointer-events: none;
+}
+
+.resume-dropdown-menu.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.resume-dropdown-content {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--theme-resume-border);
+  background: var(--theme-resume-bg);
+  overflow: hidden;
+}
+
+.resume-dropdown-item {
+  position: relative;
+  display: block;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--theme-resume-text);
+  transition: color 0.15s ease;
+  overflow: hidden;
+}
+
+.resume-dropdown-item-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--theme-resume-hover-bg);
+  transform: translateX(-100%);
+  transition: transform 0.2s ease;
+}
+
+.resume-dropdown-item:hover .resume-dropdown-item-bg,
+.resume-dropdown-item:focus-visible .resume-dropdown-item-bg {
+  transform: translateX(0);
+}
+
+.resume-dropdown-item-text {
+  position: relative;
+  z-index: 1;
+}
+
+.resume-dropdown-item:hover,
+.resume-dropdown-item:focus-visible {
+  color: var(--theme-resume-hover-text);
+}
+
+.resume-dropdown-item:not(:last-child) {
+  border-bottom: 1px solid var(--theme-resume-border);
+}
+
+/* Mobile Resume Dropdown */
+.resume-dropdown-mobile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.resume-dropdown-menu-mobile {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.25s ease, max-height 0.25s ease;
+}
+
+.resume-dropdown-menu-mobile.is-visible {
+  opacity: 1;
+  max-height: 120px;
+}
+
+.resume-dropdown-item-mobile {
+  display: block;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  color: var(--theme-text-muted);
+  border: 1px solid var(--theme-line-soft);
+  background: transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  text-align: center;
+}
+
+.resume-dropdown-item-mobile:hover,
+.resume-dropdown-item-mobile:focus-visible {
+  color: var(--theme-text-strong);
+  border-color: var(--theme-line-strong);
 }
 </style>
