@@ -25,7 +25,18 @@
         <div class="contact-right">
           <div class="contact-form-wrapper">
             <h3 class="contact-form-title">{{ t('contact.formTitle') }}</h3>
-            <form class="contact-form" @submit.prevent="handleSubmit">
+            <form
+              class="contact-form"
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              @submit.prevent="handleSubmit"
+            >
+              <input type="hidden" name="form-name" value="contact" />
+              <p style="display: none;">
+                <label>Don't fill this out: <input name="bot-field" /></label>
+              </p>
               <label class="contact-field">
                 <span class="contact-label">{{ t('contact.nameLabel') }}</span>
                 <input
@@ -34,6 +45,7 @@
                   type="text"
                   name="name"
                   autocomplete="name"
+                  maxlength="60"
                   :placeholder="t('contact.namePlaceholder')"
                   required
                 />
@@ -47,6 +59,7 @@
                   name="email"
                   autocomplete="email"
                   inputmode="email"
+                  maxlength="120"
                   :placeholder="t('contact.emailPlaceholder')"
                   required
                 />
@@ -58,6 +71,7 @@
                   class="contact-input"
                   rows="4"
                   name="message"
+                  maxlength="2000"
                   :placeholder="t('contact.messagePlaceholder')"
                   required
                 ></textarea>
@@ -80,7 +94,6 @@ const contactWrapper = ref(null);
 const contactSection = ref(null);
 const { t, locale } = useI18n();
 const isJa = computed(() => locale.value === 'ja');
-const contactEmail = 'amanrai1630@gmail.com';
 
 const formState = ref({
   name: '',
@@ -104,19 +117,26 @@ const resetForm = () => {
   };
 };
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   const { name, email, message } = formState.value;
-  const subject = 'Portfolio inquiry';
-  const body = [
-    `${t('contact.nameLabel')}: ${name}`,
-    `${t('contact.emailLabel')}: ${email}`,
-    '',
-    message,
-  ].join('\n');
 
-  const mailtoUrl = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  window.location.href = mailtoUrl;
-  resetForm();
+  const formData = new URLSearchParams();
+  formData.append('form-name', 'contact');
+  formData.append('name', name);
+  formData.append('email', email);
+  formData.append('message', message);
+
+  try {
+    await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: formData.toString(),
+    });
+    resetForm();
+    alert('Thank you for your message!');
+  } catch (error) {
+    alert('There was an error sending your message. Please try again.');
+  }
 };
 
 onMounted(async () => {
