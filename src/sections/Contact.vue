@@ -166,9 +166,9 @@ const handleSubmit = async () => {
   }
 
   // Check honeypot fields (should be empty)
-  const form = document.querySelector('form[name="contact"]');
-  const websiteField = form?.querySelector('input[name="website"]');
-  const gotchaField = form?.querySelector('input[name="_gotcha"]');
+  const formEl = document.querySelector('.contact-form');
+  const websiteField = formEl?.querySelector('input[name="website"]');
+  const gotchaField = formEl?.querySelector('input[name="_gotcha"]');
   if (websiteField?.value || gotchaField?.value) {
     // Silent fail for bots
     resetForm();
@@ -191,13 +191,17 @@ const handleSubmit = async () => {
       body: formData.toString(),
     });
 
-    if (!response.ok) throw new Error('Submission failed');
+    if (!response.ok) {
+      console.error('Form submission failed:', response.status, response.statusText);
+      throw new Error('Submission failed');
+    }
 
     lastSubmitTime = Date.now();
     resetForm();
     formLoadTime.value = Date.now();
     alert('Thank you for your message!');
   } catch (error) {
+    console.error('Form error:', error);
     alert('There was an error sending your message. Please try again.');
   } finally {
     isSubmitting.value = false;
