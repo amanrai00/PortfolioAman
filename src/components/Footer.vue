@@ -256,7 +256,8 @@ onUnmounted(() => {
   justify-content: space-between;
   min-height: 100vh;
   padding: clamp(2rem, 4vw, 4rem) clamp(2rem, 5vw, 6rem);
-  background: var(--theme-bg);
+  background: var(--theme-bg-gradient, none);
+  background-color: var(--theme-bg);
   overflow: hidden;
 }
 
