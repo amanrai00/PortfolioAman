@@ -75,6 +75,7 @@ const goBack = () => {
   min-height: 100vh;
   padding: clamp(6rem, 10vw, 8rem) clamp(1.25rem, 5vw, 4.5rem) clamp(3rem, 8vw, 6rem);
   color: var(--theme-text-strong);
+  position: relative;
 }
 
 .project-detail-wrapper {
@@ -86,7 +87,7 @@ const goBack = () => {
 }
 
 .project-back {
-  position: fixed;
+  position: absolute;
   top: 1.25rem;
   left: clamp(1.5rem, 5vw, 4rem);
   z-index: 101;

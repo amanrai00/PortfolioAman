@@ -180,27 +180,28 @@
             </div>
 
             <!-- Mobile menu toggle - Lottie Hamburger -->
-            <button
-              class="fixed top-5 right-[clamp(1.5rem,5vw,4rem)] z-[100] scale-110 cursor-pointer hamburger-btn"
-              :class="isProjectPage ? 'block' : 'lg:hidden'"
-              @click="toggleMenu"
-              aria-label="Toggle menu"
-              :aria-expanded="isOpen"
-            >
-              <div ref="menuIconEl" class="w-8 h-8 hamburger-icon" :class="{ 'is-hidden': !hasMenuAnim }"></div>
-              <svg
-                v-if="!hasMenuAnim"
-                class="hamburger-fallback"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path d="M4 7h16M4 12h16M4 17h16" />
-              </svg>
-            </button>
           </div>
         </div>
       </div>
     </nav>
+
+    <button
+      v-if="isProjectPage"
+      class="fixed top-5 right-[clamp(1.5rem,5vw,4rem)] z-[100] scale-110 cursor-pointer hamburger-btn"
+      @click="toggleMenu"
+      aria-label="Toggle menu"
+      :aria-expanded="isOpen"
+    >
+      <div ref="menuIconEl" class="w-8 h-8 hamburger-icon" :class="{ 'is-hidden': !hasMenuAnim }"></div>
+      <svg
+        v-if="!hasMenuAnim"
+        class="hamburger-fallback"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+    </button>
 
     <!-- Expanding Circle Overlay - Dark Theme -->
     <div
@@ -443,7 +444,7 @@ const isResumeDropdownActive = computed(
 );
 const router = useRouter();
 const route = useRoute();
-const isProjectPage = computed(() => route.name === "project-progress");
+const isProjectPage = computed(() => route.name === "project-progress" || route.path.startsWith("/projects"));
 const startPageTransition = inject("startPageTransition", null);
 
 const toggleLocale = () => {
@@ -681,6 +682,7 @@ onBeforeUnmount(() => {
   touch-action: manipulation;
   transform: scale(1.1);
   contain: layout;
+  color: var(--theme-text-soft);
 }
 
 .hamburger-btn:active {
@@ -688,10 +690,18 @@ onBeforeUnmount(() => {
 }
 
 .hamburger-icon {
-  filter: var(--theme-icon-filter);
+  filter: none;
   position: relative;
   z-index: 100;
   contain: layout style;
+}
+
+.hamburger-icon :deep(path),
+.hamburger-icon :deep(line),
+.hamburger-icon :deep(rect),
+.hamburger-icon :deep(circle) {
+  stroke: var(--theme-text-soft) !important;
+  fill: var(--theme-text-soft) !important;
 }
 
 .hamburger-icon.is-hidden {
@@ -708,8 +718,8 @@ onBeforeUnmount(() => {
   stroke-linecap: round;
   stroke-linejoin: round;
   fill: none;
-  color: var(--theme-text-strong);
-  filter: var(--theme-icon-filter);
+  color: var(--theme-text-soft);
+  filter: none;
 }
 
 .hamburger-icon :deep(canvas),
