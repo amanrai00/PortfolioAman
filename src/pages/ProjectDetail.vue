@@ -45,12 +45,14 @@
       </div>
     </section>
   </main>
+  <Footer />
 </template>
 
 <script setup>
 import { inject } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
+import Footer from "@/components/Footer.vue";
 
 const { t } = useI18n();
 const router = useRouter();

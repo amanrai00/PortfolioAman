@@ -35,6 +35,8 @@ const startPageTransition = (onMidpoint) => {
 
   transitionTimers.push(
     window.setTimeout(() => {
+      // Scroll to top while panels cover the screen
+      window.scrollTo({ top: 0, behavior: "instant" });
       if (typeof onMidpoint === "function") onMidpoint();
     }, 580)
   );
