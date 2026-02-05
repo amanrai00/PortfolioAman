@@ -199,11 +199,11 @@ const scrollToSection = (sectionId) => {
       sectionEl.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
-    sectionEl.scrollIntoView({ behavior: "auto", block: "center" });
+    sectionEl.scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
 
-  sectionEl.scrollIntoView({ behavior: "auto" });
+  sectionEl.scrollIntoView({ behavior: "smooth" });
 };
 
 // Toggling the flag reliably retriggers the CSS reveal animation.
