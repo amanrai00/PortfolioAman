@@ -636,7 +636,7 @@ onMounted(async () => {
 
   menuBgAnim.setSpeed(0.8);
 
-  menuAnim.setSubframe(false);
+  menuAnim.setSubframe(true);
   menuAnim.setSpeed(2.2);
 
   const initMenuAnim = () => {
