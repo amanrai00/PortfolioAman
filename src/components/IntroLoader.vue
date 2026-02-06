@@ -254,6 +254,15 @@ const scheduleReveal = () => {
     : props.snapOutDuration;
   const snapOutStart = Math.max(0, duration - props.fadeDuration - snapOutDuration);
   const snapOutHold = isSmallScreen ? 1 : 0.55;
+  const animationEndTime = snapOutStart + Math.round(snapOutDuration * snapOutHold);
+  const titleDuration = snapOutStart;
+
+  document.documentElement.style.setProperty("--intro-title-duration", `${titleDuration}ms`);
+
+  requestAnimationFrame(() => {
+    isReady.value = true;
+  });
+
   scheduleTimeout(() => {
     setSnapOut(true);
   }, snapOutStart);
@@ -265,7 +274,7 @@ const scheduleReveal = () => {
     scheduleTimeout(() => {
       finishIntro();
     }, props.fadeDuration);
-  }, snapOutStart + Math.round(snapOutDuration * snapOutHold));
+  }, animationEndTime);
 };
 
 const clearCanvas = (canvas) => {
@@ -297,10 +306,6 @@ onMounted(() => {
   if (canvasEl.value) {
     createAnimation(canvasEl.value);
   }
-
-  requestAnimationFrame(() => {
-    isReady.value = true;
-  });
 
   scheduleReveal();
   setupResize();
@@ -364,7 +369,7 @@ onBeforeUnmount(() => {
 }
 
 .intro-title--animate .intro-title-text {
-  animation: intro-reveal 1.5s cubic-bezier(0.77, 0, 0.175, 1) 0s forwards;
+  animation: intro-reveal var(--intro-title-duration, 1.5s) cubic-bezier(0.22, 1, 0.36, 1) 0s forwards;
 }
 
 @keyframes intro-reveal {
