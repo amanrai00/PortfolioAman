@@ -93,8 +93,10 @@
       </a>
       <a
         class="social-item group"
-        href="#"
+        href="https://www.linkedin.com/in/amanrai00/"
         aria-label="LinkedIn"
+        target="_blank"
+        rel="noopener noreferrer"
       >
         <span class="social-circle">
           <i class="bi bi-linkedin text-lg"></i>
@@ -103,8 +105,10 @@
       </a>
       <a
         class="social-item group"
-        href="#"
+        href="https://github.com/amanrai00"
         aria-label="GitHub"
+        target="_blank"
+        rel="noopener noreferrer"
       >
         <span class="social-circle">
           <i class="bi bi-github text-lg"></i>
