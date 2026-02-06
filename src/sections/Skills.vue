@@ -2,7 +2,8 @@
   <section
     id="skills"
     ref="skillsSection"
-    class="relative px-5 lg:px-28 py-24 lg:py-32"
+    class="skills-section relative px-5 lg:px-28 py-24 lg:py-32"
+    :class="isJa ? 'is-ja' : ''"
   >
     <div class="mx-auto w-full max-w-4xl text-center">
       <div class="relative mb-8">
@@ -76,7 +77,8 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-const { t, tm } = useI18n();
+const { t, tm, locale } = useI18n();
+const isJa = computed(() => locale.value === 'ja');
 
 const flipClassMap = ['flip-improve', 'flip-learn', 'flip-adapt', 'flip-grow'];
 const fallbackTaglineWords = ['Improve', 'Learn', 'Adapt', 'Grow'];
@@ -253,6 +255,7 @@ onUnmounted(() => {
   white-space: nowrap;
   user-select: none;
   filter: blur(10px);
+  line-height: 1;
 }
 
 .skills-title {
@@ -416,6 +419,27 @@ onUnmounted(() => {
 
 :deep([data-theme="light"]) .skills-bg-text {
   opacity: 0.05;
+}
+
+.skills-section.is-ja .skills-bg-text {
+  text-transform: none;
+  letter-spacing: 0.04em;
+  font-size: clamp(4rem, 16vw, 10rem);
+}
+
+@media (max-width: 1024px) {
+  .skills-bg-text {
+    opacity: 0.6;
+    filter: blur(5px) !important;
+  }
+
+  :deep([data-theme="dark"]) .skills-bg-text {
+    opacity: 0.66;
+  }
+
+  :deep([data-theme="light"]) .skills-bg-text {
+    opacity: 0.7;
+  }
 }
 
 :deep([data-theme="light"]) .skill-tag img[alt="GitHub"],
