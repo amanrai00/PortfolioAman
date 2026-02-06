@@ -51,7 +51,9 @@
     "emailPlaceholder": "Where can I reach you?",
     "messageLabel": "Message",
     "messagePlaceholder": "Anything you'd like to discuss?",
-    "send": "Send"
+    "send": "Send",
+    "successTitle": "Thanks for getting in touch.",
+    "successMessage": "I've received your message and will follow up soon."
   },
   "footer": {
     "github": "GITHUB",

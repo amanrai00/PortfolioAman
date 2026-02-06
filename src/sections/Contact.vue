@@ -26,9 +26,9 @@
           <!-- Success State -->
           <div v-if="formSubmitted" class="contact-success-wrapper">
             <div ref="lottieContainer" class="contact-lottie"></div>
-            <h3 class="contact-success-title">Thanks for getting in touch.</h3>
+            <h3 class="contact-success-title">{{ t('contact.successTitle') }}</h3>
             <p class="contact-success-message">
-              I've received your message and will follow up soon.
+              {{ t('contact.successMessage') }}
             </p>
           </div>
 
@@ -477,13 +477,17 @@ onBeforeUnmount(() => {
   font-weight: 600;
   color: var(--contact-title-text);
   margin-bottom: 1rem;
+  word-break: keep-all;
+  overflow-wrap: normal;
 }
 
 .contact-success-message {
   font-size: 1rem;
   line-height: 1.6;
   color: var(--contact-subtitle-text);
-  max-width: 320px;
+  max-width: 380px;
+  word-break: keep-all;
+  overflow-wrap: normal;
 }
 
 .contact-title {
