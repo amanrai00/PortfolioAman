@@ -513,9 +513,7 @@ const playIcon = (open) => {
   if (!menuAnim || endFrame <= 0) return;
 
   menuAnim.stop();
-  menuAnim.setDirection(open ? 1 : -1);
-  menuAnim.goToAndStop(open ? 0 : endFrame, true);
-  menuAnim.play();
+  menuAnim.playSegments(open ? [0, endFrame] : [endFrame, 0], true);
 };
 
 const handleScroll = () => {
@@ -641,11 +639,15 @@ onMounted(async () => {
   menuAnim.setSubframe(false);
   menuAnim.setSpeed(2.2);
 
-  menuAnim.addEventListener("DOMLoaded", () => {
-    endFrame = Math.floor(menuAnim.getDuration(true));
+  const initMenuAnim = () => {
+    if (hasMenuAnim.value) return;
+    endFrame = Math.max(1, Math.floor(menuAnim.getDuration(true)) - 1);
     menuAnim.goToAndStop(0, true); // start closed
     hasMenuAnim.value = true;
-  });
+  };
+
+  menuAnim.addEventListener("DOMLoaded", initMenuAnim);
+  menuAnim.addEventListener("data_ready", initMenuAnim);
 });
 
 watch(isDark, () => {
