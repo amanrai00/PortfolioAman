@@ -124,8 +124,8 @@ const goBack = () => {
 .project-status {
   display: inline-block;
   width: fit-content;
-  padding: 0.35rem 0.9rem;
-  font-size: 0.75rem;
+  padding: 0.4rem 1rem;
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;

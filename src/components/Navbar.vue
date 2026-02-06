@@ -162,7 +162,7 @@
                     @keydown.escape="closeResumeDropdown"
                   >
                     <span class="resume-dropdown-item-bg"></span>
-                    <span class="resume-dropdown-item-text">English</span>
+                    <span class="resume-dropdown-item-text">{{ t('nav.resumeEnglish') }}</span>
                   </a>
                   <a
                     :href="resumeLinks.ja"
@@ -173,7 +173,7 @@
                     @keydown.escape="closeResumeDropdown"
                   >
                     <span class="resume-dropdown-item-bg"></span>
-                    <span class="resume-dropdown-item-text">Japanese</span>
+                    <span class="resume-dropdown-item-text">{{ t('nav.resumeJapanese') }}</span>
                   </a>
                 </div>
               </div>
@@ -320,7 +320,7 @@
                   class="resume-dropdown-item-mobile"
                   @click.prevent="openResume(resumeLinks.en, true)"
                 >
-                  English
+                  {{ t('nav.resumeEnglish') }}
                 </a>
                 <a
                   :href="resumeLinks.ja"
@@ -329,7 +329,7 @@
                   class="resume-dropdown-item-mobile"
                   @click.prevent="openResume(resumeLinks.ja, true)"
                 >
-                  Japanese
+                  {{ t('nav.resumeJapanese') }}
                 </a>
               </div>
             </div>
@@ -415,18 +415,18 @@ const resumeLinks = {
   ja: '/resume-ja.pdf',
 };
 
-const sections = [
-  { id: "about", label: "About" },
-  { id: "projects", label: "Projects", targetId: "statement" },
-  { id: "contact", label: "Contact" },
-];
+const sections = computed(() => [
+  { id: "about", label: t("nav.about") },
+  { id: "projects", label: t("nav.projects"), targetId: "statement" },
+  { id: "contact", label: t("nav.contact") },
+]);
 
-const mobileSections = [
-  { id: "home", label: "Home", targetId: "home" },
-  { id: "about", label: "About", targetId: "about" },
-  { id: "projects", label: "Projects", targetId: "statement" },
-  { id: "contact", label: "Contact", targetId: "contact" },
-];
+const mobileSections = computed(() => [
+  { id: "home", label: t("nav.home"), targetId: "home" },
+  { id: "about", label: t("nav.about"), targetId: "about" },
+  { id: "projects", label: t("nav.projects"), targetId: "statement" },
+  { id: "contact", label: t("nav.contact"), targetId: "contact" },
+]);
 
 const menuIconEl = ref(null);
 const menuBgEl = ref(null);
