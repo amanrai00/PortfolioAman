@@ -612,14 +612,13 @@ onMounted(async () => {
   const { default: lottie } = await import("lottie-web");
   menuAnim = lottie.loadAnimation({
     container: menuIconEl.value,
-    renderer: "canvas",
+    renderer: "svg",
     loop: false,
     autoplay: false,
     animationData: hamburgerAnim,
     rendererSettings: {
-      clearCanvas: true,
       progressiveLoad: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2),
+      hideOnTransparent: true,
     },
   });
 
