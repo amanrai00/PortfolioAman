@@ -612,13 +612,14 @@ onMounted(async () => {
   const { default: lottie } = await import("lottie-web");
   menuAnim = lottie.loadAnimation({
     container: menuIconEl.value,
-    renderer: "svg",
+    renderer: "canvas",
     loop: false,
     autoplay: false,
     animationData: hamburgerAnim,
     rendererSettings: {
       clearCanvas: true,
       progressiveLoad: false,
+      dpr: Math.min(window.devicePixelRatio || 1, 2),
     },
   });
 
@@ -696,6 +697,9 @@ onBeforeUnmount(() => {
   position: relative;
   z-index: 100;
   contain: layout style;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .hamburger-icon :deep(path),
