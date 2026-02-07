@@ -732,6 +732,11 @@ onBeforeUnmount(() => {
     margin: 0 auto;
   }
 
+  .contact-section.is-ja .contact-success-wrapper {
+    padding: 1.5rem 0.5rem 2rem;
+    margin: 0 auto;
+  }
+
   .contact-section.is-ja .contact-title--stacked {
     font-size: clamp(2rem, 7.5vw, 3rem);
   }
