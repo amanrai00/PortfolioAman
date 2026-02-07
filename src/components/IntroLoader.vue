@@ -5,7 +5,7 @@
     :class="{ 'intro-loader--fade': isFading }"
     aria-hidden="true"
   >
-    <canvas ref="canvasEl" class="intro-canvas"></canvas>
+    <!-- <canvas ref="canvasEl" class="intro-canvas"></canvas> -->
     <div ref="titleEl" class="intro-title">
       <span ref="line1El" class="intro-title-line logo-line-1">{{ line1 }}</span>
       <span ref="line2El" class="intro-title-line logo-line-2">{{ line2 }}</span>
@@ -28,15 +28,15 @@ const props = defineProps({
   },
   duration: {
     type: Number,
-    default: 3800,
+    default: 2400,
   },
   fadeDuration: {
     type: Number,
-    default: 400,
+    default: 300,
   },
   snapOutDuration: {
     type: Number,
-    default: 800,
+    default: 500,
   },
 });
 
@@ -340,9 +340,9 @@ onMounted(() => {
   previousOverflow = document.body.style.overflow;
   document.body.style.overflow = "hidden";
 
-  if (canvasEl.value) {
-    createAnimation(canvasEl.value);
-  }
+  // if (canvasEl.value) {
+  //   createAnimation(canvasEl.value);
+  // }
 
   scheduleReveal();
   setupResize();
@@ -391,21 +391,27 @@ onBeforeUnmount(() => {
 
 .intro-title {
   position: relative;
-  font-family: "Poiret One", "Trebuchet MS", sans-serif;
+  font-family: "Oxanium", sans-serif;
   font-weight: 400;
-  font-style: italic;
+  font-style: normal;
   text-transform: uppercase;
   text-shadow: 0 16px 34px rgba(0, 0, 0, 0.45);
-  letter-spacing: 0.04em;
-  line-height: 0.96;
-  font-size: clamp(2.6rem, 7vw, 5.2rem);
+  letter-spacing: -0.02em;
+  line-height: 0.78;
+  font-size: clamp(2.2rem, 5.5vw, 4rem);
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: visible;
+  padding: 0.08em 0.18em;
 }
 
 .intro-title-line {
   display: block;
+  letter-spacing: -0.02em;
+  overflow: visible;
+  padding-inline: 0.08em;
+  transform: skewX(-8deg);
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
   background-clip: text;
@@ -416,13 +422,19 @@ onBeforeUnmount(() => {
 }
 
 .logo-line-2 {
-  margin-top: 0.02em;
+  margin-top: 0;
 }
 
 @media (max-width: 640px) {
   .intro-title {
-    font-size: clamp(2.2rem, 15vw, 3.6rem);
-    letter-spacing: 0.03em;
+    font-size: clamp(1.8rem, 10vw, 2.8rem);
+    letter-spacing: -0.02em;
+    line-height: 0.78;
+  }
+
+  .intro-title-line {
+    letter-spacing: -0.02em;
+    padding-inline: 0.07em;
   }
 }
 </style>
