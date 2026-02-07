@@ -1,5 +1,5 @@
 <template>
-  <IntroLoader v-if="showLoader" title="Entity" @done="showLoader = false" />
+  <IntroLoader v-if="showLoader" line1="AMAN" line2="RAI" @done="showLoader = false" />
   <ScrollIndicator v-if="showScrollIndicator" />
   <Background />
   <Navbar />

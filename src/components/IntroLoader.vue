@@ -6,19 +6,25 @@
     aria-hidden="true"
   >
     <canvas ref="canvasEl" class="intro-canvas"></canvas>
-    <div class="intro-title" :class="{ 'intro-title--animate': isReady }">
-      <span class="intro-title-text">{{ title }}</span>
+    <div ref="titleEl" class="intro-title">
+      <span ref="line1El" class="intro-title-line logo-line-1">{{ line1 }}</span>
+      <span ref="line2El" class="intro-title-line logo-line-2">{{ line2 }}</span>
     </div>
   </div>
 </template>
 
 <script setup>
 import { onBeforeUnmount, onMounted, ref } from "vue";
+import gsap from "gsap";
 
 const props = defineProps({
-  title: {
+  line1: {
     type: String,
-    default: "Entity",
+    default: "AMAN",
+  },
+  line2: {
+    type: String,
+    default: "RAI",
   },
   duration: {
     type: Number,
@@ -37,12 +43,15 @@ const props = defineProps({
 const emit = defineEmits(["done"]);
 
 const canvasEl = ref(null);
+const titleEl = ref(null);
+const line1El = ref(null);
+const line2El = ref(null);
 const isVisible = ref(true);
 const isFading = ref(false);
-const isReady = ref(false);
 let rafId = 0;
 let resizeHandler = null;
 let animationCleanup = null;
+let titleTimeline = null;
 let timeouts = [];
 let previousOverflow = "";
 
@@ -237,6 +246,10 @@ const cleanupAnimation = () => {
 const finishIntro = () => {
   if (!isVisible.value) return;
   isVisible.value = false;
+  if (titleTimeline) {
+    titleTimeline.kill();
+    titleTimeline = null;
+  }
   cleanupAnimation();
   if (resizeHandler) {
     window.removeEventListener("resize", resizeHandler);
@@ -244,6 +257,33 @@ const finishIntro = () => {
   }
   document.body.style.overflow = previousOverflow;
   emit("done");
+};
+
+const runTitleReveal = (timelineDuration) => {
+  if (!titleEl.value || !line1El.value || !line2El.value) return;
+
+  const revealTime = Math.max(0.6, timelineDuration / 2400);
+  const lineDelay = 0.08;
+
+  titleTimeline = gsap.timeline();
+  titleTimeline
+    .to(line1El.value, {
+      backgroundPosition: "0% 0%",
+      color: "#fff",
+      duration: revealTime,
+      ease: "none",
+      delay: 0.3,
+    })
+    .to(
+      line2El.value,
+      {
+        backgroundPosition: "0% 0%",
+        color: "#fff",
+        duration: revealTime,
+        ease: "none",
+      },
+      `+=${lineDelay}`
+    );
 };
 
 const scheduleReveal = () => {
@@ -255,12 +295,9 @@ const scheduleReveal = () => {
   const snapOutStart = Math.max(0, duration - props.fadeDuration - snapOutDuration);
   const snapOutHold = isSmallScreen ? 1 : 0.55;
   const animationEndTime = snapOutStart + Math.round(snapOutDuration * snapOutHold);
-  const titleDuration = snapOutStart;
-
-  document.documentElement.style.setProperty("--intro-title-duration", `${titleDuration}ms`);
 
   requestAnimationFrame(() => {
-    isReady.value = true;
+    runTitleReveal(snapOutStart);
   });
 
   scheduleTimeout(() => {
@@ -312,6 +349,10 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  if (titleTimeline) {
+    titleTimeline.kill();
+    titleTimeline = null;
+  }
   teardownResize();
   cleanupAnimation();
   timeouts.forEach((timeoutId) => window.clearTimeout(timeoutId));
@@ -350,35 +391,38 @@ onBeforeUnmount(() => {
 
 .intro-title {
   position: relative;
-  font-family: "Oxanium", "Trebuchet MS", sans-serif;
-  font-weight: 800;
-  text-shadow: 0 16px 34px rgba(0, 0, 0, 0.45);
+  font-family: "Poiret One", "Trebuchet MS", sans-serif;
+  font-weight: 400;
+  font-style: italic;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
-  font-size: clamp(2.8rem, 6.2vw, 6rem);
-  -webkit-text-stroke: 0.4px rgba(250, 250, 250, 0.55);
-  text-stroke: 0.4px rgba(250, 250, 250, 0.55);
-  color: #fafafa;
-  overflow: hidden;
-  line-height: 1.06;
+  text-shadow: 0 16px 34px rgba(0, 0, 0, 0.45);
+  letter-spacing: 0.04em;
+  line-height: 0.96;
+  font-size: clamp(2.6rem, 7vw, 5.2rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.intro-title-text {
+.intro-title-line {
   display: block;
-  transform: translateY(100%);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: linear-gradient(0deg, #3a3a3a, #3a3a3a 50%, #fff 0);
+  background-size: 100% 200%;
+  background-position: 0% 100%;
+  color: #3a3a3a;
 }
 
-.intro-title--animate .intro-title-text {
-  animation: intro-reveal var(--intro-title-duration, 1.5s) cubic-bezier(0.22, 1, 0.36, 1) 0s forwards;
+.logo-line-2 {
+  margin-top: 0.02em;
 }
 
-@keyframes intro-reveal {
-  0% {
-    transform: translateY(100%);
+@media (max-width: 640px) {
+  .intro-title {
+    font-size: clamp(2.2rem, 15vw, 3.6rem);
+    letter-spacing: 0.03em;
   }
-  100% {
-    transform: translateY(0);
-  }
 }
-
 </style>
