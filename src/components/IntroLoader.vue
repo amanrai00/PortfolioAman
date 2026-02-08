@@ -36,6 +36,8 @@ const tile3 = ref(null);
 const tile4 = ref(null);
 const tile5 = ref(null);
 const isVisible = ref(true);
+const introTransitionBg =
+  "linear-gradient(45deg, rgba(194, 233, 221, 1) 1%, rgba(104, 119, 132, 1) 100%), linear-gradient(-45deg, #494d71 0%, rgba(217, 230, 185, 1) 80%)";
 
 let slideTimeline = null;
 let exitTimeline = null;
@@ -60,7 +62,7 @@ const runTileTransition = () => {
   exitTimeline
     .to(tiles, {
       x: "-100%",
-      backgroundColor: "#007AE5",
+      backgroundImage: introTransitionBg,
       duration: 0.7,
       ease: "power3.inOut",
       stagger: 0.1,
@@ -147,15 +149,19 @@ onBeforeUnmount(() => {
   left: 0;
   width: 100%;
   height: 20%;
-  background-color: #000;
+  background-image: linear-gradient(45deg, rgba(194, 233, 221, 1) 1%, rgba(104, 119, 132, 1) 100%), linear-gradient(-45deg, #494d71 0%, rgba(217, 230, 185, 1) 80%);
+  background-repeat: no-repeat;
+  background-size: 100% 500%;
+  backface-visibility: hidden;
+  transform: translateZ(0);
   will-change: transform;
 }
 
-.intro-tile:nth-child(1) { top: 0%; }
-.intro-tile:nth-child(2) { top: 20%; }
-.intro-tile:nth-child(3) { top: 40%; }
-.intro-tile:nth-child(4) { top: 60%; }
-.intro-tile:nth-child(5) { top: 80%; }
+.intro-tile:nth-child(1) { top: 0%; background-position: 0 0%; }
+.intro-tile:nth-child(2) { top: 20%; background-position: 0 25%; }
+.intro-tile:nth-child(3) { top: 40%; background-position: 0 50%; }
+.intro-tile:nth-child(4) { top: 60%; background-position: 0 75%; }
+.intro-tile:nth-child(5) { top: 80%; background-position: 0 100%; }
 
 .intro-title {
   position: absolute;
