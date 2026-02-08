@@ -22,7 +22,7 @@
           </div>
         </div>
 
-        <div class="contact-right">
+        <div class="contact-right" :class="{ 'is-success': formSubmitted }">
           <!-- Success State -->
           <div v-if="formSubmitted" class="contact-success-wrapper">
             <div ref="lottieContainer" class="contact-lottie"></div>
@@ -711,6 +711,53 @@ onBeforeUnmount(() => {
     padding: 2rem 1rem;
   }
 
+  .contact-right.is-success {
+    min-height: 60vh;
+    display: grid;
+    place-items: center;
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  .contact-success-wrapper {
+    width: min(100%, 30rem);
+    margin: 0 auto;
+    padding: 0;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: 0.75rem;
+  }
+
+  .contact-success-title,
+  .contact-success-message {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .contact-success-title {
+    max-width: 22ch;
+  }
+
+  .contact-success-message {
+    max-width: 36ch;
+  }
+
+  .contact-lottie {
+    width: clamp(170px, 58vw, 260px);
+    height: clamp(170px, 58vw, 260px);
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-section:not(.is-ja) .contact-success-title {
+    max-width: none;
+    white-space: nowrap;
+    font-size: clamp(1.05rem, 4.8vw, 1.5rem);
+  }
+
   .contact-submit {
     justify-self: center;
   }
@@ -733,8 +780,22 @@ onBeforeUnmount(() => {
   }
 
   .contact-section.is-ja .contact-success-wrapper {
-    padding: 1.5rem 0.5rem 2rem;
+    padding: 0;
     margin: 0 auto;
+  }
+
+  .contact-section.is-ja .contact-success-title {
+    font-size: clamp(1.3rem, 6vw, 1.9rem);
+    line-height: 1.35;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .contact-section.is-ja .contact-success-message {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
   }
 
   .contact-section.is-ja .contact-title--stacked {
