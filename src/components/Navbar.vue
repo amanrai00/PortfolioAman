@@ -36,6 +36,59 @@
                 </button>
                 <span class="mt-1 block h-[2.5px] w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
               </li>
+              <li class="flex items-center">
+                <label class="switch" aria-label="Toggle theme">
+                  <input type="checkbox" id="toggle" />
+                  <span class="slider">
+                    <div class="moons-hole">
+                      <div class="moon-hole"></div>
+                      <div class="moon-hole"></div>
+                      <div class="moon-hole"></div>
+                    </div>
+                    <div class="black-clouds">
+                      <div class="black-cloud"></div>
+                      <div class="black-cloud"></div>
+                      <div class="black-cloud"></div>
+                    </div>
+                    <div class="clouds">
+                      <div class="cloud"></div>
+                      <div class="cloud"></div>
+                      <div class="cloud"></div>
+                      <div class="cloud"></div>
+                      <div class="cloud"></div>
+                      <div class="cloud"></div>
+                      <div class="cloud"></div>
+                    </div>
+                    <div class="stars">
+                      <svg class="star" viewBox="0 0 20 20">
+                        <path
+                          d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                        ></path>
+                      </svg>
+                      <svg class="star" viewBox="0 0 20 20">
+                        <path
+                          d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                        ></path>
+                      </svg>
+                      <svg class="star" viewBox="0 0 20 20">
+                        <path
+                          d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                        ></path>
+                      </svg>
+                      <svg class="star" viewBox="0 0 20 20">
+                        <path
+                          d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                        ></path>
+                      </svg>
+                      <svg class="star" viewBox="0 0 20 20">
+                        <path
+                          d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                        ></path>
+                      </svg>
+                    </div>
+                  </span>
+                </label>
+              </li>
             </ul>
           </div>
 
@@ -74,7 +127,10 @@
 
             <!-- Mobile menu toggle - Lottie Hamburger -->
             <button
-              class="lg:hidden relative z-[100] scale-110 cursor-pointer active:scale-100 transition-transform"
+              :class="[
+                'lg:hidden relative z-[100] scale-110 cursor-pointer active:scale-100 transition-transform',
+                isOpen ? 'menu-icon-soft' : ''
+              ]"
               @click="toggleMenu"
               aria-label="Toggle menu"
               :aria-expanded="isOpen"
@@ -89,7 +145,7 @@
     <!-- Expanding Circle Overlay - Dark Theme -->
     <div
       :class="[
-        'fixed z-[55] rounded-full lg:hidden pointer-events-none',
+        'fixed z-[55] rounded-full lg:hidden pointer-events-none overflow-hidden',
         'bg-gradient-to-b from-[#0f1112] via-[#141718] to-[#0f1112]'
       ]"
       :style="{
@@ -102,7 +158,10 @@
           ? 'width 0.45s cubic-bezier(0.19, 1, 0.22, 1), height 0.45s cubic-bezier(0.19, 1, 0.22, 1)' 
           : 'width 0.20s cubic-bezier(0.55, 0.085, 0.68, 0.53), height 0.20s cubic-bezier(0.55, 0.085, 0.68, 0.53)'
       }"
-    ></div>
+    >
+      <div ref="menuBgEl" class="menu-bg-lottie"></div>
+      <div class="menu-bg-overlay"></div>
+    </div>
 
     <!-- Mobile Menu -->
     <div
@@ -118,7 +177,7 @@
         ]"
         aria-hidden="true"
       >
-        <div ref="menuBgEl" class="mobile-menu-lottie"></div>
+        <div class="mobile-menu-lottie"></div>
         <div class="mobile-menu-overlay"></div>
       </div>
 
@@ -302,6 +361,7 @@ onMounted(() => {
     endFrame = Math.floor(menuAnim.getDuration(true));
     menuAnim.goToAndStop(0, true); // start closed
   });
+
 });
 
 onBeforeUnmount(() => {
@@ -310,11 +370,12 @@ onBeforeUnmount(() => {
 
   menuAnim?.destroy();
   menuAnim = null;
-
   menuBgAnim?.destroy();
   menuBgAnim = null;
 });
 </script>
+
+<style scoped src="./navbar-switch.css"></style>
 
 <style scoped>
 .hamburger-icon {
@@ -348,9 +409,30 @@ onBeforeUnmount(() => {
   height: 100%;
 }
 
+.menu-icon-soft .hamburger-icon {
+  opacity: 0.75;
+  filter: invert(1) brightness(1.6);
+}
+
+.menu-bg-lottie {
+  position: absolute;
+  inset: 0;
+}
+
+.menu-bg-lottie :deep(svg) {
+  width: 100%;
+  height: 100%;
+}
+
 .mobile-menu-overlay {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.44);
+}
+
+.menu-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
 }
 </style>
