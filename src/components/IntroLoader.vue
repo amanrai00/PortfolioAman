@@ -142,26 +142,43 @@ onBeforeUnmount(() => {
   position: absolute;
   inset: 0;
   z-index: 1;
+  overflow: hidden;
 }
 
 .intro-tile {
   position: absolute;
-  left: 0;
+  inset: 0;
   width: 100%;
-  height: 20%;
+  height: 100%;
   background-image: linear-gradient(45deg, rgba(194, 233, 221, 1) 1%, rgba(104, 119, 132, 1) 100%), linear-gradient(-45deg, #494d71 0%, rgba(217, 230, 185, 1) 80%);
   background-repeat: no-repeat;
-  background-size: 100% 500%;
+  background-size: cover;
+  background-position: center;
   backface-visibility: hidden;
   transform: translateZ(0);
   will-change: transform;
 }
 
-.intro-tile:nth-child(1) { top: 0%; background-position: 0 0%; }
-.intro-tile:nth-child(2) { top: 20%; background-position: 0 25%; }
-.intro-tile:nth-child(3) { top: 40%; background-position: 0 50%; }
-.intro-tile:nth-child(4) { top: 60%; background-position: 0 75%; }
-.intro-tile:nth-child(5) { top: 80%; background-position: 0 100%; }
+.intro-tile:nth-child(1) {
+  clip-path: inset(0 0 79.6% 0);
+  -webkit-clip-path: inset(0 0 79.6% 0);
+}
+.intro-tile:nth-child(2) {
+  clip-path: inset(19.6% 0 59.6% 0);
+  -webkit-clip-path: inset(19.6% 0 59.6% 0);
+}
+.intro-tile:nth-child(3) {
+  clip-path: inset(39.6% 0 39.6% 0);
+  -webkit-clip-path: inset(39.6% 0 39.6% 0);
+}
+.intro-tile:nth-child(4) {
+  clip-path: inset(59.6% 0 19.6% 0);
+  -webkit-clip-path: inset(59.6% 0 19.6% 0);
+}
+.intro-tile:nth-child(5) {
+  clip-path: inset(79.6% 0 0 0);
+  -webkit-clip-path: inset(79.6% 0 0 0);
+}
 
 .intro-title {
   position: absolute;
