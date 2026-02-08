@@ -1,5 +1,12 @@
 <template>
-  <div v-if="isVisible" ref="loaderEl" class="intro-loader" aria-hidden="true">
+  <div v-if="isVisible" class="intro-loader" aria-hidden="true">
+    <div class="intro-tiles">
+      <div ref="tile1" class="intro-tile"></div>
+      <div ref="tile2" class="intro-tile"></div>
+      <div ref="tile3" class="intro-tile"></div>
+      <div ref="tile4" class="intro-tile"></div>
+      <div ref="tile5" class="intro-tile"></div>
+    </div>
     <div class="intro-title" ref="titleEl">
       <div class="title-row">
         <div class="title-charts-cont"><span ref="seg1">A</span></div>
@@ -18,12 +25,16 @@ import gsap from "gsap";
 
 const emit = defineEmits(["done"]);
 
-const loaderEl = ref(null);
 const titleEl = ref(null);
 const seg1 = ref(null);
 const seg2 = ref(null);
 const seg3 = ref(null);
 const seg4 = ref(null);
+const tile1 = ref(null);
+const tile2 = ref(null);
+const tile3 = ref(null);
+const tile4 = ref(null);
+const tile5 = ref(null);
 const isVisible = ref(true);
 
 let slideTimeline = null;
@@ -37,28 +48,24 @@ const finishIntro = () => {
   emit("done");
 };
 
-const runExitAnimation = () => {
+const runTileTransition = () => {
+  const tiles = [tile1, tile2, tile3, tile4, tile5].map((t) => t.value);
+  if (tiles.some((t) => !t)) return;
+
   window.dispatchEvent(new CustomEvent("intro:reveal"));
 
   exitTimeline = gsap.timeline({ onComplete: finishIntro });
 
+  // Hide text, then tiles change to cyan and slide off left in one motion
   exitTimeline
-    .to(titleEl.value, {
-      opacity: 0,
-      y: -20,
-      duration: 0.5,
-      ease: "power2.inOut",
-      delay: 0.35,
-    })
-    .to(
-      loaderEl.value,
-      {
-        opacity: 0,
-        duration: 0.7,
-        ease: "power2.inOut",
-      },
-      "-=0.2"
-    );
+    .to(titleEl.value, { opacity: 0, duration: 0.25, ease: "power2.out" })
+    .to(tiles, {
+      x: "-100%",
+      backgroundColor: "#007AE5",
+      duration: 0.7,
+      ease: "power3.inOut",
+      stagger: 0.1,
+    });
 };
 
 const runSlideAnimation = () => {
@@ -67,7 +74,9 @@ const runSlideAnimation = () => {
   const slideDuration = 1.5;
   const wave2Offset = 0.08;
 
-  slideTimeline = gsap.timeline({ onComplete: runExitAnimation });
+  slideTimeline = gsap.timeline({
+    onComplete: () => runTileTransition(),
+  });
 
   // Wave 1 — outer segments
   slideTimeline
@@ -125,15 +134,35 @@ onBeforeUnmount(() => {
   inset: 0;
   z-index: 200;
   overflow: hidden;
-  background: #000;
 }
+
+.intro-tiles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.intro-tile {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  background-color: #000;
+  will-change: transform;
+}
+
+.intro-tile:nth-child(1) { top: 0%; }
+.intro-tile:nth-child(2) { top: 20%; }
+.intro-tile:nth-child(3) { top: 40%; }
+.intro-tile:nth-child(4) { top: 60%; }
+.intro-tile:nth-child(5) { top: 80%; }
 
 .intro-title {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
 }
 
