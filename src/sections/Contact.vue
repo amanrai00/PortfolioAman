@@ -27,7 +27,10 @@
           <div v-if="formSubmitted" class="contact-success-wrapper">
             <div ref="lottieContainer" class="contact-lottie"></div>
             <h3 class="contact-success-title">{{ t('contact.successTitle') }}</h3>
-            <p class="contact-success-message">
+            <p v-if="isJa" class="contact-success-message">
+              {{ t('contact.successMessageLine1') }}<br class="ja-mobile-break" />{{ t('contact.successMessageLine2') }}
+            </p>
+            <p v-else class="contact-success-message">
               {{ t('contact.successMessage') }}
             </p>
           </div>
@@ -90,7 +93,7 @@
                 ></textarea>
               </label>
               <button class="contact-submit" type="submit" :disabled="isSubmitting">
-                {{ isSubmitting ? 'Sending...' : t('contact.send') }}
+                {{ isSubmitting ? t('contact.sendLoading') : t('contact.send') }}
               </button>
             </form>
           </div>
@@ -490,6 +493,10 @@ onBeforeUnmount(() => {
   overflow-wrap: normal;
 }
 
+.ja-mobile-break {
+  display: none;
+}
+
 .contact-title {
   font-size: clamp(2.5rem, 5vw, 5rem);
   letter-spacing: -0.02em;
@@ -782,20 +789,34 @@ onBeforeUnmount(() => {
   .contact-section.is-ja .contact-success-wrapper {
     padding: 0;
     margin: 0 auto;
+    justify-items: center;
+    text-align: center;
   }
 
   .contact-section.is-ja .contact-success-title {
-    font-size: clamp(1.3rem, 6vw, 1.9rem);
-    line-height: 1.35;
-    white-space: normal;
-    word-break: break-word;
-    overflow-wrap: anywhere;
+    font-size: clamp(1.05rem, 4.7vw, 1.35rem);
+    line-height: 1.3;
+    white-space: nowrap;
+    width: fit-content;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
   }
 
   .contact-section.is-ja .contact-success-message {
     white-space: normal;
-    word-break: break-word;
-    overflow-wrap: anywhere;
+    word-break: keep-all;
+    overflow-wrap: normal;
+    width: fit-content;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .contact-section.is-ja .ja-mobile-break {
+    display: block;
   }
 
   .contact-section.is-ja .contact-title--stacked {
