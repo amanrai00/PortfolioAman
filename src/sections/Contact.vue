@@ -22,12 +22,15 @@
           </div>
         </div>
 
-        <div class="contact-right">
+        <div class="contact-right" :class="{ 'is-success': formSubmitted }">
           <!-- Success State -->
           <div v-if="formSubmitted" class="contact-success-wrapper">
             <div ref="lottieContainer" class="contact-lottie"></div>
             <h3 class="contact-success-title">{{ t('contact.successTitle') }}</h3>
-            <p class="contact-success-message">
+            <p v-if="isJa" class="contact-success-message">
+              {{ t('contact.successMessageLine1') }}<br class="ja-mobile-break" />{{ t('contact.successMessageLine2') }}
+            </p>
+            <p v-else class="contact-success-message">
               {{ t('contact.successMessage') }}
             </p>
           </div>
@@ -90,7 +93,7 @@
                 ></textarea>
               </label>
               <button class="contact-submit" type="submit" :disabled="isSubmitting">
-                {{ isSubmitting ? 'Sending...' : t('contact.send') }}
+                {{ isSubmitting ? t('contact.sendLoading') : t('contact.send') }}
               </button>
             </form>
           </div>
@@ -490,6 +493,10 @@ onBeforeUnmount(() => {
   overflow-wrap: normal;
 }
 
+.ja-mobile-break {
+  display: none;
+}
+
 .contact-title {
   font-size: clamp(2.5rem, 5vw, 5rem);
   letter-spacing: -0.02em;
@@ -711,6 +718,53 @@ onBeforeUnmount(() => {
     padding: 2rem 1rem;
   }
 
+  .contact-right.is-success {
+    min-height: 60vh;
+    display: grid;
+    place-items: center;
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  .contact-success-wrapper {
+    width: min(100%, 30rem);
+    margin: 0 auto;
+    padding: 0;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: 0.75rem;
+  }
+
+  .contact-success-title,
+  .contact-success-message {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .contact-success-title {
+    max-width: 22ch;
+  }
+
+  .contact-success-message {
+    max-width: 36ch;
+  }
+
+  .contact-lottie {
+    width: clamp(170px, 58vw, 260px);
+    height: clamp(170px, 58vw, 260px);
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-section:not(.is-ja) .contact-success-title {
+    max-width: none;
+    white-space: nowrap;
+    font-size: clamp(1.05rem, 4.8vw, 1.5rem);
+  }
+
   .contact-submit {
     justify-self: center;
   }
@@ -733,8 +787,36 @@ onBeforeUnmount(() => {
   }
 
   .contact-section.is-ja .contact-success-wrapper {
-    padding: 1.5rem 0.5rem 2rem;
+    padding: 0;
     margin: 0 auto;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .contact-section.is-ja .contact-success-title {
+    font-size: clamp(1.05rem, 4.7vw, 1.35rem);
+    line-height: 1.3;
+    white-space: nowrap;
+    width: fit-content;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .contact-section.is-ja .contact-success-message {
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: normal;
+    width: fit-content;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .contact-section.is-ja .ja-mobile-break {
+    display: block;
   }
 
   .contact-section.is-ja .contact-title--stacked {

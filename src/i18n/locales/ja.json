@@ -52,7 +52,10 @@
     "messageLabel": "お問い合わせ内容",
     "messagePlaceholder": "ご相談内容をご記入ください",
     "send": "送信する",
+    "sendLoading": "送信中",
     "successTitle": "お問い合わせありがとうございます。",
+    "successMessageLine1": "メッセージを受け取りました。",
+    "successMessageLine2": "近日中にご返信いたします。",
     "successMessage": "メッセージを受け取りました。近日中にご返信いたします。"
   },
   "footer": {
@@ -101,6 +104,7 @@
     }
   }
 }
+
 
 
 

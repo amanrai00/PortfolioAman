@@ -1,4 +1,4 @@
-﻿{
+{
   "nav": {
     "about": "About",
     "impact": "Impact",
@@ -18,7 +18,7 @@
     "exploreCta": "Let's connect",
     "role": "Front-End Engineer",
     "subtitle": "Crafting fast, accessible web interfaces",
-    "location": "Based in Japan • Vue • Tailwind"
+    "location": "Based in Japan ? Vue ? Tailwind"
   },
   "impact": {
     "quote": "This portfolio is a snapshot of my problem-solving mindset, design decisions, and the way I turn ideas into reliable interfaces."
@@ -52,6 +52,7 @@
     "messageLabel": "Message",
     "messagePlaceholder": "Anything you'd like to discuss?",
     "send": "Send",
+    "sendLoading": "Sending...",
     "successTitle": "Thanks for getting in touch.",
     "successMessage": "I've received your message and will follow up soon."
   },
