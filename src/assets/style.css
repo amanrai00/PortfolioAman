@@ -1,5 +1,27 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Caprasimo-Regular";
+  src:
+    local("Caprasimo Regular"),
+    local("Caprasimo-Regular"),
+    url("./fonts/Caprasimo-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ribes Black";
+  src:
+    local("Ribes Black"),
+    local("RibesBlack"),
+    url("./fonts/Ribes-Black.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 html {
   scroll-behavior: smooth;
 }

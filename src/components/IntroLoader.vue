@@ -201,7 +201,7 @@ onBeforeUnmount(() => {
 .title-charts-cont span {
   display: inline-block;
   will-change: transform;
-  font-family: "Reforma 2018 Negra", "Oxanium", sans-serif;
+  font-family: "Caprasimo-Regular", "Oxanium", sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   font-size: clamp(2.2rem, 5.5vw, 4rem);
