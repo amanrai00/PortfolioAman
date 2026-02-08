@@ -56,16 +56,16 @@ const runTileTransition = () => {
 
   exitTimeline = gsap.timeline({ onComplete: finishIntro });
 
-  // Hide text, then tiles change to cyan and slide off left in one motion
+  // Start tile transition first, then fade text while transition is in progress
   exitTimeline
-    .to(titleEl.value, { opacity: 0, duration: 0.25, ease: "power2.out" })
     .to(tiles, {
       x: "-100%",
       backgroundColor: "#007AE5",
       duration: 0.7,
       ease: "power3.inOut",
       stagger: 0.1,
-    });
+    }, 0)
+    .to(titleEl.value, { opacity: 0, duration: 0.25, ease: "power2.out" }, 0.18);
 };
 
 const runSlideAnimation = () => {
