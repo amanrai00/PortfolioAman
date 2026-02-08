@@ -1,10 +1,13 @@
 <template>
-  <div v-if="isVisible" class="intro-loader" aria-hidden="true">
-    <div ref="leftBlockEl" class="block block-left"></div>
-    <div ref="rightBlockEl" class="block block-right"></div>
-    <div class="intro-title">
-      <span ref="line1El" class="intro-title-line logo-line-1">{{ line1 }}</span>
-      <span ref="line2El" class="intro-title-line logo-line-2">{{ line2 }}</span>
+  <div v-if="isVisible" ref="loaderEl" class="intro-loader" aria-hidden="true">
+    <div class="intro-title" ref="titleEl">
+      <div class="title-row">
+        <div class="title-charts-cont"><span ref="seg1">A</span></div>
+        <div class="title-charts-cont"><span ref="seg2">MAN</span></div>
+        <div class="title-space">&nbsp;</div>
+        <div class="title-charts-cont"><span ref="seg3">R</span></div>
+        <div class="title-charts-cont"><span ref="seg4">AI</span></div>
+      </div>
     </div>
   </div>
 </template>
@@ -13,116 +16,86 @@
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import gsap from "gsap";
 
-const props = defineProps({
-  line1: {
-    type: String,
-    default: "AMAN",
-  },
-  line2: {
-    type: String,
-    default: "RAI",
-  },
-  splitDuration: {
-    type: Number,
-    default: 1500,
-  },
-});
-
 const emit = defineEmits(["done"]);
 
-const leftBlockEl = ref(null);
-const rightBlockEl = ref(null);
-const line1El = ref(null);
-const line2El = ref(null);
+const loaderEl = ref(null);
+const titleEl = ref(null);
+const seg1 = ref(null);
+const seg2 = ref(null);
+const seg3 = ref(null);
+const seg4 = ref(null);
 const isVisible = ref(true);
-let titleTimeline = null;
-let splitTimeline = null;
-let timeouts = [];
-let previousOverflow = "";
 
-const scheduleTimeout = (handler, delay) => {
-  const id = window.setTimeout(handler, delay);
-  timeouts.push(id);
-};
+let slideTimeline = null;
+let exitTimeline = null;
+let previousOverflow = "";
 
 const finishIntro = () => {
   if (!isVisible.value) return;
   isVisible.value = false;
-  if (titleTimeline) {
-    titleTimeline.kill();
-    titleTimeline = null;
-  }
-  if (splitTimeline) {
-    splitTimeline.kill();
-    splitTimeline = null;
-  }
   document.body.style.overflow = previousOverflow;
   emit("done");
 };
 
-const runSplitReveal = () => {
-  if (!leftBlockEl.value || !rightBlockEl.value || !line1El.value || !line2El.value) return;
-
+const runExitAnimation = () => {
   window.dispatchEvent(new CustomEvent("intro:reveal"));
 
-  const dur = props.splitDuration / 1000;
+  exitTimeline = gsap.timeline({ onComplete: finishIntro });
 
-  splitTimeline = gsap.timeline({
-    onComplete: () => finishIntro(),
-  });
-
-  splitTimeline
-    .to(leftBlockEl.value, {
-      left: "-50%",
-      duration: dur,
-      ease: "power3.inOut",
-    }, 0)
-    .to(rightBlockEl.value, {
-      right: "-50%",
-      duration: dur,
-      ease: "power3.inOut",
-    }, 0)
-    .to(line1El.value, {
-      x: "-120vw",
-      duration: dur,
-      ease: "power3.inOut",
-    }, 0)
-    .to(line2El.value, {
-      x: "120vw",
-      duration: dur,
-      ease: "power3.inOut",
-    }, 0);
-};
-
-const runTitleReveal = () => {
-  if (!line1El.value || !line2El.value) return;
-
-  const revealTime = 0.6;
-  const lineDelay = 0.08;
-
-  titleTimeline = gsap.timeline({
-    onComplete: () => {
-      scheduleTimeout(() => runSplitReveal(), 400);
-    },
-  });
-
-  titleTimeline
-    .to(line1El.value, {
-      backgroundPosition: "0% 0%",
-      color: "#fff",
-      duration: revealTime,
-      ease: "none",
-      delay: 0.3,
+  exitTimeline
+    .to(titleEl.value, {
+      opacity: 0,
+      y: -20,
+      duration: 0.5,
+      ease: "power2.inOut",
+      delay: 0.35,
     })
     .to(
-      line2El.value,
+      loaderEl.value,
       {
-        backgroundPosition: "0% 0%",
-        color: "#fff",
-        duration: revealTime,
-        ease: "none",
+        opacity: 0,
+        duration: 0.7,
+        ease: "power2.inOut",
       },
-      `+=${lineDelay}`
+      "-=0.2"
+    );
+};
+
+const runSlideAnimation = () => {
+  if (!seg1.value || !seg2.value || !seg3.value || !seg4.value) return;
+
+  const slideDuration = 1.5;
+  const wave2Offset = 0.08;
+
+  slideTimeline = gsap.timeline({ onComplete: runExitAnimation });
+
+  // Wave 1 — outer segments
+  slideTimeline
+    .fromTo(
+      seg1.value,
+      { x: "2.5em" },
+      { x: "0em", duration: slideDuration, ease: "power2.out" },
+      0
+    )
+    .fromTo(
+      seg4.value,
+      { x: "-2em" },
+      { x: "0em", duration: slideDuration, ease: "power2.out" },
+      0
+    )
+
+    // Wave 2 — inner segments
+    .fromTo(
+      seg2.value,
+      { x: "-3.5em" },
+      { x: "0em", duration: slideDuration, ease: "power2.out" },
+      wave2Offset
+    )
+    .fromTo(
+      seg3.value,
+      { x: "2em" },
+      { x: "0em", duration: slideDuration, ease: "power2.out" },
+      wave2Offset
     );
 };
 
@@ -130,22 +103,18 @@ onMounted(() => {
   previousOverflow = document.body.style.overflow;
   document.body.style.overflow = "hidden";
 
-  requestAnimationFrame(() => {
-    runTitleReveal();
-  });
+  requestAnimationFrame(() => runSlideAnimation());
 });
 
 onBeforeUnmount(() => {
-  if (titleTimeline) {
-    titleTimeline.kill();
-    titleTimeline = null;
+  if (slideTimeline) {
+    slideTimeline.kill();
+    slideTimeline = null;
   }
-  if (splitTimeline) {
-    splitTimeline.kill();
-    splitTimeline = null;
+  if (exitTimeline) {
+    exitTimeline.kill();
+    exitTimeline = null;
   }
-  timeouts.forEach((timeoutId) => window.clearTimeout(timeoutId));
-  timeouts = [];
   document.body.style.overflow = previousOverflow;
 });
 </script>
@@ -156,23 +125,7 @@ onBeforeUnmount(() => {
   inset: 0;
   z-index: 200;
   overflow: hidden;
-}
-
-.block {
-  position: absolute;
-  top: 0;
-  width: 50%;
-  height: 100%;
   background: #000;
-  will-change: left, right;
-}
-
-.block-left {
-  left: 0;
-}
-
-.block-right {
-  right: 0;
 }
 
 .intro-title {
@@ -180,43 +133,43 @@ onBeforeUnmount(() => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   z-index: 1;
   pointer-events: none;
 }
 
-.intro-title-line {
-  display: block;
-  font-family: "Oxanium", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  text-transform: uppercase;
-  text-shadow: 0 16px 34px rgba(0, 0, 0, 0.45);
-  font-size: clamp(2.2rem, 5.5vw, 4rem);
-  letter-spacing: -0.02em;
-  line-height: 0.78;
-  transform: skewX(-8deg);
-  white-space: nowrap;
-  will-change: transform;
-  -webkit-text-fill-color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
-  background-image: linear-gradient(0deg, #3a3a3a, #3a3a3a 50%, #fff 0);
-  background-size: 100% 200%;
-  background-position: 0% 100%;
-  color: #3a3a3a;
+.title-row {
+  display: flex;
 }
 
-.logo-line-2 {
-  margin-top: 0.02em;
+.title-charts-cont {
+  display: inline-flex;
+  overflow: hidden;
+}
+
+.title-charts-cont span {
+  display: inline-block;
+  will-change: transform;
+  font-family: "Reforma 2018 Negra", "Oxanium", sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: clamp(2.2rem, 5.5vw, 4rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.title-space {
+  font-size: clamp(2.2rem, 5.5vw, 4rem);
+  width: 0.3em;
 }
 
 @media (max-width: 640px) {
-  .intro-title-line {
+  .title-charts-cont span {
     font-size: clamp(1.8rem, 10vw, 2.8rem);
-    letter-spacing: -0.02em;
+  }
+  .title-space {
+    font-size: clamp(1.8rem, 10vw, 2.8rem);
   }
 }
 </style>
