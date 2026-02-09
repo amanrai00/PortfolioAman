@@ -51,6 +51,20 @@ const startPageTransition = (onMidpoint) => {
 };
 
 provide("startPageTransition", startPageTransition);
+
+// Restore scroll position while the intro tiles still cover the screen.
+// intro:reveal fires early in the exit animation, before tiles slide away,
+// so the user never sees the hero section flash.
+window.addEventListener("intro:reveal", () => {
+  const saved = sessionStorage.getItem("scrollY");
+  if (saved === null) return;
+  sessionStorage.removeItem("scrollY");
+  // Briefly lift the overflow lock so scrollTo can take effect.
+  const prev = document.body.style.overflow;
+  document.body.style.overflow = "";
+  window.scrollTo({ top: parseInt(saved, 10), behavior: "instant" });
+  document.body.style.overflow = prev;
+}, { once: true });
 </script>
 
 <style>

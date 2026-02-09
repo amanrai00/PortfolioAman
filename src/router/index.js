@@ -21,6 +21,12 @@ const scrollToTarget = (target) =>
     tryScroll();
   });
 
+// Persist scroll position so a page reload returns to the same spot.
+// sessionStorage is per-tab, so new tabs still start at the top.
+window.addEventListener("beforeunload", () => {
+  sessionStorage.setItem("scrollY", window.scrollY.toString());
+});
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -43,6 +49,12 @@ const router = createRouter({
     if (target) {
       return scrollToTarget(target).then((didScroll) => (didScroll ? false : false));
     }
+
+    // On page reload (initial navigation has no from.name), skip scrolling here.
+    // App.vue restores the saved position after the intro loader finishes,
+    // because the loader sets overflow:hidden which blocks any scrollTo call.
+    if (!from.name) return false;
+
     return { top: 0 };
   },
 });
