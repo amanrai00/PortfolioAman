@@ -51,6 +51,7 @@
     "emailPlaceholder": "ご連絡可能なメールアドレス",
     "messageLabel": "お問い合わせ内容",
     "messagePlaceholder": "ご相談内容をご記入ください",
+    "requiredFieldMessage": "必須項目です。入力してください。",
     "send": "送信する",
     "sendLoading": "送信中",
     "successTitle": "お問い合わせありがとうございます。",

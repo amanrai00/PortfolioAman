@@ -51,6 +51,7 @@
     "emailPlaceholder": "Where can I reach you?",
     "messageLabel": "Message",
     "messagePlaceholder": "Anything you'd like to discuss?",
+    "requiredFieldMessage": "Please fill out this field.",
     "send": "Send",
     "sendLoading": "Sending...",
     "successTitle": "Thanks for getting in touch.",
