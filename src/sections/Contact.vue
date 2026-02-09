@@ -63,6 +63,8 @@
                   autocomplete="name"
                   maxlength="60"
                   :placeholder="t('contact.namePlaceholder')"
+                  @invalid="setRequiredMessage"
+                  @input="clearValidationMessage"
                   required
                 />
               </label>
@@ -77,6 +79,8 @@
                   inputmode="email"
                   maxlength="120"
                   :placeholder="t('contact.emailPlaceholder')"
+                  @invalid="setRequiredMessage"
+                  @input="clearValidationMessage"
                   required
                 />
               </label>
@@ -89,6 +93,8 @@
                   name="message"
                   maxlength="2000"
                   :placeholder="t('contact.messagePlaceholder')"
+                  @invalid="setRequiredMessage"
+                  @input="clearValidationMessage"
                   required
                 ></textarea>
               </label>
@@ -141,6 +147,14 @@ const resetForm = () => {
     email: '',
     message: '',
   };
+};
+
+const setRequiredMessage = (event) => {
+  event.target.setCustomValidity(t('contact.requiredFieldMessage'));
+};
+
+const clearValidationMessage = (event) => {
+  event.target.setCustomValidity('');
 };
 
 // Spam pattern detection
