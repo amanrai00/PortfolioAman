@@ -128,7 +128,7 @@ onMounted(async () => {
   const lottieContainer = waveLottieEl.value;
   if (!sectionEl || !lottieContainer) return;
 
-  const waveModule = await import('@/assets/lottie/wave shaped line graphic.json');
+  const waveModule = await import('@/assets/lottie/wave-shaped-line-graphic.json');
   const waveData = waveModule?.default ?? waveModule;
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
   waveLottieAnim = lottie.loadAnimation({

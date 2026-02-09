@@ -144,7 +144,7 @@
 <script setup>
 import { computed, nextTick, onMounted, onBeforeUnmount, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import contactBgImage from '@/assets/contact bg.jpg';
+import contactBgImage from '@/assets/contact-bg.jpg';
 
 const contactWrapper = ref(null);
 const contactSection = ref(null);
@@ -723,7 +723,7 @@ onBeforeUnmount(() => {
 }
 
 :global([data-theme="light"] .contact-left) {
-  background-image: url("../assets/white wall .jpg");
+  background-image: url("../assets/white-wall.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: left center;

@@ -411,8 +411,8 @@ const desktopResumeDropdown = ref(null);
 const mobileResumeDropdown = ref(null);
 
 const resumeLinks = {
-  en: '/resume-en.pdf',
-  ja: '/resume-ja.pdf',
+  en: '/resume/resume-en.pdf',
+  ja: '/resume/resume-ja.pdf',
 };
 
 const sections = computed(() => [

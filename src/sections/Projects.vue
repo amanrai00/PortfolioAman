@@ -150,7 +150,7 @@ const initLottie = async () => {
     lottieLib = module?.default ?? module;
   }
   if (!threadLineDownRightAnim) {
-    const module = await import('@/assets/lottie/Thread Line Down Right.json');
+    const module = await import('@/assets/lottie/thread-line-down-right.json');
     threadLineDownRightAnim = module?.default ?? module;
   }
   await nextTick();
