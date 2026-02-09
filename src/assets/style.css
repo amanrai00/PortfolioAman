@@ -78,10 +78,10 @@ html {
   --theme-bg: #030303;
   --theme-bg-gradient: none;
   --theme-nav-bg: rgba(3, 3, 3, 0.65);
-  --theme-bg-overlay: rgba(0, 0, 0, 0.6);
+  --theme-bg-overlay: rgba(0, 0, 0, 0.45);
   --theme-bg-filter: none;
   --theme-bg-blend: normal;
-  --theme-bg-scale: 1;
+  --theme-bg-scale: 1.08;
   --theme-bg-shadow: none;
   --theme-text-strong: #fafafa;
   --theme-text-muted: rgba(212, 212, 212, 0.75);

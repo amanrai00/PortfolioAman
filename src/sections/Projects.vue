@@ -503,7 +503,7 @@ onUnmounted(() => {
 
 .project-image-preview {
   right: clamp(1rem, 5vw, 4rem);
-  transform: translateY(-50%) skewX(-8deg) scale(0.85);
+  transform: translateX(1.75rem) translateY(-50%) skewX(-8deg) scale(0.85);
   transform-origin: right center;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
   transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
@@ -513,7 +513,7 @@ onUnmounted(() => {
 
 .project-image-preview.is-visible {
   opacity: 1;
-  transform: translateY(-50%) skewX(-8deg) scale(1);
+  transform: translateX(1.75rem) translateY(-50%) skewX(-8deg) scale(1);
 }
 
 .project-image-preview img.is-active {
