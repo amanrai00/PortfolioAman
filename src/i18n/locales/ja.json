@@ -56,6 +56,9 @@
       "emailInvalid": "有効なメールアドレスを入力してください",
       "messageRequired": "メッセージを入力してください"
     },
+    "warnings": {
+      "emailDomainTypo": "{domain}の入力ミスではありませんか？"
+    },
     "requiredFieldMessage": "必須項目です。入力してください。",
     "send": "送信する",
     "sendLoading": "送信中",

@@ -79,6 +79,7 @@
               <label class="contact-field">
                 <span class="contact-label">{{ t('contact.emailLabel') }}</span>
                 <input
+                  ref="emailInputRef"
                   v-model.trim="formState.email"
                   class="contact-input"
                   :class="{ 'contact-input--error': Boolean(errors.email) }"
@@ -92,10 +93,21 @@
                   aria-describedby="contact-email-error"
                   @blur="handleBlur('email')"
                   @input="handleInput('email')"
+                  required
                 />
                 <p v-if="errors.email" id="contact-email-error" class="contact-error" role="alert">
                   <span class="contact-error-icon" aria-hidden="true">!</span>
                   <span>{{ errors.email }}</span>
+                </p>
+                <p
+                  v-else-if="emailWarning"
+                  id="contact-email-warning"
+                  class="contact-warning"
+                  role="status"
+                  aria-live="polite"
+                >
+                  <span class="contact-warning-icon" aria-hidden="true">!</span>
+                  <span>{{ emailWarning }}</span>
                 </p>
               </label>
               <label class="contact-field">
@@ -138,6 +150,7 @@ const contactWrapper = ref(null);
 const contactSection = ref(null);
 const lottieContainer = ref(null);
 const formRef = ref(null);
+const emailInputRef = ref(null);
 const { t, locale } = useI18n();
 let successLottieAnim = null;
 const isJa = computed(() => locale.value === 'ja');
@@ -159,6 +172,7 @@ const errors = ref({
   email: '',
   message: '',
 });
+const emailWarning = ref('');
 
 const isSubmitting = ref(false);
 const formSubmitted = ref(false);
@@ -189,9 +203,136 @@ const resetForm = () => {
     email: '',
     message: '',
   };
+  emailWarning.value = '';
 };
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const practicalEmailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/u;
+const trustedEmailDomains = [
+  'gmail.com',
+  'outlook.com',
+  'hotmail.com',
+  'yahoo.com',
+  'icloud.com',
+  'proton.me',
+  'protonmail.com',
+  'zoho.com',
+  'mail.com',
+  'fastmail.com',
+  'yahoo.co.jp',
+  'docomo.ne.jp',
+  'ezweb.ne.jp',
+  'au.com',
+  'softbank.ne.jp',
+  'i.softbank.jp',
+  'ymobile.ne.jp',
+  'ymobile.jp',
+];
+const domainTypoMap = {
+  'gamil.com': 'gmail.com',
+  'gnail.com': 'gmail.com',
+  'gmai.com': 'gmail.com',
+  'gmial.com': 'gmail.com',
+  'gmail.co': 'gmail.com',
+  'gmail.con': 'gmail.com',
+  'outlok.com': 'outlook.com',
+  'outllok.com': 'outlook.com',
+  'outlook.co': 'outlook.com',
+  'hotnail.com': 'hotmail.com',
+  'hotmial.com': 'hotmail.com',
+  'yaho.com': 'yahoo.com',
+  'yahho.com': 'yahoo.com',
+  'yhoo.com': 'yahoo.com',
+  'yahoo.coj.jp': 'yahoo.co.jp',
+  'docomo.ne,jp': 'docomo.ne.jp',
+  'ezweb.ne,jp': 'ezweb.ne.jp',
+  'softbank.ne,jp': 'softbank.ne.jp',
+  'ymobile.ne,jp': 'ymobile.ne.jp',
+};
+
+const getEmailParts = (email) => {
+  const atIndex = email.lastIndexOf('@');
+  if (atIndex <= 0 || atIndex >= email.length - 1) {
+    return { localPart: '', domain: '' };
+  }
+  return {
+    localPart: email.slice(0, atIndex),
+    domain: email.slice(atIndex + 1).toLowerCase(),
+  };
+};
+
+const levenshteinDistance = (a, b) => {
+  if (a === b) return 0;
+  if (!a.length) return b.length;
+  if (!b.length) return a.length;
+
+  const prev = new Array(b.length + 1);
+  const curr = new Array(b.length + 1);
+  for (let j = 0; j <= b.length; j += 1) prev[j] = j;
+
+  for (let i = 1; i <= a.length; i += 1) {
+    curr[0] = i;
+    for (let j = 1; j <= b.length; j += 1) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      curr[j] = Math.min(
+        prev[j] + 1,
+        curr[j - 1] + 1,
+        prev[j - 1] + cost
+      );
+    }
+    for (let j = 0; j <= b.length; j += 1) prev[j] = curr[j];
+  }
+
+  return prev[b.length];
+};
+
+const getSuggestedDomain = (domain) => {
+  if (!domain) return '';
+  if (trustedEmailDomains.includes(domain)) return '';
+  if (domainTypoMap[domain]) return domainTypoMap[domain];
+
+  const domainLabels = domain.split('.').length;
+  let bestDomain = '';
+  let bestDistance = Number.POSITIVE_INFINITY;
+
+  for (const candidate of trustedEmailDomains) {
+    const candidateLabels = candidate.split('.').length;
+    if (Math.abs(candidateLabels - domainLabels) > 1) continue;
+
+    const distance = levenshteinDistance(domain, candidate);
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestDomain = candidate;
+    }
+  }
+
+  if (!bestDomain) return '';
+
+  const maxLength = Math.max(domain.length, bestDomain.length);
+  const normalized = bestDistance / maxLength;
+  if (bestDistance <= 2 && normalized <= 0.25) return bestDomain;
+
+  return '';
+};
+
+const updateEmailWarning = () => {
+  const email = formState.value.email;
+  if (!email) {
+    emailWarning.value = '';
+    return;
+  }
+
+  const emailEl = emailInputRef.value;
+  if (!emailEl || emailEl.validity.valueMissing || emailEl.validity.typeMismatch || !practicalEmailPattern.test(email)) {
+    emailWarning.value = '';
+    return;
+  }
+
+  const { domain } = getEmailParts(email);
+  const suggestedDomain = getSuggestedDomain(domain);
+  emailWarning.value = suggestedDomain
+    ? t('contact.warnings.emailDomainTypo', { domain: suggestedDomain })
+    : '';
+};
 
 const getFieldError = (field) => {
   const value = formState.value[field];
@@ -201,7 +342,18 @@ const getFieldError = (field) => {
   }
 
   if (field === 'email') {
-    if (!value || !emailPattern.test(value)) {
+    const emailEl = emailInputRef.value;
+    if (!emailEl) {
+      return !value || !practicalEmailPattern.test(value) ? t('contact.errors.emailInvalid') : '';
+    }
+
+    // Level 1: HTML5 checks from `type="email"` + `required`.
+    if (emailEl.validity.valueMissing || emailEl.validity.typeMismatch) {
+      return t('contact.errors.emailInvalid');
+    }
+
+    // Level 2: practical JS check for obvious structural issues.
+    if (!practicalEmailPattern.test(value)) {
       return t('contact.errors.emailInvalid');
     }
   }
@@ -215,6 +367,13 @@ const getFieldError = (field) => {
 
 const validateField = (field) => {
   errors.value[field] = getFieldError(field);
+  if (field === 'email') {
+    if (errors.value.email) {
+      emailWarning.value = '';
+    } else {
+      updateEmailWarning();
+    }
+  }
   return !errors.value[field];
 };
 
@@ -239,6 +398,10 @@ const handleBlur = (field) => {
 };
 
 const handleInput = (field) => {
+  if (field === 'email') {
+    // Warning is non-blocking and should clear/update as the user types.
+    updateEmailWarning();
+  }
   if (touched.value[field] || errors.value[field]) {
     validateField(field);
   }
@@ -708,6 +871,32 @@ onBeforeUnmount(() => {
   border-radius: 9999px;
   background: #cc0c39;
   color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.contact-warning {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #8a6d1f;
+  font-size: 0.88rem;
+  line-height: 1.3;
+  border: 1px solid #f2df9f;
+  background: rgba(255, 245, 204, 0.5);
+  border-radius: 8px;
+  padding: 0.45rem 0.6rem;
+}
+
+.contact-warning-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 9999px;
+  background: #f6c343;
+  color: #4f3b00;
   font-size: 0.8rem;
   font-weight: 700;
   flex-shrink: 0;

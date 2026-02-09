@@ -56,6 +56,9 @@
       "emailInvalid": "Please enter a valid email address",
       "messageRequired": "Please enter your message."
     },
+    "warnings": {
+      "emailDomainTypo": "Did you mean {domain}?"
+    },
     "requiredFieldMessage": "Please fill out this field.",
     "send": "Send",
     "sendLoading": "Sending...",
