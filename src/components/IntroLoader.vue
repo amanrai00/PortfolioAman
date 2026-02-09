@@ -7,7 +7,7 @@
       <div ref="tile4" class="intro-tile"></div>
       <div ref="tile5" class="intro-tile"></div>
     </div>
-    <div class="intro-title" ref="titleEl">
+    <div class="intro-title" :class="{ 'is-ready': isTitleReady }" ref="titleEl">
       <div class="title-row">
         <div class="title-charts-cont"><span ref="seg1">A</span></div>
         <div class="title-charts-cont"><span ref="seg2">MAN</span></div>
@@ -36,6 +36,7 @@ const tile3 = ref(null);
 const tile4 = ref(null);
 const tile5 = ref(null);
 const isVisible = ref(true);
+const isTitleReady = ref(false);
 
 let slideTimeline = null;
 let exitTimeline = null;
@@ -45,13 +46,7 @@ const waitForIntroFont = async () => {
   if (!("fonts" in document) || !document.fonts) return;
 
   try {
-    await Promise.race([
-      Promise.all([
-        document.fonts.load('400 1em "Caprasimo-Regular"'),
-        document.fonts.ready,
-      ]),
-      new Promise((resolve) => window.setTimeout(resolve, 1200)),
-    ]);
+    await document.fonts.load('400 1em "Caprasimo-Regular"');
   } catch {
     // Continue intro even if Font Loading API is unsupported or fails.
   }
@@ -133,7 +128,8 @@ onMounted(() => {
 
   requestAnimationFrame(async () => {
     await waitForIntroFont();
-    runSlideAnimation();
+    isTitleReady.value = true;
+    requestAnimationFrame(() => runSlideAnimation());
   });
 });
 
@@ -207,6 +203,11 @@ onBeforeUnmount(() => {
   transform: translate(-50%, -50%);
   z-index: 2;
   pointer-events: none;
+  opacity: 0;
+}
+
+.intro-title.is-ready {
+  opacity: 1;
 }
 
 .title-row {
