@@ -39,9 +39,11 @@
           <div v-else class="contact-form-wrapper">
             <h3 class="contact-form-title">{{ t('contact.formTitle') }}</h3>
             <form
+              ref="formRef"
               class="contact-form"
               name="contact"
               method="POST"
+              novalidate
               data-netlify="true"
               netlify-honeypot="bot-field"
               @submit.prevent="handleSubmit"
@@ -58,45 +60,63 @@
                 <input
                   v-model.trim="formState.name"
                   class="contact-input"
+                  :class="{ 'contact-input--error': Boolean(errors.name) }"
                   type="text"
                   name="name"
                   autocomplete="name"
                   maxlength="60"
                   :placeholder="t('contact.namePlaceholder')"
-                  @invalid="setRequiredMessage"
-                  @input="clearValidationMessage"
-                  required
+                  :aria-invalid="Boolean(errors.name)"
+                  aria-describedby="contact-name-error"
+                  @blur="handleBlur('name')"
+                  @input="handleInput('name')"
                 />
+                <p v-if="errors.name" id="contact-name-error" class="contact-error" role="alert">
+                  <span class="contact-error-icon" aria-hidden="true">!</span>
+                  <span>{{ errors.name }}</span>
+                </p>
               </label>
               <label class="contact-field">
                 <span class="contact-label">{{ t('contact.emailLabel') }}</span>
                 <input
                   v-model.trim="formState.email"
                   class="contact-input"
+                  :class="{ 'contact-input--error': Boolean(errors.email) }"
                   type="email"
                   name="email"
                   autocomplete="email"
                   inputmode="email"
                   maxlength="120"
                   :placeholder="t('contact.emailPlaceholder')"
-                  @invalid="setRequiredMessage"
-                  @input="clearValidationMessage"
-                  required
+                  :aria-invalid="Boolean(errors.email)"
+                  aria-describedby="contact-email-error"
+                  @blur="handleBlur('email')"
+                  @input="handleInput('email')"
                 />
+                <p v-if="errors.email" id="contact-email-error" class="contact-error" role="alert">
+                  <span class="contact-error-icon" aria-hidden="true">!</span>
+                  <span>{{ errors.email }}</span>
+                </p>
               </label>
               <label class="contact-field">
                 <span class="contact-label">{{ t('contact.messageLabel') }}</span>
                 <textarea
                   v-model.trim="formState.message"
                   class="contact-input"
+                  :class="{ 'contact-input--error': Boolean(errors.message) }"
                   rows="4"
                   name="message"
                   maxlength="2000"
                   :placeholder="t('contact.messagePlaceholder')"
-                  @invalid="setRequiredMessage"
-                  @input="clearValidationMessage"
-                  required
+                  :aria-invalid="Boolean(errors.message)"
+                  aria-describedby="contact-message-error"
+                  @blur="handleBlur('message')"
+                  @input="handleInput('message')"
                 ></textarea>
+                <p v-if="errors.message" id="contact-message-error" class="contact-error" role="alert">
+                  <span class="contact-error-icon" aria-hidden="true">!</span>
+                  <span>{{ errors.message }}</span>
+                </p>
               </label>
               <button class="contact-submit" type="submit" :disabled="isSubmitting">
                 {{ isSubmitting ? t('contact.sendLoading') : t('contact.send') }}
@@ -117,6 +137,7 @@ import contactBgImage from '@/assets/contact bg.jpg';
 const contactWrapper = ref(null);
 const contactSection = ref(null);
 const lottieContainer = ref(null);
+const formRef = ref(null);
 const { t, locale } = useI18n();
 let successLottieAnim = null;
 const isJa = computed(() => locale.value === 'ja');
@@ -127,7 +148,18 @@ const formState = ref({
   message: '',
 });
 
-// Security state
+const touched = ref({
+  name: false,
+  email: false,
+  message: false,
+});
+
+const errors = ref({
+  name: '',
+  email: '',
+  message: '',
+});
+
 const isSubmitting = ref(false);
 const formSubmitted = ref(false);
 const formLoadTime = ref(Date.now());
@@ -147,14 +179,69 @@ const resetForm = () => {
     email: '',
     message: '',
   };
+  touched.value = {
+    name: false,
+    email: false,
+    message: false,
+  };
+  errors.value = {
+    name: '',
+    email: '',
+    message: '',
+  };
 };
 
-const setRequiredMessage = (event) => {
-  event.target.setCustomValidity(t('contact.requiredFieldMessage'));
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const getFieldError = (field) => {
+  const value = formState.value[field];
+
+  if (field === 'name' && !value) {
+    return t('contact.errors.nameRequired');
+  }
+
+  if (field === 'email') {
+    if (!value || !emailPattern.test(value)) {
+      return t('contact.errors.emailInvalid');
+    }
+  }
+
+  if (field === 'message' && !value) {
+    return t('contact.errors.messageRequired');
+  }
+
+  return '';
 };
 
-const clearValidationMessage = (event) => {
-  event.target.setCustomValidity('');
+const validateField = (field) => {
+  errors.value[field] = getFieldError(field);
+  return !errors.value[field];
+};
+
+const validateForm = () => {
+  const fields = ['name', 'email', 'message'];
+  let isValid = true;
+  for (const field of fields) {
+    touched.value[field] = true;
+    const fieldValid = validateField(field);
+    if (!fieldValid && isValid) {
+      const invalidEl = formRef.value?.querySelector(`[name="${field}"]`);
+      invalidEl?.focus();
+    }
+    isValid = isValid && fieldValid;
+  }
+  return isValid;
+};
+
+const handleBlur = (field) => {
+  touched.value[field] = true;
+  validateField(field);
+};
+
+const handleInput = (field) => {
+  if (touched.value[field] || errors.value[field]) {
+    validateField(field);
+  }
 };
 
 // Spam pattern detection
@@ -172,6 +259,8 @@ const containsSpamPatterns = (text) => {
 const handleSubmit = async () => {
   const { name, email, message } = formState.value;
   const now = Date.now();
+
+  if (!validateForm()) return;
 
   // Prevent double submission
   if (isSubmitting.value) return;
@@ -196,7 +285,7 @@ const handleSubmit = async () => {
   }
 
   // Check honeypot fields (should be empty)
-  const formEl = document.querySelector('.contact-form');
+  const formEl = formRef.value;
   const websiteField = formEl?.querySelector('input[name="website"]');
   const gotchaField = formEl?.querySelector('input[name="_gotcha"]');
   if (websiteField?.value || gotchaField?.value) {
@@ -594,6 +683,34 @@ onBeforeUnmount(() => {
 .contact-input:focus {
   border-color: var(--contact-input-focus);
   box-shadow: 0 0 0 3px rgba(186, 128, 255, 0.2);
+}
+
+.contact-input--error,
+.contact-input--error:focus {
+  border-color: #cc0c39;
+  box-shadow: 0 0 0 2px rgba(204, 12, 57, 0.15);
+}
+
+.contact-error {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #cc0c39;
+  font-size: 0.88rem;
+  line-height: 1.3;
+}
+
+.contact-error-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 9999px;
+  background: #cc0c39;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
 .contact-submit {

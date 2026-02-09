@@ -51,6 +51,11 @@
     "emailPlaceholder": "Where can I reach you?",
     "messageLabel": "Message",
     "messagePlaceholder": "Anything you'd like to discuss?",
+    "errors": {
+      "nameRequired": "Please enter your name",
+      "emailInvalid": "Please enter a valid email address",
+      "messageRequired": "Please enter your message."
+    },
     "requiredFieldMessage": "Please fill out this field.",
     "send": "Send",
     "sendLoading": "Sending...",
