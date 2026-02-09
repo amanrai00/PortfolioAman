@@ -36,12 +36,26 @@ const tile3 = ref(null);
 const tile4 = ref(null);
 const tile5 = ref(null);
 const isVisible = ref(true);
-const introTransitionBg =
-  "linear-gradient(45deg, rgba(194, 233, 221, 1) 1%, rgba(104, 119, 132, 1) 100%), linear-gradient(-45deg, #494d71 0%, rgba(217, 230, 185, 1) 80%)";
 
 let slideTimeline = null;
 let exitTimeline = null;
 let previousOverflow = "";
+
+const waitForIntroFont = async () => {
+  if (!("fonts" in document) || !document.fonts) return;
+
+  try {
+    await Promise.race([
+      Promise.all([
+        document.fonts.load('400 1em "Caprasimo-Regular"'),
+        document.fonts.ready,
+      ]),
+      new Promise((resolve) => window.setTimeout(resolve, 1200)),
+    ]);
+  } catch {
+    // Continue intro even if Font Loading API is unsupported or fails.
+  }
+};
 
 const finishIntro = () => {
   if (!isVisible.value) return;
@@ -54,15 +68,18 @@ const runTileTransition = () => {
   const tiles = [tile1, tile2, tile3, tile4, tile5].map((t) => t.value);
   if (tiles.some((t) => !t)) return;
 
-  window.dispatchEvent(new CustomEvent("intro:reveal"));
-
   exitTimeline = gsap.timeline({ onComplete: finishIntro });
 
-  // Start tile transition first, then fade text while transition is in progress
+  gsap.set(tiles, { xPercent: 0, force3D: true });
+
+  // Keep content reveal synchronized with the wipe so production chunk timing
+  // does not create a visible pop/flicker behind the tiles.
   exitTimeline
+    .call(() => {
+      window.dispatchEvent(new CustomEvent("intro:reveal"));
+    }, null, 0.12)
     .to(tiles, {
-      x: "-100%",
-      backgroundImage: introTransitionBg,
+      xPercent: -102,
       duration: 0.7,
       ease: "power3.inOut",
       stagger: 0.1,
@@ -114,7 +131,10 @@ onMounted(() => {
   previousOverflow = document.body.style.overflow;
   document.body.style.overflow = "hidden";
 
-  requestAnimationFrame(() => runSlideAnimation());
+  requestAnimationFrame(async () => {
+    await waitForIntroFont();
+    runSlideAnimation();
+  });
 });
 
 onBeforeUnmount(() => {
