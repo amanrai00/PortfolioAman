@@ -110,7 +110,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onMounted, onBeforeUnmount, ref } from 'vue';
+import { computed, nextTick, onMounted, onBeforeUnmount, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import contactBgImage from '@/assets/contact bg.jpg';
 
@@ -274,17 +274,26 @@ onMounted(async () => {
   if (!wrapperEl || !sectionEl) return;
 
   document.documentElement.style.scrollBehavior = 'auto';
+  const isMobileLayout = window.matchMedia('(max-width: 768px)').matches;
 
-  wrapperObserver = new IntersectionObserver(
-    (entries) => {
-      const isVisible = entries.some((entry) => entry.isIntersecting);
-      isWrapperVisible = isVisible;
-      sectionEl.classList.toggle('is-offscreen', !isVisible);
-      wasWrapperVisible = isVisible;
-    },
-    { threshold: 0.1 }
-  );
-  wrapperObserver.observe(wrapperEl);
+  if (isMobileLayout) {
+    // On small screens locale/menu toggles can leave this class stale until scroll.
+    // Keep the section visible and skip the desktop offscreen observer behavior.
+    sectionEl.classList.remove('is-offscreen');
+    isWrapperVisible = true;
+    wasWrapperVisible = true;
+  } else {
+    wrapperObserver = new IntersectionObserver(
+      (entries) => {
+        const isVisible = entries.some((entry) => entry.isIntersecting);
+        isWrapperVisible = isVisible;
+        sectionEl.classList.toggle('is-offscreen', !isVisible);
+        wasWrapperVisible = isVisible;
+      },
+      { threshold: 0.1 }
+    );
+    wrapperObserver.observe(wrapperEl);
+  }
 
   const createScrollTrigger = (initialClip, triggerStart, triggerEnd = 'bottom bottom') => {
     revealTween = gsap.fromTo(sectionEl,
@@ -335,10 +344,9 @@ onMounted(async () => {
     };
   };
 
-  const isMobileLayout = window.matchMedia('(max-width: 768px)').matches;
-
   if (isMobileLayout) {
-    createScrollTrigger(70, 'top 700%');
+    // Keep mobile stable: avoid clip-path scrub that can stick after locale toggle.
+    gsap.set(sectionEl, { clipPath: 'inset(0% 0 0 0)' });
   } else {
     mediaMatch = ScrollTrigger.matchMedia();
     mediaMatch.add('(min-width: 769px)', () => {
@@ -355,6 +363,18 @@ onMounted(async () => {
   requestAnimationFrame(() => {
     ScrollTrigger.refresh();
   });
+});
+
+watch(locale, async () => {
+  if (!window.matchMedia('(max-width: 768px)').matches) return;
+  const sectionEl = contactSection.value;
+  if (!sectionEl) return;
+
+  await nextTick();
+  sectionEl.classList.remove('is-offscreen');
+  sectionEl.style.removeProperty('clip-path');
+  sectionEl.style.removeProperty('-webkit-clip-path');
+  sectionEl.style.removeProperty('transform');
 });
 
 onBeforeUnmount(() => {
