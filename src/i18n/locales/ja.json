@@ -69,7 +69,8 @@
     "name": "AMAN"
   },
   "projects": {
-    "jlptLab": "JLPT 練習アプリ"
+    "jlptLab": "JLPT 練習アプリ",
+    "jlptLabSubtitle": "実際の試験パターンを基にした、わかりやすくストレスの少ないJLPT練習プラットフォーム"
   },
   "projectDetail": {
     "back": "戻る",

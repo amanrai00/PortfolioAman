@@ -67,7 +67,8 @@
     "name": "AMAN"
   },
   "projects": {
-    "jlptLab": "JLPT Practice Lab"
+    "jlptLab": "JLPT Practice Lab",
+    "jlptLabSubtitle": "Interactive JLPT practice platform built from real exam patterns to make learning clearer and less stressful."
   },
   "projectDetail": {
     "back": "Back",

@@ -115,7 +115,7 @@ const projects = computed(() => [
   {
     id: 1,
     title: t('projects.jlptLab'),
-    tags: ['Next.js', 'Payload CMS', 'Tailwind CSS'],
+    tags: [t('projects.jlptLabSubtitle')],
     image: progress1Img,
     imageMobile: progress1ImgSmall,
     width: 4500,
