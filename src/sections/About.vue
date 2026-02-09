@@ -230,6 +230,16 @@ onUnmounted(() => {
     0 0 34px color-mix(in srgb, var(--theme-cta-bg) 45%, transparent) !important;
 }
 
+:global([data-theme="dark"] .about-bg) {
+  background: color-mix(in srgb, #0f2b46 50%, #1f6e8c 50%) !important;
+  background-image: none !important;
+}
+
+:global([data-theme="dark"] .about-bg.is-visible) {
+  background: color-mix(in srgb, #0f2b46 50%, #1f6e8c 50%) !important;
+  background-image: none !important;
+}
+
 .about-image-glow {
   transition: opacity 0.2s ease 1.1s;
 }
