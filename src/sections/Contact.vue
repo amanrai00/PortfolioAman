@@ -722,6 +722,13 @@ onBeforeUnmount(() => {
   justify-content: center;
 }
 
+:global([data-theme="light"] .contact-left) {
+  background-image: url("../assets/white wall .jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: left center;
+}
+
 .contact-left-content {
   max-width: 520px;
   padding: clamp(2rem, 4vw, 3.5rem);

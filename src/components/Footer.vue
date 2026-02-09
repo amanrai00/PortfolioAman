@@ -261,6 +261,19 @@ onUnmounted(() => {
   overflow: hidden;
 }
 
+:global([data-theme="light"] .footer-section) {
+  background-image: linear-gradient(#8b9da9, #fff6e4);
+  box-shadow: inset 0 0 100px hsla(0, 0%, 0%, 0.3);
+}
+
+:global([data-theme="dark"] .footer-section) {
+  background: #282537;
+  background-image: -webkit-radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
+  background-image: -moz-radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
+  background-image: -o-radial-gradient(top, circle cover, #3c3b52 0%, #252233 80%);
+  background-image: radial-gradient(circle at top, #3c3b52 0%, #252233 80%);
+}
+
 .footer-wave {
   position: absolute;
   left: 0;
