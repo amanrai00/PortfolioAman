@@ -72,11 +72,11 @@ A personal portfolio site built entirely from scratch to showcase my frontend wo
 
 ## Overall Growth
 
-This project pushed me from "I know Vue" to "I can build a real thing with Vue." Before this, most of my work was following tutorials and building small exercises. This was the first time I made every decision myself — framework setup, animation library choice, folder structure, deployment pipeline.
+This project pushed me from "I know Vue" to "I can build a real thing with Vue." Before this, most of my work was following tutorials and building small exercises. This was the first time I made every decision myself framework setup, animation library choice, folder structure, deployment pipeline.
 
 The biggest shift was learning to debug without a tutorial telling me what went wrong. When GSAP animations conflicted with Vue's reactivity, I had to read source documentation, experiment, and figure it out. That's the gap between learning and building, and this project is where I crossed it.
 
-Working in two languages also forced me to think about users who aren't me. The site doesn't just work in Japanese — it actually feels right in Japanese. That distinction matters, and I wouldn't have understood it without doing it.
+Working in two languages also forced me to think about users who aren't me. The site doesn't just work in Japanese it actually feels right in Japanese. That distinction matters, and I wouldn't have understood it without doing it.
 
 ---
 
