@@ -49,13 +49,13 @@ A personal portfolio site built entirely from scratch to showcase my frontend wo
 - Keeping component logic clean when animations and i18n are both involved
 
 ### Animation & GSAP
-- ScrollTrigger pin and scrub behavior — getting smooth scroll-linked animations without janky playback
+- ScrollTrigger pin and scrub behavior getting smooth scroll-linked animations without janky playback
 - Timing and easing curves make or break how a site feels. Small tweaks to `duration` and `ease` had huge impact
 - Lazy-loading animation instances so the browser doesn't choke on a page with many animated sections
 
 ### Internationalization (i18n)
 - Vue I18n setup for switching between English and Japanese at runtime
-- Learned that localization isn't just text replacement — Japanese characters are wider, line heights need adjustment, and some layouts that work in English break in Japanese
+- Learned that localization isn't just text replacement. Japanese characters are wider, line heights need adjustment, and some layouts that work in English break in Japanese
 - Managing translation files and keeping them in sync as the site grew
 
 ### CSS & Responsive Design
@@ -64,8 +64,8 @@ A personal portfolio site built entirely from scratch to showcase my frontend wo
 - Z-index management gets tricky fast when you have overlapping scroll animations and a sticky navbar
 
 ### Problem Solving
-- Debugging GSAP + Vue reactivity conflicts — animations would sometimes fire before the DOM was ready. Solved with `nextTick` and proper lifecycle hooks
-- IntersectionObserver vs ScrollTrigger — started with IntersectionObserver, switched to ScrollTrigger when I needed more control over animation progress
+- Debugging GSAP + Vue reactivity conflicts animations would sometimes fire before the DOM was ready. Solved with `nextTick` and proper lifecycle hooks
+- IntersectionObserver vs ScrollTrigger started with IntersectionObserver, switched to ScrollTrigger when I needed more control over animation progress
 - The circular menu animation required manual clip-path calculations that no tutorial covered exactly
 
 ---
@@ -109,10 +109,10 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 ## Screenshots
 
 ### English Version
-![Hero — English](./screenshots/hero-en.png)
+![Hero — English](./src/screenshots/hero-en.png)
 
 ### Japanese Version
-![Hero — Japanese](./screenshots/hero-jp.png)
+![Hero — Japanese](./src/screenshots/hero-jp.png)
 
 ### Mobile View
-![Mobile](./screenshots/mobile.png)
+![Mobile](./src/screenshots/mobile.png)
