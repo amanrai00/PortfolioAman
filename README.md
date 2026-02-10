@@ -115,4 +115,4 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 ![Hero — Japanese](./src/screenshots/hero-jp.png)
 
 ### Mobile View
-![Mobile](./src/screenshots/mobile.png)
+![Mobile](./src/screenshots/mobile.jpeg)
