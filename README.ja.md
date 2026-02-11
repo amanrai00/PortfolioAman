@@ -103,12 +103,8 @@ npm run dev
 
 ブラウザで http://localhost:5173 を開いてください。
 
-スクリーンショット
-英語版
-(./src/screenshots/hero-en.png)
+## スクリーンショット
 
-日本語版
-(./src/screenshots/hero-jp.png)
-
-モバイル表示
-(./src/screenshots/mobile.jpeg)
+![英語版ヒーロー画面](./src/screenshots/hero-en.png)
+![日本語版ヒーロー画面](./src/screenshots/hero-jp.png)
+![モバイル表示](./src/screenshots/mobile.jpeg)
