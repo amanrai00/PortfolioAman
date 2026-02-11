@@ -100,6 +100,7 @@ git clone https://github.com/amanrai00/portfolio.git
 cd portfolio
 npm install
 npm run dev
+```
 
 ブラウザで http://localhost:5173 を開いてください。
 
