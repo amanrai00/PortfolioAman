@@ -105,5 +105,10 @@ npm run dev
 
 スクリーンショット
 英語版
+(./src/screenshots/hero-en.png)
+
 日本語版
+(./src/screenshots/hero-jp.png)
+
 モバイル表示
+(./src/screenshots/mobile.jpeg)
