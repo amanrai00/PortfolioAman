@@ -1,3 +1,5 @@
+> 🇯🇵 [日本語版はこちら](./README.ja.md)
+
 # Portfolio Website
 
 A personal portfolio site built entirely from scratch to showcase my frontend work. No templates, no themes — every component, animation, and translation is hand-written.
