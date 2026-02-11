@@ -2,7 +2,7 @@
 
 # Portfolio Website
 
-A personal portfolio site built entirely from scratch to showcase my frontend work. No templates, no themes. Every component, animation, and translation were custom implemented.
+A personal portfolio site built from scratch to showcase my frontend skills. No templates, no themes just clean code and intentional design choices.
 
 > 🔗 **Live:** [obliviousaman.netlify.app](https://obliviousaman.netlify.app/)
 
