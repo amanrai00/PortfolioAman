@@ -2,7 +2,7 @@
 
 # Portfolio Website
 
-A personal portfolio site built entirely from scratch to showcase my frontend work. No templates, no themes — every component, animation, and translation is hand-written.
+A personal portfolio site built entirely from scratch to showcase my frontend work. No templates, no themes. Every component, animation, and translation were custom implemented.
 
 > 🔗 **Live:** [obliviousaman.netlify.app](https://obliviousaman.netlify.app/)
 
@@ -27,7 +27,7 @@ A personal portfolio site built entirely from scratch to showcase my frontend wo
 - **Bilingual (EN/JP)** — full language toggle, not just translated strings. Layout spacing and font sizing adjust per language since Japanese characters need different breathing room
 - **Scroll-triggered animations** — each section animates into view using GSAP + ScrollTrigger, lazy-loaded so off-screen sections don't initialize unnecessarily
 - **Custom mobile navigation** — hamburger menu with circular expansion animation, not a library dropdown
-- **Responsive across devices** — tested on mobile, tablet, and desktop with consistent behavior
+- **Responsive across devices** — mplemented with mobile/tablet/desktop breakpoints and adaptive layout behavior.
 - **Section-based architecture** — each part of the site is its own Vue component, easy to maintain and extend
 
 ---
@@ -86,8 +86,6 @@ Working in two languages also forced me to think about users who aren't me. The 
 
 - **Accessibility audit** — add proper ARIA labels, improve keyboard navigation flow, and test with a screen reader
 - **Performance optimization** — implement code splitting per route, optimize image loading with lazy loading and WebP format
-- **Dark/light mode toggle** — currently only one theme, adding a toggle would improve user preference support
-- **CMS integration** — hardcoded content makes updates slow. A headless CMS like Contentful would make adding new projects easier
 - **Unit tests** — no tests currently. Adding Vitest for component testing would make future changes safer
 - **SEO improvements** — add meta tags, Open Graph data, and structured data for better search visibility
 - **Animation reduce-motion support** — respect `prefers-reduced-motion` for users who are sensitive to animations
